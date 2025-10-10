@@ -1,0 +1,1 @@
+update role set nome='usuario-read' where nome='usuario-get';
