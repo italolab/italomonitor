@@ -39,21 +39,21 @@ public class UsuarioController {
 
     @PreAuthorize("hasAuthority('usuario-read')")
     @GetMapping
-    public ResponseEntity<List<UsuarioResponse>> filterUsuarios( @RequestParam String nomePart ) {
+    public ResponseEntity<List<UsuarioResponse>> filterUsuarios( @RequestParam("nomepart") String nomePart ) {
         List<UsuarioResponse> responses = usuarioService.filterUsuarios( nomePart );
         return ResponseEntity.ok( responses );
     }
 
     @PreAuthorize("hasAuthority('usuario-read')")
     @GetMapping("/get/{usuarioId}")
-    public ResponseEntity<UsuarioResponse> getUsuario( Long usuarioId ) {
+    public ResponseEntity<UsuarioResponse> getUsuario( @PathVariable Long usuarioId ) {
         UsuarioResponse resp = usuarioService.getUsuario( usuarioId );
         return ResponseEntity.ok( resp );
     }
 
     @PreAuthorize("hasAuthority('usuario-delete')")
     @DeleteMapping("/{usuarioId}")
-    public ResponseEntity<String> deleteUsuario( Long usuarioId ) {
+    public ResponseEntity<String> deleteUsuario( @PathVariable Long usuarioId ) {
         usuarioService.deleteUsuario( usuarioId );
         return ResponseEntity.ok( "Usuário deletado com sucesso." );
     }
