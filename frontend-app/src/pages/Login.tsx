@@ -2,7 +2,7 @@ import { Button, Card, Form } from "react-bootstrap";
 import { useLoginViewModel } from "../viewModel/useLoginViewModel";
 import AppMessage from "../components/AppMessage";
 import AppSpinner from "../components/AppSpinner";
-import { useState } from "react";
+import { useState, type KeyboardEvent } from "react";
 
 import { useNavigate } from 'react-router-dom';
 
@@ -33,9 +33,14 @@ function Login() {
         }
     };
 
+    const handleOnKeyDown = async ( e : KeyboardEvent<HTMLInputElement>) => {
+        if ( e.key === 'Enter' )
+            await login();
+    };
+
     return (
         <div className="d-flex justify-content-center mt-5 vw-100">
-            <Card style={{width: '18em' }}>
+            <Card style={{width: '25em'}}>
                 <Card.Body>
                     <Card.Title>Login</Card.Title>
                     <Form>
@@ -45,15 +50,18 @@ function Login() {
                                 type="text" 
                                 placeholder="Informe seu username" 
                                 value={username}
-                                onChange={ ( e ) => setUsername( e.target.value ) } />                        
+                                onChange={ ( e ) => setUsername( e.target.value ) }
+                                onKeyDown={handleOnKeyDown} />                        
                         </Form.Group>
+                        
                         <Form.Group className="mb-3" controlId="senha">
                             <Form.Label>Senha</Form.Label>
                             <Form.Control 
                                 type="password" 
                                 placeholder="Informe a senha" 
                                 value={senha}
-                                onChange={ ( e ) => setSenha( e.target.value ) } />
+                                onChange={ ( e ) => setSenha( e.target.value ) } 
+                                onKeyDown={handleOnKeyDown}/>
                         </Form.Group>
 
                         <AppMessage message={errorMessage} type="error" />

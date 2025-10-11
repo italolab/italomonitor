@@ -1,9 +1,10 @@
 import { type ReactNode, useState } from "react";
-import { Button, Dropdown, Navbar } from "react-bootstrap";
+import { Button, Container, Dropdown, Navbar } from "react-bootstrap";
 import { FaArrowLeftLong } from "react-icons/fa6";
 import { HiOutlineMenu } from "react-icons/hi";
 import { LuFilter, LuLogOut, LuUsersRound } from "react-icons/lu";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useLogoutViewModel } from "../viewModel/useLogoutViewModel";
 
 interface AppLayoutProps {
     children: ReactNode;
@@ -12,6 +13,16 @@ interface AppLayoutProps {
 function AppLayout( {children} : AppLayoutProps ) {
 
     const [sidebarVisible, setSidebarVisible] = useState<boolean>( false );
+    const [usuariosOptionsVisible, setUsuariosOptionsVisible] = useState<boolean>( false );
+
+    const navigate = useNavigate();
+
+    const { logout } = useLogoutViewModel();
+
+    const appLogout = async () => {
+        await logout();
+        navigate( '/' );
+    };
 
     return (
         <>
@@ -25,25 +36,23 @@ function AppLayout( {children} : AppLayoutProps ) {
                 <Dropdown.Header className="d-flex align-items-center">
                     <span>Menu</span>
                     <button type="button" className="btn ms-auto" onClick={ () => setSidebarVisible( false ) }>
-                        <FaArrowLeftLong />
+                        <FaArrowLeftLong color="white"/>
                     </button>
                 </Dropdown.Header>
-                <Dropdown.ItemText>
+                <Dropdown.Item eventKey="1" onClick={ () => setUsuariosOptionsVisible( !usuariosOptionsVisible ) }>
                     <LuUsersRound /> &nbsp; Usuários
-                </Dropdown.ItemText>
-                <div className="px-3">
+                </Dropdown.Item>
+                <Container fluid hidden={!usuariosOptionsVisible} className="m-0 p-0">
                     <Dropdown.Item eventKey="2">
-                        <Link to="/filter-usuarios" className="text-white fw-normal d-flex align-items-center">
+                        <Link to="/filter-usuarios" className="text-white fw-normal d-flex align-items-center px-3">
                             <LuFilter /> &nbsp; Filtrar usuários
                         </Link>
                     </Dropdown.Item>
-                </div>
-                <Dropdown.Item eventKey="3">
-                    <button type="button" className="btn p-0 m-0 text-white d-flex align-items-center">
-                        <LuLogOut />
-                        &nbsp;
-                        Sair
-                    </button>
+                </Container>
+                <Dropdown.Item eventKey="3" onClick={appLogout} className="text-white d-flex align-items-center">
+                    <LuLogOut />
+                    &nbsp;
+                    Sair
                 </Dropdown.Item>
             </Dropdown.Menu>
             <div className="p-3 vw-100">

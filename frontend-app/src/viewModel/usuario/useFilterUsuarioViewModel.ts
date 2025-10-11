@@ -16,7 +16,7 @@ function useFilterUsuarioViewModel() {
 
     const usuarioModel = new UsuarioModel();
 
-    const filter = async ( nomepart : string ) => {
+    const filterUsuarios = async ( nomepart : string ) => {
         setErrorMessage( null );
         setInfoMessage( null );
         setLoading( true );
@@ -26,14 +26,14 @@ function useFilterUsuarioViewModel() {
 
             setUsuarios( response.data );
             setLoading( false );
-        } catch ( error ) {
+        } catch ( error ) {            
             setErrorMessage( extractErrorMessage( error ) );
             setLoading( false );
             throw error;
         }
     };
 
-    return { filter, usuarios, loading, errorMessage, infoMessage };
+    return { filterUsuarios, usuarios, loading, errorMessage, infoMessage };
 }
 
 export default useFilterUsuarioViewModel;

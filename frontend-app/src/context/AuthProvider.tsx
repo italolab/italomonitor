@@ -13,7 +13,7 @@ interface AuthProviderProps {
 
 export const AuthProvider = ({children} : AuthProviderProps ) => {
 
-     const [token, setToken] = useState<string>( () => {
+    const [token, setToken] = useState<string>( () => {
         if ( typeof window !== 'undefined' )
             return localStorage.getItem( 'token' )!;                            
         return '';
