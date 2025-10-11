@@ -24,16 +24,13 @@ export function useLoginViewModel() {
 
         try {
             const response = await loginModel.login( loginReq );
-            setInfoMessage( response.data.token );
+            setToken( response.data.token );
 
             setLoginData( response.data );
             setLoading( false );
-
-            setToken( response.data.token );
         } catch ( error ) {
             setErrorMessage( extractErrorMessage( error ) );
             setLoading( false );
-            alert( errorMessage );
             throw error;
         }
     };

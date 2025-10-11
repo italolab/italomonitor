@@ -4,10 +4,14 @@ import AppMessage from "../components/AppMessage";
 import AppSpinner from "../components/AppSpinner";
 import { useState } from "react";
 
+import { useNavigate } from 'react-router-dom';
+
 function Login() {
 
     const [username, setUsername] = useState<string>( '' );
     const [senha, setSenha] = useState<string>( '' );
+
+    const navigate = useNavigate();
 
     const {
         logon,
@@ -22,10 +26,10 @@ function Login() {
                 username: username,
                 senha: senha
             } );
-            alert( errorMessage );
+
+            navigate( '/home' );
         } catch ( error ) {
             console.error( error );
-            alert( errorMessage );
         }
     };
 
@@ -54,7 +58,7 @@ function Login() {
 
                         <AppMessage message={errorMessage} type="error" />
                         <AppMessage message={infoMessage} type="info" />
-                        <Button type="submit" variant="primary" onClick={login}>
+                        <Button type="button" variant="primary" onClick={login}>
                             Entrar
                             <AppSpinner visible={loading} />
                         </Button>
