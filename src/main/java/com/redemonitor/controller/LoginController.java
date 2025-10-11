@@ -1,5 +1,6 @@
 package com.redemonitor.controller;
 
+import com.redemonitor.apidoc.login.LoginDoc;
 import com.redemonitor.controller.dto.request.LoginRequest;
 import com.redemonitor.controller.dto.response.LoginResponse;
 import com.redemonitor.service.LoginService;
@@ -14,6 +15,7 @@ public class LoginController {
     @Autowired
     private LoginService loginService;
 
+    @LoginDoc
     @PostMapping
     public ResponseEntity<LoginResponse> login( @RequestBody LoginRequest request ) {
         LoginResponse loginResp = loginService.login( request );

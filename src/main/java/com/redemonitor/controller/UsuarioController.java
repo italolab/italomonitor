@@ -1,5 +1,6 @@
 package com.redemonitor.controller;
 
+import com.redemonitor.apidoc.user.*;
 import com.redemonitor.controller.dto.request.UsuarioRequest;
 import com.redemonitor.controller.dto.response.UsuarioResponse;
 import com.redemonitor.service.UsuarioService;
@@ -23,6 +24,7 @@ public class UsuarioController {
         return "Funcionou...";
     }
 
+    @CreateUserDoc
     @PreAuthorize("hasAuthority('usuario-write')")
     @PostMapping
     public ResponseEntity<String> createUsuario( @RequestBody UsuarioRequest request ) {
@@ -30,6 +32,7 @@ public class UsuarioController {
         return ResponseEntity.ok( "Usuario registrado com sucesso." );
     }
 
+    @UpdateUsuarioDoc
     @PreAuthorize("hasAuthority('usuario-write')")
     @PutMapping("/{usuarioId}")
     public ResponseEntity<String> updateUsuario( @PathVariable Long usuarioId, @RequestBody UsuarioRequest request ) {
@@ -37,6 +40,7 @@ public class UsuarioController {
         return ResponseEntity.ok( "Usuario alterado com sucesso." );
     }
 
+    @FilterUsuariosDoc
     @PreAuthorize("hasAuthority('usuario-read')")
     @GetMapping
     public ResponseEntity<List<UsuarioResponse>> filterUsuarios( @RequestParam("nomepart") String nomePart ) {
@@ -44,6 +48,7 @@ public class UsuarioController {
         return ResponseEntity.ok( responses );
     }
 
+    @GetUsuarioDoc
     @PreAuthorize("hasAuthority('usuario-read')")
     @GetMapping("/get/{usuarioId}")
     public ResponseEntity<UsuarioResponse> getUsuario( @PathVariable Long usuarioId ) {
@@ -51,6 +56,7 @@ public class UsuarioController {
         return ResponseEntity.ok( resp );
     }
 
+    @DeleteUsuarioDoc
     @PreAuthorize("hasAuthority('usuario-delete')")
     @DeleteMapping("/{usuarioId}")
     public ResponseEntity<String> deleteUsuario( @PathVariable Long usuarioId ) {

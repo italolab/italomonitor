@@ -20,9 +20,9 @@ public class SecurityConfiguration {
             "/api/v1/login",
 
             "/swagger-ui/**",
-            "/v3/api-docs/**",
+            "/api-docs/**",
 
-            "/v3/api-docs",
+            "/api-docs",
             "/swagger-ui.html",
     };
 
