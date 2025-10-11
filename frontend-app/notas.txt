@@ -1,0 +1,7 @@
+npm create vite@latest frontend-app --template react
+
+npm install react-bootstrap bootstrap
+npm install @react-icons/all-files --save
+npm install axios
+
+
