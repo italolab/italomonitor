@@ -1,9 +1,11 @@
 import { useState } from "react";
-import { Button, Card, Form, Table } from "react-bootstrap";
+import { Button, Card, Container, Form, Table } from "react-bootstrap";
 import useFilterUsuarioViewModel from "../../viewModel/usuario/useFilterUsuarioViewModel";
 import AppSpinner from "../../components/AppSpinner";
 import AppMessage from "../../components/AppMessage";
 import AppLayout from "../../layout/AppLayout";
+import { useNavigate } from "react-router-dom";
+import { MdAdd } from "react-icons/md";
 
 function FilterUsuarios() {
 
@@ -17,6 +19,8 @@ function FilterUsuarios() {
         infoMessage 
     } = useFilterUsuarioViewModel();
 
+    const navigate = useNavigate();
+
     const filter = async () => {
         try {
             await filterUsuarios( nomepart );
@@ -26,11 +30,19 @@ function FilterUsuarios() {
     };
 
     return (
-        <AppLayout>
-            <h3 className="text-center">Lista de usuários</h3>
-            <br />
-            <Card className="p-3" style={{width: '25em'}}>
-                <Card.Title>Campos do filtro</Card.Title>
+        <AppLayout>            
+            <h3 className="text-center">Funções de usuário</h3>
+
+            <Container fluid>
+                <Button type="button" onClick={() => navigate( '/create-usuario')} className="d-flex align-items-center ms-auto">
+                    <MdAdd size={25}/> Novo usuário
+                </Button>
+            </Container>
+
+            <Card className="p-3 mx-auto" style={{width: '25em'}}>
+                <Card.Title className="text-center">
+                    <h5>Campos do filtro</h5>
+                </Card.Title>
                 <Form>
                     <Form.Group className="mb-3" controlId="nomepart">
                         <Form.Label>Nome</Form.Label>
@@ -44,7 +56,7 @@ function FilterUsuarios() {
                     <AppMessage message={infoMessage} type="info" />
 
                     <Button type="button" onClick={filter}>
-                        Filtrar
+                        Filtrar                        
                         <AppSpinner visible={loading} />
                     </Button>
                 </Form>
@@ -52,7 +64,7 @@ function FilterUsuarios() {
             <br />
             <Table striped bordered hover>
                 <thead>
-                    <tr>
+                    <tr className="blue">
                         <th>ID</th>
                         <th>Nome</th>
                         <th>E-Mail</th>

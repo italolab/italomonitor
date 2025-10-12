@@ -7,10 +7,11 @@ import { Link, useNavigate } from "react-router-dom";
 import { useLogoutViewModel } from "../viewModel/useLogoutViewModel";
 
 interface AppLayoutProps {
+    className?: string;
     children: ReactNode;
 }
 
-function AppLayout( {children} : AppLayoutProps ) {
+function AppLayout( {children, className} : AppLayoutProps ) {
 
     const [sidebarVisible, setSidebarVisible] = useState<boolean>( false );
     const [usuariosOptionsVisible, setUsuariosOptionsVisible] = useState<boolean>( false );
@@ -25,7 +26,7 @@ function AppLayout( {children} : AppLayoutProps ) {
     };
 
     return (
-        <>
+        <div className={className}>
             <Navbar bg="dark" data-bs-theme="dark" className="vw-100 px-3">
                 <Button type="button" variant="dark" onClick={ () => setSidebarVisible( !sidebarVisible ) }>              
                     <HiOutlineMenu color="white" fontSize={30}/>
@@ -44,8 +45,12 @@ function AppLayout( {children} : AppLayoutProps ) {
                 </Dropdown.Item>
                 <Container fluid hidden={!usuariosOptionsVisible} className="m-0 p-0">
                     <Dropdown.Item eventKey="2">
-                        <Link to="/filter-usuarios" className="text-white fw-normal d-flex align-items-center px-3">
-                            <LuFilter /> &nbsp; Filtrar usuários
+                        <Link to="/filter-usuarios" 
+                                onClick={ () => setSidebarVisible( false ) } 
+                                className="text-white fw-normal d-flex align-items-center px-3">
+                            <LuFilter /> 
+                            &nbsp; 
+                            Filtrar usuários
                         </Link>
                     </Dropdown.Item>
                 </Container>
@@ -58,7 +63,7 @@ function AppLayout( {children} : AppLayoutProps ) {
             <div className="p-3 vw-100">
                 {children}
             </div>
-        </>
+        </div>
     );
 
 }

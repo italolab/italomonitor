@@ -20,12 +20,21 @@ body {
   display: flex;
   min-width: 320px;
   min-height: 100vh;
-  background-color: #fafafa;
+  background-color: #EEE;
 }
 
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
+h1, h2, h3, h4, h5, h6, th {
+  font-family: Georgia, 'Times New Roman', Times, serif;
+}
+
+p, li {
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+
+
+tr.blue th {
+  background-color: rgb(177, 177, 243);
 }
 
 @media (prefers-color-scheme: light) {
