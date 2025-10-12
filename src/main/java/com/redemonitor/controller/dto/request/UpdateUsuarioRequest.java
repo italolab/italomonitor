@@ -7,14 +7,12 @@ import lombok.*;
 @Getter
 @Setter
 @Builder
-public class CreateUsuarioRequest {
+public class UpdateUsuarioRequest {
 
     private String nome;
 
     private String email;
 
     private String username;
-
-    private String senha;
 
 }

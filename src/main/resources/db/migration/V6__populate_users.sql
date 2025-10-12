@@ -14,6 +14,6 @@ insert into role ( id, nome ) values ( 3, 'usuario-delete' );
 
 insert into usuario_grupo_map( id, usuario_id, usuario_grupo_id ) values ( 1, 1, 1 );
 
-insert into role_grupo_map( id, role_id, usuario_grupo_id ) values ( 1, 1, 1 );
-insert into role_grupo_map( id, role_id, usuario_grupo_id ) values ( 2, 2, 1 );
-insert into role_grupo_map( id, role_id, usuario_grupo_id ) values ( 3, 3, 1 );
+insert into role_grupo_map( id, role_id, role_grupo_id ) values ( 1, 1, 1 );
+insert into role_grupo_map( id, role_id, role_grupo_id ) values ( 2, 2, 1 );
+insert into role_grupo_map( id, role_id, role_grupo_id ) values ( 3, 3, 1 );

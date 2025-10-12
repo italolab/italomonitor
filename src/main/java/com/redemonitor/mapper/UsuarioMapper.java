@@ -1,15 +1,15 @@
 package com.redemonitor.mapper;
 
-import com.redemonitor.controller.dto.request.UsuarioRequest;
+import com.redemonitor.controller.dto.request.CreateUsuarioRequest;
+import com.redemonitor.controller.dto.request.UpdateUsuarioRequest;
 import com.redemonitor.controller.dto.response.UsuarioResponse;
 import com.redemonitor.model.Usuario;
-import lombok.*;
 import org.springframework.stereotype.Component;
 
 @Component
 public class UsuarioMapper {
 
-    public Usuario map(UsuarioRequest request ) {
+    public Usuario map(CreateUsuarioRequest request ) {
         return Usuario.builder()
                 .nome( request.getNome() )
                 .email( request.getEmail() )
@@ -27,7 +27,7 @@ public class UsuarioMapper {
                 .build();
     }
 
-    public void load( Usuario usuario, UsuarioRequest request ) {
+    public void load( Usuario usuario, UpdateUsuarioRequest request ) {
         usuario.setNome( request.getNome() );
         usuario.setEmail( request.getEmail() );
         usuario.setUsername( request.getUsername() );

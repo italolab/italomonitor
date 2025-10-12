@@ -1,9 +1,7 @@
 package com.redemonitor.apidoc.user;
 
 import com.redemonitor.apidoc.APIDocConstants;
-import com.redemonitor.controller.dto.request.UsuarioRequest;
 import com.redemonitor.controller.dto.response.ErrorResponse;
-import com.redemonitor.model.Usuario;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -11,7 +9,6 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.http.MediaType;
 
-import java.awt.*;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;

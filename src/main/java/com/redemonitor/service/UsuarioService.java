@@ -1,6 +1,7 @@
 package com.redemonitor.service;
 
-import com.redemonitor.controller.dto.request.UsuarioRequest;
+import com.redemonitor.controller.dto.request.CreateUsuarioRequest;
+import com.redemonitor.controller.dto.request.UpdateUsuarioRequest;
 import com.redemonitor.controller.dto.response.UsuarioResponse;
 import com.redemonitor.exception.ErrorException;
 import com.redemonitor.exception.Errors;
@@ -26,7 +27,7 @@ public class UsuarioService {
     @Autowired
     private HashUtil hashUtil;
 
-    public void createUsuario( UsuarioRequest request ) {
+    public void createUsuario( CreateUsuarioRequest request ) {
         Usuario usuario = usuarioMapper.map( request );
         String username = usuario.getUsername();
 
@@ -37,7 +38,7 @@ public class UsuarioService {
         usuarioRepository.save( usuario );
     }
 
-    public void updateUsuario( Long id, UsuarioRequest request ) {
+    public void updateUsuario( Long id, UpdateUsuarioRequest request ) {
         String username = request.getUsername();
 
         Optional<Usuario> usuarioOp = usuarioRepository.findById( id );

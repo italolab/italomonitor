@@ -1,7 +1,8 @@
 package com.redemonitor.controller;
 
 import com.redemonitor.apidoc.user.*;
-import com.redemonitor.controller.dto.request.UsuarioRequest;
+import com.redemonitor.controller.dto.request.CreateUsuarioRequest;
+import com.redemonitor.controller.dto.request.UpdateUsuarioRequest;
 import com.redemonitor.controller.dto.response.UsuarioResponse;
 import com.redemonitor.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +28,7 @@ public class UsuarioController {
     @CreateUserDoc
     @PreAuthorize("hasAuthority('usuario-write')")
     @PostMapping
-    public ResponseEntity<String> createUsuario( @RequestBody UsuarioRequest request ) {
+    public ResponseEntity<String> createUsuario( @RequestBody CreateUsuarioRequest request ) {
         usuarioService.createUsuario( request );
         return ResponseEntity.ok( "Usuario registrado com sucesso." );
     }
@@ -35,7 +36,7 @@ public class UsuarioController {
     @UpdateUsuarioDoc
     @PreAuthorize("hasAuthority('usuario-write')")
     @PutMapping("/{usuarioId}")
-    public ResponseEntity<String> updateUsuario( @PathVariable Long usuarioId, @RequestBody UsuarioRequest request ) {
+    public ResponseEntity<String> updateUsuario(@PathVariable Long usuarioId, @RequestBody UpdateUsuarioRequest request ) {
         usuarioService.updateUsuario( usuarioId, request );
         return ResponseEntity.ok( "Usuario alterado com sucesso." );
     }

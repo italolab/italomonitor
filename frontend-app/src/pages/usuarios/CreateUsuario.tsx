@@ -54,14 +54,13 @@ function CreateUsuario() {
         <AppLayout>
             <Card className="mx-auto" style={{width: '30em'}}>
                 <Card.Header>
-                    <h3 className="text-center">Registro de usuários</h3>
+                    <h3 className="text-center m-0">Registro de usuários</h3>
                 </Card.Header>
                 <Card.Body>
                     <Form>
                         <Form.Group className="mb-3" controlId="nome">
                             <Form.Label>Nome</Form.Label>
                             <Form.Control type="text"
-                                placeholder="Informe o nome"
                                 value={nome}
                                 onChange={ ( e ) => setNome( e.target.value ) } />
                         </Form.Group>
@@ -69,7 +68,6 @@ function CreateUsuario() {
                         <Form.Group className="mb-3" controlId="email">
                             <Form.Label>E-Mail</Form.Label>
                             <Form.Control type="text"
-                                placeholder="Informe o email"
                                 value={email}
                                 onChange={ ( e ) => setEmail( e.target.value ) } />
                         </Form.Group>
@@ -77,7 +75,6 @@ function CreateUsuario() {
                         <Form.Group className="mb-3" controlId="username">
                             <Form.Label>Nome de usuário</Form.Label>
                             <Form.Control type="text"
-                                placeholder="Informe o nome de usuário"
                                 value={username}
                                 onChange={ ( e ) => setUsername( e.target.value ) } />
                         </Form.Group>
@@ -85,7 +82,6 @@ function CreateUsuario() {
                         <Form.Group className="mb-3" controlId="senha">
                             <Form.Label>Senha</Form.Label>
                             <Form.Control type="password"
-                                placeholder="Informe a senha"
                                 value={senha}
                                 onChange={ ( e ) => setSenha( e.target.value ) } />
                         </Form.Group>
@@ -93,7 +89,6 @@ function CreateUsuario() {
                         <Form.Group className="mb-3" controlId="senha2">
                             <Form.Label>Confirme a senha</Form.Label>
                             <Form.Control type="password"
-                                placeholder="Confirme a senha"
                                 value={senha2}
                                 onChange={ ( e ) => setSenha2( e.target.value ) } />
                         </Form.Group>

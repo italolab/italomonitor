@@ -7,7 +7,7 @@ import lombok.*;
 @Getter
 @Setter
 @Builder
-public class UsuarioRequest {
+public class CreateUsuarioRequest {
 
     private String nome;
 
