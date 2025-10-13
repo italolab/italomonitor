@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Button, Card, Container, Form } from "react-bootstrap";
+import { Button, Card, Form } from "react-bootstrap";
 import { useSaveUsuarioViewModel } from "../../viewModel/usuario/useSaveUsuarioViewModel";
 import AppMessage from "../../components/AppMessage";
 import AppSpinner from "../../components/AppSpinner";
@@ -62,52 +62,54 @@ function UpdateUsuario() {
 
     return (
         <AppLayout>
-            <Container fluid className="d-flex justify-content-start">
+            <div className="d-flex justify-content-start">
                 <Button type="button" onClick={() => navigate( -1 )} className="d-inline-flex align-items-center">
                     <MdArrowBack size={25}/> Voltar
                 </Button>                            
-            </Container>
+            </div>
 
-            <Card className="mx-auto" style={{width: '30em'}}>
-                <Card.Header>
-                    <h3>Registro de usuários</h3>
-                </Card.Header>
-                <Card.Body>
-                    <Form>
-                        <Form.Group className="mb-3" controlId="nome">
-                            <Form.Label>Nome</Form.Label>
-                            <Form.Control type="text"
-                                placeholder="Informe o nome"
-                                value={nome}
-                                onChange={ ( e ) => setNome( e.target.value ) } />
-                        </Form.Group>
+            <div className="d-flex justify-content-center mt-3">
+                <Card className="mx-auto" style={{width: '30em'}}>
+                    <Card.Header>
+                        <h3>Registro de usuários</h3>
+                    </Card.Header>
+                    <Card.Body>
+                        <Form>
+                            <Form.Group className="mb-3" controlId="nome">
+                                <Form.Label>Nome</Form.Label>
+                                <Form.Control type="text"
+                                    placeholder="Informe o nome"
+                                    value={nome}
+                                    onChange={ ( e ) => setNome( e.target.value ) } />
+                            </Form.Group>
 
-                        <Form.Group className="mb-3" controlId="email">
-                            <Form.Label>E-Mail</Form.Label>
-                            <Form.Control type="text"
-                                placeholder="Informe o email"
-                                value={email}
-                                onChange={ ( e ) => setEmail( e.target.value ) } />
-                        </Form.Group>
+                            <Form.Group className="mb-3" controlId="email">
+                                <Form.Label>E-Mail</Form.Label>
+                                <Form.Control type="text"
+                                    placeholder="Informe o email"
+                                    value={email}
+                                    onChange={ ( e ) => setEmail( e.target.value ) } />
+                            </Form.Group>
 
-                        <Form.Group className="mb-3" controlId="username">
-                            <Form.Label>Nome de usuário</Form.Label>
-                            <Form.Control type="text"
-                                placeholder="Informe o nome de usuário"
-                                value={username}
-                                onChange={ ( e ) => setUsername( e.target.value ) } />
-                        </Form.Group>
+                            <Form.Group className="mb-3" controlId="username">
+                                <Form.Label>Nome de usuário</Form.Label>
+                                <Form.Control type="text"
+                                    placeholder="Informe o nome de usuário"
+                                    value={username}
+                                    onChange={ ( e ) => setUsername( e.target.value ) } />
+                            </Form.Group>
 
-                        <AppMessage message={errorMessage} type="error" />
-                        <AppMessage message={infoMessage} type="info" />
+                            <AppMessage message={errorMessage} type="error" />
+                            <AppMessage message={infoMessage} type="info" />
 
-                        <Button type="button" onClick={onSave}>
-                            Salvar 
-                            <AppSpinner visible={loading} />
-                        </Button>
-                    </Form>
-                </Card.Body>
-            </Card>
+                            <Button type="button" onClick={onSave}>
+                                Salvar 
+                                <AppSpinner visible={loading} />
+                            </Button>
+                        </Form>
+                    </Card.Body>
+                </Card>
+            </div>
         </AppLayout>
     );
 }

@@ -28,6 +28,8 @@ public class UsuarioService {
     private HashUtil hashUtil;
 
     public void createUsuario( CreateUsuarioRequest request ) {
+        request.validate();
+
         Usuario usuario = usuarioMapper.map( request );
         String username = usuario.getUsername();
 
@@ -39,6 +41,8 @@ public class UsuarioService {
     }
 
     public void updateUsuario( Long id, UpdateUsuarioRequest request ) {
+        request.validate();
+
         String username = request.getUsername();
 
         Optional<Usuario> usuarioOp = usuarioRepository.findById( id );

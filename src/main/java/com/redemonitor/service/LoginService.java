@@ -28,6 +28,8 @@ public class LoginService {
     private JwtTokenUtil jwtTokenUtil;
 
     public LoginResponse login( LoginRequest request ) {
+        request.validate();
+
         String username = request.getUsername();
         String senha = hashUtil.geraHash( request.getSenha() );
 

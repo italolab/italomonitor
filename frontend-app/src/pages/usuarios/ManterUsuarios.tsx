@@ -38,72 +38,68 @@ function FilterUsuarios() {
         <AppLayout>            
             <h3 className="text-center">Funções de usuário</h3>
 
-            <Container fluid>
+            <div className="d-flex justify-content-end">
                 <Button type="button" onClick={() => navigate( '/create-usuario')} className="d-flex align-items-center ms-auto">
                     <MdAdd size={25}/> Novo usuário
                 </Button>
-            </Container>
+            </div>
 
-            <Container fluid className="mt-3">
-                <Row>
-                    <Col>
-                        <Card className="p-3">
-                            <Card.Title>
-                                <h5>Campos do filtro</h5>
-                            </Card.Title>
-                            <Form>
-                                <Form.Group className="mb-3" controlId="nomepart">
-                                    <Form.Label>Nome</Form.Label>
-                                    <Form.Control type="text" 
-                                        placeholder="Informe parte do nome"
-                                        value={nomepart}
-                                        onChange={ (e) => setNomepart( e.target.value ) } />
-                                </Form.Group>
+            <div className="d-flex flex-wrap justify-content-center mt-3">
+                <Card style={{width: '30em'}}>
+                    <Card.Header>
+                        <h5>Campos do filtro</h5>
+                    </Card.Header>
+                    <Card.Body className="p-3">
+                        <Form>
+                            <Form.Group className="mb-3" controlId="nomepart">
+                                <Form.Label>Nome</Form.Label>
+                                <Form.Control type="text" 
+                                    placeholder="Informe parte do nome"
+                                    value={nomepart}
+                                    onChange={ (e) => setNomepart( e.target.value ) } />
+                            </Form.Group>
 
-                                <AppMessage message={errorMessage} type="error" />
-                                <AppMessage message={infoMessage} type="info" />
+                            <AppMessage message={errorMessage} type="error" />
+                            <AppMessage message={infoMessage} type="info" />
 
-                                <Button type="button" onClick={onFilter}>
-                                    Filtrar                        
-                                    <AppSpinner visible={loading} />
-                                </Button>
-                            </Form>
-                        </Card>
-                    </Col>
-                </Row>
-            
-                <Row className="mt-3">
-                    <Col className="overflow-auto">
-                        <Table striped bordered hover className="overflow-auto">
-                            <thead>
-                                <tr className="blue">
-                                    <th>ID</th>
-                                    <th>Nome</th>
-                                    <th>E-Mail</th>
-                                    <th>Username</th>
-                                    <th>Operações</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                { usuarios.map( (usuario, index) => 
-                                    <tr key={index}>
-                                        <td>{usuario.id}</td>
-                                        <td>{usuario.nome}</td>
-                                        <td>{usuario.email}</td>
-                                        <td>{usuario.username}</td>
-                                        <td>
-                                            <AppOperations 
-                                                toDetalhes={`/detalhes-usuario/${usuario.id}`}
-                                                toEdit={`/update-usuario/${usuario.id}`} 
-                                                onRemover={onRemover} />
-                                        </td>
-                                    </tr> 
-                                )}
-                            </tbody>
-                        </Table>
-                    </Col>
-                </Row>
-            </Container>
+                            <Button type="button" onClick={onFilter}>
+                                Filtrar                        
+                                <AppSpinner visible={loading} />
+                            </Button>
+                        </Form>
+                    </Card.Body>
+                </Card>
+                   
+                <div className="w-100 overflow-auto">
+                    <Table striped bordered hover className="mt-3">
+                        <thead>
+                            <tr className="blue">
+                                <th>ID</th>
+                                <th>Nome</th>
+                                <th>E-Mail</th>
+                                <th>Username</th>
+                                <th>Operações</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            { usuarios.map( (usuario, index) => 
+                                <tr key={index}>
+                                    <td>{usuario.id}</td>
+                                    <td>{usuario.nome}</td>
+                                    <td>{usuario.email}</td>
+                                    <td>{usuario.username}</td>
+                                    <td>
+                                        <AppOperations 
+                                            toDetalhes={`/detalhes-usuario/${usuario.id}`}
+                                            toEdit={`/update-usuario/${usuario.id}`} 
+                                            onRemover={onRemover} />
+                                    </td>
+                                </tr> 
+                            )}
+                        </tbody>
+                    </Table>
+                </div>                   
+            </div>
         </AppLayout>
     );
 }
