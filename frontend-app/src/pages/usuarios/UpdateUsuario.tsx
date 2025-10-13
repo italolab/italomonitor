@@ -71,7 +71,7 @@ function UpdateUsuario() {
             <div className="d-flex justify-content-center mt-3">
                 <Card className="mx-auto" style={{width: '30em'}}>
                     <Card.Header>
-                        <h3>Registro de usuários</h3>
+                        <h3>Alteração de usuários</h3>
                     </Card.Header>
                     <Card.Body>
                         <Form>
