@@ -3,7 +3,7 @@ package com.redemonitor.service;
 import com.redemonitor.controller.dto.request.CreateUsuarioRequest;
 import com.redemonitor.controller.dto.request.UpdateUsuarioRequest;
 import com.redemonitor.controller.dto.response.UsuarioResponse;
-import com.redemonitor.exception.ErrorException;
+import com.redemonitor.exception.BusinessException;
 import com.redemonitor.exception.Errors;
 import com.redemonitor.mapper.UsuarioMapper;
 import com.redemonitor.model.Usuario;
@@ -33,7 +33,7 @@ public class UsuarioService {
 
         Optional<Usuario> usuarioOp = usuarioRepository.findByUsername( username );
         if ( usuarioOp.isPresent() )
-            throw new ErrorException( Errors.USER_ALREADY_EXISTS );
+            throw new BusinessException( Errors.USER_ALREADY_EXISTS );
 
         usuarioRepository.save( usuario );
     }
@@ -43,11 +43,12 @@ public class UsuarioService {
 
         Optional<Usuario> usuarioOp = usuarioRepository.findById( id );
         if ( usuarioOp.isEmpty() )
-            throw new ErrorException( Errors.USER_NOT_FOUND );
+            throw new BusinessException( Errors.USER_NOT_FOUND );
 
         Usuario usuario = usuarioOp.get();
-        if ( usuario.getUsername().equalsIgnoreCase( username ) )
-            throw new ErrorException( Errors.USER_ALREADY_EXISTS );
+        if ( !usuario.getUsername().equalsIgnoreCase( username ) )
+            if ( usuarioRepository.findByUsername( username ).isPresent() )
+                throw new BusinessException(Errors.USER_ALREADY_EXISTS);
 
         usuarioMapper.load( usuario, request );
 
@@ -62,7 +63,7 @@ public class UsuarioService {
     public UsuarioResponse getUsuario( Long id ) {
         Optional<Usuario> usuarioOp = usuarioRepository.findById( id );
         if ( usuarioOp.isEmpty() )
-            throw new ErrorException( Errors.USER_NOT_FOUND );
+            throw new BusinessException( Errors.USER_NOT_FOUND );
 
         return usuarioOp.map( usuarioMapper::map ).orElseThrow();
     }
@@ -70,7 +71,7 @@ public class UsuarioService {
     public void deleteUsuario( Long id ) {
         Optional<Usuario> usuarioOp = usuarioRepository.findById( id );
         if ( usuarioOp.isEmpty() )
-            throw new ErrorException( Errors.USER_NOT_FOUND );
+            throw new BusinessException( Errors.USER_NOT_FOUND );
 
         usuarioRepository.deleteById( id );
     }

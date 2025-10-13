@@ -2,7 +2,7 @@ package com.redemonitor.service;
 
 import com.redemonitor.controller.dto.request.LoginRequest;
 import com.redemonitor.controller.dto.response.LoginResponse;
-import com.redemonitor.exception.ErrorException;
+import com.redemonitor.exception.BusinessException;
 import com.redemonitor.exception.Errors;
 import com.redemonitor.model.*;
 import com.redemonitor.repository.UsuarioRepository;
@@ -33,7 +33,7 @@ public class LoginService {
 
         Optional<Usuario> usuarioOp = usuarioRepository.findByLogin( username, senha );
         if ( usuarioOp.isEmpty() )
-            throw new ErrorException( Errors.USER_NOT_FOUND );
+            throw new BusinessException( Errors.USER_NOT_FOUND );
 
         List<String> roles = new ArrayList<>();
 

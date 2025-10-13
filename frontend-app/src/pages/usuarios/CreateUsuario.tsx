@@ -1,11 +1,13 @@
 import { useState } from "react";
-import { Button, Card, Form } from "react-bootstrap";
+import { Button, Card, Container, Form } from "react-bootstrap";
 import { useSaveUsuarioViewModel } from "../../viewModel/usuario/useSaveUsuarioViewModel";
 import AppMessage from "../../components/AppMessage";
 import AppSpinner from "../../components/AppSpinner";
 
 import type { CreateUsuarioRequest } from "../../model/dto/request/CreateUsuarioRequest";
 import AppLayout from "../../layout/AppLayout";
+import { MdArrowBack } from "react-icons/md";
+import { useNavigate } from "react-router-dom";
 
 function CreateUsuario() {
 
@@ -22,6 +24,8 @@ function CreateUsuario() {
         infoMessage,
         setErrorMessage
     } = useSaveUsuarioViewModel();
+
+    const navigate = useNavigate();
 
     const onSave = async () => {
         const valid : boolean = await validateForm();
@@ -52,6 +56,12 @@ function CreateUsuario() {
 
     return (
         <AppLayout>
+            <Container fluid className="d-flex justify-content-start">
+                <Button type="button" onClick={() => navigate( -1 )} className="d-inline-flex align-items-center">
+                    <MdArrowBack size={25}/> Voltar
+                </Button>                            
+            </Container>
+
             <Card className="mx-auto" style={{width: '30em'}}>
                 <Card.Header>
                     <h3 className="text-center m-0">Registro de usuários</h3>

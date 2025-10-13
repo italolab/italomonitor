@@ -45,7 +45,7 @@ function AppLayout( {children, className} : AppLayoutProps ) {
                 </Dropdown.Item>
                 <Container fluid hidden={!usuariosOptionsVisible} className="m-0 p-0">
                     <Dropdown.Item eventKey="2">
-                        <Link to="/filter-usuarios" 
+                        <Link to="/usuarios" 
                                 onClick={ () => setSidebarVisible( false ) } 
                                 className="text-white fw-normal d-flex align-items-center px-3">
                             <LuFilter /> 

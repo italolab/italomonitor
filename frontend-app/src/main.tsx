@@ -10,6 +10,7 @@ import FilterUsuarios from './pages/usuarios/ManterUsuarios.tsx';
 import { AuthProvider } from './context/AuthProvider.tsx';
 import UpdateUsuario from './pages/usuarios/UpdateUsuario.tsx';
 import CreateUsuario from './pages/usuarios/CreateUsuario.tsx';
+import DetalhesUsuario from './pages/usuarios/DetalhesUsuario.tsx';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
@@ -18,9 +19,10 @@ createRoot(document.getElementById('root')!).render(
         <Routes>
             <Route path='/' element={<Login />} index />
             <Route path='/home' element={<App />} />
-            <Route path='/filter-usuarios' element={<FilterUsuarios />} />
+            <Route path='/usuarios' element={<FilterUsuarios />} />
             <Route path='/create-usuario' element={<CreateUsuario />} />
             <Route path='/update-usuario/:usuarioId' element={<UpdateUsuario />} />
+            <Route path='/detalhes-usuario/:usuarioId' element={<DetalhesUsuario />} />
         </Routes>
       </Router>
     </AuthProvider>
