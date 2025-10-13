@@ -27,11 +27,11 @@ function AppLayout( {children, className} : AppLayoutProps ) {
 
     return (
         <div className={className}>
-            <Navbar bg="dark" data-bs-theme="dark" className="vw-100 px-3">
+            <Navbar bg="dark" data-bs-theme="dark" className="vw-100">
                 <Button type="button" variant="dark" onClick={ () => setSidebarVisible( !sidebarVisible ) }>              
                     <HiOutlineMenu color="white" fontSize={30}/>
                 </Button>
-                <Navbar.Brand href="#home" className="mx-3">Rede monitor</Navbar.Brand>
+                <Navbar.Brand>Rede monitor</Navbar.Brand>
             </Navbar>
             <Dropdown.Menu show={sidebarVisible} variant="dark" className="vh-100" style={{width: '15em'}}>
                 <Dropdown.Header className="d-flex align-items-center">
