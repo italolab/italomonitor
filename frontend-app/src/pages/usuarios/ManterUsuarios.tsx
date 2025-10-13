@@ -9,7 +9,7 @@ import { MdAdd } from "react-icons/md";
 import AppOperations from "../../components/AppOperations";
 import type { UsuarioResponse } from "../../model/dto/response/UsuarioResponse";
 
-function FilterUsuarios() {
+function ManterUsuarios() {
 
     const [removeModalVisible, setRemoveModalVisible] = useState<boolean>( false );
     const [toRemoveUsuario, setToRemoveUsuario] = useState<UsuarioResponse|null>( null );
@@ -140,4 +140,4 @@ function FilterUsuarios() {
     );
 }
 
-export default FilterUsuarios;
+export default ManterUsuarios;
