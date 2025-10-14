@@ -8,11 +8,14 @@ import { useNavigate } from "react-router-dom";
 import { MdAdd } from "react-icons/md";
 import AppOperations from "../../components/AppOperations";
 import type { RoleResponse } from "../../model/dto/response/RoleResponse";
+import AppPagination from "../../components/AppPagination";
 
 function ManterRoles() {
 
     const [removeModalVisible, setRemoveModalVisible] = useState<boolean>( false );
     const [toRemoveRole, setToRemoveRole] = useState<RoleResponse|null>( null );
+
+    const [paginationRoles, setPaginationRoles] = useState<RoleResponse[]>([]);
 
     const { 
         filterRoles, 
@@ -116,7 +119,7 @@ function ManterRoles() {
                             </tr>
                         </thead>
                         <tbody>
-                            { roles.map( (role, index) => 
+                            { paginationRoles.map( (role, index) => 
                                 <tr key={index}>
                                     <td>{role.id}</td>
                                     <td>{role.nome}</td>
@@ -130,6 +133,15 @@ function ManterRoles() {
                             )}
                         </tbody>
                     </Table>
+
+                    <div className="d-flex justify-content-center">
+                        <AppPagination 
+                             dataList={roles}
+                             numberOfItemsByPage={3}
+                             numberOfPagesByGroup={2}
+                             onChangePageDataList={ (pageDataList : RoleResponse[]) => setPaginationRoles( pageDataList )}
+                        />
+                    </div>
                 </div>                   
             </div>
         </AppLayout>
