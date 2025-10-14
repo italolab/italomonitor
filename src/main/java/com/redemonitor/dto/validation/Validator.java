@@ -1,4 +1,4 @@
-package com.redemonitor.controller.dto.validation;
+package com.redemonitor.dto.validation;
 
 public interface Validator {
 

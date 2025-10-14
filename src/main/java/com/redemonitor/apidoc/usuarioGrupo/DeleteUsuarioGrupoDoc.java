@@ -1,4 +1,4 @@
-package com.redemonitor.apidoc.user;
+package com.redemonitor.apidoc.usuarioGrupo;
 
 import com.redemonitor.apidoc.APIDocConstants;
 import com.redemonitor.dto.response.ErrorResponse;
@@ -15,12 +15,12 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 @Operation(
-        summary = "Responsável por deletar um usuário pelo ID."
+        summary = "Responsável por deletar um grupo de usuário pelo ID."
 )
 @ApiResponses(value= {
         @ApiResponse(
                 responseCode = "200",
-                description = "Usuário deletado pelo ID.",
+                description = "Grupo de usuário deletado pelo ID.",
                 content = {@Content}),
         @ApiResponse(
                 responseCode = "403",
@@ -37,6 +37,6 @@ import java.lang.annotation.Target;
 })
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
-public @interface DeleteUsuarioDoc {
+public @interface DeleteUsuarioGrupoDoc {
 
 }

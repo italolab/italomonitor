@@ -9,7 +9,7 @@ import java.util.Optional;
 
 public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
 
-    @Query( "select u from Usuario u where lower(u.nome) like ?1" )
+    @Query( "select u from Usuario u where lower(u.nome) like lower(?1)" )
     List<Usuario> filter( String nomePart );
 
     @Query( "select u from Usuario u where u.username=?1 and u.senha=?2")

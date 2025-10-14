@@ -15,13 +15,12 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 @Operation(
-        summary = "Responsável por deletar um usuário pelo ID."
-)
+        summary = "Responsável pelo registro de um usuário." )
 @ApiResponses(value= {
         @ApiResponse(
                 responseCode = "200",
-                description = "Usuário deletado pelo ID.",
-                content = {@Content}),
+                description = "Usuário registrado no sistema.",
+                content=@Content),
         @ApiResponse(
                 responseCode = "403",
                 description = APIDocConstants.MSG_403,
@@ -35,8 +34,8 @@ import java.lang.annotation.Target;
                         mediaType = MediaType.APPLICATION_JSON_VALUE,
                         schema = @Schema(implementation = ErrorResponse.class)))
 })
-@Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
-public @interface DeleteUsuarioDoc {
+@Retention(RetentionPolicy.RUNTIME)
+public @interface CreateUsuarioDoc {
 
 }

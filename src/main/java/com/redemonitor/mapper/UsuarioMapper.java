@@ -1,8 +1,8 @@
 package com.redemonitor.mapper;
 
-import com.redemonitor.controller.dto.request.CreateUsuarioRequest;
-import com.redemonitor.controller.dto.request.UpdateUsuarioRequest;
-import com.redemonitor.controller.dto.response.UsuarioResponse;
+import com.redemonitor.dto.request.CreateUsuarioRequest;
+import com.redemonitor.dto.request.UpdateUsuarioRequest;
+import com.redemonitor.dto.response.UsuarioResponse;
 import com.redemonitor.model.Usuario;
 import org.springframework.stereotype.Component;
 

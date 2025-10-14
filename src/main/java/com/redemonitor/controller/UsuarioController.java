@@ -1,9 +1,9 @@
 package com.redemonitor.controller;
 
 import com.redemonitor.apidoc.user.*;
-import com.redemonitor.controller.dto.request.CreateUsuarioRequest;
-import com.redemonitor.controller.dto.request.UpdateUsuarioRequest;
-import com.redemonitor.controller.dto.response.UsuarioResponse;
+import com.redemonitor.dto.request.CreateUsuarioRequest;
+import com.redemonitor.dto.request.UpdateUsuarioRequest;
+import com.redemonitor.dto.response.UsuarioResponse;
 import com.redemonitor.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -25,7 +25,7 @@ public class UsuarioController {
         return "Funcionou...";
     }
 
-    @CreateUserDoc
+    @CreateUsuarioDoc
     @PreAuthorize("hasAuthority('usuario-write')")
     @PostMapping
     public ResponseEntity<String> createUsuario( @RequestBody CreateUsuarioRequest request ) {

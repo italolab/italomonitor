@@ -1,4 +1,4 @@
-package com.redemonitor.controller.dto.response;
+package com.redemonitor.dto.response;
 
 import lombok.*;
 

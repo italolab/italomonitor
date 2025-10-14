@@ -1,8 +1,8 @@
 package com.redemonitor.controller;
 
 import com.redemonitor.apidoc.login.LoginDoc;
-import com.redemonitor.controller.dto.request.LoginRequest;
-import com.redemonitor.controller.dto.response.LoginResponse;
+import com.redemonitor.dto.request.LoginRequest;
+import com.redemonitor.dto.response.LoginResponse;
 import com.redemonitor.service.LoginService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

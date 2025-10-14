@@ -1,8 +1,10 @@
-package com.redemonitor.apidoc.user;
+package com.redemonitor.apidoc.usuarioGrupo;
 
 import com.redemonitor.apidoc.APIDocConstants;
 import com.redemonitor.dto.response.ErrorResponse;
+import com.redemonitor.dto.response.UsuarioGrupoResponse;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -15,13 +17,16 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 @Operation(
-        summary = "Responsável por deletar um usuário pelo ID."
+        summary = "Responsável filtrar e retornar dados completos dos grupos de usuário."
 )
 @ApiResponses(value= {
         @ApiResponse(
                 responseCode = "200",
-                description = "Usuário deletado pelo ID.",
-                content = {@Content}),
+                description = "Retorno de lista de dados completos dos grupos de usuário conforme os campos do filtro.",
+                content = {@Content(
+                        mediaType = MediaType.APPLICATION_JSON_VALUE,
+                        array = @ArraySchema(
+                                schema = @Schema(implementation =  UsuarioGrupoResponse.class)))}),
         @ApiResponse(
                 responseCode = "403",
                 description = APIDocConstants.MSG_403,
@@ -37,6 +42,6 @@ import java.lang.annotation.Target;
 })
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
-public @interface DeleteUsuarioDoc {
+public @interface FilterUsuarioGruposDoc {
 
 }

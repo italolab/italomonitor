@@ -1,6 +1,6 @@
 package com.redemonitor.exception;
 
-import com.redemonitor.controller.dto.response.ErrorResponse;
+import com.redemonitor.dto.response.ErrorResponse;
 
 public class ErrorException extends RuntimeException {
 

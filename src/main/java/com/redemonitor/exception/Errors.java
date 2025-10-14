@@ -7,6 +7,12 @@ public interface Errors {
     public final static String USER_NOT_FOUND = "Usuário não encontrado.";
     public final static String USER_ALREADY_EXISTS = "Usuário já existe registrado com username informado.";
 
+    public final static String USER_GROUP_NOT_FOUND = "Grupo de usuário não encontrado.";
+    public final static String USER_GROUP_ALREADY_EXISTS = "Grupo de usuário já existe registrado com o nome informado.";
+
+    public final static String ROLE_NOT_FOUND = "Role não encontrado.";
+    public final static String ROLE_ALREADY_EXISTS = "Role já existe registradocom o nome informado.";
+
     public final static String REQUIRED_FIELD = "O campo '$1' é de preenchimento obrigatório.";
     public final static String NOT_JOKER_AND_NOT_INT = "O campo '$1' não é numérico nem asterisco.";
     public final static String VALUE_LESS_OR_EQUALS_THAN_ZERO = "O valor do campo '$1' é menor ou igual a zero ou não numérico.";

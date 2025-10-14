@@ -1,9 +1,8 @@
 package com.redemonitor.exception;
 
-import com.redemonitor.controller.dto.response.ErrorResponse;
+import com.redemonitor.dto.response.ErrorResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
-import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 

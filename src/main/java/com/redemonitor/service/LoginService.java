@@ -1,7 +1,7 @@
 package com.redemonitor.service;
 
-import com.redemonitor.controller.dto.request.LoginRequest;
-import com.redemonitor.controller.dto.response.LoginResponse;
+import com.redemonitor.dto.request.LoginRequest;
+import com.redemonitor.dto.response.LoginResponse;
 import com.redemonitor.exception.BusinessException;
 import com.redemonitor.exception.Errors;
 import com.redemonitor.model.*;

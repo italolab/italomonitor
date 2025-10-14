@@ -1,4 +1,4 @@
-package com.redemonitor.apidoc.user;
+package com.redemonitor.apidoc.role;
 
 import com.redemonitor.apidoc.APIDocConstants;
 import com.redemonitor.dto.response.ErrorResponse;
@@ -15,13 +15,12 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 @Operation(
-        summary = "Responsável por deletar um usuário pelo ID."
-)
+        summary = "Responsável pela alteração de dados de um role." )
 @ApiResponses(value= {
         @ApiResponse(
                 responseCode = "200",
-                description = "Usuário deletado pelo ID.",
-                content = {@Content}),
+                description = "Role alterado no sistema.",
+                content=@Content),
         @ApiResponse(
                 responseCode = "403",
                 description = APIDocConstants.MSG_403,
@@ -35,8 +34,8 @@ import java.lang.annotation.Target;
                         mediaType = MediaType.APPLICATION_JSON_VALUE,
                         schema = @Schema(implementation = ErrorResponse.class)))
 })
-@Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
-public @interface DeleteUsuarioDoc {
+@Retention(RetentionPolicy.RUNTIME)
+public @interface UpdateRoleDoc {
 
 }

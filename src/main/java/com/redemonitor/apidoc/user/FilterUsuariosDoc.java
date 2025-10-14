@@ -1,8 +1,8 @@
 package com.redemonitor.apidoc.user;
 
 import com.redemonitor.apidoc.APIDocConstants;
-import com.redemonitor.controller.dto.response.ErrorResponse;
-import com.redemonitor.controller.dto.response.UsuarioResponse;
+import com.redemonitor.dto.response.ErrorResponse;
+import com.redemonitor.dto.response.UsuarioResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;

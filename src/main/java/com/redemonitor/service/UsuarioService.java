@@ -1,8 +1,8 @@
 package com.redemonitor.service;
 
-import com.redemonitor.controller.dto.request.CreateUsuarioRequest;
-import com.redemonitor.controller.dto.request.UpdateUsuarioRequest;
-import com.redemonitor.controller.dto.response.UsuarioResponse;
+import com.redemonitor.dto.request.CreateUsuarioRequest;
+import com.redemonitor.dto.request.UpdateUsuarioRequest;
+import com.redemonitor.dto.response.UsuarioResponse;
 import com.redemonitor.exception.BusinessException;
 import com.redemonitor.exception.Errors;
 import com.redemonitor.mapper.UsuarioMapper;
