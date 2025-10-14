@@ -1,5 +1,5 @@
 import { useNavigate, useParams } from "react-router-dom";
-import useDetalhesUsuarioViewModel from "../../viewModel/usuario/useDetalhesUsuarioViewModel";
+import useDetalhesRoleViewModel from "../../viewModel/role/useDetalhesRoleViewModel";
 import { useEffect } from "react";
 import AppLayout from "../../layout/AppLayout";
 import { Button, Card } from "react-bootstrap";
@@ -8,17 +8,17 @@ import AppMessage from "../../components/AppMessage";
 import AppSpinner from "../../components/AppSpinner";
 import { MdArrowBack, MdOutlineEdit } from "react-icons/md";
 
-function DetalhesUsuario() {
+function DetalhesRole() {
 
     const {
-        loadUsuario,
-        usuario,
+        loadRole,
+        role,
         loading,
         errorMessage,
         infoMessage
-    } = useDetalhesUsuarioViewModel();
+    } = useDetalhesRoleViewModel();
 
-    const { usuarioId } = useParams();
+    const { roleId } = useParams();
 
     const navigate = useNavigate();
 
@@ -28,8 +28,8 @@ function DetalhesUsuario() {
 
     const onLoad = async () => {
         try {
-            const uid : number = parseInt( usuarioId! );
-            await loadUsuario( uid );
+            const rid : number = parseInt( roleId! );
+            await loadRole( rid );
         } catch ( error ) {
             console.error( error );
         }
@@ -41,15 +41,15 @@ function DetalhesUsuario() {
                 <Button type="button" onClick={() => navigate( -1 )} className="d-inline-flex align-items-center">
                     <MdArrowBack size={25}/> Voltar
                 </Button>
-                <Button type="button" onClick={() => navigate( `/update-usuario/${usuarioId}`)} className="d-inline-flex align-items-center">
-                    <MdOutlineEdit size={25}/> Editar usuário
+                <Button type="button" onClick={() => navigate( `/update-role/${roleId}`)} className="d-inline-flex align-items-center">
+                    <MdOutlineEdit size={25}/> Editar role
                 </Button>
             </div>
 
             <div className="d-flex justify-content-center mt-3">
                 <Card style={{width: '30em'}}>
                     <Card.Header>
-                        <h3 className="m-0 text-center">Detalhes do usuário</h3>
+                        <h3 className="m-0 text-center">Detalhes do role</h3>
                     </Card.Header>
                     <Card.Body>
                         <AppMessage message={errorMessage} type="error" />
@@ -58,17 +58,11 @@ function DetalhesUsuario() {
                         <AppSpinner className="mx-auto" visible={loading} />
 
                         <AppField name="ID">
-                            {usuario.id}
+                            {role.id}
                         </AppField>
                         <AppField name="nome">
-                            {usuario.nome}
-                        </AppField>
-                        <AppField name="email">
-                            {usuario.email}
-                        </AppField>
-                        <AppField name="username">
-                            {usuario.username}
-                        </AppField>
+                            {role.nome}
+                        </AppField>                        
                     </Card.Body>
                 </Card>
             </div>
@@ -76,4 +70,4 @@ function DetalhesUsuario() {
     );
 }
 
-export default DetalhesUsuario;
+export default DetalhesRole;

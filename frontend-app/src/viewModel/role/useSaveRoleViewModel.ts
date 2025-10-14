@@ -1,30 +1,29 @@
 import { useContext, useState } from "react";
-import { UsuarioModel } from "../../model/UsuarioModel";
+import { RoleModel } from "../../model/RoleModel";
 import { AuthContext } from "../../context/AuthProvider";
-import type { CreateUsuarioRequest } from "../../model/dto/request/CreateUsuarioRequest";
 import { extractErrorMessage } from "../../util/SistemaUtil";
-import type { UsuarioResponse } from "../../model/dto/response/UsuarioResponse";
-import type { UpdateUsuarioRequest } from "../../model/dto/request/UpdateUsuarioRequest";
+import type { RoleResponse } from "../../model/dto/response/RoleResponse";
+import type { SaveRoleRequest } from "../../model/dto/request/SaveRoleRequest";
 
 
-function useSaveUsuarioViewModel() {
+function useSaveRoleViewModel() {
 
     const [errorMessage, setErrorMessage] = useState<string|null>( null );
     const [infoMessage, setInfoMessage] = useState<string|null>( null );
     const [loading, setLoading] = useState<boolean>( false );
 
-    const usuarioModel = new UsuarioModel();
+    const roleModel = new RoleModel();
 
     const {token} = useContext(AuthContext);
 
-    const createUsuario = async ( usuario : CreateUsuarioRequest ) => {
+    const createRole = async ( role : SaveRoleRequest ) => {
         setErrorMessage( null );
         setInfoMessage( null );
         setLoading( true );
         try {
-            await usuarioModel.createUsuario( usuario, token );
+            await roleModel.createRole( role, token );
 
-            setInfoMessage( 'Usuário registrado com sucesso.' );
+            setInfoMessage( 'Role registrado com sucesso.' );
             setLoading( false );
         } catch ( error ) {
             setErrorMessage( extractErrorMessage( error ) );
@@ -33,15 +32,15 @@ function useSaveUsuarioViewModel() {
         }
     }
 
-    const updateUsuario = async ( usuarioId : number, usuario : UpdateUsuarioRequest ) => {
+    const updateRole = async ( roleId : number, role : SaveRoleRequest ) => {
         setErrorMessage( null );
         setInfoMessage( null );
         setLoading( true );
         
         try {
-            await usuarioModel.updateUsuario( usuarioId, usuario, token );
+            await roleModel.updateRole( roleId, role, token );
 
-            setInfoMessage( 'Usuário alterado com sucesso.' );
+            setInfoMessage( 'Role alterado com sucesso.' );
             setLoading( false );
         } catch ( error ) {
             setErrorMessage( extractErrorMessage( error ) );
@@ -50,13 +49,13 @@ function useSaveUsuarioViewModel() {
         }
     };
 
-    const getUsuario = async ( usuarioId : number ) : Promise<UsuarioResponse> => {
+    const getRole = async ( roleId : number ) : Promise<RoleResponse> => {
         setErrorMessage( null );
         setInfoMessage( null );
         setLoading( true );
         
         try {
-            const response = await usuarioModel.getUsuario( usuarioId, token );
+            const response = await roleModel.getRole( roleId, token );
             
             setLoading( false );
             return response.data;
@@ -68,13 +67,13 @@ function useSaveUsuarioViewModel() {
     }
 
     return { 
-        createUsuario, 
-        updateUsuario, 
-        getUsuario, 
+        createRole, 
+        updateRole, 
+        getRole, 
         loading, 
         errorMessage, 
         infoMessage, 
         setErrorMessage };    
 }
 
-export default useSaveUsuarioViewModel;
+export default useSaveRoleViewModel;

@@ -1,35 +1,34 @@
 import { useContext, useState } from "react";
-import { type UsuarioResponse } from "../../model/dto/response/UsuarioResponse";
+import { type RoleResponse } from "../../model/dto/response/RoleResponse";
 import { extractErrorMessage } from "../../util/SistemaUtil";
-import { UsuarioModel } from "../../model/UsuarioModel";
+import { RoleModel } from "../../model/RoleModel";
 import { AuthContext } from "../../context/AuthProvider";
 
-function useDetalhesUsuarioViewModel() {
+
+function useDetalhesRoleViewModel() {
 
     const [errorMessage, setErrorMessage] = useState<string|null>( null );
     const [infoMessage, setInfoMessage] = useState<string|null>( null );
     const [loading, setLoading] = useState<boolean>( false );
 
-    const [usuario, setUsuario] = useState<UsuarioResponse>( {
+    const [role, setRole] = useState<RoleResponse>( {
         id: 0,
         nome: '',
-        email: '',
-        username: ''
     } );
 
     const {token} = useContext( AuthContext );
 
-    const usuarioModel = new UsuarioModel();
+    const roleModel = new RoleModel();
 
-    const loadUsuario = async ( usuarioId : number ) => {
+    const loadRole = async ( roleId : number ) => {
         setErrorMessage( null );
         setInfoMessage( null );
         setLoading( false );
 
         try {
-            const response = await usuarioModel.getUsuario( usuarioId, token );
+            const response = await roleModel.getRole( roleId, token );
 
-            setUsuario( response.data );
+            setRole( response.data );
             setLoading( false );
         } catch ( error ) {
             setErrorMessage( extractErrorMessage( error ) );
@@ -38,7 +37,7 @@ function useDetalhesUsuarioViewModel() {
         }
     };
 
-    return { loadUsuario, usuario, loading, errorMessage, infoMessage };
+    return { loadRole, role, loading, errorMessage, infoMessage };
 }
 
-export default useDetalhesUsuarioViewModel;
+export default useDetalhesRoleViewModel;

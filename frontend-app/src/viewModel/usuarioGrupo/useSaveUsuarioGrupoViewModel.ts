@@ -1,30 +1,29 @@
 import { useContext, useState } from "react";
-import { UsuarioModel } from "../../model/UsuarioModel";
+import { UsuarioGrupoModel } from "../../model/UsuarioGrupoModel";
 import { AuthContext } from "../../context/AuthProvider";
-import type { CreateUsuarioRequest } from "../../model/dto/request/CreateUsuarioRequest";
 import { extractErrorMessage } from "../../util/SistemaUtil";
-import type { UsuarioResponse } from "../../model/dto/response/UsuarioResponse";
-import type { UpdateUsuarioRequest } from "../../model/dto/request/UpdateUsuarioRequest";
+import type { UsuarioGrupoResponse } from "../../model/dto/response/UsuarioGrupoResponse";
+import type { SaveUsuarioGrupoRequest } from "../../model/dto/request/SaveUsuarioGrupoRequest";
 
 
-function useSaveUsuarioViewModel() {
+function useSaveUsuarioGrupoViewModel() {
 
     const [errorMessage, setErrorMessage] = useState<string|null>( null );
     const [infoMessage, setInfoMessage] = useState<string|null>( null );
     const [loading, setLoading] = useState<boolean>( false );
 
-    const usuarioModel = new UsuarioModel();
+    const usuarioGrupoModel = new UsuarioGrupoModel();
 
     const {token} = useContext(AuthContext);
 
-    const createUsuario = async ( usuario : CreateUsuarioRequest ) => {
+    const createUsuarioGrupo = async ( grupo : SaveUsuarioGrupoRequest ) => {
         setErrorMessage( null );
         setInfoMessage( null );
         setLoading( true );
         try {
-            await usuarioModel.createUsuario( usuario, token );
+            await usuarioGrupoModel.createUsuarioGrupo( grupo, token );
 
-            setInfoMessage( 'Usuário registrado com sucesso.' );
+            setInfoMessage( 'Grupo de usuário registrado com sucesso.' );
             setLoading( false );
         } catch ( error ) {
             setErrorMessage( extractErrorMessage( error ) );
@@ -33,15 +32,15 @@ function useSaveUsuarioViewModel() {
         }
     }
 
-    const updateUsuario = async ( usuarioId : number, usuario : UpdateUsuarioRequest ) => {
+    const updateUsuarioGrupo = async ( usuarioGrupoId : number, grupo : SaveUsuarioGrupoRequest ) => {
         setErrorMessage( null );
         setInfoMessage( null );
         setLoading( true );
         
         try {
-            await usuarioModel.updateUsuario( usuarioId, usuario, token );
+            await usuarioGrupoModel.updateUsuarioGrupo( usuarioGrupoId, grupo, token );
 
-            setInfoMessage( 'Usuário alterado com sucesso.' );
+            setInfoMessage( 'Grupo de usuário alterado com sucesso.' );
             setLoading( false );
         } catch ( error ) {
             setErrorMessage( extractErrorMessage( error ) );
@@ -50,13 +49,13 @@ function useSaveUsuarioViewModel() {
         }
     };
 
-    const getUsuario = async ( usuarioId : number ) : Promise<UsuarioResponse> => {
+    const getUsuarioGrupo = async ( usuarioGrupoId : number ) : Promise<UsuarioGrupoResponse> => {
         setErrorMessage( null );
         setInfoMessage( null );
         setLoading( true );
         
         try {
-            const response = await usuarioModel.getUsuario( usuarioId, token );
+            const response = await usuarioGrupoModel.getUsuarioGrupo( usuarioGrupoId, token );
             
             setLoading( false );
             return response.data;
@@ -68,13 +67,13 @@ function useSaveUsuarioViewModel() {
     }
 
     return { 
-        createUsuario, 
-        updateUsuario, 
-        getUsuario, 
+        createUsuarioGrupo, 
+        updateUsuarioGrupo, 
+        getUsuarioGrupo, 
         loading, 
         errorMessage, 
         infoMessage, 
         setErrorMessage };    
 }
 
-export default useSaveUsuarioViewModel;
+export default useSaveUsuarioGrupoViewModel;

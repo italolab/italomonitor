@@ -1,43 +1,39 @@
 import { useEffect, useState } from "react";
 import { Button, Card, Form } from "react-bootstrap";
-import useSaveUsuarioViewModel from "../../viewModel/usuario/useSaveUsuarioViewModel";
+import useSaveRoleViewModel from "../../viewModel/role/useSaveRoleViewModel";
 import AppMessage from "../../components/AppMessage";
 import AppSpinner from "../../components/AppSpinner";
 
 import { useNavigate, useParams } from "react-router-dom";
-import type { UpdateUsuarioRequest } from "../../model/dto/request/UpdateUsuarioRequest";
+import type { SaveRoleRequest } from "../../model/dto/request/SaveRoleRequest";
 import AppLayout from "../../layout/AppLayout";
 import { MdArrowBack } from "react-icons/md";
 
-function UpdateUsuario() {
+function UpdateRole() {
 
     const [nome, setNome] = useState<string>( '' );
-    const [email, setEmail] = useState<string>( '' );
-    const [username, setUsername] = useState<string>( '' );
 
     const {
-        updateUsuario,
-        getUsuario,
+        updateRole,
+        getRole,
         loading,
         errorMessage,
         infoMessage
-    } = useSaveUsuarioViewModel();
+    } = useSaveRoleViewModel();
 
-    const { usuarioId } = useParams();
+    const { roleId } = useParams();
 
     const navigate = useNavigate();
 
     useEffect( () => {
-        onLoadUsuario();
+        onLoadRole();
     }, [] );
 
-    const onLoadUsuario = async () => {
+    const onLoadRole = async () => {
         try {
-            const uid : number = parseInt( usuarioId! );
-            const usuario = await getUsuario( uid );
-            setNome( usuario.nome );
-            setEmail( usuario.email );
-            setUsername( usuario.username );
+            const rid : number = parseInt( roleId! );
+            const role = await getRole( rid );
+            setNome( role.nome );
 
         } catch ( error ) {
             console.error( error );
@@ -46,14 +42,12 @@ function UpdateUsuario() {
 
     const onSave = async () => {
         try {
-            const usuario : UpdateUsuarioRequest = {
-                nome : nome,
-                email : email,
-                username : username
+            const role : SaveRoleRequest = {
+                nome : nome
             };
            
-            const uid : number = parseInt( usuarioId! );
-            await updateUsuario( uid, usuario );            
+            const rid : number = parseInt( roleId! );
+            await updateRole( rid, role );            
         } catch ( error ) {
             console.error( error );
         }
@@ -71,7 +65,7 @@ function UpdateUsuario() {
             <div className="d-flex justify-content-center mt-3">
                 <Card className="mx-auto" style={{width: '30em'}}>
                     <Card.Header>
-                        <h3>Alteração de usuários</h3>
+                        <h3>Alteração de role</h3>
                     </Card.Header>
                     <Card.Body>
                         <Form>
@@ -81,22 +75,6 @@ function UpdateUsuario() {
                                     placeholder="Informe o nome"
                                     value={nome}
                                     onChange={ ( e ) => setNome( e.target.value ) } />
-                            </Form.Group>
-
-                            <Form.Group className="mb-3" controlId="email">
-                                <Form.Label>E-Mail</Form.Label>
-                                <Form.Control type="text"
-                                    placeholder="Informe o email"
-                                    value={email}
-                                    onChange={ ( e ) => setEmail( e.target.value ) } />
-                            </Form.Group>
-
-                            <Form.Group className="mb-3" controlId="username">
-                                <Form.Label>Nome de usuário</Form.Label>
-                                <Form.Control type="text"
-                                    placeholder="Informe o nome de usuário"
-                                    value={username}
-                                    onChange={ ( e ) => setUsername( e.target.value ) } />
                             </Form.Group>
 
                             <AppMessage message={errorMessage} type="error" />
@@ -114,4 +92,4 @@ function UpdateUsuario() {
     );
 }
 
-export default UpdateUsuario;
+export default UpdateRole;

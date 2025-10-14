@@ -1,35 +1,33 @@
 import { useContext, useState } from "react";
-import { type UsuarioResponse } from "../../model/dto/response/UsuarioResponse";
+import { type UsuarioGrupoResponse } from "../../model/dto/response/UsuarioGrupoResponse";
 import { extractErrorMessage } from "../../util/SistemaUtil";
-import { UsuarioModel } from "../../model/UsuarioModel";
+import { UsuarioGrupoModel } from "../../model/UsuarioGrupoModel";
 import { AuthContext } from "../../context/AuthProvider";
 
-function useDetalhesUsuarioViewModel() {
+function useDetalhesUsuarioGrupoViewModel() {
 
     const [errorMessage, setErrorMessage] = useState<string|null>( null );
     const [infoMessage, setInfoMessage] = useState<string|null>( null );
     const [loading, setLoading] = useState<boolean>( false );
 
-    const [usuario, setUsuario] = useState<UsuarioResponse>( {
+    const [usuarioGrupo, setUsuarioGrupo] = useState<UsuarioGrupoResponse>( {
         id: 0,
         nome: '',
-        email: '',
-        username: ''
     } );
 
     const {token} = useContext( AuthContext );
 
-    const usuarioModel = new UsuarioModel();
+    const usuarioGrupoModel = new UsuarioGrupoModel();
 
-    const loadUsuario = async ( usuarioId : number ) => {
+    const loadUsuarioGrupo = async ( usuarioGrupoId : number ) => {
         setErrorMessage( null );
         setInfoMessage( null );
         setLoading( false );
 
         try {
-            const response = await usuarioModel.getUsuario( usuarioId, token );
+            const response = await usuarioGrupoModel.getUsuarioGrupo( usuarioGrupoId, token );
 
-            setUsuario( response.data );
+            setUsuarioGrupo( response.data );
             setLoading( false );
         } catch ( error ) {
             setErrorMessage( extractErrorMessage( error ) );
@@ -38,7 +36,7 @@ function useDetalhesUsuarioViewModel() {
         }
     };
 
-    return { loadUsuario, usuario, loading, errorMessage, infoMessage };
+    return { loadUsuarioGrupo, usuarioGrupo, loading, errorMessage, infoMessage };
 }
 
-export default useDetalhesUsuarioViewModel;
+export default useDetalhesUsuarioGrupoViewModel;

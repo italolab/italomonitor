@@ -3,7 +3,6 @@ import { BASE_URL } from "../constants/api-constants";
 import type { CreateUsuarioRequest } from "./dto/request/CreateUsuarioRequest";
 import type { UpdateUsuarioRequest } from "./dto/request/UpdateUsuarioRequest";
 
-
 export class UsuarioModel {
 
     async createUsuario( usuarioSave : CreateUsuarioRequest, token : string ) {

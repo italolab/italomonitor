@@ -2,9 +2,10 @@ import { type ReactNode, useState } from "react";
 import { Button, Container, Dropdown, Navbar } from "react-bootstrap";
 import { FaArrowLeftLong } from "react-icons/fa6";
 import { HiOutlineMenu } from "react-icons/hi";
-import { LuFilter, LuLogOut, LuUsersRound } from "react-icons/lu";
+import { LuGroup, LuLogOut, LuUsers, LuUsersRound } from "react-icons/lu";
 import { Link, useNavigate } from "react-router-dom";
 import { useLogoutViewModel } from "../viewModel/useLogoutViewModel";
+import { PiNote } from "react-icons/pi";
 
 interface AppLayoutProps {
     className?: string;
@@ -40,19 +41,37 @@ function AppLayout( {children, className} : AppLayoutProps ) {
                         <FaArrowLeftLong color="white"/>
                     </button>
                 </Dropdown.Header>
-                <Dropdown.Item eventKey="1" onClick={ () => setUsuariosOptionsVisible( !usuariosOptionsVisible ) }>
+                <Dropdown.Item onClick={ () => setUsuariosOptionsVisible( !usuariosOptionsVisible ) }>
                     <LuUsersRound /> &nbsp; Usuários
                 </Dropdown.Item>
                 <Container fluid hidden={!usuariosOptionsVisible} className="m-0 p-0">
-                    <Dropdown.Item eventKey="2">
+                    <Dropdown.Item>
                         <Link to="/usuarios" 
                                 onClick={ () => setSidebarVisible( false ) } 
                                 className="text-white fw-normal d-flex align-items-center px-3">
-                            <LuFilter /> 
+                            <LuUsers /> 
                             &nbsp; 
-                            Filtrar usuários
+                            Usuarios
                         </Link>
                     </Dropdown.Item>
+                    <Dropdown.Item>
+                        <Link to="/usuario-grupos" 
+                                onClick={ () => setSidebarVisible( false ) } 
+                                className="text-white fw-normal d-flex align-items-center px-3">
+                            <LuGroup /> 
+                            &nbsp; 
+                            Grupos
+                        </Link>
+                    </Dropdown.Item>
+                    <Dropdown.Item>
+                        <Link to="/roles" 
+                                onClick={ () => setSidebarVisible( false ) } 
+                                className="text-white fw-normal d-flex align-items-center px-3">
+                            <PiNote /> 
+                            &nbsp; 
+                            Roles
+                        </Link>
+                    </Dropdown.Item>                    
                 </Container>
                 <Dropdown.Item eventKey="3" onClick={appLogout} className="text-white d-flex align-items-center">
                     <LuLogOut />

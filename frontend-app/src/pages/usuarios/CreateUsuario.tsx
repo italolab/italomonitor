@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Button, Card, Form } from "react-bootstrap";
-import { useSaveUsuarioViewModel } from "../../viewModel/usuario/useSaveUsuarioViewModel";
+import useSaveUsuarioViewModel from "../../viewModel/usuario/useSaveUsuarioViewModel";
 import AppMessage from "../../components/AppMessage";
 import AppSpinner from "../../components/AppSpinner";
 
