@@ -44,7 +44,7 @@ public class RoleController {
 
     @GetRoleDoc
     @PreAuthorize("hasAuthority('role-read')")
-    @GetMapping("/get/{roleId}")
+    @GetMapping("/{roleId}/get")
     public ResponseEntity<RoleResponse> getRole( @PathVariable Long roleId ) {
         RoleResponse resp = roleService.getRole( roleId );
         return ResponseEntity.ok( resp );

@@ -1,7 +1,9 @@
 package com.redemonitor.controller;
 
+import com.redemonitor.apidoc.usuario.GetRolesByUsuarioGrupoIDDoc;
 import com.redemonitor.apidoc.usuarioGrupo.*;
 import com.redemonitor.dto.request.SaveUsuarioGrupoRequest;
+import com.redemonitor.dto.response.RoleResponse;
 import com.redemonitor.dto.response.UsuarioGrupoResponse;
 import com.redemonitor.service.UsuarioGrupoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,10 +46,18 @@ public class UsuarioGrupoController {
 
     @GetUsuarioGrupoDoc
     @PreAuthorize("hasAuthority('usuario-grupo-read')")
-    @GetMapping("/get/{usuarioGrupoId}")
+    @GetMapping("/{usuarioGrupoId}/get")
     public ResponseEntity<UsuarioGrupoResponse> getUsuarioGrupo( @PathVariable Long usuarioGrupoId ) {
         UsuarioGrupoResponse resp = usuarioGrupoService.getUsuarioGrupo( usuarioGrupoId );
         return ResponseEntity.ok( resp );
+    }
+
+    @GetRolesByUsuarioGrupoIDDoc
+    @PreAuthorize("hasAuthority('role-read')")
+    @GetMapping("/{usuarioGrupoId}/roles")
+    public ResponseEntity<List<RoleResponse>> getGruposByUsuarioId( @PathVariable Long usuarioGrupoId ) {
+        List<RoleResponse> roles = usuarioGrupoService.getRolesByGrupoId( usuarioGrupoId );
+        return ResponseEntity.ok( roles );
     }
 
     @DeleteUsuarioGrupoDoc

@@ -1,8 +1,10 @@
-package com.redemonitor.apidoc.user;
+package com.redemonitor.apidoc.usuario;
 
 import com.redemonitor.apidoc.APIDocConstants;
 import com.redemonitor.dto.response.ErrorResponse;
+import com.redemonitor.dto.response.RoleResponse;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -15,12 +17,16 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 @Operation(
-        summary = "Responsável pelo registro de um usuário." )
+        summary = "Responsável por retornar os roles pelo ID do grupo de usuário."
+)
 @ApiResponses(value= {
         @ApiResponse(
                 responseCode = "200",
-                description = "Usuário registrado no sistema.",
-                content=@Content),
+                description = "Roles retornados pelo ID do grupo de usuário.",
+                content = @Content(
+                        mediaType = MediaType.APPLICATION_JSON_VALUE,
+                        array = @ArraySchema(
+                                schema = @Schema(implementation = RoleResponse.class)))),
         @ApiResponse(
                 responseCode = "403",
                 description = APIDocConstants.MSG_403,
@@ -34,8 +40,7 @@ import java.lang.annotation.Target;
                         mediaType = MediaType.APPLICATION_JSON_VALUE,
                         schema = @Schema(implementation = ErrorResponse.class)))
 })
-@Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface CreateUsuarioDoc {
-
+@Target(ElementType.METHOD)
+public @interface GetRolesByUsuarioGrupoIDDoc {
 }

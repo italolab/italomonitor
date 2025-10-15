@@ -30,11 +30,19 @@ export class UsuarioModel {
     }
 
     async getUsuario( usuarioId : number, token : string ) {
-        return await axios.get( BASE_URL + "/usuarios/get/"+usuarioId, {
+        return await axios.get( BASE_URL + "/usuarios/"+usuarioId+"/get", {
             headers: {
                 'Authorization' : `Bearer ${token}`
             }
         })
+    }
+
+    async getGrupos( usuarioId : number, token : string ) {
+        return await axios.get( BASE_URL + "/usuarios/"+usuarioId+"/usuario-grupos", {
+            headers: {
+                'Authorization' : `Bearer ${token}`
+            }
+        } );
     }
 
     async deleteUsuario( usuarioId : number, token : string ) {

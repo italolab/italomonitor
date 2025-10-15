@@ -29,7 +29,7 @@ export class RoleModel {
     }
 
     async getRole( roleId : number, token : string ) {
-        return await axios.get( BASE_URL + "/roles/get/"+roleId, {
+        return await axios.get( BASE_URL + "/roles/"+roleId+"/get", {
             headers: {
                 'Authorization' : `Bearer ${token}`
             }

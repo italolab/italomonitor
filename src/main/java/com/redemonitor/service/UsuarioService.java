@@ -2,16 +2,20 @@ package com.redemonitor.service;
 
 import com.redemonitor.dto.request.CreateUsuarioRequest;
 import com.redemonitor.dto.request.UpdateUsuarioRequest;
+import com.redemonitor.dto.response.UsuarioGrupoResponse;
 import com.redemonitor.dto.response.UsuarioResponse;
 import com.redemonitor.exception.BusinessException;
 import com.redemonitor.exception.Errors;
+import com.redemonitor.mapper.UsuarioGrupoMapper;
 import com.redemonitor.mapper.UsuarioMapper;
 import com.redemonitor.model.Usuario;
+import com.redemonitor.model.UsuarioGrupoMap;
 import com.redemonitor.repository.UsuarioRepository;
 import com.redemonitor.util.HashUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -23,6 +27,9 @@ public class UsuarioService {
 
     @Autowired
     private UsuarioMapper usuarioMapper;
+
+    @Autowired
+    private UsuarioGrupoMapper usuarioGrupoMapper;
 
     @Autowired
     private HashUtil hashUtil;
@@ -40,12 +47,12 @@ public class UsuarioService {
         usuarioRepository.save( usuario );
     }
 
-    public void updateUsuario( Long id, UpdateUsuarioRequest request ) {
+    public void updateUsuario( Long usuarioId, UpdateUsuarioRequest request ) {
         request.validate();
 
         String username = request.getUsername();
 
-        Optional<Usuario> usuarioOp = usuarioRepository.findById( id );
+        Optional<Usuario> usuarioOp = usuarioRepository.findById( usuarioId );
         if ( usuarioOp.isEmpty() )
             throw new BusinessException( Errors.USER_NOT_FOUND );
 
@@ -64,20 +71,34 @@ public class UsuarioService {
         return usuarios.stream().map( usuarioMapper::map ).toList();
     }
 
-    public UsuarioResponse getUsuario( Long id ) {
-        Optional<Usuario> usuarioOp = usuarioRepository.findById( id );
+    public UsuarioResponse getUsuario( Long usuarioId ) {
+        Optional<Usuario> usuarioOp = usuarioRepository.findById( usuarioId );
         if ( usuarioOp.isEmpty() )
             throw new BusinessException( Errors.USER_NOT_FOUND );
 
         return usuarioOp.map( usuarioMapper::map ).orElseThrow();
     }
 
-    public void deleteUsuario( Long id ) {
-        Optional<Usuario> usuarioOp = usuarioRepository.findById( id );
+    public List<UsuarioGrupoResponse> getGruposByUsuarioId( Long usuarioId ) {
+        Optional<Usuario> usuarioOp = usuarioRepository.findById( usuarioId );
         if ( usuarioOp.isEmpty() )
             throw new BusinessException( Errors.USER_NOT_FOUND );
 
-        usuarioRepository.deleteById( id );
+        Usuario usuario = usuarioOp.get();
+
+        List<UsuarioGrupoResponse> grupos = new ArrayList<>();
+        for( UsuarioGrupoMap map : usuario.getGrupos() )
+            grupos.add( usuarioGrupoMapper.map( map.getUsuarioGrupo() ) );
+
+        return grupos;
+    }
+
+    public void deleteUsuario( Long usuarioId ) {
+        Optional<Usuario> usuarioOp = usuarioRepository.findById( usuarioId );
+        if ( usuarioOp.isEmpty() )
+            throw new BusinessException( Errors.USER_NOT_FOUND );
+
+        usuarioRepository.deleteById( usuarioId );
     }
 
 }

@@ -1,8 +1,7 @@
-package com.redemonitor.apidoc.user;
+package com.redemonitor.apidoc.usuario;
 
 import com.redemonitor.apidoc.APIDocConstants;
 import com.redemonitor.dto.response.ErrorResponse;
-import com.redemonitor.dto.response.UsuarioResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -16,15 +15,12 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 @Operation(
-        summary = "Responsável por retornar dados de um usuário pelo ID."
-)
+        summary = "Responsável pela alteração de dados de um usuário." )
 @ApiResponses(value= {
         @ApiResponse(
                 responseCode = "200",
-                description = "Usuário retornado pelo ID.",
-                content = {@Content(
-                        mediaType = MediaType.APPLICATION_JSON_VALUE,
-                        schema = @Schema(implementation =  UsuarioResponse.class))}),
+                description = "Usuário alterado no sistema.",
+                content=@Content),
         @ApiResponse(
                 responseCode = "403",
                 description = APIDocConstants.MSG_403,
@@ -38,8 +34,8 @@ import java.lang.annotation.Target;
                         mediaType = MediaType.APPLICATION_JSON_VALUE,
                         schema = @Schema(implementation = ErrorResponse.class)))
 })
-@Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
-public @interface GetUsuarioDoc {
+@Retention(RetentionPolicy.RUNTIME)
+public @interface UpdateUsuarioDoc {
 
 }

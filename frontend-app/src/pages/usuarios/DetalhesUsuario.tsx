@@ -6,7 +6,7 @@ import { Button, Card } from "react-bootstrap";
 import AppField from "../../components/AppField";
 import AppMessage from "../../components/AppMessage";
 import AppSpinner from "../../components/AppSpinner";
-import { MdArrowBack, MdOutlineEdit } from "react-icons/md";
+import { MdArrowBack, MdLink, MdOutlineEdit } from "react-icons/md";
 
 function DetalhesUsuario() {
 
@@ -39,10 +39,13 @@ function DetalhesUsuario() {
         <AppLayout>
             <div className="d-flex justify-content-between">
                 <Button type="button" onClick={() => navigate( -1 )} className="d-inline-flex align-items-center">
-                    <MdArrowBack size={25}/> Voltar
+                    <MdArrowBack size={25} /> Voltar
                 </Button>
                 <Button type="button" onClick={() => navigate( `/update-usuario/${usuarioId}`)} className="d-inline-flex align-items-center">
-                    <MdOutlineEdit size={25}/> Editar usuário
+                    <MdOutlineEdit size={25} /> Editar usuário
+                </Button>
+                <Button type="button" onClick={() => navigate( `/vincular-usuario-grupo/${usuarioId}`)} className="d-inline-flex align-items-center">
+                    <MdLink size={25} /> Vincular grupo
                 </Button>
             </div>
 
