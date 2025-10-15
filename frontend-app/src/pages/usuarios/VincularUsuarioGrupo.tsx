@@ -4,7 +4,6 @@ import AppMessage from "../../components/AppMessage";
 import AppSpinner from "../../components/AppSpinner";
 import { useParams } from "react-router-dom";
 import { useEffect } from "react";
-import { LuDelete, LuX } from "react-icons/lu";
 import AppLayout from "../../layout/AppLayout";
 import { FaX } from "react-icons/fa6";
 

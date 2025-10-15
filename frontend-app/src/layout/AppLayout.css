@@ -1,0 +1,22 @@
+
+.sidebar-item {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    padding: 0.3em 1em;
+    margin: 0;
+    font-weight: 500;
+    color: #333;
+}
+
+.sidebar-item:hover {
+    background-color: #CCC;
+    cursor: pointer;
+    color: #333;
+}
+
+.sidebar-item:active {
+    background-color: #AAA;
+    cursor: pointer;
+    color: #333;
+}
