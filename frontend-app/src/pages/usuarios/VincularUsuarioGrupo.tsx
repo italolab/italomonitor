@@ -1,18 +1,23 @@
-import { Button, Card, Table } from "react-bootstrap";
+import { Button, Card, Modal, Table } from "react-bootstrap";
 import useVincularUsuarioGrupoViewModel from "../../viewModel/usuario/useVincularUsuarioGrupoViewModel";
 import AppMessage from "../../components/AppMessage";
 import AppSpinner from "../../components/AppSpinner";
 import { useParams } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import AppLayout from "../../layout/AppLayout";
-import { FaX } from "react-icons/fa6";
+import { FaLink, FaX } from "react-icons/fa6";
 
 function VincularUsuarioGrupo() {
 
+    const [vinculoModalVisible, setVinculoModalVisible] = useState<boolean>( false );
+
     const {
         loadUsuario,
+        vinculaGrupo,
+        removeGrupoVinculado,
         usuario,
         grupos,
+        otherGrupos,
         errorMessage,
         infoMessage,
         loading
@@ -22,7 +27,24 @@ function VincularUsuarioGrupo() {
 
     useEffect( () => {
         onLoad();
-    }, [] )
+    }, [] );
+
+    const onVinculaGrupo = async ( usuarioGrupoId : number ) => {
+        try {
+            await vinculaGrupo( usuarioGrupoId );
+            setVinculoModalVisible( false );
+        } catch ( error ) {
+            console.error( error );
+        }
+    }
+
+    const onRemoveGrupoVinculado = async ( usuarioGrupoId : number ) => {
+        try {
+            await removeGrupoVinculado( usuarioGrupoId );
+        } catch ( error ) {
+            console.error( error );
+        }
+    }
 
     const onLoad = async () => {
         try {
@@ -35,6 +57,39 @@ function VincularUsuarioGrupo() {
 
     return (
         <AppLayout>
+            <Modal show={vinculoModalVisible} onHide={() => setVinculoModalVisible( false ) }>
+                <Modal.Header closeButton>
+                    <Modal.Title>
+                        <h3 className="m-0">Vínculo de grupo</h3>
+                    </Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <Table striped bordered hover>
+                        <thead>
+                            <tr className="blue">
+                                <td>Grupo de usuário</td>
+                                <td>Operação</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            { otherGrupos.map( (grupo, index) => 
+                                <tr key={index}>
+                                    <td>{grupo.nome}</td>
+                                    <td>
+                                        <Button type="button" variant="link" 
+                                                className="text-decoration-none text-danger p-0" 
+                                                onClick={() => onVinculaGrupo( grupo.id )}>
+                                            <FaLink />
+                                            vincular
+                                        </Button>
+                                    </td>
+                                </tr>
+                            )}
+                        </tbody>
+                    </Table>
+                </Modal.Body>
+            </Modal>
+
             <div className="d-flex justify-content-center">
                 <Card style={{width: '30em'}}>
                     <Card.Header>
@@ -57,7 +112,7 @@ function VincularUsuarioGrupo() {
                         </p>
 
                         <p className="d-flex justify-content-center">
-                            <Button type="button">
+                            <Button type="button" onClick={() => setVinculoModalVisible( true )}>
                                 Vincular grupo
                             </Button>
                         </p>
@@ -74,7 +129,9 @@ function VincularUsuarioGrupo() {
                                     <tr key={index}>
                                         <td>{grupo.nome}</td>
                                         <td>
-                                            <Button type="button" variant="link" className="text-decoration-none text-danger p-0">
+                                            <Button type="button" variant="link" 
+                                                    className="text-decoration-none text-danger p-0"
+                                                    onClick={() => onRemoveGrupoVinculado( grupo.id )}>
                                                 <FaX />
                                                 remover
                                             </Button>

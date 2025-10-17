@@ -31,18 +31,19 @@ function useVincularUsuarioGrupoViewModel() {
         setErrorMessage( null );
         setInfoMessage( null );
         setLoading( true );
+
         try {
             const usuarioResponse = await usuarioModel.getUsuario( usuarioId, token );
             const gruposResponse = await usuarioModel.getGrupos( usuarioId, token );
             const allGruposResponse = await usuarioGrupoModel.filterUsuarioGrupos( "", token );
 
-            const allGrupos : [] = allGruposResponse.data;
-            const grupos : [] = gruposResponse.data;
-            const otherGrupos : [] = [];
+            const allGrupos : UsuarioGrupoResponse[] = allGruposResponse.data;
+            const grupos : UsuarioGrupoResponse[] = gruposResponse.data;
+            const otherGrupos : UsuarioGrupoResponse[] = [];
             for( let i = 0; i < allGrupos.length; i++ ) {
                 let found = false;
-                for( let j = 0; found === false && j < grupos.length; i++ )
-                    if ( allGrupos[ i ] == grupos[ j ] )
+                for( let j = 0; found === false && j < grupos.length; j++ )
+                    if ( allGrupos[ i ].id === grupos[ j ].id )
                         found = true;
                 if ( found === false )
                     otherGrupos.push( allGrupos[ i ] );
@@ -59,19 +60,73 @@ function useVincularUsuarioGrupoViewModel() {
         }
     };
 
-    const vincularGrupo = async ( usuarioGrupoId : number ) => {
-        let grp : UsuarioGrupoResponse | null = null;
-        for( let i = 0; grp === null && i < otherGrupos.length; i++ ) {
-            if ( otherGrupos[ i ].id == usuarioGrupoId ) {
-                grp = otherGrupos[ i ];
-                otherGrupos.splice( i, 1 );
+    const vinculaGrupo = async ( usuarioGrupoId : number ) => {
+        setErrorMessage( null );
+        setInfoMessage( null );
+        setLoading( true );
+
+        try {
+            await usuarioModel.vinculaGrupo( usuario.id, usuarioGrupoId, token );
+
+            let grp : UsuarioGrupoResponse | null = null;
+            for( let i = 0; grp === null && i < otherGrupos.length; i++ ) {
+                if ( otherGrupos[ i ].id == usuarioGrupoId ) {
+                    grp = otherGrupos[ i ];
+                    otherGrupos.splice( i, 1 );
+                }
             }
+            if ( grp !== null )
+                grupos.push( grp );
+
+            setInfoMessage( 'Vínculo bem sucedido.' );
+            setLoading( false );
+        } catch ( error ) {
+            setErrorMessage( extractErrorMessage( error ) );
+            setLoading( false );
+            throw error;
         }
-        if ( grp !== null )
-            grupos.push( grp );
     }
 
-    return { loadUsuario, usuario, grupos, otherGrupos, loading, errorMessage, infoMessage };
+    const removeGrupoVinculado = async ( usuarioGrupoId : number ) => {
+        setErrorMessage( null );
+        setInfoMessage( null );
+        setLoading( true );
+
+        try {
+            await usuarioModel.deleteGrupoVinculado( usuario.id, usuarioGrupoId, token );
+            const response = await usuarioModel.getGrupos( usuario.id, token );
+
+            let grp : UsuarioGrupoResponse | null = null;
+            for( let i = 0; grp === null && i < grupos.length; i++ ) {
+                if ( grupos[ i ].id == usuarioGrupoId ) {
+                    grp = grupos[ i ];
+                    grupos.splice( i, 1 );
+                }
+            }
+            if ( grp !== null )
+                otherGrupos.push( grp );
+
+            setInfoMessage( 'Vínculo deletado com sucesso.' );
+            setGrupos( response.data );
+            setLoading( false );
+        } catch ( error ) {
+            setErrorMessage( extractErrorMessage( error ) );
+            setLoading( false );
+            throw error;
+        }
+    }
+
+    return { 
+        loadUsuario, 
+        vinculaGrupo, 
+        removeGrupoVinculado,
+        usuario, 
+        grupos, 
+        otherGrupos, 
+        loading, 
+        errorMessage, 
+        infoMessage 
+    };
 }
 
 export default useVincularUsuarioGrupoViewModel;

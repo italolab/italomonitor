@@ -53,7 +53,7 @@ function ManterUsuarios() {
     return (
         <AppLayout>    
             <Modal show={removeModalVisible} onHide={() => setRemoveModalVisible( false ) }>
-                <Modal.Header>
+                <Modal.Header closeButton>
                     <Modal.Title>
                         <h3 className="m-0">Remoção de usuários</h3>
                     </Modal.Title>

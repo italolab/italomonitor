@@ -45,8 +45,25 @@ export class UsuarioModel {
         } );
     }
 
+    async vinculaGrupo( usuarioId : number, usuarioGrupoId : number, token : string ) {
+        return await axios.post( BASE_URL + "/usuarios/"+usuarioId+"/grupos/"+usuarioGrupoId, {}, {
+            headers : {
+                'Authorization' : `Bearer ${token}`
+            }
+        } );
+    }
+
+    async deleteGrupoVinculado( usuarioId : number, usuarioGrupoId : number, token : string ) {
+        return await axios.delete( BASE_URL + "/usuarios/"+usuarioId+"/grupos/"+usuarioGrupoId, {
+            headers : {
+                'Authorization' : `Bearer ${token}`
+            }
+        } );
+    }
+
     async deleteUsuario( usuarioId : number, token : string ) {
-        return await axios.delete( BASE_URL + "/usuarios/"+usuarioId, {
+        return await axios.delete( BASE_URL 
+            + "/usuarios/"+usuarioId, {
             headers: {
                 'Authorization' : `Bearer ${token}`
             }
