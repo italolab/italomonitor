@@ -1,34 +1,36 @@
 import { useState } from "react";
 import { Button, Card, Form } from "react-bootstrap";
-import useSaveRoleViewModel from "../../viewModel/role/useSaveRoleViewModel";
+import useSaveEmpresaViewModel from "../../viewModel/empresa/useSaveEmpresaViewModel";
 import AppMessage from "../../components/AppMessage";
 import AppSpinner from "../../components/AppSpinner";
 
-import type { SaveRoleRequest } from "../../model/dto/request/SaveRoleRequest";
+import type { SaveEmpresaRequest } from "../../model/dto/request/SaveEmpresaRequest";
 import AppLayout from "../../layout/AppLayout";
 import { MdArrowBack } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
 
-function CreateRole() {
+function CreateEmpresa() {
 
     const [nome, setNome] = useState<string>( '' );
+    const [emailNotif, setEmailNotif] = useState<string>( '' );
 
     const {
-        createRole,
+        createEmpresa,
         loading,
         errorMessage,
         infoMessage
-    } = useSaveRoleViewModel();
+    } = useSaveEmpresaViewModel();
 
     const navigate = useNavigate();
 
     const onSave = async () => {
         try {
-            const role : SaveRoleRequest = {
-                nome : nome
+            const empresa : SaveEmpresaRequest = {
+                nome : nome,
+                emailNotif : emailNotif
             }
 
-            await createRole( role );
+            await createEmpresa( empresa );
         } catch ( error ) {
             console.error( error );
         }
@@ -56,6 +58,13 @@ function CreateRole() {
                                     onChange={ ( e ) => setNome( e.target.value ) } />
                             </Form.Group>
 
+                            <Form.Group className="mb-3" controlId="emailNotif">
+                                <Form.Label>E-Mail de notificação</Form.Label>
+                                <Form.Control type="text"
+                                    value={emailNotif}
+                                    onChange={ ( e ) => setEmailNotif( e.target.value ) } />
+                            </Form.Group>
+
                             <AppMessage message={errorMessage} type="error" />
                             <AppMessage message={infoMessage} type="info" />
 
@@ -71,4 +80,4 @@ function CreateRole() {
     );
 }
 
-export default CreateRole;
+export default CreateEmpresa;

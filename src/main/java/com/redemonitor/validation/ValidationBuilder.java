@@ -1,9 +1,9 @@
-package com.redemonitor.dto.validation;
+package com.redemonitor.validation;
 
-import com.redemonitor.dto.validation.validator.DeveSerInteiroOuAsterisco;
-import com.redemonitor.dto.validation.validator.DeveSerMaiorQueZero;
-import com.redemonitor.dto.validation.validator.EMailValidator;
-import com.redemonitor.dto.validation.validator.RequiredValidator;
+import com.redemonitor.validation.validator.DeveSerInteiroOuAsterisco;
+import com.redemonitor.validation.validator.DeveSerMaiorQueZero;
+import com.redemonitor.validation.validator.EMailValidator;
+import com.redemonitor.validation.validator.RequiredValidator;
 
 import java.util.ArrayList;
 import java.util.List;

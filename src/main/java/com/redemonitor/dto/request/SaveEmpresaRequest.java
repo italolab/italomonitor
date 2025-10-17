@@ -1,7 +1,7 @@
 package com.redemonitor.dto.request;
 
-import com.redemonitor.dto.validation.ValidationBuilder;
-import com.redemonitor.dto.validation.Validator;
+import com.redemonitor.validation.ValidationBuilder;
+import com.redemonitor.validation.Validator;
 import lombok.*;
 
 import java.util.ArrayList;
@@ -27,7 +27,7 @@ public class SaveEmpresaRequest {
         );
 
         validators.addAll(
-                ValidationBuilder.of( "email de notificação", nome )
+                ValidationBuilder.of( "email de notificação", emailNotif )
                         .email()
                         .build()
         );

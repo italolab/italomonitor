@@ -1,38 +1,61 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button, Card, Form } from "react-bootstrap";
-import useSaveRoleViewModel from "../../viewModel/role/useSaveRoleViewModel";
+import useSaveEmpresaViewModel from "../../viewModel/empresa/useSaveEmpresaViewModel";
 import AppMessage from "../../components/AppMessage";
 import AppSpinner from "../../components/AppSpinner";
 
-import type { SaveRoleRequest } from "../../model/dto/request/SaveRoleRequest";
+import { useNavigate, useParams } from "react-router-dom";
+import type { SaveEmpresaRequest } from "../../model/dto/request/SaveEmpresaRequest";
 import AppLayout from "../../layout/AppLayout";
 import { MdArrowBack } from "react-icons/md";
-import { useNavigate } from "react-router-dom";
 
-function CreateRole() {
+function UpdateEmpresa() {
 
     const [nome, setNome] = useState<string>( '' );
+    const [emailNotif, setEmailNotif] = useState<string>( '' );
 
     const {
-        createRole,
+        updateEmpresa,
+        getEmpresa,
         loading,
         errorMessage,
         infoMessage
-    } = useSaveRoleViewModel();
+    } = useSaveEmpresaViewModel();
+
+    const { empresaId } = useParams();
 
     const navigate = useNavigate();
 
-    const onSave = async () => {
-        try {
-            const role : SaveRoleRequest = {
-                nome : nome
-            }
+    useEffect( () => {
+        onLoadEmpresa();
+    }, [] );
 
-            await createRole( role );
+    const onLoadEmpresa = async () => {
+        try {
+            const eid : number = parseInt( empresaId! );
+            const empresa = await getEmpresa( eid );
+            setNome( empresa.nome );
+            setEmailNotif( empresa.emailNotif );
+
         } catch ( error ) {
             console.error( error );
         }
     };
+
+    const onSave = async () => {
+        try {
+            const empresa : SaveEmpresaRequest = {
+                nome : nome,
+                emailNotif : emailNotif
+            };
+           
+            const eid : number = parseInt( empresaId! );
+            await updateEmpresa( eid, empresa );            
+        } catch ( error ) {
+            console.error( error );
+        }
+    };
+
 
     return (
         <AppLayout>
@@ -45,15 +68,23 @@ function CreateRole() {
             <div className="d-flex justify-content-center mt-3">
                 <Card className="mx-auto" style={{width: '30em'}}>
                     <Card.Header>
-                        <h3 className="text-center m-0">Registro de roles</h3>
+                        <h3>Alteração de empresa</h3>
                     </Card.Header>
                     <Card.Body>
                         <Form>
                             <Form.Group className="mb-3" controlId="nome">
                                 <Form.Label>Nome</Form.Label>
                                 <Form.Control type="text"
+                                    placeholder="Informe o nome"
                                     value={nome}
                                     onChange={ ( e ) => setNome( e.target.value ) } />
+                            </Form.Group>
+
+                            <Form.Group className="mb-3" controlId="emailNotif">
+                                <Form.Label>E-Mail de notificação</Form.Label>
+                                <Form.Control type="text"
+                                    value={emailNotif}
+                                    onChange={ ( e ) => setEmailNotif( e.target.value ) } />
                             </Form.Group>
 
                             <AppMessage message={errorMessage} type="error" />
@@ -71,4 +102,4 @@ function CreateRole() {
     );
 }
 
-export default CreateRole;
+export default UpdateEmpresa;

@@ -1,6 +1,6 @@
-package com.redemonitor.dto.validation.validator;
+package com.redemonitor.validation.validator;
 
-import com.redemonitor.dto.validation.Validator;
+import com.redemonitor.validation.Validator;
 import com.redemonitor.exception.Errors;
 import com.redemonitor.exception.ValidationException;
 
@@ -21,7 +21,7 @@ public class EMailValidator implements Validator {
         if ( fieldValue.isBlank() )
             return;
 
-        if ( !fieldValue.matches( "\\w+\\.{0,1}\\w+\\@{1}\\w+\\.{1}\\w+" ) )
+        if ( !fieldValue.matches( "\\w+\\.{0,1}\\w+\\@{1}\\w+\\.{1}\\w+(\\.{1}\\w+){0,1}" ) )
             throw new ValidationException( Errors.INVALID_EMAIL, fieldName );
     }
 

@@ -1,6 +1,6 @@
-package com.redemonitor.dto.validation.validator;
+package com.redemonitor.validation.validator;
 
-import com.redemonitor.dto.validation.Validator;
+import com.redemonitor.validation.Validator;
 import com.redemonitor.exception.Errors;
 import com.redemonitor.exception.ValidationException;
 

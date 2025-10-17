@@ -1,6 +1,6 @@
 import { type ReactNode, useState } from "react";
 import { Button, Container, Navbar, Offcanvas } from "react-bootstrap";
-import { FaArrowLeftLong } from "react-icons/fa6";
+import { FaArrowLeftLong, FaRegBuilding } from "react-icons/fa6";
 import { HiOutlineMenu } from "react-icons/hi";
 import { LuGroup, LuLogOut, LuUsers, LuUsersRound } from "react-icons/lu";
 import { Link, useNavigate } from "react-router-dom";
@@ -45,6 +45,14 @@ function AppLayout( {children, className} : AppLayoutProps ) {
                 </Offcanvas.Header>
                 <Offcanvas.Body className="p-0 bg-light">
                     
+                <Link to="/empresas" 
+                        //onClick={ () => setSidebarVisible( false ) } 
+                        className="sidebar-item">
+                    <FaRegBuilding /> 
+                    &nbsp; 
+                    Empresas
+                </Link>
+
                 <div className="sidebar-item" onClick={ () => setUsuariosOptionsVisible( !usuariosOptionsVisible ) }>
                     <LuUsersRound /> &nbsp; Usuários
                 </div>

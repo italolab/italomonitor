@@ -1,32 +1,32 @@
 import { useContext, useState } from "react";
-import { RoleModel } from "../../model/RoleModel";
-import { extractErrorMessage } from "../../util/SistemaUtil";
 import { AuthContext } from "../../context/AuthProvider";
-import { type RoleResponse } from "../../model/dto/response/RoleResponse";
+import { EmpresaModel } from "../../model/EmpresaModel";
+import type { EmpresaResponse } from "../../model/dto/response/EmpresaResponse";
+import { extractErrorMessage } from "../../util/SistemaUtil";
 
-function useManterRoleViewModel() {
+function useManterEmpresaViewModel() {
 
     const [errorMessage, setErrorMessage] = useState<string|null>( null );
     const [infoMessage, setInfoMessage] = useState<string|null>( null );
     const [loading, setLoading] = useState<boolean>( false );
 
-    const [roles, setRoles] = useState<RoleResponse[]>( [] );
+    const [empresas, setEmpresas] = useState<EmpresaResponse[]>( [] );
 
     const [nomePart, setNomePart] = useState<string>( '' );
 
     const {token} = useContext(AuthContext);
 
-    const roleModel = new RoleModel();
+    const empresaModel = new EmpresaModel();
 
-    const filterRoles = async () => {
+    const filterEmpresas = async () => {
         setErrorMessage( null );
         setInfoMessage( null );
         setLoading( true );
 
         try {
-            const response = await roleModel.filterRoles( nomePart, token );
+            const response = await empresaModel.filterEmpresas( nomePart, token );
 
-            setRoles( response.data );
+            setEmpresas( response.data );
             setLoading( false );
         } catch ( error ) {            
             setErrorMessage( extractErrorMessage( error ) );
@@ -35,16 +35,16 @@ function useManterRoleViewModel() {
         }
     };
 
-    const removeRole = async ( roleId : number ) => {
+    const removeEmpresa = async ( empresaId : number ) => {
         setErrorMessage( null );
         setInfoMessage( null );
         setLoading( true );
         try {
-            await roleModel.deleteRole( roleId, token );
-            const response = await roleModel.filterRoles( nomePart, token );
+            await empresaModel.deleteEmpresa( empresaId, token );
+            const response = await empresaModel.filterEmpresas( nomePart, token );
 
-            setRoles( response.data );
-            setInfoMessage( 'Role deletado com sucesso.' );            
+            setEmpresas( response.data );
+            setInfoMessage( 'Empresa deletada com sucesso.' );            
             setLoading( false );
         } catch ( error ) {            
             setErrorMessage( extractErrorMessage( error ) );
@@ -53,18 +53,18 @@ function useManterRoleViewModel() {
         }
     };
 
-    const getRoleById = ( roleId : number ) : RoleResponse | null => {
-        for( let i = 0; i < roles.length; i++ )
-            if ( roles[ i ].id === roleId )
-                return roles[ i ];
+    const getEmpresaById = ( empresaId : number ) : EmpresaResponse | null => {
+        for( let i = 0; i < empresas.length; i++ )
+            if ( empresas[ i ].id === empresaId )
+                return empresas[ i ];
         return null;
     };
 
     return { 
-        filterRoles, 
-        removeRole,         
-        getRoleById,
-        roles, 
+        filterEmpresas, 
+        removeEmpresa,         
+        getEmpresaById,
+        empresas, 
         nomePart,        
         loading, 
         errorMessage,
@@ -73,4 +73,4 @@ function useManterRoleViewModel() {
     };
 }
 
-export default useManterRoleViewModel;
+export default useManterEmpresaViewModel;

@@ -21,6 +21,10 @@ import CreateRole from './pages/roles/CreateRole.tsx';
 import DetalhesRole from './pages/roles/DetalhesRole.tsx';
 import VincularUsuarioGrupo from './pages/usuarios/VincularUsuarioGrupo.tsx';
 import VincularRole from './pages/usuarioGrupos/VincularRole.tsx';
+import ManterEmpresas from './pages/empresa/ManterEmpresa.tsx';
+import CreateEmpresa from './pages/empresa/CreateEmpresa.tsx';
+import UpdateEmpresa from './pages/empresa/UpdateEmpresa.tsx';
+import DetalhesEmpresa from './pages/empresa/DetalhesEmpresa.tsx';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
@@ -43,6 +47,11 @@ createRoot(document.getElementById('root')!).render(
             <Route path='/detalhes-role/:roleId' element={<DetalhesRole />} />
             <Route path='/vincular-usuario-grupo/:usuarioId' element={<VincularUsuarioGrupo />} />
             <Route path='/vincular-role/:usuarioGrupoId' element={<VincularRole />} />
+
+            <Route path='/empresas' element={<ManterEmpresas />} />
+            <Route path='/create-empresa' element={<CreateEmpresa />} />
+            <Route path='/update-empresa/:empresaId' element={<UpdateEmpresa />} />
+            <Route path='/detalhes-empresa/:empresaId' element={<DetalhesEmpresa />} />
         </Routes>
       </Router>
     </AuthProvider>
