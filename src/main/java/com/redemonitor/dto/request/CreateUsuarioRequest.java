@@ -22,6 +22,8 @@ public class CreateUsuarioRequest {
 
     private String senha;
 
+    private Long empresaId;
+
     public void validate() {
         List<Validator> validators = new ArrayList<>();
 

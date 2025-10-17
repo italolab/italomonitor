@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button, Card, Form } from "react-bootstrap";
 import useSaveUsuarioViewModel from "../../viewModel/usuario/useSaveUsuarioViewModel";
 import AppMessage from "../../components/AppMessage";
@@ -8,6 +8,8 @@ import type { CreateUsuarioRequest } from "../../model/dto/request/CreateUsuario
 import AppLayout from "../../layout/AppLayout";
 import { MdArrowBack } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
+import AppAutocompleteInput, { type AutocompleteData } from "../../components/AppAutocompleteInput";
+import type { EmpresaResponse } from "../../model/dto/response/EmpresaResponse";
 
 function CreateUsuario() {
 
@@ -16,9 +18,12 @@ function CreateUsuario() {
     const [username, setUsername] = useState<string>( '' );
     const [senha, setSenha] = useState<string>( '' );
     const [senha2, setSenha2] = useState<string>( '' );
+    const [autocompleteEmpresasDados, setAutocompleteEmpresasDados] = useState<AutocompleteData[]>( [] );
+    const [selectedEmpresa, setSelectedEmpresa] = useState<AutocompleteData|null>( null );
 
     const {
         createUsuario,
+        getEmpresas,
         loading,
         errorMessage,
         infoMessage,
@@ -27,17 +32,44 @@ function CreateUsuario() {
 
     const navigate = useNavigate();
 
+    useEffect( () => {
+        loadData();
+    }, [] );
+
+    const loadData = async () => {
+        try {
+            const empresas : EmpresaResponse[] = await getEmpresas();
+
+            const dados : AutocompleteData[] = [];
+
+            dados.push( { value : "-1", textContent: "Nenhuma empresa" } );
+            for( let i = 0; i < empresas.length; i++ ) {
+                dados.push( { value: ""+empresas[ i ].id, textContent: empresas[ i ].nome } );
+            }
+
+            setAutocompleteEmpresasDados( dados );
+        } catch ( error ) {
+            console.error( error );
+        }
+    };
+
     const onSave = async () => {
         const valid : boolean = await validateForm();
         if( valid === false )
             return;
 
         try {
+            let empresaId;
+            if ( selectedEmpresa !== null ) 
+                empresaId = parseInt( selectedEmpresa.value );
+            else empresaId = -1;
+
             const usuario : CreateUsuarioRequest = {
                 nome : nome,
                 email : email,
                 username : username,
-                senha : senha
+                senha : senha,
+                empresaId : empresaId
             }
 
             await createUsuario( usuario );
@@ -45,7 +77,7 @@ function CreateUsuario() {
             console.error( error );
         }
     };
-
+    
     const validateForm = async () : Promise<boolean> => {
         if ( senha !== senha2 ) {
            setErrorMessage( 'As senhas informadas não correspondem.' );
@@ -103,6 +135,13 @@ function CreateUsuario() {
                                     value={senha2}
                                     onChange={ ( e ) => setSenha2( e.target.value ) } />
                             </Form.Group>
+
+
+                            <AppAutocompleteInput className="mb-3"
+                                controlId="empresa" 
+                                label="Empresa" 
+                                onSelect={( dt ) => setSelectedEmpresa( dt ) }
+                                dados={autocompleteEmpresasDados} />
 
                             <AppMessage message={errorMessage} type="error" />
                             <AppMessage message={infoMessage} type="info" />

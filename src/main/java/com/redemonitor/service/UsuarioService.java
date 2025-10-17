@@ -6,11 +6,14 @@ import com.redemonitor.dto.response.UsuarioGrupoResponse;
 import com.redemonitor.dto.response.UsuarioResponse;
 import com.redemonitor.exception.BusinessException;
 import com.redemonitor.exception.Errors;
+import com.redemonitor.mapper.EmpresaMapper;
 import com.redemonitor.mapper.UsuarioGrupoMapper;
 import com.redemonitor.mapper.UsuarioMapper;
+import com.redemonitor.model.Empresa;
 import com.redemonitor.model.Usuario;
 import com.redemonitor.model.UsuarioGrupo;
 import com.redemonitor.model.UsuarioGrupoMap;
+import com.redemonitor.repository.EmpresaRepository;
 import com.redemonitor.repository.UsuarioGrupoMapRepository;
 import com.redemonitor.repository.UsuarioGrupoRepository;
 import com.redemonitor.repository.UsuarioRepository;
@@ -35,10 +38,16 @@ public class UsuarioService {
     private UsuarioGrupoMapRepository usuarioGrupoMapRepository;
 
     @Autowired
+    private EmpresaRepository empresaRepository;
+
+    @Autowired
     private UsuarioMapper usuarioMapper;
 
     @Autowired
     private UsuarioGrupoMapper usuarioGrupoMapper;
+
+    @Autowired
+    private EmpresaMapper empresaMapper;
 
     @Autowired
     private HashUtil hashUtil;
@@ -52,6 +61,14 @@ public class UsuarioService {
         Optional<Usuario> usuarioOp = usuarioRepository.findByUsername( username );
         if ( usuarioOp.isPresent() )
             throw new BusinessException( Errors.USER_ALREADY_EXISTS );
+
+        if ( request.getEmpresaId() != -1 ) {
+            Optional<Empresa> empresaOp = empresaRepository.findById( request.getEmpresaId() );
+            if ( empresaOp.isEmpty() )
+                throw new BusinessException( Errors.EMPRESA_NOT_FOUND );
+
+            usuario.setEmpresa( empresaOp.get() );
+        }
 
         usuarioRepository.save( usuario );
     }
@@ -70,6 +87,14 @@ public class UsuarioService {
             if ( usuarioRepository.findByUsername( username ).isPresent() )
                 throw new BusinessException(Errors.USER_ALREADY_EXISTS);
 
+        if ( request.getEmpresaId() != -1 ) {
+            Optional<Empresa> empresaOp = empresaRepository.findById( request.getEmpresaId() );
+            if ( empresaOp.isEmpty() )
+                throw new BusinessException( Errors.EMPRESA_NOT_FOUND );
+
+            usuario.setEmpresa( empresaOp.get() );
+        }
+
         usuarioMapper.load( usuario, request );
 
         usuarioRepository.save( usuario );
@@ -77,7 +102,15 @@ public class UsuarioService {
 
     public List<UsuarioResponse> filterUsuarios( String nomePart ) {
         List<Usuario> usuarios = usuarioRepository.filter( "%"+nomePart+"%" );
-        return usuarios.stream().map( usuarioMapper::map ).toList();
+        List<UsuarioResponse> responses = new ArrayList<>();
+        for( Usuario usuario : usuarios ) {
+            UsuarioResponse resp = usuarioMapper.map( usuario );
+            Empresa empresa = usuario.getEmpresa();
+            if ( empresa != null )
+                resp.setEmpresa( empresaMapper.map( empresa ) );
+            responses.add( resp );
+        }
+        return responses;
     }
 
     public UsuarioResponse getUsuario( Long usuarioId ) {
@@ -85,7 +118,13 @@ public class UsuarioService {
         if ( usuarioOp.isEmpty() )
             throw new BusinessException( Errors.USER_NOT_FOUND );
 
-        return usuarioOp.map( usuarioMapper::map ).orElseThrow();
+        Usuario usuario = usuarioOp.get();
+        Empresa empresa = usuario.getEmpresa();
+
+        UsuarioResponse resp = usuarioMapper.map( usuario );
+        if ( empresa != null )
+            resp.setEmpresa( empresaMapper.map( empresa ) );
+        return resp;
     }
 
     public void vinculaGrupo( Long usuarioId, Long usuarioGrupoId ) {

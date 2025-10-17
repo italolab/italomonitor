@@ -4,4 +4,5 @@ export interface CreateUsuarioRequest {
     email : string;
     username : string;
     senha : string;
+    empresaId : number;
 }

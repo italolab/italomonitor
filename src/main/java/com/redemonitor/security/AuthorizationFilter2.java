@@ -60,7 +60,6 @@ public class AuthorizationFilter2 extends OncePerRequestFilter {
                     SecurityContextHolder.getContext().setAuthentication( userPassToken );
                 }
             } catch ( JWTVerificationException e ) {
-                e.printStackTrace();
                 String resp = "{ \"message\" : \"Token inválido ou expirado. Por favor faça login novamente.\" }";
                 response.setContentType( "application/json" );
                 response.setStatus( HttpServletResponse.SC_BAD_REQUEST );

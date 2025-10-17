@@ -17,4 +17,6 @@ public class UsuarioResponse {
 
     private String username;
 
+    private EmpresaResponse empresa;
+
 }

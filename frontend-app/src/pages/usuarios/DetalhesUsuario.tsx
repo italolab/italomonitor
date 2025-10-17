@@ -74,6 +74,9 @@ function DetalhesUsuario() {
                         <AppField name="username">
                             {usuario.username}
                         </AppField>
+                        <AppField name="empresa">
+                            { usuario.empresa != null ? usuario.empresa.nome : 'Nenhuma empresa!' }
+                        </AppField>
                     </Card.Body>
                 </Card>
             </div>

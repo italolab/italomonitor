@@ -5,6 +5,7 @@ import type { CreateUsuarioRequest } from "../../model/dto/request/CreateUsuario
 import { extractErrorMessage } from "../../util/SistemaUtil";
 import type { UsuarioResponse } from "../../model/dto/response/UsuarioResponse";
 import type { UpdateUsuarioRequest } from "../../model/dto/request/UpdateUsuarioRequest";
+import { EmpresaModel } from "../../model/EmpresaModel";
 
 
 function useSaveUsuarioViewModel() {
@@ -14,6 +15,7 @@ function useSaveUsuarioViewModel() {
     const [loading, setLoading] = useState<boolean>( false );
 
     const usuarioModel = new UsuarioModel();
+    const empresaModel = new EmpresaModel();
 
     const {token} = useContext(AuthContext);
 
@@ -57,7 +59,7 @@ function useSaveUsuarioViewModel() {
         
         try {
             const response = await usuarioModel.getUsuario( usuarioId, token );
-            
+
             setLoading( false );
             return response.data;
         } catch ( error ) {
@@ -67,10 +69,28 @@ function useSaveUsuarioViewModel() {
         }
     }
 
+    const getEmpresas = async () => {
+        setErrorMessage( null );
+        setInfoMessage( null );
+        setLoading( true );
+        
+        try {
+            const response = await empresaModel.filterEmpresas( "", token );
+
+            setLoading( false );
+            return response.data;
+        } catch ( error ) {
+            setErrorMessage( extractErrorMessage( error ) );
+            setLoading( false );
+            throw error;
+        }
+    };
+
     return { 
         createUsuario, 
         updateUsuario, 
         getUsuario, 
+        getEmpresas,
         loading, 
         errorMessage, 
         infoMessage, 

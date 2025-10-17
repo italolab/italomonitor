@@ -14,7 +14,12 @@ function useDetalhesUsuarioViewModel() {
         id: 0,
         nome: '',
         email: '',
-        username: ''
+        username: '',
+        empresa: {
+            id: 0,
+            nome: '',
+            emailNotif: ''
+        }
     } );
 
     const {token} = useContext( AuthContext );

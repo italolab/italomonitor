@@ -62,7 +62,10 @@ function DetalhesEmpresa() {
                         </AppField>
                         <AppField name="nome">
                             {empresa.nome}
-                        </AppField>                        
+                        </AppField>      
+                        <AppField name="e-mail de notificação">
+                            {empresa.emailNotif}
+                        </AppField>
                     </Card.Body>
                 </Card>
             </div>

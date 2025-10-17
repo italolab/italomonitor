@@ -20,6 +20,9 @@ public class UpdateUsuarioRequest {
 
     private String username;
 
+    // Pode ser -1 para nenhuma empresa
+    private Long empresaId;
+
     public void validate() {
         List<Validator> validators = new ArrayList<>();
 
