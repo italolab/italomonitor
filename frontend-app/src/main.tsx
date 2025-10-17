@@ -20,6 +20,7 @@ import UpdateRole from './pages/roles/UpdateRole.tsx';
 import CreateRole from './pages/roles/CreateRole.tsx';
 import DetalhesRole from './pages/roles/DetalhesRole.tsx';
 import VincularUsuarioGrupo from './pages/usuarios/VincularUsuarioGrupo.tsx';
+import VincularRole from './pages/usuarioGrupos/VincularRole.tsx';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
@@ -41,6 +42,7 @@ createRoot(document.getElementById('root')!).render(
             <Route path='/update-role/:roleId' element={<UpdateRole />} />
             <Route path='/detalhes-role/:roleId' element={<DetalhesRole />} />
             <Route path='/vincular-usuario-grupo/:usuarioId' element={<VincularUsuarioGrupo />} />
+            <Route path='/vincular-role/:usuarioGrupoId' element={<VincularRole />} />
         </Routes>
       </Router>
     </AuthProvider>

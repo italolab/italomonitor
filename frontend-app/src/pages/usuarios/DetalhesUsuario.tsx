@@ -41,12 +41,14 @@ function DetalhesUsuario() {
                 <Button type="button" onClick={() => navigate( -1 )} className="d-inline-flex align-items-center">
                     <MdArrowBack size={25} /> Voltar
                 </Button>
-                <Button type="button" onClick={() => navigate( `/update-usuario/${usuarioId}`)} className="d-inline-flex align-items-center">
-                    <MdOutlineEdit size={25} /> Editar usuário
-                </Button>
-                <Button type="button" onClick={() => navigate( `/vincular-usuario-grupo/${usuarioId}`)} className="d-inline-flex align-items-center">
-                    <MdLink size={25} /> Vincular grupo
-                </Button>
+                <div>
+                    <Button type="button" onClick={() => navigate( `/update-usuario/${usuarioId}`)} className="d-inline-flex align-items-center mx-3">
+                        <MdOutlineEdit size={25} /> Editar usuário
+                    </Button>
+                    <Button type="button" onClick={() => navigate( `/vincular-usuario-grupo/${usuarioId}`)} className="d-inline-flex align-items-center">
+                        <MdLink size={25} /> Vincular grupo
+                    </Button>
+                </div>
             </div>
 
             <div className="d-flex justify-content-center mt-3">

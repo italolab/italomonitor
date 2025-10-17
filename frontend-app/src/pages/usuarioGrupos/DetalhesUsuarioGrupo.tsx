@@ -6,7 +6,7 @@ import { Button, Card } from "react-bootstrap";
 import AppField from "../../components/AppField";
 import AppMessage from "../../components/AppMessage";
 import AppSpinner from "../../components/AppSpinner";
-import { MdArrowBack, MdOutlineEdit } from "react-icons/md";
+import { MdArrowBack, MdLink, MdOutlineEdit } from "react-icons/md";
 
 function DetalhesUsuarioGrupo() {
 
@@ -41,9 +41,14 @@ function DetalhesUsuarioGrupo() {
                 <Button type="button" onClick={() => navigate( -1 )} className="d-inline-flex align-items-center">
                     <MdArrowBack size={25}/> Voltar
                 </Button>
-                <Button type="button" onClick={() => navigate( `/update-usuario-grupo/${usuarioGrupoId}`)} className="d-inline-flex align-items-center">
-                    <MdOutlineEdit size={25}/> Editar grupo
-                </Button>
+                <div>
+                    <Button type="button" onClick={() => navigate( `/update-usuario-grupo/${usuarioGrupoId}`)} className="d-inline-flex align-items-center mx-3">
+                        <MdOutlineEdit size={25}/> Editar grupo
+                    </Button>
+                    <Button type="button" onClick={() => navigate( `/vincular-role/${usuarioGrupoId}`)} className="d-inline-flex align-items-center">
+                        <MdLink size={25} /> Vincular role
+                    </Button>
+                </div>
             </div>
 
             <div className="d-flex justify-content-center mt-3">

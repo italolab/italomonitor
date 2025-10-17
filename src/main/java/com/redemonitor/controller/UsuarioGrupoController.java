@@ -70,7 +70,7 @@ public class UsuarioGrupoController {
 
     @DeleteVinculoRoleGrupoDoc
     @PreAuthorize("hasAuthority('usuario-write')")
-    @DeleteMapping("/{usuarioId}/grupos/{usuarioGrupoId}")
+    @DeleteMapping("/{usuarioGrupoId}/roles/{roleId}")
     public ResponseEntity<String> removeRoleVinculado( @PathVariable Long usuarioGrupoId, @PathVariable Long roleId ) {
         usuarioGrupoService.removeRoleVinculado( usuarioGrupoId, roleId );
         return ResponseEntity.ok( "Vínculo grupo de usuário/role removido com sucesso." );
