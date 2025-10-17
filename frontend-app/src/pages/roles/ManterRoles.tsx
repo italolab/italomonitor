@@ -109,8 +109,8 @@ function ManterRoles() {
                     </Card.Body>
                 </Card>
                    
-                <div className="w-100 overflow-auto">
-                    <Table striped bordered hover className="mt-3">
+                <div className="w-100 overflow-auto mt-3">
+                    <Table striped bordered hover>
                         <thead>
                             <tr className="blue">
                                 <th>ID</th>
@@ -127,7 +127,7 @@ function ManterRoles() {
                                         <AppOperations 
                                             toDetalhes={`/detalhes-role/${role.id}`}
                                             toEdit={`/update-role/${role.id}`} 
-                                            onRemover={() => onConfirmRemover( role.id)} />
+                                            onRemover={() => onConfirmRemover( role.id )} />
                                     </td>
                                 </tr> 
                             )}

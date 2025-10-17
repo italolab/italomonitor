@@ -17,7 +17,9 @@ public class EMailValidator implements Validator {
     @Override
     public void validate() {
         if ( fieldValue == null )
-            throw new ValidationException( Errors.INVALID_EMAIL, fieldName );
+            return;
+        if ( fieldValue.isBlank() )
+            return;
 
         if ( !fieldValue.matches( "\\w+\\.{0,1}\\w+\\@{1}\\w+\\.{1}\\w+" ) )
             throw new ValidationException( Errors.INVALID_EMAIL, fieldName );

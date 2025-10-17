@@ -23,14 +23,16 @@ function AppPagination( {
 
         setFirstPageNumber( firstPGNumber );
 
-        updatePages( firstPGNumber );
+        updatePages( firstPGNumber, false );
         updatePageDataList( firstPGNumber );
     }, [dataList] );
 
     const handleFirst = async () => {
-        setFirstPageNumber( 1 );
-        updatePages( 1 );
-        updatePageDataList( 1 );
+        if ( firstPageNumber !== 1 ) {
+            setFirstPageNumber( 1 );
+            updatePages( 1, true );
+            updatePageDataList( 1 );
+        }
     };
 
     const handleLast = async () => {
@@ -38,9 +40,11 @@ function AppPagination( {
         
         const firstPGNumber = ( (numberOfGroups-1) * numberOfPagesByGroup ) + 1;
 
-        setFirstPageNumber( firstPGNumber );
-        updatePages( firstPGNumber );
-        updatePageDataList( firstPGNumber );
+        if ( firstPageNumber !== firstPGNumber ) {
+            updatePages( firstPGNumber, false );
+            updatePageDataList( firstPGNumber );
+            setFirstPageNumber( firstPGNumber );
+        }
     };
 
     const handlePrev = async () => {
@@ -48,9 +52,11 @@ function AppPagination( {
         if ( firstPGNumber > numberOfPagesByGroup )
             firstPGNumber -= numberOfPagesByGroup;
         
-        setFirstPageNumber( firstPGNumber );
-        updatePages( firstPGNumber );
-        updatePageDataList( firstPGNumber );
+        if ( firstPageNumber !== 1 ) {
+            setFirstPageNumber( firstPGNumber );
+            updatePages( firstPGNumber, true );
+            updatePageDataList( firstPGNumber );
+        }
     };
 
     const handleNext = async () => {
@@ -61,10 +67,12 @@ function AppPagination( {
         let firstPGNumber = firstPageNumber;
         if ( firstPGNumber < lastGroupFirstPGNumber )
             firstPGNumber += numberOfPagesByGroup;
-        
-        setFirstPageNumber( firstPGNumber );
-        updatePages( firstPGNumber );
-        updatePageDataList( firstPGNumber );
+
+        if ( firstPageNumber !== lastGroupFirstPGNumber ) {
+            setFirstPageNumber( firstPGNumber );
+            updatePages( firstPGNumber, false );
+            updatePageDataList( firstPGNumber );
+        }
     };
 
     const handlePage = async ( i : number ) => {
@@ -75,14 +83,19 @@ function AppPagination( {
         updatePageDataList( i );
     };
 
-    const updatePages = ( firstPage : number ) => {
-        const { groupNumberOfPages } = calcInfos();        
+    const updatePages = ( firstPage : number, lastPageActive : boolean ) => {
+        const { groupNumberOfPages, totalNumberOfPages } = calcInfos();        
 
-        const lastPage = firstPage + groupNumberOfPages - 1;
+        let numberOfPages;
+        if ( firstPage + groupNumberOfPages > totalNumberOfPages )
+            numberOfPages = totalNumberOfPages - firstPage + 1;
+        else numberOfPages = groupNumberOfPages; 
+
+        const lastPage = firstPage + numberOfPages - 1;
 
         const pagesList : { pageNumber: number, active : boolean }[] = [];
         for( let j = firstPage; j <= lastPage; j++ )
-            pagesList.push( { pageNumber: j, active : j == firstPage } );
+            pagesList.push( { pageNumber: j, active : ( lastPageActive === true ? j == lastPage : j == firstPage ) } );
 
         setPages( pagesList );
     };

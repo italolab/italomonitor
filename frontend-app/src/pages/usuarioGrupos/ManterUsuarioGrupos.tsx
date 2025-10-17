@@ -106,8 +106,8 @@ function ManterUsuarioGrupos() {
                     </Card.Body>
                 </Card>
                    
-                <div className="w-100 overflow-auto">
-                    <Table striped bordered hover className="mt-3">
+                <div className="w-100 overflow-auto mt-3">
+                    <Table striped bordered hover>
                         <thead>
                             <tr className="blue">
                                 <th>ID</th>

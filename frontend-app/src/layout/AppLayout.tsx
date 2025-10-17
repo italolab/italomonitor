@@ -78,7 +78,7 @@ function AppLayout( {children, className} : AppLayoutProps ) {
                 </div>
             </Offcanvas.Body>
             </Offcanvas>
-            <div className="p-3 vw-100">
+            <div className="vw-100 p-3">
                 {children}
             </div>
         </div>

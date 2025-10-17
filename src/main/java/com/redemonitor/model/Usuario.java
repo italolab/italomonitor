@@ -29,4 +29,8 @@ public class Usuario {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "usuario", cascade=CascadeType.ALL)
     private List<UsuarioGrupoMap> grupos;
 
+    @ManyToOne(fetch = FetchType.LAZY, optional = true)
+    @JoinColumn(name="empresa_id")
+    private Empresa empresa;
+
 }
