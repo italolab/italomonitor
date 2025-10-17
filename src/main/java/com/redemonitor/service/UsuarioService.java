@@ -9,7 +9,10 @@ import com.redemonitor.exception.Errors;
 import com.redemonitor.mapper.UsuarioGrupoMapper;
 import com.redemonitor.mapper.UsuarioMapper;
 import com.redemonitor.model.Usuario;
+import com.redemonitor.model.UsuarioGrupo;
 import com.redemonitor.model.UsuarioGrupoMap;
+import com.redemonitor.repository.UsuarioGrupoMapRepository;
+import com.redemonitor.repository.UsuarioGrupoRepository;
 import com.redemonitor.repository.UsuarioRepository;
 import com.redemonitor.util.HashUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +27,12 @@ public class UsuarioService {
 
     @Autowired
     private UsuarioRepository usuarioRepository;
+
+    @Autowired
+    private UsuarioGrupoRepository usuarioGrupoRepository;
+
+    @Autowired
+    private UsuarioGrupoMapRepository usuarioGrupoMapRepository;
 
     @Autowired
     private UsuarioMapper usuarioMapper;
@@ -77,6 +86,33 @@ public class UsuarioService {
             throw new BusinessException( Errors.USER_NOT_FOUND );
 
         return usuarioOp.map( usuarioMapper::map ).orElseThrow();
+    }
+
+    public void vinculaGrupo( Long usuarioId, Long usuarioGrupoId ) {
+        Optional<Usuario> usuarioOp = usuarioRepository.findById( usuarioId );
+        if ( usuarioOp.isEmpty() )
+            throw new BusinessException( Errors.USER_NOT_FOUND );
+
+        Optional<UsuarioGrupo> usuarioGrupoOp = usuarioGrupoRepository.findById( usuarioGrupoId );
+        if ( usuarioGrupoOp.isEmpty() )
+            throw new BusinessException( Errors.USER_GROUP_NOT_FOUND );
+
+        UsuarioGrupoMap map = UsuarioGrupoMap.builder()
+                .usuario( usuarioOp.get() )
+                .usuarioGrupo( usuarioGrupoOp.get() )
+                .build();
+
+        usuarioGrupoMapRepository.save( map );
+    }
+
+    public void removeGrupoVinculado( Long usuarioId, Long usuarioGrupoId ) {
+        Optional<UsuarioGrupoMap> mapOp = usuarioGrupoMapRepository.get( usuarioId, usuarioGrupoId );
+        if ( mapOp.isEmpty() )
+            throw new BusinessException( Errors.LINK_USER_GROUP_NOT_FOUND );
+
+        Long vinculoId = mapOp.get().getId();
+
+        usuarioGrupoMapRepository.deleteById( vinculoId );
     }
 
     public List<UsuarioGrupoResponse> getGruposByUsuarioId( Long usuarioId ) {

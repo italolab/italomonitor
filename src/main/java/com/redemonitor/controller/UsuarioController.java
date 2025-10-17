@@ -60,10 +60,26 @@ public class UsuarioController {
 
     @GetUsuarioGruposByUsuarioIDDoc
     @PreAuthorize("hasAuthority('usuario-grupo-read')")
-    @GetMapping("/{usuarioId}/usuario-grupos")
+    @GetMapping("/{usuarioId}/grupos")
     public ResponseEntity<List<UsuarioGrupoResponse>> getGruposByUsuarioId( @PathVariable Long usuarioId ) {
         List<UsuarioGrupoResponse> grupos = usuarioService.getGruposByUsuarioId( usuarioId );
         return ResponseEntity.ok( grupos );
+    }
+
+    @VinculaUsuarioGrupoDoc
+    @PreAuthorize("hasAuthority('usuario-write')")
+    @PostMapping("/{usuarioId}/grupos/{usuarioGrupoId}")
+    public ResponseEntity<String> vinculaGrupo( @PathVariable Long usuarioId, @PathVariable Long usuarioGrupoId ) {
+        usuarioService.vinculaGrupo( usuarioId, usuarioGrupoId );
+        return ResponseEntity.ok( "Grupo vinculado com sucesso ao usuário." );
+    }
+
+    @DeleteVinculoUsuarioGrupoDoc
+    @PreAuthorize("hasAuthority('usuario-write')")
+    @DeleteMapping("/{usuarioId}/grupos/{usuarioGrupoId}")
+    public ResponseEntity<String> removeGrupoVinculado( @PathVariable Long usuarioId, @PathVariable Long usuarioGrupoId ) {
+        usuarioService.removeGrupoVinculado( usuarioId, usuarioGrupoId );
+        return ResponseEntity.ok( "Vínculo usuário/grupo removido com sucesso." );
     }
 
     @DeleteUsuarioDoc

@@ -38,7 +38,7 @@ export class UsuarioModel {
     }
 
     async getGrupos( usuarioId : number, token : string ) {
-        return await axios.get( BASE_URL + "/usuarios/"+usuarioId+"/usuario-grupos", {
+        return await axios.get( BASE_URL + "/usuarios/"+usuarioId+"/grupos", {
             headers: {
                 'Authorization' : `Bearer ${token}`
             }

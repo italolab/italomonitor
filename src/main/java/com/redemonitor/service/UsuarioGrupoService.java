@@ -7,9 +7,9 @@ import com.redemonitor.exception.BusinessException;
 import com.redemonitor.exception.Errors;
 import com.redemonitor.mapper.RoleMapper;
 import com.redemonitor.mapper.UsuarioGrupoMapper;
-import com.redemonitor.model.RoleGrupoMap;
-import com.redemonitor.model.UsuarioGrupo;
-import com.redemonitor.model.UsuarioGrupoMap;
+import com.redemonitor.model.*;
+import com.redemonitor.repository.RoleGrupoMapRepository;
+import com.redemonitor.repository.RoleRepository;
 import com.redemonitor.repository.UsuarioGrupoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,6 +23,12 @@ public class UsuarioGrupoService {
 
     @Autowired
     private UsuarioGrupoRepository usuarioGrupoRepository;
+
+    @Autowired
+    private RoleRepository roleRepository;
+
+    @Autowired
+    private RoleGrupoMapRepository roleGrupoMapRepository;
 
     @Autowired
     private UsuarioGrupoMapper usuarioGrupoMapper;
@@ -87,6 +93,33 @@ public class UsuarioGrupoService {
             roles.add( roleMapper.map( map.getRole() ) );
 
         return roles;
+    }
+
+    public void vinculaRole( Long usuarioGrupoId, Long roleId ) {
+        Optional<Role> roleOp = roleRepository.findById( roleId );
+        if ( roleOp.isEmpty() )
+            throw new BusinessException( Errors.ROLE_NOT_FOUND );
+
+        Optional<UsuarioGrupo> usuarioGrupoOp = usuarioGrupoRepository.findById( usuarioGrupoId );
+        if ( usuarioGrupoOp.isEmpty() )
+            throw new BusinessException( Errors.USER_GROUP_NOT_FOUND );
+
+        RoleGrupoMap map = RoleGrupoMap.builder()
+                .role( roleOp.get() )
+                .usuarioGrupo( usuarioGrupoOp.get() )
+                .build();
+
+        roleGrupoMapRepository.save( map );
+    }
+
+    public void removeRoleVinculado( Long usuarioGrupoId, Long roleId ) {
+        Optional<RoleGrupoMap> mapOp = roleGrupoMapRepository.get( roleId, usuarioGrupoId );
+        if ( mapOp.isEmpty() )
+            throw new BusinessException( Errors.LINK_ROLE_USERGROUP_NOT_FOUND);
+
+        Long vinculoId = mapOp.get().getId();
+
+        roleGrupoMapRepository.deleteById( vinculoId );
     }
 
     public void deleteUsuarioGrupo( Long grupoId ) {

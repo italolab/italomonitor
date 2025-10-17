@@ -60,6 +60,22 @@ public class UsuarioGrupoController {
         return ResponseEntity.ok( roles );
     }
 
+    @VinculaRoleGrupoDoc
+    @PreAuthorize("hasAuthority('usuario-grupo-write')")
+    @PostMapping("/{usuarioGrupoId}/roles/{roleId}")
+    public ResponseEntity<String> vinculaRole( @PathVariable Long usuarioGrupoId, @PathVariable Long roleId ) {
+        usuarioGrupoService.vinculaRole( usuarioGrupoId, roleId );
+        return ResponseEntity.ok( "Role vinculado com sucesso ao grupo de usuário." );
+    }
+
+    @DeleteVinculoRoleGrupoDoc
+    @PreAuthorize("hasAuthority('usuario-write')")
+    @DeleteMapping("/{usuarioId}/grupos/{usuarioGrupoId}")
+    public ResponseEntity<String> removeRoleVinculado( @PathVariable Long usuarioGrupoId, @PathVariable Long roleId ) {
+        usuarioGrupoService.removeRoleVinculado( usuarioGrupoId, roleId );
+        return ResponseEntity.ok( "Vínculo grupo de usuário/role removido com sucesso." );
+    }
+
     @DeleteUsuarioGrupoDoc
     @PreAuthorize("hasAuthority('usuario-grupo-delete')")
     @DeleteMapping("/{usuarioGrupoId}")

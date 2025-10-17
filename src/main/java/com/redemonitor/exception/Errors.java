@@ -13,6 +13,9 @@ public interface Errors {
     public final static String ROLE_NOT_FOUND = "Role não encontrado.";
     public final static String ROLE_ALREADY_EXISTS = "Role já existe registradocom o nome informado.";
 
+    public final static String LINK_USER_GROUP_NOT_FOUND = "Vínculo entre usuário e grupo não encontrado.";
+    public final static String LINK_ROLE_USERGROUP_NOT_FOUND = "Vínculo entre grupo de usuário e role não encontrado.";
+
     public final static String REQUIRED_FIELD = "O campo '$1' é de preenchimento obrigatório.";
     public final static String NOT_JOKER_AND_NOT_INT = "O campo '$1' não é numérico nem asterisco.";
     public final static String VALUE_LESS_OR_EQUALS_THAN_ZERO = "O valor do campo '$1' é menor ou igual a zero ou não numérico.";
