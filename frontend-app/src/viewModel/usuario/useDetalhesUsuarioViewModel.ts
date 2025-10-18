@@ -19,7 +19,8 @@ function useDetalhesUsuarioViewModel() {
             id: 0,
             nome: '',
             emailNotif: ''
-        }
+        },
+        grupos: []
     } );
 
     const {token} = useContext( AuthContext );

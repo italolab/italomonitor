@@ -1,4 +1,5 @@
 import type { EmpresaResponse } from "./EmpresaResponse";
+import type { UsuarioGrupoResponse } from "./UsuarioGrupoResponse";
 
 export interface UsuarioResponse {
     id : number;
@@ -6,4 +7,5 @@ export interface UsuarioResponse {
     email : string;
     username : string;
     empresa : EmpresaResponse;
+    grupos : UsuarioGrupoResponse[];
 }

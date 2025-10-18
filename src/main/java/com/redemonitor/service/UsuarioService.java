@@ -62,12 +62,16 @@ public class UsuarioService {
         if ( usuarioOp.isPresent() )
             throw new BusinessException( Errors.USER_ALREADY_EXISTS );
 
-        if ( request.getEmpresaId() != -1 ) {
-            Optional<Empresa> empresaOp = empresaRepository.findById( request.getEmpresaId() );
-            if ( empresaOp.isEmpty() )
-                throw new BusinessException( Errors.EMPRESA_NOT_FOUND );
+        if ( request.getEmpresaId() != null ) {
+            if ( request.getEmpresaId() == -1 ) {
+                usuario.setEmpresa( null );
+            } else {
+                Optional<Empresa> empresaOp = empresaRepository.findById( request.getEmpresaId() );
+                if ( empresaOp.isEmpty() )
+                    throw new BusinessException( Errors.EMPRESA_NOT_FOUND );
 
-            usuario.setEmpresa( empresaOp.get() );
+                usuario.setEmpresa( empresaOp.get() );
+            }
         }
 
         usuarioRepository.save( usuario );
@@ -85,14 +89,18 @@ public class UsuarioService {
         Usuario usuario = usuarioOp.get();
         if ( !usuario.getUsername().equalsIgnoreCase( username ) )
             if ( usuarioRepository.findByUsername( username ).isPresent() )
-                throw new BusinessException(Errors.USER_ALREADY_EXISTS);
+                throw new BusinessException( Errors.USER_ALREADY_EXISTS );
 
-        if ( request.getEmpresaId() != -1 ) {
-            Optional<Empresa> empresaOp = empresaRepository.findById( request.getEmpresaId() );
-            if ( empresaOp.isEmpty() )
-                throw new BusinessException( Errors.EMPRESA_NOT_FOUND );
+        if ( request.getEmpresaId() != null ) {
+            if ( request.getEmpresaId() == -1 ) {
+                usuario.setEmpresa( null );
+            } else {
+                Optional<Empresa> empresaOp = empresaRepository.findById( request.getEmpresaId() );
+                if ( empresaOp.isEmpty() )
+                    throw new BusinessException( Errors.EMPRESA_NOT_FOUND );
 
-            usuario.setEmpresa( empresaOp.get() );
+                usuario.setEmpresa( empresaOp.get() );
+            }
         }
 
         usuarioMapper.load( usuario, request );
@@ -103,13 +111,8 @@ public class UsuarioService {
     public List<UsuarioResponse> filterUsuarios( String nomePart ) {
         List<Usuario> usuarios = usuarioRepository.filter( "%"+nomePart+"%" );
         List<UsuarioResponse> responses = new ArrayList<>();
-        for( Usuario usuario : usuarios ) {
-            UsuarioResponse resp = usuarioMapper.map( usuario );
-            Empresa empresa = usuario.getEmpresa();
-            if ( empresa != null )
-                resp.setEmpresa( empresaMapper.map( empresa ) );
-            responses.add( resp );
-        }
+        for( Usuario usuario : usuarios )
+            responses.add( this.buildUsuarioResponse( usuario ) );
         return responses;
     }
 
@@ -118,13 +121,7 @@ public class UsuarioService {
         if ( usuarioOp.isEmpty() )
             throw new BusinessException( Errors.USER_NOT_FOUND );
 
-        Usuario usuario = usuarioOp.get();
-        Empresa empresa = usuario.getEmpresa();
-
-        UsuarioResponse resp = usuarioMapper.map( usuario );
-        if ( empresa != null )
-            resp.setEmpresa( empresaMapper.map( empresa ) );
-        return resp;
+        return this.buildUsuarioResponse( usuarioOp.get() );
     }
 
     public void vinculaGrupo( Long usuarioId, Long usuarioGrupoId ) {
@@ -174,6 +171,22 @@ public class UsuarioService {
             throw new BusinessException( Errors.USER_NOT_FOUND );
 
         usuarioRepository.deleteById( usuarioId );
+    }
+
+    private UsuarioResponse buildUsuarioResponse(Usuario usuario ) {
+        UsuarioResponse resp = usuarioMapper.map( usuario );
+
+        Empresa empresa = usuario.getEmpresa();
+        if ( empresa != null )
+            resp.setEmpresa( empresaMapper.map( empresa ) );
+
+        List<UsuarioGrupoResponse> grupos = new ArrayList<>();
+        List<UsuarioGrupoMap> grupoMaps = usuario.getGrupos();
+        for( UsuarioGrupoMap map : grupoMaps )
+            grupos.add( usuarioGrupoMapper.map( map.getUsuarioGrupo() ) );
+        resp.setGrupos( grupos );
+
+        return resp;
     }
 
 }

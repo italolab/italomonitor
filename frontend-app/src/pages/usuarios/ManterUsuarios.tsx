@@ -72,7 +72,7 @@ function ManterUsuarios() {
                 </Modal.Footer>
             </Modal>            
 
-            <h3 className="text-center">Funções de usuário</h3>
+            <h3 className="text-center fw-bold">Funções de usuário</h3>
 
             <div className="d-flex justify-content-end">
                 <Button type="button" onClick={() => navigate( '/create-usuario')} className="d-flex align-items-center ms-auto">
@@ -81,7 +81,7 @@ function ManterUsuarios() {
             </div>
 
             <div className="d-flex flex-wrap justify-content-center mt-3">
-                <Card style={{width: '30em'}}>
+                <Card>
                     <Card.Header>
                         <h5>Campos do filtro</h5>
                     </Card.Header>
@@ -112,8 +112,7 @@ function ManterUsuarios() {
                             <tr className="blue">
                                 <th>ID</th>
                                 <th>Nome</th>
-                                <th>E-Mail</th>
-                                <th>Username</th>
+                                <th>Empresa</th>
                                 <th>Operações</th>
                             </tr>
                         </thead>
@@ -122,8 +121,7 @@ function ManterUsuarios() {
                                 <tr key={index}>
                                     <td>{usuario.id}</td>
                                     <td>{usuario.nome}</td>
-                                    <td>{usuario.email}</td>
-                                    <td>{usuario.username}</td>
+                                    <td>{usuario.empresa != null ? usuario.empresa.nome : 'Nenhuma empresa'}</td>
                                     <td>
                                         <AppOperations 
                                             toDetalhes={`/detalhes-usuario/${usuario.id}`}

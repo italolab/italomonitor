@@ -39,40 +39,44 @@ function Login() {
     };
 
     return (
-        <div className="d-flex justify-content-center mt-5 vw-100">
-            <Card style={{width: '25em'}}>
-                <Card.Body>
-                    <Card.Title>Login</Card.Title>
-                    <Form>
-                        <Form.Group className="mb-3" controlId="username">
-                            <Form.Label>Username</Form.Label>
-                            <Form.Control 
-                                type="text" 
-                                placeholder="Informe seu username" 
-                                value={username}
-                                onChange={ ( e ) => setUsername( e.target.value ) }
-                                onKeyDown={handleOnKeyDown} />                        
-                        </Form.Group>
+        <div className="h-100 bg-light-blue">
+            <div className="d-flex justify-content-center vw-100 p-5">
+                <Card style={{width: '30em'}}>
+                    <Card.Header>                        
+                        <h3 className="m-0">Login</h3>
+                    </Card.Header>
+                    <Card.Body>
+                        <Form>
+                            <Form.Group className="mb-3" controlId="username">
+                                <Form.Label>Username</Form.Label>
+                                <Form.Control 
+                                    type="text" 
+                                    placeholder="Informe seu username" 
+                                    value={username}
+                                    onChange={ ( e ) => setUsername( e.target.value ) }
+                                    onKeyDown={handleOnKeyDown} />                        
+                            </Form.Group>
 
-                        <Form.Group className="mb-3" controlId="senha">
-                            <Form.Label>Senha</Form.Label>
-                            <Form.Control 
-                                type="password" 
-                                placeholder="Informe a senha" 
-                                value={senha}
-                                onChange={ ( e ) => setSenha( e.target.value ) } 
-                                onKeyDown={handleOnKeyDown}/>
-                        </Form.Group>
+                            <Form.Group className="mb-3" controlId="senha">
+                                <Form.Label>Senha</Form.Label>
+                                <Form.Control 
+                                    type="password" 
+                                    placeholder="Informe a senha" 
+                                    value={senha}
+                                    onChange={ ( e ) => setSenha( e.target.value ) } 
+                                    onKeyDown={handleOnKeyDown}/>
+                            </Form.Group>
 
-                        <AppMessage message={errorMessage} type="error" />
-                        <AppMessage message={infoMessage} type="info" />
-                        <Button type="button" variant="primary" onClick={login}>
-                            Entrar
-                            <AppSpinner visible={loading} />
-                        </Button>
-                    </Form>
-                </Card.Body>
-            </Card>
+                            <AppMessage message={errorMessage} type="error" />
+                            <AppMessage message={infoMessage} type="info" />
+                            <Button type="button" variant="primary" onClick={login}>
+                                Entrar
+                                <AppSpinner visible={loading} />
+                            </Button>
+                        </Form>
+                    </Card.Body>
+                </Card>
+            </div>
         </div>
     )
 }

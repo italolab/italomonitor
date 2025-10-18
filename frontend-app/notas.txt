@@ -6,3 +6,5 @@ npm install axios
 
 npm install react-router-dom
 
+npm install scss
+npm install -D sass-embedded

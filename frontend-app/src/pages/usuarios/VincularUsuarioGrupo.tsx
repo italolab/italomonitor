@@ -2,10 +2,11 @@ import { Button, Card, Modal, Table } from "react-bootstrap";
 import useVincularUsuarioGrupoViewModel from "../../viewModel/usuario/useVincularUsuarioGrupoViewModel";
 import AppMessage from "../../components/AppMessage";
 import AppSpinner from "../../components/AppSpinner";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import AppLayout from "../../layout/AppLayout";
 import { FaLink, FaX } from "react-icons/fa6";
+import { MdArrowBack } from "react-icons/md";
 
 function VincularUsuarioGrupo() {
 
@@ -22,6 +23,8 @@ function VincularUsuarioGrupo() {
         infoMessage,
         loading
     } = useVincularUsuarioGrupoViewModel();
+
+    const navigate = useNavigate();
 
     const { usuarioId } = useParams();
 
@@ -90,8 +93,14 @@ function VincularUsuarioGrupo() {
                 </Modal.Body>
             </Modal>
 
-            <div className="d-flex justify-content-center">
-                <Card style={{width: '30em'}}>
+            <div className="d-flex justify-content-between">
+                <Button type="button" onClick={() => navigate( -1 )} className="d-inline-flex align-items-center">
+                    <MdArrowBack size={25} /> Voltar
+                </Button>
+            </div>
+
+            <div className="d-flex justify-content-center mt-3">
+                <Card>
                     <Card.Header>
                         <Card.Title className="m-0 text-center">
                             <h3 className="m-0">Vínculo de usuário e grupo</h3>

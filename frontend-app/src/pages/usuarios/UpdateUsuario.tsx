@@ -14,10 +14,13 @@ function UpdateUsuario() {
     const [nome, setNome] = useState<string>( '' );
     const [email, setEmail] = useState<string>( '' );
     const [username, setUsername] = useState<string>( '' );
+    const [empresaId, setEmpresaId] = useState<number>( -1 );
 
     const {
         updateUsuario,
         getUsuario,
+        loadEmpresas,
+        empresas,
         loading,
         errorMessage,
         infoMessage
@@ -39,6 +42,8 @@ function UpdateUsuario() {
             setEmail( usuario.email );
             setUsername( usuario.username );
 
+            await loadEmpresas();
+            setEmpresaId( usuario.empresa != null ? usuario.empresa.id : -1 );
         } catch ( error ) {
             console.error( error );
         }
@@ -49,7 +54,8 @@ function UpdateUsuario() {
             const usuario : UpdateUsuarioRequest = {
                 nome : nome,
                 email : email,
-                username : username
+                username : username,
+                empresaId : empresaId
             };
            
             const uid : number = parseInt( usuarioId! );
@@ -69,9 +75,9 @@ function UpdateUsuario() {
             </div>
 
             <div className="d-flex justify-content-center mt-3">
-                <Card className="mx-auto" style={{width: '30em'}}>
+                <Card className="mx-auto">
                     <Card.Header>
-                        <h3>Alteração de usuários</h3>
+                        <h3 className="text-center m-0">Alteração de usuários</h3>
                     </Card.Header>
                     <Card.Body>
                         <Form>
@@ -97,6 +103,20 @@ function UpdateUsuario() {
                                     placeholder="Informe o nome de usuário"
                                     value={username}
                                     onChange={ ( e ) => setUsername( e.target.value ) } />
+                            </Form.Group>
+
+                            <Form.Group controlId="empresa">
+                                <Form.Label>Empresa</Form.Label>
+                                <Form.Select className="mb-3"
+                                        value={empresaId} 
+                                        onChange={(e) => setEmpresaId( parseInt( e.target.value ) )}>
+                                    <option value={-1}>Nenhuma empresa</option>
+                                    {empresas.map( (emp, index) => 
+                                        <option key={index} value={emp.id}>
+                                            {emp.nome}
+                                        </option>
+                                    )}
+                                </Form.Select>
                             </Form.Group>
 
                             <AppMessage message={errorMessage} type="error" />

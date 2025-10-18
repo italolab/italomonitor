@@ -91,7 +91,7 @@ function VincularRole() {
             </Modal>
 
             <div className="d-flex justify-content-center">
-                <Card style={{width: '40em'}}>
+                <Card>
                     <Card.Header>
                         <Card.Title className="m-0 text-center">
                             <h3 className="m-0">Vínculo de role</h3>

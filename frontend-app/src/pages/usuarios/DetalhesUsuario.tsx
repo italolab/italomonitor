@@ -2,7 +2,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import useDetalhesUsuarioViewModel from "../../viewModel/usuario/useDetalhesUsuarioViewModel";
 import { useEffect } from "react";
 import AppLayout from "../../layout/AppLayout";
-import { Button, Card } from "react-bootstrap";
+import { Badge, Button, Card } from "react-bootstrap";
 import AppField from "../../components/AppField";
 import AppMessage from "../../components/AppMessage";
 import AppSpinner from "../../components/AppSpinner";
@@ -46,13 +46,13 @@ function DetalhesUsuario() {
                         <MdOutlineEdit size={25} /> Editar usuário
                     </Button>
                     <Button type="button" onClick={() => navigate( `/vincular-usuario-grupo/${usuarioId}`)} className="d-inline-flex align-items-center">
-                        <MdLink size={25} /> Vincular grupo
+                        <MdLink size={25} /> Editar grupos
                     </Button>
                 </div>
             </div>
 
             <div className="d-flex justify-content-center mt-3">
-                <Card style={{width: '30em'}}>
+                <Card>
                     <Card.Header>
                         <h3 className="m-0 text-center">Detalhes do usuário</h3>
                     </Card.Header>
@@ -76,6 +76,16 @@ function DetalhesUsuario() {
                         </AppField>
                         <AppField name="empresa">
                             { usuario.empresa != null ? usuario.empresa.nome : 'Nenhuma empresa!' }
+                        </AppField>
+                        <AppField name="grupos">
+                            { usuario.grupos.map( (grupo, index) => 
+                                <span>
+                                    <Badge bg="primary" key={index} className="my-1">
+                                        {grupo.nome}
+                                    </Badge>
+                                    <span>&nbsp;</span>
+                                </span>
+                            )}
                         </AppField>
                     </Card.Body>
                 </Card>

@@ -47,7 +47,7 @@ function DetalhesRole() {
             </div>
 
             <div className="d-flex justify-content-center mt-3">
-                <Card style={{width: '30em'}}>
+                <Card>
                     <Card.Header>
                         <h3 className="m-0 text-center">Detalhes do role</h3>
                     </Card.Header>

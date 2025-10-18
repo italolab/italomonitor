@@ -43,7 +43,7 @@ function CreateUsuarioGrupo() {
             </div>
 
             <div className="d-flex justify-content-center mt-3">
-                <Card className="mx-auto" style={{width: '30em'}}>
+                <Card className="mx-auto">
                     <Card.Header>
                         <h3 className="text-center m-0">Registro de grupos</h3>
                     </Card.Header>

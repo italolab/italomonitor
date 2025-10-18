@@ -45,9 +45,9 @@ function CreateEmpresa() {
             </div>
 
             <div className="d-flex justify-content-center mt-3">
-                <Card className="mx-auto" style={{width: '30em'}}>
+                <Card className="mx-auto">
                     <Card.Header>
-                        <h3 className="text-center m-0">Registro de roles</h3>
+                        <h3 className="text-center m-0">Registro de empresas</h3>
                     </Card.Header>
                     <Card.Body>
                         <Form>

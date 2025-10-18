@@ -1,0 +1,9 @@
+@use 'bootstrap/scss/bootstrap' with (
+    $theme-colors: (
+        "primary" : #2338DA,
+        "secondary" : #5868E4,
+        "light-blue" : #8E99ED,
+        "danger": #F00,
+        "success": #0B0
+    )
+);

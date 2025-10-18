@@ -16,7 +16,13 @@ function useVincularUsuarioGrupoViewModel() {
         id: 0,
         nome: '',
         email: '',
-        username: ''
+        username: '',
+        empresa: {
+            id: 0,
+            nome: '',
+            emailNotif: ''
+        },
+        grupos: []
     } );
 
     const [otherGrupos, setOtherGrupos] = useState<UsuarioGrupoResponse[]>( [] );

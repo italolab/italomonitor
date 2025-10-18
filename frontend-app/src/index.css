@@ -2,7 +2,6 @@
 :root {
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
-  
 }
 
 a {
@@ -20,7 +19,7 @@ body {
   display: flex;
   min-width: 320px;
   min-height: 100vh;
-  background-color: #EEE;
+  background-color: #8E99ED;
 }
 
 h1, h2, h3, h4, h5, h6, th {
@@ -40,9 +39,13 @@ tr.blue th {
 @media (prefers-color-scheme: light) {
   :root {
     color: #213547;
-    background-color: #ffffff;
+    background-color: #8E99ED;
   }
   a:hover {
     color: #747bff;
   }
+}
+
+.card {
+  width: 40em;
 }

@@ -8,8 +8,6 @@ import type { CreateUsuarioRequest } from "../../model/dto/request/CreateUsuario
 import AppLayout from "../../layout/AppLayout";
 import { MdArrowBack } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
-import AppAutocompleteInput, { type AutocompleteData } from "../../components/AppAutocompleteInput";
-import type { EmpresaResponse } from "../../model/dto/response/EmpresaResponse";
 
 function CreateUsuario() {
 
@@ -18,12 +16,12 @@ function CreateUsuario() {
     const [username, setUsername] = useState<string>( '' );
     const [senha, setSenha] = useState<string>( '' );
     const [senha2, setSenha2] = useState<string>( '' );
-    const [autocompleteEmpresasDados, setAutocompleteEmpresasDados] = useState<AutocompleteData[]>( [] );
-    const [selectedEmpresa, setSelectedEmpresa] = useState<AutocompleteData|null>( null );
+    const [empresaId, setEmpresaId] = useState<number>( -1 );
 
     const {
         createUsuario,
-        getEmpresas,
+        loadEmpresas,
+        empresas,
         loading,
         errorMessage,
         infoMessage,
@@ -38,16 +36,7 @@ function CreateUsuario() {
 
     const loadData = async () => {
         try {
-            const empresas : EmpresaResponse[] = await getEmpresas();
-
-            const dados : AutocompleteData[] = [];
-
-            dados.push( { value : "-1", textContent: "Nenhuma empresa" } );
-            for( let i = 0; i < empresas.length; i++ ) {
-                dados.push( { value: ""+empresas[ i ].id, textContent: empresas[ i ].nome } );
-            }
-
-            setAutocompleteEmpresasDados( dados );
+            await loadEmpresas();
         } catch ( error ) {
             console.error( error );
         }
@@ -59,11 +48,6 @@ function CreateUsuario() {
             return;
 
         try {
-            let empresaId;
-            if ( selectedEmpresa !== null ) 
-                empresaId = parseInt( selectedEmpresa.value );
-            else empresaId = -1;
-
             const usuario : CreateUsuarioRequest = {
                 nome : nome,
                 email : email,
@@ -95,7 +79,7 @@ function CreateUsuario() {
             </div>
 
             <div className="d-flex justify-content-center mt-3">
-                <Card className="mx-auto" style={{width: '30em'}}>
+                <Card className="mx-auto">
                     <Card.Header>
                         <h3 className="text-center m-0">Registro de usuários</h3>
                     </Card.Header>
@@ -136,12 +120,19 @@ function CreateUsuario() {
                                     onChange={ ( e ) => setSenha2( e.target.value ) } />
                             </Form.Group>
 
-
-                            <AppAutocompleteInput className="mb-3"
-                                controlId="empresa" 
-                                label="Empresa" 
-                                onSelect={( dt ) => setSelectedEmpresa( dt ) }
-                                dados={autocompleteEmpresasDados} />
+                            <Form.Group controlId="empresa">
+                                <Form.Label>Empresa</Form.Label>
+                                <Form.Select className="mb-3"
+                                        value={empresaId} 
+                                        onChange={(e) => setEmpresaId( parseInt( e.target.value ) )}>
+                                    <option value={-1}>Nenhuma empresa</option>
+                                    {empresas.map( (emp, index) => 
+                                        <option key={index} value={emp.id}>
+                                            {emp.nome}
+                                        </option>
+                                    )}
+                                </Form.Select>
+                            </Form.Group>
 
                             <AppMessage message={errorMessage} type="error" />
                             <AppMessage message={infoMessage} type="info" />
