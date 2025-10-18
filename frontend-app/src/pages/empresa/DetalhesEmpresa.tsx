@@ -38,10 +38,10 @@ function DetalhesEmpresa() {
     return (
         <AppLayout>
             <div className="d-flex justify-content-between">
-                <Button type="button" onClick={() => navigate( -1 )} className="d-inline-flex align-items-center">
+                <Button type="button" onClick={() => navigate( -1 )} className="func">
                     <MdArrowBack size={25}/> Voltar
                 </Button>
-                <Button type="button" onClick={() => navigate( `/update-empresa/${empresaId}`)} className="d-inline-flex align-items-center">
+                <Button type="button" onClick={() => navigate( `/update-empresa/${empresaId}`)} className="func">
                     <MdOutlineEdit size={25}/> Editar empresa
                 </Button>
             </div>

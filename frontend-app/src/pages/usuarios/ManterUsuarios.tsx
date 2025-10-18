@@ -83,7 +83,7 @@ function ManterUsuarios() {
             <div className="d-flex flex-wrap justify-content-center mt-3">
                 <Card>
                     <Card.Header>
-                        <h5>Campos do filtro</h5>
+                        <h5 className="m-0">Campos do filtro</h5>
                     </Card.Header>
                     <Card.Body className="p-3">
                         <Form>

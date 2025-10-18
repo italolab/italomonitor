@@ -37,18 +37,16 @@ function DetalhesUsuarioGrupo() {
 
     return (
         <AppLayout>
-            <div className="d-flex justify-content-between">
-                <Button type="button" onClick={() => navigate( -1 )} className="d-inline-flex align-items-center">
+            <div>
+                <Button type="button" onClick={() => navigate( -1 )} className="func">
                     <MdArrowBack size={25}/> Voltar
                 </Button>
-                <div>
-                    <Button type="button" onClick={() => navigate( `/update-usuario-grupo/${usuarioGrupoId}`)} className="d-inline-flex align-items-center mx-3">
-                        <MdOutlineEdit size={25}/> Editar grupo
-                    </Button>
-                    <Button type="button" onClick={() => navigate( `/vincular-role/${usuarioGrupoId}`)} className="d-inline-flex align-items-center">
-                        <MdLink size={25} /> Vincular role
-                    </Button>
-                </div>
+                <Button type="button" onClick={() => navigate( `/update-usuario-grupo/${usuarioGrupoId}`)} className="func">
+                    <MdOutlineEdit size={25}/> Editar grupo
+                </Button>
+                <Button type="button" onClick={() => navigate( `/vincular-role/${usuarioGrupoId}`)} className="func">
+                    <MdLink size={25} /> Vincular role
+                </Button>
             </div>
 
             <div className="d-flex justify-content-center mt-3">

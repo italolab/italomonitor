@@ -75,7 +75,7 @@ function ManterRoles() {
                 </Modal.Footer>
             </Modal>            
 
-            <h3 className="text-center">Funções de roles</h3>
+            <h3 className="text-center fw-bold">Funções de roles</h3>
 
             <div className="d-flex justify-content-end">
                 <Button type="button" onClick={() => navigate( '/create-role')} className="d-flex align-items-center ms-auto">

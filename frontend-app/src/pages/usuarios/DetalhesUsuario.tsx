@@ -37,21 +37,19 @@ function DetalhesUsuario() {
 
     return (
         <AppLayout>
-            <div className="d-flex justify-content-between">
-                <Button type="button" onClick={() => navigate( -1 )} className="d-inline-flex align-items-center">
+            <div>
+                <Button type="button" onClick={() => navigate( -1 )} className="func">
                     <MdArrowBack size={25} /> Voltar
                 </Button>
-                <div>
-                    <Button type="button" onClick={() => navigate( `/update-usuario/${usuarioId}`)} className="d-inline-flex align-items-center mx-3">
-                        <MdOutlineEdit size={25} /> Editar usuário
-                    </Button>
-                    <Button type="button" onClick={() => navigate( `/vincular-usuario-grupo/${usuarioId}`)} className="d-inline-flex align-items-center">
-                        <MdLink size={25} /> Editar grupos
-                    </Button>
-                </div>
+                <Button type="button" onClick={() => navigate( `/update-usuario/${usuarioId}`)} className="func">
+                    <MdOutlineEdit size={25} /> Editar usuário
+                </Button>
+                <Button type="button" onClick={() => navigate( `/vincular-usuario-grupo/${usuarioId}`)} className="func">
+                    <MdLink size={25} /> Editar grupos
+                </Button>
             </div>
 
-            <div className="d-flex justify-content-center mt-3">
+            <div className="d-flex justify-content-center mt-2">
                 <Card>
                     <Card.Header>
                         <h3 className="m-0 text-center">Detalhes do usuário</h3>

@@ -37,11 +37,11 @@ function DetalhesRole() {
 
     return (
         <AppLayout>
-            <div className="d-flex justify-content-between">
-                <Button type="button" onClick={() => navigate( -1 )} className="d-inline-flex align-items-center">
+            <div>
+                <Button type="button" onClick={() => navigate( -1 )} className="func">
                     <MdArrowBack size={25}/> Voltar
                 </Button>
-                <Button type="button" onClick={() => navigate( `/update-role/${roleId}`)} className="d-inline-flex align-items-center">
+                <Button type="button" onClick={() => navigate( `/update-role/${roleId}`)} className="func">
                     <MdOutlineEdit size={25}/> Editar role
                 </Button>
             </div>

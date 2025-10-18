@@ -30,10 +30,19 @@ p, li {
   font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
 
-
-
 tr.blue th {
-  background-color: rgb(177, 177, 243);
+  background-color: #B1B1F3;
+}
+
+button.func {
+  display: inline-flex;
+  justify-content: center;
+  margin-right: 0.5em;
+  margin-bottom: 0.5em;
+}
+
+.icon-btn:hover {
+  cursor: pointer;
 }
 
 @media (prefers-color-scheme: light) {

@@ -11,7 +11,7 @@ interface AppOperationsProps {
 
 function AppOperations( { toDetalhes, toEdit, onRemover } : AppOperationsProps ) {
     return (
-        <div className="d-flex align-items-center">
+        <div className="d-inline-flex align-items-center">
             <Link to={toDetalhes} className="mx-2">
                 <LuInfo color="green" size={20}/>
             </Link>
@@ -20,9 +20,9 @@ function AppOperations( { toDetalhes, toEdit, onRemover } : AppOperationsProps )
                 <FaRegEdit size={20} />
             </Link>
             |
-            <button type="button" onClick={onRemover} className="btn m-0 p-0 mx-1">
+            <span onClick={onRemover} className="icon-btn mx-2">
                 <RiDeleteBin6Line color="red" size={20} />
-            </button>
+            </span>
         </div>
     )
 }
