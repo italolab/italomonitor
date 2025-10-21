@@ -8,6 +8,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import type { UpdateUsuarioRequest } from "../../model/dto/request/UpdateUsuarioRequest";
 import AppLayout from "../../layout/AppLayout";
 import { MdArrowBack } from "react-icons/md";
+import type { EmpresaResponse } from "../../model/dto/response/EmpresaResponse";
 
 function UpdateUsuario() {
 
@@ -15,12 +16,12 @@ function UpdateUsuario() {
     const [email, setEmail] = useState<string>( '' );
     const [username, setUsername] = useState<string>( '' );
     const [empresaId, setEmpresaId] = useState<number>( -1 );
+    const [empresas, setEmpresas] = useState<EmpresaResponse[]>( [] );
 
     const {
         updateUsuario,
         getUsuario,
-        loadEmpresas,
-        empresas,
+        getEmpresas,
         loading,
         errorMessage,
         infoMessage
@@ -42,8 +43,9 @@ function UpdateUsuario() {
             setEmail( usuario.email );
             setUsername( usuario.username );
 
-            await loadEmpresas();
-            setEmpresaId( usuario.empresa != null ? usuario.empresa.id : -1 );
+            const empresasList = await getEmpresas();
+            setEmpresas( empresasList );
+            setEmpresaId( usuario.empresa.id );
         } catch ( error ) {
             console.error( error );
         }

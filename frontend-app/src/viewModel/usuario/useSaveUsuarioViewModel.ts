@@ -6,7 +6,6 @@ import { extractErrorMessage } from "../../util/SistemaUtil";
 import type { UsuarioResponse } from "../../model/dto/response/UsuarioResponse";
 import type { UpdateUsuarioRequest } from "../../model/dto/request/UpdateUsuarioRequest";
 import { EmpresaModel } from "../../model/EmpresaModel";
-import type { EmpresaResponse } from "../../model/dto/response/EmpresaResponse";
 
 
 function useSaveUsuarioViewModel() {
@@ -14,8 +13,6 @@ function useSaveUsuarioViewModel() {
     const [errorMessage, setErrorMessage] = useState<string|null>( null );
     const [infoMessage, setInfoMessage] = useState<string|null>( null );
     const [loading, setLoading] = useState<boolean>( false );
-
-    const [empresas, setEmpresas] = useState<EmpresaResponse[]>( [] );
 
     const usuarioModel = new UsuarioModel();
     const empresaModel = new EmpresaModel();
@@ -72,7 +69,7 @@ function useSaveUsuarioViewModel() {
         }
     }
 
-    const loadEmpresas = async () => {
+    const getEmpresas = async () => {
         setErrorMessage( null );
         setInfoMessage( null );
         setLoading( true );
@@ -81,7 +78,7 @@ function useSaveUsuarioViewModel() {
             const response = await empresaModel.filterEmpresas( "", token );
 
             setLoading( false );
-            setEmpresas( response.data );
+            return response.data;
         } catch ( error ) {
             setErrorMessage( extractErrorMessage( error ) );
             setLoading( false );
@@ -93,8 +90,7 @@ function useSaveUsuarioViewModel() {
         createUsuario, 
         updateUsuario, 
         getUsuario, 
-        loadEmpresas,
-        empresas,
+        getEmpresas,
         loading, 
         errorMessage, 
         infoMessage, 

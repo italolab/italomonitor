@@ -1,0 +1,66 @@
+package com.redemonitor.service;
+
+import com.redemonitor.exception.BusinessException;
+import com.redemonitor.exception.Errors;
+import com.redemonitor.model.Config;
+import com.redemonitor.repository.ConfigRepository;
+import com.redemonitor.service.device.DispositivoMonitor;
+import com.redemonitor.service.device.DeviceMonitorThread;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
+import org.springframework.stereotype.Service;
+
+import java.time.Duration;
+import java.util.Map;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ScheduledFuture;
+
+@Service
+public class DeviceMonitorService {
+
+    @Autowired
+    private ConfigRepository configRepository;
+
+    @Autowired
+    private ThreadPoolTaskScheduler scheduler;
+
+    private Map<Long, DispositivoMonitor> dispositivoMonitorMap = new ConcurrentHashMap<>();
+
+    public void startMonitoramento( Long dispositivoId ) {
+        if ( dispositivoMonitorMap.containsKey( dispositivoId ) )
+            throw new BusinessException(Errors.DISPOSITIVO_ALREADY_MONITORED );
+
+        Config config = configRepository.findFirstByOrderByIdAsc();
+
+        Duration monitorDelay = Duration.ofSeconds( config.getMonitoramentoDelay() );
+
+        DeviceMonitorThread thread = new DeviceMonitorThread( dispositivoId, config );
+        ScheduledFuture<?> scheduledFuture = scheduler.scheduleWithFixedDelay( thread, monitorDelay  );
+
+        DispositivoMonitor dispositivoMonitor = new DispositivoMonitor( thread, scheduledFuture );
+        dispositivoMonitorMap.put( dispositivoId, dispositivoMonitor );
+    }
+
+    public void stopMonitoramento( Long dispositivoId ) {
+        if ( !dispositivoMonitorMap.containsKey( dispositivoId ) )
+            throw new BusinessException( Errors.DISPOSITIVO_NOT_MONITORED );
+
+        DispositivoMonitor dispositivoMonitor = dispositivoMonitorMap.get( dispositivoId );
+        dispositivoMonitor.getScheduledFuture().cancel( true );
+
+        dispositivoMonitorMap.remove( dispositivoId );
+    }
+
+    public void setConfigInMonitores() {
+        Config config = configRepository.findFirstByOrderByIdAsc();
+
+        Set<Long> ids = dispositivoMonitorMap.keySet();
+        for( Long dispositivoId : ids ) {
+            DispositivoMonitor dispositivoMonitor = dispositivoMonitorMap.get( dispositivoId );
+            if ( dispositivoMonitor != null )
+                dispositivoMonitor.getDeviceMonitorThread().setConfig( config );
+        }
+    }
+
+}

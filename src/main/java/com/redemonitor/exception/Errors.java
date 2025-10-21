@@ -18,6 +18,8 @@ public interface Errors {
 
     public final static String DISPOSITIVO_NOT_FOUND = "Dispositivo não encontrado.";
     public final static String DISPOSITIVO_ALREADY_EXISTS = "Dispositivo já existe registrado com o nome informado.";
+    public final static String DISPOSITIVO_ALREADY_MONITORED = "O dispositivo já está sendo monitorado.";
+    public final static String DISPOSITIVO_NOT_MONITORED = "O dispositivo não está sendo monitorado.";
 
     public final static String LINK_USER_GROUP_NOT_FOUND = "Vínculo entre usuário e grupo não encontrado.";
     public final static String LINK_ROLE_USERGROUP_NOT_FOUND = "Vínculo entre grupo de usuário e role não encontrado.";

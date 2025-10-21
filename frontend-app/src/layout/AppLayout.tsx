@@ -5,7 +5,7 @@ import { HiOutlineMenu } from "react-icons/hi";
 import { LuGroup, LuLogOut, LuUsers, LuUsersRound } from "react-icons/lu";
 import { Link, useNavigate } from "react-router-dom";
 import { useLogoutViewModel } from "../viewModel/useLogoutViewModel";
-import { PiNote } from "react-icons/pi";
+import { PiDevices, PiNote } from "react-icons/pi";
 
 import "./AppLayout.css"
 
@@ -51,6 +51,14 @@ function AppLayout( {children, className} : AppLayoutProps ) {
                     <FaRegBuilding /> 
                     &nbsp; 
                     Empresas
+                </Link>
+
+                <Link to="/dispositivos" 
+                        // onClick={ () => setSidebarVisible( false ) } 
+                        className="sidebar-item">
+                    <PiDevices /> 
+                    &nbsp; 
+                    Dispositivos
                 </Link>
 
                 <div className="sidebar-item" onClick={ () => setUsuariosOptionsVisible( !usuariosOptionsVisible ) }>

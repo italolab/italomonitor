@@ -8,6 +8,7 @@ import type { CreateUsuarioRequest } from "../../model/dto/request/CreateUsuario
 import AppLayout from "../../layout/AppLayout";
 import { MdArrowBack } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
+import type { EmpresaResponse } from "../../model/dto/response/EmpresaResponse";
 
 function CreateUsuario() {
 
@@ -17,11 +18,12 @@ function CreateUsuario() {
     const [senha, setSenha] = useState<string>( '' );
     const [senha2, setSenha2] = useState<string>( '' );
     const [empresaId, setEmpresaId] = useState<number>( -1 );
+    const [empresas, setEmpresas] = useState<EmpresaResponse[]>( [] );
+    
 
     const {
         createUsuario,
-        loadEmpresas,
-        empresas,
+        getEmpresas,
         loading,
         errorMessage,
         infoMessage,
@@ -36,7 +38,10 @@ function CreateUsuario() {
 
     const loadData = async () => {
         try {
-            await loadEmpresas();
+            const empresasList = await getEmpresas();
+            setEmpresas( empresasList );
+            if (empresasList.length > 0 )
+                setEmpresaId( empresasList[ 0 ].id );
         } catch ( error ) {
             console.error( error );
         }

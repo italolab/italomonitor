@@ -46,17 +46,13 @@ public class DispositivoService {
         if ( dispositivoOp.isPresent() )
             throw new BusinessException( Errors.DISPOSITIVO_ALREADY_EXISTS );
 
-        if ( request.getEmpresaId() != null ) {
-            if ( request.getEmpresaId() == -1 ) {
-                dispositivo.setEmpresa( null );
-            } else {
-                Optional<Empresa> empresaOp = empresaRepository.findById( request.getEmpresaId() );
-                if ( empresaOp.isEmpty() )
-                    throw new BusinessException( Errors.EMPRESA_NOT_FOUND );
 
-                dispositivo.setEmpresa( empresaOp.get() );
-            }
-        }
+        Optional<Empresa> empresaOp = empresaRepository.findById( request.getEmpresaId() );
+        if ( empresaOp.isEmpty() )
+            throw new BusinessException( Errors.EMPRESA_NOT_FOUND );
+
+        dispositivo.setEmpresa( empresaOp.get() );
+
 
         dispositivoRepository.save( dispositivo );
     }
@@ -75,17 +71,11 @@ public class DispositivoService {
             if ( dispositivoRepository.findByNome( nome ).isPresent() )
                 throw new BusinessException( Errors.DISPOSITIVO_ALREADY_EXISTS );
 
-        if ( request.getEmpresaId() != null ) {
-            if ( request.getEmpresaId() == -1 ) {
-                dispositivo.setEmpresa( null );
-            } else {
-                Optional<Empresa> empresaOp = empresaRepository.findById( request.getEmpresaId() );
-                if ( empresaOp.isEmpty() )
-                    throw new BusinessException( Errors.EMPRESA_NOT_FOUND );
+        Optional<Empresa> empresaOp = empresaRepository.findById( request.getEmpresaId() );
+        if ( empresaOp.isEmpty() )
+            throw new BusinessException( Errors.EMPRESA_NOT_FOUND );
 
-                dispositivo.setEmpresa( empresaOp.get() );
-            }
-        }
+        dispositivo.setEmpresa( empresaOp.get() );
 
         dispositivoMapper.load( dispositivo, request );
 
