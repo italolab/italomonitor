@@ -9,19 +9,25 @@ import lombok.*;
 @Setter
 @Builder
 @Entity
-@Table(name="usuario_grupo_map")
-public class UsuarioGrupoMap {
+@Table(name="dispositivo")
+public class Dispositivo {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="usuario_id")
-    private Usuario usuario;
+    private String host;
+
+    private String nome;
+
+    private String descricao;
+
+    private String localizacao;
+
+    private boolean sendoMonitorado;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name="usuario_grupo_id")
-    private UsuarioGrupo usuarioGrupo;
+    @JoinColumn(name="empresa_id")
+    private Empresa empresa;
 
 }

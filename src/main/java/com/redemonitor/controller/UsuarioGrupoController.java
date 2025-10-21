@@ -1,6 +1,6 @@
 package com.redemonitor.controller;
 
-import com.redemonitor.apidoc.usuario.GetRolesByUsuarioGrupoIDDoc;
+import com.redemonitor.apidoc.usuarioGrupo.GetRolesByUsuarioGrupoIDDoc;
 import com.redemonitor.apidoc.usuarioGrupo.*;
 import com.redemonitor.dto.request.SaveUsuarioGrupoRequest;
 import com.redemonitor.dto.response.RoleResponse;

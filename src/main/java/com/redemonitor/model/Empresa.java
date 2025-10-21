@@ -22,7 +22,10 @@ public class Empresa {
 
     private String emailNotif;
 
-    @OneToMany(mappedBy = "empresa", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "empresa", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Usuario> usuarios;
+
+    @OneToMany(mappedBy = "empresa", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<Dispositivo> dispositivos;
 
 }

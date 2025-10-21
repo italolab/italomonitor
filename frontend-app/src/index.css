@@ -41,6 +41,17 @@ button.func {
   margin-bottom: 0.5em;
 }
 
+.title {
+  display: block;
+  padding: 0.2em;
+  font-weight: bold;
+
+  color: #333;
+  text-align: center;
+  border-radius: 0.35em;
+  text-shadow: 1px 1px 2px #FFF;
+}
+
 .icon-btn:hover {
   cursor: pointer;
 }

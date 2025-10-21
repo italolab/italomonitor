@@ -26,10 +26,10 @@ public class Usuario {
 
     private String senha;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "usuario", cascade=CascadeType.ALL)
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "usuario", cascade=CascadeType.ALL)
     private List<UsuarioGrupoMap> grupos;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = true)
+    @ManyToOne(fetch = FetchType.EAGER, optional = true)
     @JoinColumn(name="empresa_id")
     private Empresa empresa;
 

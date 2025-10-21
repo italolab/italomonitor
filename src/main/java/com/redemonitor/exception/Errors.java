@@ -13,8 +13,11 @@ public interface Errors {
     public final static String ROLE_NOT_FOUND = "Role não encontrado.";
     public final static String ROLE_ALREADY_EXISTS = "Role já existe registrado com o nome informado.";
 
-    public final static String EMPRESA_NOT_FOUND = "Empresa não encontrado.";
+    public final static String EMPRESA_NOT_FOUND = "Empresa não encontrada.";
     public final static String EMPRESA_ALREADY_EXISTS = "Empresa já existe registrada com o nome informado.";
+
+    public final static String DISPOSITIVO_NOT_FOUND = "Dispositivo não encontrado.";
+    public final static String DISPOSITIVO_ALREADY_EXISTS = "Dispositivo já existe registrado com o nome informado.";
 
     public final static String LINK_USER_GROUP_NOT_FOUND = "Vínculo entre usuário e grupo não encontrado.";
     public final static String LINK_ROLE_USERGROUP_NOT_FOUND = "Vínculo entre grupo de usuário e role não encontrado.";

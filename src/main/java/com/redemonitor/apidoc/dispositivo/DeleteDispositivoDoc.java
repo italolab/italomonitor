@@ -1,10 +1,8 @@
-package com.redemonitor.apidoc.usuario;
+package com.redemonitor.apidoc.dispositivo;
 
 import com.redemonitor.apidoc.APIDocConstants;
 import com.redemonitor.dto.response.ErrorResponse;
-import com.redemonitor.dto.response.RoleResponse;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -17,16 +15,13 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 @Operation(
-        summary = "Responsável por retornar os roles pelo ID do grupo de usuário."
+        summary = "Responsável por deletar um dispositivo pelo ID."
 )
 @ApiResponses(value= {
         @ApiResponse(
                 responseCode = "200",
-                description = "Roles retornados pelo ID do grupo de usuário.",
-                content = @Content(
-                        mediaType = MediaType.APPLICATION_JSON_VALUE,
-                        array = @ArraySchema(
-                                schema = @Schema(implementation = RoleResponse.class)))),
+                description = "Dispositivo deletado pelo ID.",
+                content = {@Content}),
         @ApiResponse(
                 responseCode = "403",
                 description = APIDocConstants.MSG_403,
@@ -42,5 +37,6 @@ import java.lang.annotation.Target;
 })
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
-public @interface GetRolesByUsuarioGrupoIDDoc {
+public @interface DeleteDispositivoDoc {
+
 }

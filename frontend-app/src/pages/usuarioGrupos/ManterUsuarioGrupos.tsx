@@ -72,7 +72,7 @@ function ManterUsuarioGrupos() {
                 </Modal.Footer>
             </Modal>            
 
-            <h3 className="text-center fw-bold">Funções de grupo de usuário</h3>
+            <h3 className="title">Funções de grupo de usuário</h3>
 
             <div className="d-flex justify-content-end">
                 <Button type="button" onClick={() => navigate( '/create-usuario-grupo')} className="d-flex align-items-center ms-auto">
