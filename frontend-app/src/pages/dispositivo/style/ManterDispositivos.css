@@ -4,8 +4,9 @@
   min-height: 10em;
   padding: 1em;
   border-radius: 0.4em;
-  background-color: #EFEFEF;
-  border: 1px solid #5868E4;
+  background-color: #5868E4;
+  border-left: 3px solid #EDE28E;
+  color: #EFEFEF;
 }
 
 .disp-row {

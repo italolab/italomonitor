@@ -78,7 +78,7 @@ function ManterDispositivos() {
                 </Modal.Footer>
             </Modal>            
 
-            <h3 className="title">Funções de dispositivo</h3>
+            <h1 className="title">Funções de dispositivo</h1>
 
             <div className="d-flex justify-content-end">
                 <Button type="button" onClick={() => navigate( '/create-dispositivo')} className="d-flex align-items-center ms-auto">
@@ -89,7 +89,7 @@ function ManterDispositivos() {
             <div className="d-block w-100 mt-3 d-flex justify-content-center">
                 <Card>
                     <Card.Header>
-                        <h5 className="m-0">Campos do filtro</h5>
+                        <h5 className="my-2">Campos do filtro</h5>
                     </Card.Header>
                     <Card.Body className="p-3">
                         <Form>
@@ -140,17 +140,17 @@ function ManterDispositivos() {
                         <Col key={index} sm={4} className="disp-col">
                             <div className="disp-card">
                                 <div className="d-flex align-items-center justify-content-between">
-                                    <span className="text-dark">
+                                    <h3 className="fw-bold rounded-2 bg-dark px-2 py-1">
                                         {dispositivo.id}
-                                    </span>
-                                    <span>
+                                    </h3>
+                                    <span className="p-2 rounded-3 bg-white">
                                         <AppOperations 
                                             toDetalhes={`/detalhes-dispositivo/${dispositivo.id}`}
                                             toEdit={`/update-dispositivo/${dispositivo.id}`} 
                                             onRemover={() => onConfirmRemover( dispositivo.id)} />
                                     </span>
                                 </div>
-                                <div className="mb-3">{dispositivo.nome}</div>
+                                <h3 className="mb-3">{dispositivo.nome}</h3>
                                 <div>{dispositivo.localizacao}</div>                            
                             </div>
                         </Col> 

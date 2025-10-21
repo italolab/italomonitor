@@ -72,7 +72,7 @@ function ManterUsuarios() {
                 </Modal.Footer>
             </Modal>            
 
-            <h3 className="title">Funções de usuário</h3>
+            <h1 className="title">Funções de usuário</h1>
 
             <div className="d-flex justify-content-end">
                 <Button type="button" onClick={() => navigate( '/create-usuario')} className="d-flex align-items-center ms-auto">

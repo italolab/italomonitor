@@ -75,7 +75,7 @@ function ManterEmpresas() {
                 </Modal.Footer>
             </Modal>            
 
-            <h3 className="title">Funções de empresas</h3>
+            <h1 className="title">Funções de empresas</h1>
 
             <div className="d-flex justify-content-end">
                 <Button type="button" onClick={() => navigate( '/create-empresa')} className="d-flex align-items-center ms-auto">
@@ -86,7 +86,7 @@ function ManterEmpresas() {
             <div className="d-flex flex-wrap justify-content-center mt-3">
                 <Card>
                     <Card.Header>
-                        <h5 className="m-0">Campos do filtro</h5>
+                        <h5 className="my-2">Campos do filtro</h5>
                     </Card.Header>
                     <Card.Body className="p-3">
                         <Form>
