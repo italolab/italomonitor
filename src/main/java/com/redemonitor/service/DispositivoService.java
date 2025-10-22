@@ -22,6 +22,9 @@ import java.util.Optional;
 public class DispositivoService {
 
     @Autowired
+    private DispositivoMonitorService dispositivoMonitorService;
+
+    @Autowired
     private DispositivoRepository dispositivoRepository;
 
     @Autowired
@@ -45,7 +48,6 @@ public class DispositivoService {
         Optional<Dispositivo> dispositivoOp = dispositivoRepository.findByNome( nome );
         if ( dispositivoOp.isPresent() )
             throw new BusinessException( Errors.DISPOSITIVO_ALREADY_EXISTS );
-
 
         Optional<Empresa> empresaOp = empresaRepository.findById( request.getEmpresaId() );
         if ( empresaOp.isEmpty() )
@@ -80,6 +82,7 @@ public class DispositivoService {
         dispositivoMapper.load( dispositivo, request );
 
         dispositivoRepository.save( dispositivo );
+        dispositivoMonitorService.setDeviceInMonitor( dispositivoId );
     }
 
     public List<DispositivoResponse> filterDispositivos( String hostPart, String nomePart, String localPart ) {

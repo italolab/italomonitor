@@ -39,7 +39,7 @@ function Login() {
     };
 
     return (
-        <div className="h-100 bg-light-blue">
+        <div className="h-100 bg-tertiary">
             <div className="d-flex justify-content-center vw-100 p-5">
                 <Card style={{width: '30em'}}>
                     <Card.Header>                        

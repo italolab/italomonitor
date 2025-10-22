@@ -14,28 +14,22 @@ import java.util.List;
 @Builder
 public class SaveConfigRequest {
 
-    private int maxFalhasConsecutivas;
-    private int numPacotesPorVez;
+    private int numPacotesPorLote;
     private int monitoramentoDelay;
 
     public void validate() {
         List<Validator> validators = new ArrayList<>();
 
         validators.addAll(
-                ValidationBuilder.of( "máximo falhas consecutivas", String.valueOf( maxFalhasConsecutivas ) )
+                ValidationBuilder.of( "número de pacotes por lote", String.valueOf( numPacotesPorLote ) )
+                        .required()
                         .deveSerMaiorQueZero()
                         .build()
         );
-
-        validators.addAll(
-                ValidationBuilder.of( "número de pacotes por vez", String.valueOf( numPacotesPorVez ) )
-                        .deveSerMaiorQueZero()
-                        .build()
-        );
-
 
         validators.addAll(
                 ValidationBuilder.of( "delay de monitoramento", String.valueOf( monitoramentoDelay ) )
+                        .required()
                         .deveSerMaiorQueZero()
                         .build()
         );

@@ -15,10 +15,13 @@ function useDetalhesDispositivoViewModel() {
         nome: '',
         descricao: '',
         localizacao: '',
+        sendoMonitorado: false,
+        status : 'INATIVO',
         empresa: {
             id: 0,
             nome: '',
-            emailNotif: ''
+            emailNotif: '',
+            porcentagemMaxFalhasPorLote: 0
         }
     } );
 

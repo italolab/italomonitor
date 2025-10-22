@@ -16,6 +16,7 @@ public class SaveEmpresaRequest {
 
     private String nome;
     private String emailNotif;
+    private double porcentagemMaxFalhasPorLote;
 
     public void validate() {
         List<Validator> validators = new ArrayList<>();
@@ -29,6 +30,13 @@ public class SaveEmpresaRequest {
         validators.addAll(
                 ValidationBuilder.of( "email de notificação", emailNotif )
                         .email()
+                        .build()
+        );
+
+        validators.addAll(
+                ValidationBuilder.of( "porcentagem máxima de falhas por lote", String.valueOf( porcentagemMaxFalhasPorLote ) )
+                        .required()
+                        .deveSerMaiorQueZero()
                         .build()
         );
 

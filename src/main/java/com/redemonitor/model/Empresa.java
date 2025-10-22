@@ -22,6 +22,8 @@ public class Empresa {
 
     private String emailNotif;
 
+    private double porcentagemMaxFalhasPorLote;
+
     @OneToMany(mappedBy = "empresa", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Usuario> usuarios;
 

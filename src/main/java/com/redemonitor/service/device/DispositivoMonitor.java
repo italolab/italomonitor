@@ -9,7 +9,7 @@ import java.util.concurrent.ScheduledFuture;
 @Getter
 public class DispositivoMonitor {
 
-    private DeviceMonitorThread deviceMonitorThread;
+    private DispositivoMonitorThread deviceMonitorThread;
     private ScheduledFuture<?> scheduledFuture;
 
 }

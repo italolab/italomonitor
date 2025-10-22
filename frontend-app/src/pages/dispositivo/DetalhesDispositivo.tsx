@@ -7,6 +7,7 @@ import AppField from "../../components/AppField";
 import AppMessage from "../../components/AppMessage";
 import AppSpinner from "../../components/AppSpinner";
 import { MdArrowBack, MdOutlineEdit } from "react-icons/md";
+import AppBoxInfo from "../../components/AppBoxInfo";
 
 function DetalhesDispositivo() {
 
@@ -56,6 +57,17 @@ function DetalhesDispositivo() {
                         <AppMessage message={infoMessage} type="info" />
 
                         <AppSpinner className="mx-auto" visible={loading} />
+
+                        <div className="d-flex align-items-center justify-content-center">
+                            <AppBoxInfo name="status">
+                                {dispositivo.status == 'ATIVO' ? "Ativo" : "Inativo"}
+                            </AppBoxInfo>
+                            <AppBoxInfo name="sendo monitorado">
+                                {dispositivo.sendoMonitorado == true ? "Sim" : "Não" }
+                            </AppBoxInfo>
+                        </div>
+
+                        <br />
 
                         <AppField name="ID">
                             {dispositivo.id}

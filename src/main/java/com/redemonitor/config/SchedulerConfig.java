@@ -18,6 +18,7 @@ public class SchedulerConfig {
         scheduler.setPoolSize( 16 );
         scheduler.setThreadNamePrefix( "disp-monitor-" );
         scheduler.setRemoveOnCancelPolicy( true );
+        scheduler.setWaitForTasksToCompleteOnShutdown( true );
         scheduler.initialize();
         return scheduler;
     }

@@ -25,6 +25,7 @@ public class DispositivoMapper {
                 .descricao( dispositivo.getDescricao() )
                 .localizacao( dispositivo.getLocalizacao() )
                 .sendoMonitorado( dispositivo.isSendoMonitorado() )
+                .status( dispositivo.getStatus() )
                 .build();
     }
 

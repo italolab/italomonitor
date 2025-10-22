@@ -1,5 +1,6 @@
 package com.redemonitor.dto.response;
 
+import com.redemonitor.model.enums.DispositivoStatus;
 import lombok.*;
 
 @NoArgsConstructor
@@ -15,6 +16,7 @@ public class DispositivoResponse {
     private String descricao;
     private String localizacao;
     private boolean sendoMonitorado;
+    private DispositivoStatus status;
     private EmpresaResponse empresa;
 
 }

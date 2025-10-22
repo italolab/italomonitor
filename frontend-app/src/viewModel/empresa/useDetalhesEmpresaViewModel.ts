@@ -13,7 +13,8 @@ function useDetalhesEmpresaViewModel() {
     const [empresa, setEmpresa] = useState<EmpresaResponse>( {
         id: 0,
         nome: '',
-        emailNotif: ''
+        emailNotif: '',
+        porcentagemMaxFalhasPorLote: 0
     } );
 
     const empresaModel = new EmpresaModel();

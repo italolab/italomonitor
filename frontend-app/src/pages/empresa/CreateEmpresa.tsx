@@ -13,6 +13,7 @@ function CreateEmpresa() {
 
     const [nome, setNome] = useState<string>( '' );
     const [emailNotif, setEmailNotif] = useState<string>( '' );
+    const [porcentagemMaxFalhasPorLote, setPorcentagemMaxFalhasPorLote] = useState<number>( 33.3333 );
 
     const {
         createEmpresa,
@@ -27,7 +28,8 @@ function CreateEmpresa() {
         try {
             const empresa : SaveEmpresaRequest = {
                 nome : nome,
-                emailNotif : emailNotif
+                emailNotif : emailNotif,
+                porcentagemMaxFalhasPorLote: ( porcentagemMaxFalhasPorLote / 100.0 )
             }
 
             await createEmpresa( empresa );
@@ -63,6 +65,16 @@ function CreateEmpresa() {
                                 <Form.Control type="text"
                                     value={emailNotif}
                                     onChange={ ( e ) => setEmailNotif( e.target.value ) } />
+                            </Form.Group>
+
+                            <Form.Group className="mb-3" controlId="porcentagemMaxFalhasPorLote">
+                                <Form.Label>Max falhas por lote (%)</Form.Label>
+                                <Form.Range min={1} max={100} step={1}
+                                    value={porcentagemMaxFalhasPorLote}
+                                    onChange={ ( e ) => setPorcentagemMaxFalhasPorLote( parseFloat(e.target.value ) ) } />
+                                <Form.Text>
+                                    Valor atual: {porcentagemMaxFalhasPorLote}%
+                                </Form.Text>
                             </Form.Group>
 
                             <AppMessage message={errorMessage} type="error" />

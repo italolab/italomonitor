@@ -16,10 +16,8 @@ public class Config {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private int maxFalhasConsecutivas;
-
     private int monitoramentoDelay;
 
-    private int numPacotesPorVez;
+    private int numPacotesPorLote;
 
 }

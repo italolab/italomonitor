@@ -143,7 +143,7 @@ function ManterDispositivos() {
                                     <h3 className="fw-bold rounded-2 bg-dark px-2 py-1">
                                         {dispositivo.id}
                                     </h3>
-                                    <span className="p-2 rounded-3 bg-white">
+                                    <span className="p-2 rounded-3 bg-white text-dark">
                                         <AppOperations 
                                             toDetalhes={`/detalhes-dispositivo/${dispositivo.id}`}
                                             toEdit={`/update-dispositivo/${dispositivo.id}`} 

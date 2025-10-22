@@ -12,5 +12,6 @@ public class EmpresaResponse {
     private Long id;
     private String nome;
     private String emailNotif;
+    private double porcentagemMaxFalhasPorLote;
 
 }

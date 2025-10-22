@@ -66,6 +66,9 @@ function DetalhesEmpresa() {
                         <AppField name="e-mail de notificação">
                             {empresa.emailNotif}
                         </AppField>
+                        <AppField name="max falhas por lote (%)">
+                            {empresa.porcentagemMaxFalhasPorLote * 100} {"%"}
+                        </AppField>
                     </Card.Body>
                 </Card>
             </div>

@@ -1,0 +1,1 @@
+alter table config rename column max_falhas_consecutivas to max_falhas_por_vez;

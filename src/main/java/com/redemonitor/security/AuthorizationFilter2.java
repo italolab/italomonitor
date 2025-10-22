@@ -47,6 +47,9 @@ public class AuthorizationFilter2 extends OncePerRequestFilter {
                     token = cookies[ i ].getValue();
         }
 
+        if ( request.getRequestURI().equals( "/api/v1/login" ) )
+            token = null;
+
         if ( token != null ) {
             try {
                 DecodedJWT decodedJWT = jwtTokenUtil.verifyToken( token );

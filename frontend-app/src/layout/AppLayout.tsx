@@ -29,7 +29,7 @@ function AppLayout( {children, className} : AppLayoutProps ) {
     };
 
     return (
-        <div className={`bg-light-blue h-100 ${className}`}>
+        <div className={`bg-tertiary h-100 ${className}`}>
             <Navbar bg="dark" data-bs-theme="dark" className="vw-100">
                 <Button type="button" variant="dark" onClick={ () => setSidebarVisible( !sidebarVisible ) }>              
                     <HiOutlineMenu color="white" fontSize={30}/>

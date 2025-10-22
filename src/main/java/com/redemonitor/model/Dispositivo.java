@@ -1,5 +1,6 @@
 package com.redemonitor.model;
 
+import com.redemonitor.model.enums.DispositivoStatus;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -25,6 +26,9 @@ public class Dispositivo {
     private String localizacao;
 
     private boolean sendoMonitorado;
+
+    @Enumerated(EnumType.STRING)
+    private DispositivoStatus status;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="empresa_id")

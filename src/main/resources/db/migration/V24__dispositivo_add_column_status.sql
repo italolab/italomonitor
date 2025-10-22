@@ -1,1 +1,1 @@
-alter table if exists dispositivo add column status varchar(255) check (status in ('ATIVO','INATIVO'));
+alter table if exists dispositivo add column status varchar(255) check (status in ('ATIVO','INATIVO')) default 'INATIVO';

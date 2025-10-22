@@ -1,9 +1,7 @@
 package com.redemonitor.apidoc.dispositivo.monitor;
 
 import com.redemonitor.apidoc.APIDocConstants;
-import com.redemonitor.dto.response.DispositivoResponse;
 import com.redemonitor.dto.response.ErrorResponse;
-import com.redemonitor.dto.response.RoleResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -17,12 +15,12 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 @Operation(
-        summary = "Responsável por iniciar o monitoramento de um dispositivo pelo ID."
+        summary = "Responsável por finalizar o monitoramento de um dispositivo pelo ID."
 )
 @ApiResponses(value= {
         @ApiResponse(
                 responseCode = "200",
-                description = "Monitoramento de dispositivo iniciado pelo ID.",
+                description = "Monitoramento de dispositivo finalizado pelo ID.",
                 content = @Content),
         @ApiResponse(
                 responseCode = "403",
@@ -39,5 +37,5 @@ import java.lang.annotation.Target;
 })
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
-public @interface StartMonitoramentoDoc {
+public @interface StopMonitoramentoDoc {
 }
