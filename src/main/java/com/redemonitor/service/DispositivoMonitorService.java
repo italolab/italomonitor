@@ -4,6 +4,7 @@ import com.redemonitor.exception.BusinessException;
 import com.redemonitor.exception.Errors;
 import com.redemonitor.model.Config;
 import com.redemonitor.model.Dispositivo;
+import com.redemonitor.model.enums.DispositivoStatus;
 import com.redemonitor.repository.ConfigRepository;
 import com.redemonitor.repository.DispositivoRepository;
 import com.redemonitor.service.device.DispositivoMonitor;
@@ -34,9 +35,6 @@ public class DispositivoMonitorService {
     private Map<Long, DispositivoMonitor> dispositivoMonitorMap = new ConcurrentHashMap<>();
 
     public void startMonitoramento( Long dispositivoId ) {
-        if ( dispositivoMonitorMap.containsKey( dispositivoId ) )
-            throw new BusinessException(Errors.DISPOSITIVO_ALREADY_MONITORED );
-
         Config config = configRepository.findFirstByOrderByIdAsc();
 
         Optional<Dispositivo> dispositivoOp = dispositivoRepository.findById( dispositivoId );
@@ -44,6 +42,13 @@ public class DispositivoMonitorService {
             throw new BusinessException( Errors.DISPOSITIVO_NOT_FOUND );
 
         Dispositivo dispositivo = dispositivoOp.get();
+
+        if ( dispositivoMonitorMap.containsKey( dispositivoId ) ) {
+            dispositivo.setStatus( DispositivoStatus.ATIVO );
+            dispositivoRepository.save( dispositivo );
+
+            throw new BusinessException(Errors.DISPOSITIVO_ALREADY_MONITORED);
+        }
 
         Duration monitorDelay = Duration.ofSeconds( config.getMonitoramentoDelay() );
 
@@ -62,15 +67,20 @@ public class DispositivoMonitorService {
         if ( dispositivoOp.isEmpty() )
             throw new BusinessException( Errors.DISPOSITIVO_NOT_FOUND );
 
-        if ( !dispositivoMonitorMap.containsKey( dispositivoId ) )
-            throw new BusinessException( Errors.DISPOSITIVO_NOT_MONITORED );
+        Dispositivo dispositivo = dispositivoOp.get();
+
+        if ( !dispositivoMonitorMap.containsKey( dispositivoId ) ) {
+            dispositivo.setStatus( DispositivoStatus.INATIVO );
+            dispositivoRepository.save( dispositivo );
+
+            throw new BusinessException(Errors.DISPOSITIVO_NOT_MONITORED);
+        }
 
         DispositivoMonitor dispositivoMonitor = dispositivoMonitorMap.get( dispositivoId );
         dispositivoMonitor.getScheduledFuture().cancel( true );
 
         dispositivoMonitorMap.remove( dispositivoId );
 
-        Dispositivo dispositivo = dispositivoOp.get();
         dispositivo.setSendoMonitorado( false );
         dispositivoRepository.save( dispositivo );
     }

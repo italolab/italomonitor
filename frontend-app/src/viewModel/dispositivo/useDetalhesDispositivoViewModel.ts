@@ -2,6 +2,7 @@ import { useState } from "react";
 import { type DispositivoResponse } from "../../model/dto/response/DispositivoResponse";
 import { extractErrorMessage } from "../../util/SistemaUtil";
 import { DispositivoModel } from "../../model/DispositivoModel";
+import { DispositivoMonitorModel } from "../../model/DispositivoMonitorModel";
 
 function useDetalhesDispositivoViewModel() {
 
@@ -26,6 +27,7 @@ function useDetalhesDispositivoViewModel() {
     } );
 
     const dispositivoModel = new DispositivoModel();
+    const dispositivoMonitorModel = new DispositivoMonitorModel();
 
     const loadDispositivo = async ( dispositivoId : number ) => {
         setErrorMessage( null );
@@ -44,7 +46,43 @@ function useDetalhesDispositivoViewModel() {
         }
     };
 
-    return { loadDispositivo, dispositivo, loading, errorMessage, infoMessage };
+    const startMonitoramento = async ( dispositivoId : number ) => {
+        setErrorMessage( null );
+        setInfoMessage( null );
+        setLoading( false );
+
+        try {
+            await dispositivoMonitorModel.startMonitoramento( dispositivoId );
+            dispositivo.sendoMonitorado = true;
+
+            setInfoMessage( 'Dispositivo sendo monitorado!' );
+            setLoading( false );
+        } catch ( error ) {
+            setErrorMessage( extractErrorMessage( error ) );
+            setLoading( false );
+            throw error;
+        }
+    };
+
+    const stopMonitoramento = async ( dispositivoId : number ) => {
+        setErrorMessage( null );
+        setInfoMessage( null );
+        setLoading( false );
+
+        try {
+            await dispositivoMonitorModel.stopMonitoramento( dispositivoId );
+            dispositivo.sendoMonitorado = false;
+
+            setInfoMessage( 'Dispositivo não mais monitorado!' );
+            setLoading( false );
+        } catch ( error ) {
+            setErrorMessage( extractErrorMessage( error ) );
+            setLoading( false );
+            throw error;
+        }
+    };
+
+    return { loadDispositivo, startMonitoramento, stopMonitoramento, dispositivo, loading, errorMessage, infoMessage };
 }
 
 export default useDetalhesDispositivoViewModel;

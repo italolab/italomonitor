@@ -39,41 +39,30 @@ public class DispositivoMonitorThread implements Runnable {
 
         String[] comando = { "ping", "-n", ""+numPacotesPorLote, host };
 
+        int quantFalhas = 0;
         try {
             ProcessBuilder pb = new ProcessBuilder(comando);
             Process proc = pb.start();
 
             Scanner scanner = new Scanner(proc.getInputStream());
-            while (scanner.hasNextLine()) {
+            while ( scanner.hasNextLine() ) {
                 String line = scanner.nextLine();
-                line = line.trim();
 
-                String pedidosStr = "Perdidos = ";
-                int pedidosStrLen = pedidosStr.length();
+                if ( ( line.startsWith( "Resposta") && !line.contains("tempo") ) ||
+                        line.startsWith( "Esgotado") || line.startsWith( "A") || line.startsWith( "Falha" ) )
+                    quantFalhas++;
+                System.out.println( line );
+            }
 
-                if ( line.startsWith( "Pacotes" ) ) {
-                    int j = line.indexOf( pedidosStr );
-                    if ( j == -1 || j + pedidosStrLen > line.length() ) {
-                        String msg = "Falha na leitura da saída do comando ping.\nAjustar o interpretador da saída do comando!";
-                        Logger.getLogger( DispositivoMonitorThread.class.getName()).log(Level.SEVERE, msg );
-                    }
-
-                    char perdidosValue = line.charAt( j+pedidosStrLen );
-                    int quantPerdidos = Integer.parseInt( ""+perdidosValue );
-
-                    boolean statusAlterado = false;
-                    if ( quantPerdidos >= porcentagemMaxFalhasPorLote*numPacotesPorLote ) {
-                        if ( dispositivo.getStatus() == DispositivoStatus.ATIVO )
-                            statusAlterado = true;
-                    } else {
-                        if ( dispositivo.getStatus() == DispositivoStatus.INATIVO )
-                            statusAlterado = true;
-                    }
-
-                    if ( statusAlterado ) {
-                        dispositivo.setStatus( dispositivo.getStatus() == DispositivoStatus.ATIVO ? DispositivoStatus.INATIVO : DispositivoStatus.ATIVO );
-                        dispositivoRepository.save( dispositivo );
-                    }
+            if ( quantFalhas >= porcentagemMaxFalhasPorLote * numPacotesPorLote ) {
+                if ( dispositivo.getStatus() == DispositivoStatus.ATIVO ) {
+                    dispositivo.setStatus( DispositivoStatus.INATIVO );
+                    dispositivoRepository.save( dispositivo );
+                }
+            } else {
+                if ( dispositivo.getStatus() == DispositivoStatus.INATIVO ) {
+                    dispositivo.setStatus( DispositivoStatus.ATIVO );
+                    dispositivoRepository.save( dispositivo );
                 }
             }
 

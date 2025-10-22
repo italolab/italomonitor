@@ -6,13 +6,15 @@ import { Button, Card } from "react-bootstrap";
 import AppField from "../../components/AppField";
 import AppMessage from "../../components/AppMessage";
 import AppSpinner from "../../components/AppSpinner";
-import { MdArrowBack, MdOutlineEdit } from "react-icons/md";
+import { MdArrowBack, MdOutlineEdit, MdPlayCircle, MdStopCircle } from "react-icons/md";
 import AppBoxInfo from "../../components/AppBoxInfo";
 
 function DetalhesDispositivo() {
 
     const {
         loadDispositivo,
+        startMonitoramento,
+        stopMonitoramento,
         dispositivo,
         loading,
         errorMessage,
@@ -29,8 +31,26 @@ function DetalhesDispositivo() {
 
     const onLoad = async () => {
         try {
-            const uid : number = parseInt( dispositivoId! );
-            await loadDispositivo( uid );
+            const devId : number = parseInt( dispositivoId! );
+            await loadDispositivo( devId );
+        } catch ( error ) {
+            console.error( error );
+        }
+    };
+
+    const onStartMonitoramento = async () => {
+        try {
+            const devId : number = parseInt( dispositivoId! );
+            await startMonitoramento( devId );
+        } catch ( error ) {
+            console.error( error );
+        }
+    };
+
+    const onStopMonitoramento = async () => {
+        try {
+            const devId : number = parseInt( dispositivoId! );
+            await stopMonitoramento( devId );
         } catch ( error ) {
             console.error( error );
         }
@@ -44,6 +64,12 @@ function DetalhesDispositivo() {
                 </Button>
                 <Button type="button" onClick={() => navigate( `/update-dispositivo/${dispositivoId}`)} className="func">
                     <MdOutlineEdit size={25} /> Editar dispositivo
+                </Button>
+                <Button type="button" onClick={onStartMonitoramento} className="func">
+                    <MdPlayCircle size={25} /> Iniciar monitoramento
+                </Button>
+                <Button type="button" onClick={onStopMonitoramento} className="func">
+                    <MdStopCircle size={25} /> Encerrar monitoramento
                 </Button>
             </div>
 
