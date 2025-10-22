@@ -4,43 +4,33 @@ import { BASE_URL } from "../constants/api-constants";
 
 export class RoleModel {
 
-    async createRole( roleSave : SaveRoleRequest, token : string ) {
+    async createRole( roleSave : SaveRoleRequest ) {
         return await axios.post( BASE_URL + "/roles", roleSave, {
-            headers: {
-                'Authorization': `Bearer ${token}`
-            }
+            withCredentials: true
         } );
     }
 
-    async updateRole( roleId : number, roleSave : SaveRoleRequest, token : string ) {
+    async updateRole( roleId : number, roleSave : SaveRoleRequest ) {
         return await axios.put( BASE_URL + "/roles/"+roleId, roleSave, {
-            headers: {
-                'Authorization': `Bearer ${token}`
-            }
+            withCredentials: true
         } );
     } 
 
-    async filterRoles( nomepart : string, token : string ) {
+    async filterRoles( nomepart : string ) {
         return await axios.get( BASE_URL + "/roles?nomepart="+nomepart, {
-            headers: {
-                'Authorization' : `Bearer ${token}`
-            }
+            withCredentials: true
         } );
     }
 
-    async getRole( roleId : number, token : string ) {
+    async getRole( roleId : number ) {
         return await axios.get( BASE_URL + "/roles/"+roleId+"/get", {
-            headers: {
-                'Authorization' : `Bearer ${token}`
-            }
+            withCredentials: true
         })
     }
 
-    async deleteRole( roleId : number, token : string ) {
+    async deleteRole( roleId : number ) {
         return await axios.delete( BASE_URL + "/roles/"+roleId, {
-            headers: {
-                'Authorization' : `Bearer ${token}`
-            }
+            withCredentials: true
         } );
     }
 

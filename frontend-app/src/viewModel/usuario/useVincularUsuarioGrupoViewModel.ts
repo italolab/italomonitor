@@ -1,6 +1,5 @@
-import { useContext, useState } from "react";
+import { useState } from "react";
 import { UsuarioModel } from "../../model/UsuarioModel";
-import { AuthContext } from "../../context/AuthProvider";
 import { extractErrorMessage } from "../../util/SistemaUtil";
 import type { UsuarioGrupoResponse } from "../../model/dto/response/UsuarioGrupoResponse";
 import type { UsuarioResponse } from "../../model/dto/response/UsuarioResponse";
@@ -31,17 +30,15 @@ function useVincularUsuarioGrupoViewModel() {
     const usuarioModel = new UsuarioModel();
     const usuarioGrupoModel = new UsuarioGrupoModel();
 
-    const {token} = useContext(AuthContext);
-
     const loadUsuario = async ( usuarioId : number ) => {
         setErrorMessage( null );
         setInfoMessage( null );
         setLoading( true );
 
         try {
-            const usuarioResponse = await usuarioModel.getUsuario( usuarioId, token );
-            const gruposResponse = await usuarioModel.getGrupos( usuarioId, token );
-            const allGruposResponse = await usuarioGrupoModel.filterUsuarioGrupos( "", token );
+            const usuarioResponse = await usuarioModel.getUsuario( usuarioId );
+            const gruposResponse = await usuarioModel.getGrupos( usuarioId );
+            const allGruposResponse = await usuarioGrupoModel.filterUsuarioGrupos( "" );
 
             const allGrupos : UsuarioGrupoResponse[] = allGruposResponse.data;
             const grupos : UsuarioGrupoResponse[] = gruposResponse.data;
@@ -72,7 +69,7 @@ function useVincularUsuarioGrupoViewModel() {
         setLoading( true );
 
         try {
-            await usuarioModel.vinculaGrupo( usuario.id, usuarioGrupoId, token );
+            await usuarioModel.vinculaGrupo( usuario.id, usuarioGrupoId );
 
             let grp : UsuarioGrupoResponse | null = null;
             for( let i = 0; grp === null && i < otherGrupos.length; i++ ) {
@@ -99,8 +96,8 @@ function useVincularUsuarioGrupoViewModel() {
         setLoading( true );
 
         try {
-            await usuarioModel.deleteGrupoVinculado( usuario.id, usuarioGrupoId, token );
-            const response = await usuarioModel.getGrupos( usuario.id, token );
+            await usuarioModel.deleteGrupoVinculado( usuario.id, usuarioGrupoId );
+            const response = await usuarioModel.getGrupos( usuario.id );
 
             let grp : UsuarioGrupoResponse | null = null;
             for( let i = 0; grp === null && i < grupos.length; i++ ) {

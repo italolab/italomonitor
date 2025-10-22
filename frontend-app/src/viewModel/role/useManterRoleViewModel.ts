@@ -1,7 +1,6 @@
-import { useContext, useState } from "react";
+import { useState } from "react";
 import { RoleModel } from "../../model/RoleModel";
 import { extractErrorMessage } from "../../util/SistemaUtil";
-import { AuthContext } from "../../context/AuthProvider";
 import { type RoleResponse } from "../../model/dto/response/RoleResponse";
 
 function useManterRoleViewModel() {
@@ -14,8 +13,6 @@ function useManterRoleViewModel() {
 
     const [nomePart, setNomePart] = useState<string>( '' );
 
-    const {token} = useContext(AuthContext);
-
     const roleModel = new RoleModel();
 
     const filterRoles = async () => {
@@ -24,7 +21,7 @@ function useManterRoleViewModel() {
         setLoading( true );
 
         try {
-            const response = await roleModel.filterRoles( nomePart, token );
+            const response = await roleModel.filterRoles( nomePart );
 
             setRoles( response.data );
             setLoading( false );
@@ -40,8 +37,8 @@ function useManterRoleViewModel() {
         setInfoMessage( null );
         setLoading( true );
         try {
-            await roleModel.deleteRole( roleId, token );
-            const response = await roleModel.filterRoles( nomePart, token );
+            await roleModel.deleteRole( roleId );
+            const response = await roleModel.filterRoles( nomePart );
 
             setRoles( response.data );
             setInfoMessage( 'Role deletado com sucesso.' );            

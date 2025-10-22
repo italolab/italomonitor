@@ -4,43 +4,33 @@ import { BASE_URL } from "../constants/api-constants";
 
 export class DispositivoModel {
 
-    async createDispositivo( dispositivoSave : SaveDispositivoRequest, token : string ) {
+    async createDispositivo( dispositivoSave : SaveDispositivoRequest ) {
         return await axios.post( BASE_URL + "/dispositivos", dispositivoSave, {
-            headers: {
-                'Authorization': `Bearer ${token}`
-            }
+            withCredentials: true
         } );
     }
 
-    async updateDispositivo( dispositivoId : number, dispositivoSave : SaveDispositivoRequest, token : string ) {
+    async updateDispositivo( dispositivoId : number, dispositivoSave : SaveDispositivoRequest ) {
         return await axios.put( BASE_URL + "/dispositivos/"+dispositivoId, dispositivoSave, {
-            headers: {
-                'Authorization': `Bearer ${token}`
-            }
+            withCredentials: true
         } );
     } 
 
-    async filterDispositivos( hostpart : string, nomepart : string, localpart : string, token : string ) {
+    async filterDispositivos( hostpart : string, nomepart : string, localpart : string ) {
         return await axios.get( BASE_URL + "/dispositivos?hostpart="+hostpart+"&nomepart="+nomepart+"&localpart="+localpart, {
-            headers: {
-                'Authorization' : `Bearer ${token}`
-            }
+            withCredentials: true
         } );
     }
 
-    async getDispositivo( dispositivoId : number, token : string ) {
+    async getDispositivo( dispositivoId : number ) {
         return await axios.get( BASE_URL + "/dispositivos/"+dispositivoId+"/get", {
-            headers: {
-                'Authorization' : `Bearer ${token}`
-            }
+            withCredentials: true
         })
     }
 
-    async deleteDispositivo( dispositivoId : number, token : string ) {
+    async deleteDispositivo( dispositivoId : number ) {
         return await axios.delete( BASE_URL + "/dispositivos/"+dispositivoId, {
-            headers: {
-                'Authorization' : `Bearer ${token}`
-            }
+            withCredentials: true
         } );
     }
 

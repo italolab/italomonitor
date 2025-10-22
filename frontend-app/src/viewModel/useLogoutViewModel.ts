@@ -3,10 +3,11 @@ import { AuthContext } from "../context/AuthProvider";
 
 export function useLogoutViewModel() {
 
-    const {setToken} = useContext(AuthContext);
+    const {setNome, setUsername} = useContext(AuthContext);
 
     const logout = async () => {
-        setToken( '' );
+        setNome( '' );
+        setUsername( '' );
     };
 
     return { logout };

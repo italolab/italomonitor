@@ -5,68 +5,51 @@ import type { UpdateUsuarioRequest } from "./dto/request/UpdateUsuarioRequest";
 
 export class UsuarioModel {
 
-    async createUsuario( usuarioSave : CreateUsuarioRequest, token : string ) {
+    async createUsuario( usuarioSave : CreateUsuarioRequest ) {
         return await axios.post( BASE_URL + "/usuarios", usuarioSave, {
-            headers: {
-                'Authorization': `Bearer ${token}`
-            }
+            withCredentials: true
         } );
     }
 
-    async updateUsuario( usuarioId : number, usuarioSave : UpdateUsuarioRequest, token : string ) {
+    async updateUsuario( usuarioId : number, usuarioSave : UpdateUsuarioRequest ) {
         return await axios.put( BASE_URL + "/usuarios/"+usuarioId, usuarioSave, {
-            headers: {
-                'Authorization': `Bearer ${token}`
-            }
+            withCredentials: true
         } );
     } 
 
-    async filterUsuarios( nomepart : string, token : string ) {
+    async filterUsuarios( nomepart : string ) {
         return await axios.get( BASE_URL + "/usuarios?nomepart="+nomepart, {
-            headers: {
-                'Authorization' : `Bearer ${token}`
-            }
+            withCredentials: true
         } );
     }
 
-    async getUsuario( usuarioId : number, token : string ) {
+    async getUsuario( usuarioId : number ) {
         return await axios.get( BASE_URL + "/usuarios/"+usuarioId+"/get", {
-            headers: {
-                'Authorization' : `Bearer ${token}`
-            }
+            withCredentials: true
         })
     }
 
-    async getGrupos( usuarioId : number, token : string ) {
+    async getGrupos( usuarioId : number ) {
         return await axios.get( BASE_URL + "/usuarios/"+usuarioId+"/grupos", {
-            headers: {
-                'Authorization' : `Bearer ${token}`
-            }
+            withCredentials: true
         } );
     }
 
-    async vinculaGrupo( usuarioId : number, usuarioGrupoId : number, token : string ) {
+    async vinculaGrupo( usuarioId : number, usuarioGrupoId : number ) {
         return await axios.post( BASE_URL + "/usuarios/"+usuarioId+"/grupos/"+usuarioGrupoId, {}, {
-            headers : {
-                'Authorization' : `Bearer ${token}`
-            }
+            withCredentials: true
         } );
     }
 
-    async deleteGrupoVinculado( usuarioId : number, usuarioGrupoId : number, token : string ) {
+    async deleteGrupoVinculado( usuarioId : number, usuarioGrupoId : number ) {
         return await axios.delete( BASE_URL + "/usuarios/"+usuarioId+"/grupos/"+usuarioGrupoId, {
-            headers : {
-                'Authorization' : `Bearer ${token}`
-            }
+            withCredentials: true
         } );
     }
 
-    async deleteUsuario( usuarioId : number, token : string ) {
-        return await axios.delete( BASE_URL 
-            + "/usuarios/"+usuarioId, {
-            headers: {
-                'Authorization' : `Bearer ${token}`
-            }
+    async deleteUsuario( usuarioId : number ) {
+        return await axios.delete( BASE_URL + "/usuarios/"+usuarioId, {
+            withCredentials: true
         } );
     }
 

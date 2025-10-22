@@ -1,5 +1,4 @@
-import { useContext, useState } from "react";
-import { AuthContext } from "../../context/AuthProvider";
+import { useState } from "react";
 import { EmpresaModel } from "../../model/EmpresaModel";
 import type { EmpresaResponse } from "../../model/dto/response/EmpresaResponse";
 import { extractErrorMessage } from "../../util/SistemaUtil";
@@ -14,8 +13,6 @@ function useManterEmpresaViewModel() {
 
     const [nomePart, setNomePart] = useState<string>( '' );
 
-    const {token} = useContext(AuthContext);
-
     const empresaModel = new EmpresaModel();
 
     const filterEmpresas = async () => {
@@ -24,7 +21,7 @@ function useManterEmpresaViewModel() {
         setLoading( true );
 
         try {
-            const response = await empresaModel.filterEmpresas( nomePart, token );
+            const response = await empresaModel.filterEmpresas( nomePart );
 
             setEmpresas( response.data );
             setLoading( false );
@@ -40,8 +37,8 @@ function useManterEmpresaViewModel() {
         setInfoMessage( null );
         setLoading( true );
         try {
-            await empresaModel.deleteEmpresa( empresaId, token );
-            const response = await empresaModel.filterEmpresas( nomePart, token );
+            await empresaModel.deleteEmpresa( empresaId );
+            const response = await empresaModel.filterEmpresas( nomePart );
 
             setEmpresas( response.data );
             setInfoMessage( 'Empresa deletada com sucesso.' );            

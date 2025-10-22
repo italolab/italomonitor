@@ -4,67 +4,51 @@ import type { SaveUsuarioGrupoRequest } from "./dto/request/SaveUsuarioGrupoRequ
 
 export class UsuarioGrupoModel {
 
-    async createUsuarioGrupo( grupoSave : SaveUsuarioGrupoRequest, token : string ) {
+    async createUsuarioGrupo( grupoSave : SaveUsuarioGrupoRequest ) {
         return await axios.post( BASE_URL + "/usuario-grupos", grupoSave, {
-            headers: {
-                'Authorization': `Bearer ${token}`
-            }
+            withCredentials: true
         } );
     }
 
-    async updateUsuarioGrupo( usuarioGrupoId : number, grupoSave : SaveUsuarioGrupoRequest, token : string ) {
+    async updateUsuarioGrupo( usuarioGrupoId : number, grupoSave : SaveUsuarioGrupoRequest ) {
         return await axios.put( BASE_URL + "/usuario-grupos/"+usuarioGrupoId, grupoSave, {
-            headers: {
-                'Authorization': `Bearer ${token}`
-            }
+            withCredentials: true
         } );
     } 
 
-    async filterUsuarioGrupos( nomepart : string, token : string ) {
+    async filterUsuarioGrupos( nomepart : string ) {
         return await axios.get( BASE_URL + "/usuario-grupos?nomepart="+nomepart, {
-            headers: {
-                'Authorization' : `Bearer ${token}`
-            }
+            withCredentials: true
         } );
     }
 
-    async getUsuarioGrupo( usuarioGrupoId : number, token : string ) {
+    async getUsuarioGrupo( usuarioGrupoId : number ) {
         return await axios.get( BASE_URL + "/usuario-grupos/"+usuarioGrupoId+"/get", {
-            headers: {
-                'Authorization' : `Bearer ${token}`
-            }
+            withCredentials: true
         })
     }
 
-    async getRoles( usuarioGrupoId : number, token : string ) {
+    async getRoles( usuarioGrupoId : number ) {
         return await axios.get( BASE_URL + "/usuario-grupos/"+usuarioGrupoId+"/roles", {
-            headers: {
-                'Authorization' : `Bearer ${token}`
-            }
+            withCredentials: true
         } );
     }
 
-    async vinculaRole( usuarioGrupoId : number, roleId : number, token : string ) {
+    async vinculaRole( usuarioGrupoId : number, roleId : number ) {
         return await axios.post( BASE_URL + "/usuario-grupos/"+usuarioGrupoId+"/roles/"+roleId, {}, {
-            headers : {
-                'Authorization' : `Bearer ${token}`
-            }
+            withCredentials: true
         } );
     }
 
-    async deleteRoleVinculado( usuarioGrupoId : number, roleId : number, token : string ) {
+    async deleteRoleVinculado( usuarioGrupoId : number, roleId : number ) {
         return await axios.delete( BASE_URL + "/usuario-grupos/"+usuarioGrupoId+"/roles/"+roleId, {
-            headers : {
-                'Authorization' : `Bearer ${token}`
-            }
+            withCredentials: true
         } );
     }
 
-    async deleteUsuarioGrupo( usuarioGrupoId : number, token : string ) {
+    async deleteUsuarioGrupo( usuarioGrupoId : number ) {
         return await axios.delete( BASE_URL + "/usuario-grupos/"+usuarioGrupoId, {
-            headers: {
-                'Authorization' : `Bearer ${token}`
-            }
+            withCredentials: true
         } );
     }
 

@@ -13,7 +13,7 @@ export function useLoginViewModel() {
 
     const [loginData, setLoginData] = useState<LoginResponse|null>( null );
 
-    const {setToken} = useContext(AuthContext);
+    const {setNome, setUsername} = useContext(AuthContext);
 
     const loginModel = new LoginModel();
 
@@ -24,7 +24,8 @@ export function useLoginViewModel() {
 
         try {
             const response = await loginModel.login( loginReq );
-            setToken( response.data.token );
+            setNome( response.data.nome );
+            setUsername( response.data.username );
 
             setLoginData( response.data );
             setLoading( false );

@@ -1,5 +1,4 @@
-import { useContext, useState } from "react";
-import { AuthContext } from "../../context/AuthProvider";
+import { useState } from "react";
 import { extractErrorMessage } from "../../util/SistemaUtil";
 import type { UsuarioGrupoResponse } from "../../model/dto/response/UsuarioGrupoResponse";
 import { UsuarioGrupoModel } from "../../model/UsuarioGrupoModel";
@@ -23,17 +22,15 @@ function useVincularRoleViewModel() {
     const usuarioGrupoModel = new UsuarioGrupoModel();
     const roleModel = new RoleModel();
 
-    const {token} = useContext(AuthContext);
-
     const loadUsuarioGrupo = async ( usuarioGrupoId : number ) => {
         setErrorMessage( null );
         setInfoMessage( null );
         setLoading( true );
 
         try {
-            const grupoResponse = await usuarioGrupoModel.getUsuarioGrupo( usuarioGrupoId, token );
-            const rolesResponse = await usuarioGrupoModel.getRoles( usuarioGrupoId, token );
-            const allRolesResponse = await roleModel.filterRoles( "", token );
+            const grupoResponse = await usuarioGrupoModel.getUsuarioGrupo( usuarioGrupoId );
+            const rolesResponse = await usuarioGrupoModel.getRoles( usuarioGrupoId );
+            const allRolesResponse = await roleModel.filterRoles( "" );
 
             const allRoles : RoleResponse[] = allRolesResponse.data;
             const roles : RoleResponse[] = rolesResponse.data;
@@ -64,7 +61,7 @@ function useVincularRoleViewModel() {
         setLoading( true );
 
         try {
-            await usuarioGrupoModel.vinculaRole( usuarioGrupo.id, roleId, token );
+            await usuarioGrupoModel.vinculaRole( usuarioGrupo.id, roleId );
 
             let role : RoleResponse | null = null;
             for( let i = 0; role === null && i < otherRoles.length; i++ ) {
@@ -91,8 +88,8 @@ function useVincularRoleViewModel() {
         setLoading( true );
 
         try {
-            await usuarioGrupoModel.deleteRoleVinculado( usuarioGrupo.id, roleId, token );
-            const response = await usuarioGrupoModel.getRoles( usuarioGrupo.id, token );
+            await usuarioGrupoModel.deleteRoleVinculado( usuarioGrupo.id, roleId );
+            const response = await usuarioGrupoModel.getRoles( usuarioGrupo.id );
 
             let role : RoleResponse | null = null;
             for( let i = 0; role === null && i < roles.length; i++ ) {

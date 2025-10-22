@@ -1,7 +1,6 @@
-import { useContext, useState } from "react";
+import { useState } from "react";
 import { UsuarioGrupoModel } from "../../model/UsuarioGrupoModel";
 import { extractErrorMessage } from "../../util/SistemaUtil";
-import { AuthContext } from "../../context/AuthProvider";
 import { type UsuarioGrupoResponse } from "../../model/dto/response/UsuarioGrupoResponse";
 
 function useManterUsuarioGrupoViewModel() {
@@ -14,8 +13,6 @@ function useManterUsuarioGrupoViewModel() {
 
     const [nomePart, setNomePart] = useState<string>( '' );
 
-    const {token} = useContext(AuthContext);
-
     const usuarioGrupoModel = new UsuarioGrupoModel();
 
     const filterUsuarioGrupos = async () => {
@@ -24,7 +21,7 @@ function useManterUsuarioGrupoViewModel() {
         setLoading( true );
 
         try {
-            const response = await usuarioGrupoModel.filterUsuarioGrupos( nomePart, token );
+            const response = await usuarioGrupoModel.filterUsuarioGrupos( nomePart );
 
             setUsuarioGrupos( response.data );
             setLoading( false );
@@ -40,8 +37,8 @@ function useManterUsuarioGrupoViewModel() {
         setInfoMessage( null );
         setLoading( true );
         try {
-            await usuarioGrupoModel.deleteUsuarioGrupo( usuarioGrupoId, token );
-            const response = await usuarioGrupoModel.filterUsuarioGrupos( nomePart, token );
+            await usuarioGrupoModel.deleteUsuarioGrupo( usuarioGrupoId );
+            const response = await usuarioGrupoModel.filterUsuarioGrupos( nomePart );
 
             setUsuarioGrupos( response.data );
             setInfoMessage( 'Grupo de usuário deletado com sucesso.' );            

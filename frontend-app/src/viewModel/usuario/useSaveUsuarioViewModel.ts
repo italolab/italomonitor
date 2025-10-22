@@ -1,6 +1,5 @@
-import { useContext, useState } from "react";
+import { useState } from "react";
 import { UsuarioModel } from "../../model/UsuarioModel";
-import { AuthContext } from "../../context/AuthProvider";
 import type { CreateUsuarioRequest } from "../../model/dto/request/CreateUsuarioRequest";
 import { extractErrorMessage } from "../../util/SistemaUtil";
 import type { UsuarioResponse } from "../../model/dto/response/UsuarioResponse";
@@ -17,14 +16,12 @@ function useSaveUsuarioViewModel() {
     const usuarioModel = new UsuarioModel();
     const empresaModel = new EmpresaModel();
 
-    const {token} = useContext(AuthContext);
-
     const createUsuario = async ( usuario : CreateUsuarioRequest ) => {
         setErrorMessage( null );
         setInfoMessage( null );
         setLoading( true );
         try {
-            await usuarioModel.createUsuario( usuario, token );
+            await usuarioModel.createUsuario( usuario );
 
             setInfoMessage( 'Usuário registrado com sucesso.' );
             setLoading( false );
@@ -41,7 +38,7 @@ function useSaveUsuarioViewModel() {
         setLoading( true );
         
         try {
-            await usuarioModel.updateUsuario( usuarioId, usuario, token );
+            await usuarioModel.updateUsuario( usuarioId, usuario );
 
             setInfoMessage( 'Usuário alterado com sucesso.' );
             setLoading( false );
@@ -58,7 +55,7 @@ function useSaveUsuarioViewModel() {
         setLoading( true );
         
         try {
-            const response = await usuarioModel.getUsuario( usuarioId, token );
+            const response = await usuarioModel.getUsuario( usuarioId );
 
             setLoading( false );
             return response.data;
@@ -75,7 +72,7 @@ function useSaveUsuarioViewModel() {
         setLoading( true );
         
         try {
-            const response = await empresaModel.filterEmpresas( "", token );
+            const response = await empresaModel.filterEmpresas( "" );
 
             setLoading( false );
             return response.data;

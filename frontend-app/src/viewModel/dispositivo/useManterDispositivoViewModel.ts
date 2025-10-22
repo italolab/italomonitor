@@ -1,7 +1,6 @@
-import { useContext, useState } from "react";
+import { useState } from "react";
 import { DispositivoModel } from "../../model/DispositivoModel";
 import { extractErrorMessage } from "../../util/SistemaUtil";
-import { AuthContext } from "../../context/AuthProvider";
 import { type DispositivoResponse } from "../../model/dto/response/DispositivoResponse";
 
 function useManterDispositivoViewModel() {
@@ -16,8 +15,6 @@ function useManterDispositivoViewModel() {
     const [nomePart, setNomePart] = useState<string>( '' );
     const [localPart, setLocalPart] = useState<string>( '' );
 
-    const {token} = useContext(AuthContext);
-
     const dispositivoModel = new DispositivoModel();
 
     const filterDispositivos = async () => {
@@ -26,7 +23,7 @@ function useManterDispositivoViewModel() {
         setLoading( true );
 
         try {
-            const response = await dispositivoModel.filterDispositivos( hostPart, nomePart, localPart, token );
+            const response = await dispositivoModel.filterDispositivos( hostPart, nomePart, localPart );
 
             if ( response.data.length == 0 )
                 setInfoMessage( 'Nenhum dispositivo encontrado.' );
@@ -45,8 +42,8 @@ function useManterDispositivoViewModel() {
         setInfoMessage( null );
         setLoading( true );
         try {
-            await dispositivoModel.deleteDispositivo( dispositivoId, token );
-            const response = await dispositivoModel.filterDispositivos( hostPart, nomePart, localPart, token );
+            await dispositivoModel.deleteDispositivo( dispositivoId );
+            const response = await dispositivoModel.filterDispositivos( hostPart, nomePart, localPart );
 
             setDispositivos( response.data );
             setInfoMessage( 'Dispositivo deletado com sucesso.' );            

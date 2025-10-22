@@ -1,6 +1,5 @@
-import { useContext, useState } from "react";
+import { useState } from "react";
 import { RoleModel } from "../../model/RoleModel";
-import { AuthContext } from "../../context/AuthProvider";
 import { extractErrorMessage } from "../../util/SistemaUtil";
 import type { RoleResponse } from "../../model/dto/response/RoleResponse";
 import type { SaveRoleRequest } from "../../model/dto/request/SaveRoleRequest";
@@ -14,14 +13,12 @@ function useSaveRoleViewModel() {
 
     const roleModel = new RoleModel();
 
-    const {token} = useContext(AuthContext);
-
     const createRole = async ( role : SaveRoleRequest ) => {
         setErrorMessage( null );
         setInfoMessage( null );
         setLoading( true );
         try {
-            await roleModel.createRole( role, token );
+            await roleModel.createRole( role );
 
             setInfoMessage( 'Role registrado com sucesso.' );
             setLoading( false );
@@ -38,7 +35,7 @@ function useSaveRoleViewModel() {
         setLoading( true );
         
         try {
-            await roleModel.updateRole( roleId, role, token );
+            await roleModel.updateRole( roleId, role );
 
             setInfoMessage( 'Role alterado com sucesso.' );
             setLoading( false );
@@ -55,7 +52,7 @@ function useSaveRoleViewModel() {
         setLoading( true );
         
         try {
-            const response = await roleModel.getRole( roleId, token );
+            const response = await roleModel.getRole( roleId );
             
             setLoading( false );
             return response.data;

@@ -4,43 +4,33 @@ import type { SaveEmpresaRequest } from "./dto/request/SaveEmpresaRequest";
 
 export class EmpresaModel {
 
-    async createEmpresa( empresaSave : SaveEmpresaRequest, token : string ) {
+    async createEmpresa( empresaSave : SaveEmpresaRequest ) {
         return await axios.post( BASE_URL + "/empresas", empresaSave, {
-            headers: {
-                'Authorization' : `Bearer ${token}`
-            }
+            withCredentials: true
         } );
     }
 
-    async updateEmpresa( empresaId : number, empresaSave : SaveEmpresaRequest, token : string ) {
+    async updateEmpresa( empresaId : number, empresaSave : SaveEmpresaRequest ) {
         return await axios.put( BASE_URL + "/empresas/"+empresaId, empresaSave, {
-            headers: {
-                'Authorization': `Bearer ${token}`
-            }
+            withCredentials: true
         } );
     } 
 
-    async filterEmpresas( nomepart : string, token : string ) {
+    async filterEmpresas( nomepart : string ) {
         return await axios.get( BASE_URL + "/empresas?nomepart="+nomepart, {
-            headers: {
-                'Authorization' : `Bearer ${token}`
-            }
+            withCredentials: true
         } );
     }
 
-    async getEmpresa( empresaId : number, token : string ) {
+    async getEmpresa( empresaId : number ) {
         return await axios.get( BASE_URL + "/empresas/"+empresaId+"/get", {
-            headers: {
-                'Authorization' : `Bearer ${token}`
-            }
+            withCredentials: true
         })
     }
 
-    async deleteEmpresa( empresaId : number, token : string ) {
+    async deleteEmpresa( empresaId : number ) {
         return await axios.delete( BASE_URL + "/empresas/"+empresaId, {
-            headers: {
-                'Authorization' : `Bearer ${token}`
-            }
+            withCredentials: true
         } );
     }
 

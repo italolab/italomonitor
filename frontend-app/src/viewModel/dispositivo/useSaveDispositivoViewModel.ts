@@ -1,6 +1,5 @@
-import { useContext, useState } from "react";
+import { useState } from "react";
 import { DispositivoModel } from "../../model/DispositivoModel";
-import { AuthContext } from "../../context/AuthProvider";
 import type { SaveDispositivoRequest } from "../../model/dto/request/SaveDispositivoRequest";
 import { extractErrorMessage } from "../../util/SistemaUtil";
 import type { DispositivoResponse } from "../../model/dto/response/DispositivoResponse";
@@ -16,14 +15,12 @@ function useSaveDispositivoViewModel() {
     const dispositivoModel = new DispositivoModel();
     const empresaModel = new EmpresaModel();
 
-    const {token} = useContext(AuthContext);
-
     const createDispositivo = async ( dispositivo : SaveDispositivoRequest ) => {
         setErrorMessage( null );
         setInfoMessage( null );
         setLoading( true );
         try {
-            await dispositivoModel.createDispositivo( dispositivo, token );
+            await dispositivoModel.createDispositivo( dispositivo );
 
             setInfoMessage( 'Dispositivo registrado com sucesso.' );
             setLoading( false );
@@ -40,7 +37,7 @@ function useSaveDispositivoViewModel() {
         setLoading( true );
         
         try {
-            await dispositivoModel.updateDispositivo( dispositivoId, dispositivo, token );
+            await dispositivoModel.updateDispositivo( dispositivoId, dispositivo );
 
             setInfoMessage( 'Dispositivo alterado com sucesso.' );
             setLoading( false );
@@ -57,7 +54,7 @@ function useSaveDispositivoViewModel() {
         setLoading( true );
         
         try {
-            const response = await dispositivoModel.getDispositivo( dispositivoId, token );
+            const response = await dispositivoModel.getDispositivo( dispositivoId );
 
             setLoading( false );
             return response.data;
@@ -74,7 +71,7 @@ function useSaveDispositivoViewModel() {
         setLoading( true );
         
         try {
-            const response = await empresaModel.filterEmpresas( "", token );
+            const response = await empresaModel.filterEmpresas( "" );
 
             setLoading( false );
             return response.data;

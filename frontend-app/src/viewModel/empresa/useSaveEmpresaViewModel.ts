@@ -1,6 +1,5 @@
-import { useContext, useState } from "react";
+import { useState } from "react";
 import { EmpresaModel } from "../../model/EmpresaModel";
-import { AuthContext } from "../../context/AuthProvider";
 import { extractErrorMessage } from "../../util/SistemaUtil";
 import type { EmpresaResponse } from "../../model/dto/response/EmpresaResponse";
 import type { SaveEmpresaRequest } from "../../model/dto/request/SaveEmpresaRequest";
@@ -14,14 +13,12 @@ function useSaveEmpresaViewModel() {
 
     const empresaModel = new EmpresaModel();
 
-    const {token} = useContext(AuthContext);
-
     const createEmpresa = async ( empresa : SaveEmpresaRequest ) => {
         setErrorMessage( null );
         setInfoMessage( null );
         setLoading( true );
         try {
-            await empresaModel.createEmpresa( empresa, token );
+            await empresaModel.createEmpresa( empresa );
 
             setInfoMessage( 'Empresa registrado com sucesso.' );
             setLoading( false );
@@ -38,7 +35,7 @@ function useSaveEmpresaViewModel() {
         setLoading( true );
         
         try {
-            await empresaModel.updateEmpresa( empresaId, empresa, token );
+            await empresaModel.updateEmpresa( empresaId, empresa );
 
             setInfoMessage( 'Empresa alterado com sucesso.' );
             setLoading( false );
@@ -55,7 +52,7 @@ function useSaveEmpresaViewModel() {
         setLoading( true );
         
         try {
-            const response = await empresaModel.getEmpresa( empresaId, token );
+            const response = await empresaModel.getEmpresa( empresaId );
             
             setLoading( false );
             return response.data;

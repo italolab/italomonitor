@@ -1,8 +1,7 @@
-import { useContext, useState } from "react";
+import { useState } from "react";
 import { type UsuarioGrupoResponse } from "../../model/dto/response/UsuarioGrupoResponse";
 import { extractErrorMessage } from "../../util/SistemaUtil";
 import { UsuarioGrupoModel } from "../../model/UsuarioGrupoModel";
-import { AuthContext } from "../../context/AuthProvider";
 
 function useDetalhesUsuarioGrupoViewModel() {
 
@@ -15,8 +14,6 @@ function useDetalhesUsuarioGrupoViewModel() {
         nome: '',
     } );
 
-    const {token} = useContext( AuthContext );
-
     const usuarioGrupoModel = new UsuarioGrupoModel();
 
     const loadUsuarioGrupo = async ( usuarioGrupoId : number ) => {
@@ -25,7 +22,7 @@ function useDetalhesUsuarioGrupoViewModel() {
         setLoading( false );
 
         try {
-            const response = await usuarioGrupoModel.getUsuarioGrupo( usuarioGrupoId, token );
+            const response = await usuarioGrupoModel.getUsuarioGrupo( usuarioGrupoId );
 
             setUsuarioGrupo( response.data );
             setLoading( false );

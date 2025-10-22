@@ -1,7 +1,6 @@
-import { useContext, useState } from "react";
+import { useState } from "react";
 import { UsuarioModel } from "../../model/UsuarioModel";
 import { extractErrorMessage } from "../../util/SistemaUtil";
-import { AuthContext } from "../../context/AuthProvider";
 import { type UsuarioResponse } from "../../model/dto/response/UsuarioResponse";
 
 function useManterUsuarioViewModel() {
@@ -14,8 +13,6 @@ function useManterUsuarioViewModel() {
 
     const [nomePart, setNomePart] = useState<string>( '' );
 
-    const {token} = useContext(AuthContext);
-
     const usuarioModel = new UsuarioModel();
 
     const filterUsuarios = async () => {
@@ -24,7 +21,7 @@ function useManterUsuarioViewModel() {
         setLoading( true );
 
         try {
-            const response = await usuarioModel.filterUsuarios( nomePart, token );
+            const response = await usuarioModel.filterUsuarios( nomePart );
 
             setUsuarios( response.data );
             setLoading( false );
@@ -40,8 +37,8 @@ function useManterUsuarioViewModel() {
         setInfoMessage( null );
         setLoading( true );
         try {
-            await usuarioModel.deleteUsuario( usuarioId, token );
-            const response = await usuarioModel.filterUsuarios( nomePart, token );
+            await usuarioModel.deleteUsuario( usuarioId );
+            const response = await usuarioModel.filterUsuarios( nomePart );
 
             setUsuarios( response.data );
             setInfoMessage( 'Usuário deletado com sucesso.' );            

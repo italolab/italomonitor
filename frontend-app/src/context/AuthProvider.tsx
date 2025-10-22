@@ -1,10 +1,13 @@
-import { createContext, useEffect, useState, type ReactNode } from "react";
+import { createContext, useState, type ReactNode } from "react";
 
 // eslint-disable-next-line react-refresh/only-export-components
 export const AuthContext = createContext( {
-    token: '',
+    nome: '',
+    username: '',
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    setToken: (t : string) => {}
+    setNome: (t : string) => {},
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    setUsername: (t : string ) => {}
 } );
 
 interface AuthProviderProps {
@@ -13,18 +16,11 @@ interface AuthProviderProps {
 
 export const AuthProvider = ({children} : AuthProviderProps ) => {
 
-    const [token, setToken] = useState<string>( () => {
-        if ( typeof window !== 'undefined' )
-            return localStorage.getItem( 'token' )!;                            
-        return '';
-    } );
-
-    useEffect( () => {
-        localStorage.setItem( 'token', token! );
-    }, [token] );
+    const [nome, setNome] = useState<string>('');
+    const [username, setUsername] = useState<string>('');
 
     return (
-        <AuthContext.Provider value={{token, setToken}}>
+        <AuthContext.Provider value={{nome, setNome, username, setUsername}}>
             {children}
         </AuthContext.Provider>
     );

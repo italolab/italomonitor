@@ -8,7 +8,11 @@ import com.redemonitor.model.*;
 import com.redemonitor.repository.UsuarioRepository;
 import com.redemonitor.util.HashUtil;
 import com.redemonitor.util.JwtTokenUtil;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.ResponseCookie;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -27,7 +31,10 @@ public class LoginService {
     @Autowired
     private JwtTokenUtil jwtTokenUtil;
 
-    public LoginResponse login( LoginRequest request ) {
+    @Value("${jwt.token.cookie.name}")
+    private String tokenCookieName;
+
+    public LoginResponse login(LoginRequest request, HttpServletResponse httpResponse) {
         request.validate();
 
         String username = request.getUsername();
@@ -59,10 +66,16 @@ public class LoginService {
 
         String token = jwtTokenUtil.createToken( username, rolesArray );
 
+        Cookie cookie = new Cookie( tokenCookieName, token );
+        cookie.setHttpOnly( true );
+        cookie.setSecure( true );
+        cookie.setMaxAge( 60 * 60 * 24 * 7 );
+
+        httpResponse.addCookie( cookie );
+
         return LoginResponse.builder()
                 .nome( nome )
                 .username( username )
-                .token( token )
                 .build();
     }
 

@@ -1,6 +1,5 @@
-import { useContext, useState } from "react";
+import { useState } from "react";
 import { UsuarioGrupoModel } from "../../model/UsuarioGrupoModel";
-import { AuthContext } from "../../context/AuthProvider";
 import { extractErrorMessage } from "../../util/SistemaUtil";
 import type { UsuarioGrupoResponse } from "../../model/dto/response/UsuarioGrupoResponse";
 import type { SaveUsuarioGrupoRequest } from "../../model/dto/request/SaveUsuarioGrupoRequest";
@@ -14,14 +13,12 @@ function useSaveUsuarioGrupoViewModel() {
 
     const usuarioGrupoModel = new UsuarioGrupoModel();
 
-    const {token} = useContext(AuthContext);
-
     const createUsuarioGrupo = async ( grupo : SaveUsuarioGrupoRequest ) => {
         setErrorMessage( null );
         setInfoMessage( null );
         setLoading( true );
         try {
-            await usuarioGrupoModel.createUsuarioGrupo( grupo, token );
+            await usuarioGrupoModel.createUsuarioGrupo( grupo );
 
             setInfoMessage( 'Grupo de usuário registrado com sucesso.' );
             setLoading( false );
@@ -38,7 +35,7 @@ function useSaveUsuarioGrupoViewModel() {
         setLoading( true );
         
         try {
-            await usuarioGrupoModel.updateUsuarioGrupo( usuarioGrupoId, grupo, token );
+            await usuarioGrupoModel.updateUsuarioGrupo( usuarioGrupoId, grupo );
 
             setInfoMessage( 'Grupo de usuário alterado com sucesso.' );
             setLoading( false );
@@ -55,7 +52,7 @@ function useSaveUsuarioGrupoViewModel() {
         setLoading( true );
         
         try {
-            const response = await usuarioGrupoModel.getUsuarioGrupo( usuarioGrupoId, token );
+            const response = await usuarioGrupoModel.getUsuarioGrupo( usuarioGrupoId );
             
             setLoading( false );
             return response.data;
