@@ -1,4 +1,3 @@
-import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './index.css'
@@ -32,7 +31,6 @@ import UpdateDispositivo from './pages/dispositivo/UpdateDispositivo.tsx';
 import DetalhesDispositivo from './pages/dispositivo/DetalhesDispositivo.tsx';
 
 createRoot(document.getElementById('root')!).render(
-  <StrictMode>
     <AuthProvider>
       <Router>
         <Routes>
@@ -65,5 +63,6 @@ createRoot(document.getElementById('root')!).render(
         </Routes>
       </Router>
     </AuthProvider>
-  </StrictMode>
 )
+
+// <StrictMode></StrictMode>

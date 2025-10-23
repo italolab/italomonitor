@@ -35,6 +35,7 @@ function DetalhesDispositivo() {
     const navigate = useNavigate();
 
     useEffect( () => {
+        alert( 1 );
         const socket = new SockJS( BASE_WS_URL );
         const stompClient = Stomp.over( socket );
 

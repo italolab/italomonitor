@@ -40,15 +40,18 @@ public class AuthInterceptor extends OncePerRequestFilter {
 
         String token = null;
 
-        Cookie[] cookies = request.getCookies();
-        if ( cookies != null ) {
-            for ( int i = 0; token == null && i < cookies.length; i++ )
-                if ( cookies[i].getName().equals( tokenCookieName ) )
-                    token = cookies[ i ].getValue();
-        }
-
         if ( request.getRequestURI().equals( "/api/v1/login" ) ) {
-            token = null;
+            Cookie cookie = new Cookie( tokenCookieName, "" );
+            cookie.setMaxAge( 0 );
+            cookie.setHttpOnly( true );
+            response.addCookie( cookie );
+        } else {
+            Cookie[] cookies = request.getCookies();
+            if ( cookies != null ) {
+                for ( int i = 0; token == null && i < cookies.length; i++ )
+                    if ( cookies[ i ].getName().equals( tokenCookieName ) )
+                        token = cookies[ i ].getValue();
+            }
         }
 
         if ( token != null ) {
