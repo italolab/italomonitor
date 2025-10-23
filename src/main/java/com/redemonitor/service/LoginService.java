@@ -72,12 +72,14 @@ public class LoginService {
         cookie.setHttpOnly( true );
         cookie.setSecure( true );
         cookie.setMaxAge( 60 * 60 * 24 * 7 );
+        cookie.setPath( "/" );
 
         httpResponse.addCookie( cookie );
 
         return LoginResponse.builder()
                 .nome( nome )
                 .username( username )
+                .token( token )
                 .build();
     }
 

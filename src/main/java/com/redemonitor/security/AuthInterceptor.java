@@ -47,8 +47,9 @@ public class AuthInterceptor extends OncePerRequestFilter {
                     token = cookies[ i ].getValue();
         }
 
-        if ( request.getRequestURI().equals( "/api/v1/login" ) )
+        if ( request.getRequestURI().equals( "/api/v1/login" ) ) {
             token = null;
+        }
 
         if ( token != null ) {
             try {
@@ -67,9 +68,12 @@ public class AuthInterceptor extends OncePerRequestFilter {
                     SecurityContextHolder.getContext().setAuthentication( userPassToken );
                 }
             } catch ( JWTVerificationException e ) {
+                e.printStackTrace();
+                System.out.println( token );
+
                 String resp = "{ \"message\" : \"Token inválido ou expirado. Por favor faça login novamente.\" }";
                 response.setContentType( "application/json" );
-                response.setStatus( HttpServletResponse.SC_BAD_REQUEST );
+                response.setStatus( HttpServletResponse.SC_FORBIDDEN );
 
                 PrintWriter writer = new PrintWriter( response.getOutputStream() );
                 writer.print( resp );

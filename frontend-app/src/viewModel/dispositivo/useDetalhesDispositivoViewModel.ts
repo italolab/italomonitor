@@ -30,7 +30,6 @@ function useDetalhesDispositivoViewModel() {
     const dispositivoMonitorModel = new DispositivoMonitorModel();
 
     const loadDispositivo = async ( dispositivoId : number ) => {
-        setErrorMessage( null );
         setInfoMessage( null );
         setLoading( false );
 
@@ -90,7 +89,8 @@ function useDetalhesDispositivoViewModel() {
         loading, 
         errorMessage, 
         infoMessage, 
-        setDispositivo 
+        setDispositivo,
+        setErrorMessage
     };
 }
 

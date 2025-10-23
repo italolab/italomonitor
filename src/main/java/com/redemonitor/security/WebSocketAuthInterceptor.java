@@ -23,18 +23,16 @@ public class WebSocketAuthInterceptor implements ChannelInterceptor {
     @Autowired
     private JwtTokenUtil jwtTokenUtil;
 
-    @Value("${jwt.token.cookie.name}")
-    private String tokenCookieName;
-
     @Override
     public @Nullable Message<?> preSend(Message<?> message, MessageChannel channel) {
         StompHeaderAccessor accessor =
                 MessageHeaderAccessor.getAccessor( message, StompHeaderAccessor.class );
 
-
         if ( accessor != null ) {
             if ( StompCommand.CONNECT.equals( accessor.getCommand() ) ) {
                 String authorizationHeader = accessor.getFirstNativeHeader( "Authorization" );
+
+                System.out.println( "TOKEN= "+ authorizationHeader );
 
                 if ( authorizationHeader != null ) {
                     String token = authorizationHeader.substring(7);

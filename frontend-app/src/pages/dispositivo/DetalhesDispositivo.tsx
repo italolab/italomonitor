@@ -1,6 +1,6 @@
 import { useNavigate, useParams } from "react-router-dom";
 import useDetalhesDispositivoViewModel from "../../viewModel/dispositivo/useDetalhesDispositivoViewModel";
-import { useEffect } from "react";
+import { useContext, useEffect } from "react";
 import AppLayout from "../../layout/AppLayout";
 import { Button, Card } from "react-bootstrap";
 import AppField from "../../components/AppField";
@@ -12,8 +12,11 @@ import AppBoxInfo from "../../components/AppBoxInfo";
 import SockJS from 'sockjs-client';
 import { Stomp } from "@stomp/stompjs";
 import { BASE_WS_URL } from "../../constants/api-constants";
+import { AuthContext } from "../../context/AuthProvider";
 
 function DetalhesDispositivo() {
+
+    const {token, username} = useContext(AuthContext);
 
     const {
         loadDispositivo,
@@ -23,7 +26,8 @@ function DetalhesDispositivo() {
         loading,
         errorMessage,
         infoMessage,
-        setDispositivo
+        setDispositivo,
+        setErrorMessage
     } = useDetalhesDispositivoViewModel();
 
     const { dispositivoId } = useParams();
@@ -32,16 +36,22 @@ function DetalhesDispositivo() {
 
     useEffect( () => {
         const socket = new SockJS( BASE_WS_URL );
-        const stompClient = Stomp.over(socket);
+        const stompClient = Stomp.over( socket );
 
-        stompClient.connect( {}, () => {
-            stompClient.subscribe('/user/topic/dispositivo', (message) => {
-                const data = JSON.parse( message.body );
-                setDispositivo( data );                
+        if ( token === null || token === '' ) {
+            setErrorMessage( 'Página atualizada após o login. Para funcionar a atualização de dados em tempo real, é necessário logar novamente sem atualizar a página.' );
+        } else {
+            stompClient.connect( {
+                Authorization: `Bearer ${token}`
+            }, () => {
+                stompClient.subscribe(`/user/${username}/topic/dispositivo`, (message) => {
+                    const data = JSON.parse( message.body );
+                    setDispositivo( data ); 
+                } );
+            }, (error: unknown) => {
+                console.error( error );
             } );
-        }, (error: unknown) => {
-            console.error( error );
-        } );
+        }
 
         onLoad();
 
@@ -49,7 +59,7 @@ function DetalhesDispositivo() {
             if ( stompClient.connected ) {
                 stompClient.disconnect( () => {
                     console.log( "Disconectado do servidor de mensagens websocket!" );
-                } );
+                } );                
             }
         };
     }, [] )
