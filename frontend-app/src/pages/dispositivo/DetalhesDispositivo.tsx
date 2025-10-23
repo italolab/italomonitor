@@ -9,6 +9,10 @@ import AppSpinner from "../../components/AppSpinner";
 import { MdArrowBack, MdOutlineEdit, MdPlayCircle, MdStopCircle } from "react-icons/md";
 import AppBoxInfo from "../../components/AppBoxInfo";
 
+import SockJS from 'sockjs-client';
+import { Stomp } from "@stomp/stompjs";
+import { BASE_WS_URL } from "../../constants/api-constants";
+
 function DetalhesDispositivo() {
 
     const {
@@ -18,7 +22,8 @@ function DetalhesDispositivo() {
         dispositivo,
         loading,
         errorMessage,
-        infoMessage
+        infoMessage,
+        setDispositivo
     } = useDetalhesDispositivoViewModel();
 
     const { dispositivoId } = useParams();
@@ -26,7 +31,27 @@ function DetalhesDispositivo() {
     const navigate = useNavigate();
 
     useEffect( () => {
+        const socket = new SockJS( BASE_WS_URL );
+        const stompClient = Stomp.over(socket);
+
+        stompClient.connect( {}, () => {
+            stompClient.subscribe('/user/topic/dispositivo', (message) => {
+                const data = JSON.parse( message.body );
+                setDispositivo( data );                
+            } );
+        }, (error: unknown) => {
+            console.error( error );
+        } );
+
         onLoad();
+
+        return () => {
+            if ( stompClient.connected ) {
+                stompClient.disconnect( () => {
+                    console.log( "Disconectado do servidor de mensagens websocket!" );
+                } );
+            }
+        };
     }, [] )
 
     const onLoad = async () => {
@@ -93,7 +118,7 @@ function DetalhesDispositivo() {
                             </AppBoxInfo>
                         </div>
 
-                        <br />
+                        <br />                       
 
                         <AppField name="ID">
                             {dispositivo.id}

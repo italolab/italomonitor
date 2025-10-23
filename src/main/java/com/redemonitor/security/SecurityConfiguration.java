@@ -24,10 +24,12 @@ public class SecurityConfiguration {
 
             "/api-docs",
             "/swagger-ui.html",
+
+            "/ws/**"
     };
 
     @Autowired
-    private AuthorizationFilter2 authorizationFilter;
+    private AuthInterceptor authorizationFilter;
 
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {

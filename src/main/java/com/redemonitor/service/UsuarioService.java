@@ -1,5 +1,7 @@
 package com.redemonitor.service;
 
+import com.auth0.jwt.exceptions.JWTVerificationException;
+import com.auth0.jwt.interfaces.DecodedJWT;
 import com.redemonitor.dto.request.CreateUsuarioRequest;
 import com.redemonitor.dto.request.UpdateUsuarioRequest;
 import com.redemonitor.dto.response.UsuarioGrupoResponse;
@@ -18,6 +20,7 @@ import com.redemonitor.repository.UsuarioGrupoMapRepository;
 import com.redemonitor.repository.UsuarioGrupoRepository;
 import com.redemonitor.repository.UsuarioRepository;
 import com.redemonitor.util.HashUtil;
+import com.redemonitor.util.JwtTokenUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -51,6 +54,18 @@ public class UsuarioService {
 
     @Autowired
     private HashUtil hashUtil;
+
+    @Autowired
+    private JwtTokenUtil jwtTokenUtil;
+
+    public String getTokenUsername( String token ) {
+        try {
+            DecodedJWT decodedJWT = jwtTokenUtil.verifyToken( token );
+            return decodedJWT.getSubject();
+        } catch ( JWTVerificationException e ) {
+            throw new BusinessException( Errors.NOT_AUTHORIZED );
+        }
+    }
 
     public void createUsuario( CreateUsuarioRequest request ) {
         request.validate();

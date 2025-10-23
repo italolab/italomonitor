@@ -82,7 +82,16 @@ function useDetalhesDispositivoViewModel() {
         }
     };
 
-    return { loadDispositivo, startMonitoramento, stopMonitoramento, dispositivo, loading, errorMessage, infoMessage };
+    return { 
+        loadDispositivo, 
+        startMonitoramento, 
+        stopMonitoramento, 
+        dispositivo, 
+        loading, 
+        errorMessage, 
+        infoMessage, 
+        setDispositivo 
+    };
 }
 
 export default useDetalhesDispositivoViewModel;

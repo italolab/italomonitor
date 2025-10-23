@@ -8,3 +8,24 @@ npm install react-router-dom
 
 npm install scss
 npm install -D sass-embedded
+
+npm install sockjs-client @stomp/stompjs
+npm i --save-dev @types/sockjs-client
+
+
+
+Por causa do scss, é necessário adicionar isto ao defineConfig do arquivo vite.config.js:
+
+css: {
+    preprocessorOptions: {
+      scss: {
+        quietDeps: true
+      }
+    }
+}
+
+Por causa do sockjs-client, é necessário adicionar isto ao defineConfig do arquivo vite.config.js:
+
+define: {
+    global: 'window'
+}

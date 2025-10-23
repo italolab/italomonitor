@@ -22,12 +22,12 @@ public class JwtTokenUtil {
     @Value("${jwt.issuer}")
     private String issuer;
 
-    public String createToken( String subject, String[] roles ) {
+    public String createToken( String username, String[] roles ) {
         Algorithm algorithm = Algorithm.HMAC256( secretKey );
 
         return JWT.create()
                 .withIssuer( issuer )
-                .withSubject( subject )
+                .withSubject( username )
                 .withArrayClaim( "roles", roles )
                 .withExpiresAt( new Date( System.currentTimeMillis() + expireAt ) )
                 .sign( algorithm );

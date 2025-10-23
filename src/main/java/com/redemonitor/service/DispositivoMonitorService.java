@@ -9,11 +9,14 @@ import com.redemonitor.repository.ConfigRepository;
 import com.redemonitor.repository.DispositivoRepository;
 import com.redemonitor.service.device.DispositivoMonitor;
 import com.redemonitor.service.device.DispositivoMonitorThread;
+import com.redemonitor.service.message.DispositivoMessageService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 import org.springframework.stereotype.Service;
 
 import java.time.Duration;
+import java.time.Instant;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
@@ -32,9 +35,12 @@ public class DispositivoMonitorService {
     @Autowired
     private ThreadPoolTaskScheduler scheduler;
 
+    @Autowired
+    private DispositivoMessageService dispositivoMessageService;
+
     private Map<Long, DispositivoMonitor> dispositivoMonitorMap = new ConcurrentHashMap<>();
 
-    public void startMonitoramento( Long dispositivoId ) {
+    public void startMonitoramento( Long dispositivoId, String username ) {
         Config config = configRepository.findFirstByOrderByIdAsc();
 
         Optional<Dispositivo> dispositivoOp = dispositivoRepository.findById( dispositivoId );
@@ -47,22 +53,28 @@ public class DispositivoMonitorService {
             dispositivo.setStatus( DispositivoStatus.ATIVO );
             dispositivoRepository.save( dispositivo );
 
+            dispositivoMessageService.send( dispositivo, username );
+
             throw new BusinessException(Errors.DISPOSITIVO_ALREADY_MONITORED);
         }
 
-        Duration monitorDelay = Duration.ofSeconds( config.getMonitoramentoDelay() );
+        Duration monitorDelay = Duration.ofMillis( 30 );
 
-        DispositivoMonitorThread thread = new DispositivoMonitorThread( dispositivo, config, dispositivoRepository );
-        ScheduledFuture<?> scheduledFuture = scheduler.scheduleWithFixedDelay( thread, monitorDelay  );
+        DispositivoMonitorThread thread = new DispositivoMonitorThread(
+                dispositivo, config, dispositivoRepository, dispositivoMessageService, username );
+
+        ScheduledFuture<?> scheduledFuture = scheduler.scheduleAtFixedRate( thread, Instant.now(), monitorDelay  );
 
         DispositivoMonitor dispositivoMonitor = new DispositivoMonitor( thread, scheduledFuture );
         dispositivoMonitorMap.put( dispositivoId, dispositivoMonitor );
 
         dispositivo.setSendoMonitorado( true );
         dispositivoRepository.save( dispositivo );
+
+        dispositivoMessageService.send( dispositivo, username );
     }
 
-    public void stopMonitoramento( Long dispositivoId ) {
+    public void stopMonitoramento( Long dispositivoId, String username ) {
         Optional<Dispositivo> dispositivoOp = dispositivoRepository.findById( dispositivoId );
         if ( dispositivoOp.isEmpty() )
             throw new BusinessException( Errors.DISPOSITIVO_NOT_FOUND );
@@ -72,6 +84,8 @@ public class DispositivoMonitorService {
         if ( !dispositivoMonitorMap.containsKey( dispositivoId ) ) {
             dispositivo.setStatus( DispositivoStatus.INATIVO );
             dispositivoRepository.save( dispositivo );
+
+            dispositivoMessageService.send( dispositivo, username );
 
             throw new BusinessException(Errors.DISPOSITIVO_NOT_MONITORED);
         }
@@ -83,6 +97,8 @@ public class DispositivoMonitorService {
 
         dispositivo.setSendoMonitorado( false );
         dispositivoRepository.save( dispositivo );
+
+        dispositivoMessageService.send( dispositivo, username );
     }
 
     public void setConfigInMonitores() {

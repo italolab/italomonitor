@@ -10,5 +10,8 @@ export default defineConfig({
         quietDeps: true
       }
     }
-  }
+  },
+  define: {
+    global: 'window'
+  }  
 })

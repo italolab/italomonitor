@@ -7,7 +7,7 @@ export const AuthContext = createContext( {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     setNome: (t : string) => {},
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    setUsername: (t : string ) => {}
+    setUsername: (t : string ) => {},
 } );
 
 interface AuthProviderProps {

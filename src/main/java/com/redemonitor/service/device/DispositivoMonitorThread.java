@@ -5,6 +5,8 @@ import com.redemonitor.model.Dispositivo;
 import com.redemonitor.model.Empresa;
 import com.redemonitor.model.enums.DispositivoStatus;
 import com.redemonitor.repository.DispositivoRepository;
+import com.redemonitor.service.message.DispositivoMessageService;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 
 import java.io.IOException;
 import java.util.Scanner;
@@ -16,11 +18,19 @@ public class DispositivoMonitorThread implements Runnable {
     private Dispositivo dispositivo;
     private Config config;
     private DispositivoRepository dispositivoRepository;
+    private DispositivoMessageService dispositivoMessageService;
+    private String username;
 
-    public DispositivoMonitorThread( Dispositivo dispositivo, Config config, DispositivoRepository dispositivoRepository ) {
+    public DispositivoMonitorThread( Dispositivo dispositivo,
+                                     Config config,
+                                     DispositivoRepository dispositivoRepository,
+                                     DispositivoMessageService dispositivoMessageService,
+                                     String username ) {
         this.dispositivo = dispositivo;
         this.config = config;
         this.dispositivoRepository = dispositivoRepository;
+        this.dispositivoMessageService = dispositivoMessageService;
+        this.username = username;
     }
 
     public void run() {
@@ -58,11 +68,15 @@ public class DispositivoMonitorThread implements Runnable {
                 if ( dispositivo.getStatus() == DispositivoStatus.ATIVO ) {
                     dispositivo.setStatus( DispositivoStatus.INATIVO );
                     dispositivoRepository.save( dispositivo );
+
+                    dispositivoMessageService.send( dispositivo, username );
                 }
             } else {
                 if ( dispositivo.getStatus() == DispositivoStatus.INATIVO ) {
                     dispositivo.setStatus( DispositivoStatus.ATIVO );
                     dispositivoRepository.save( dispositivo );
+
+                    dispositivoMessageService.send( dispositivo, username );
                 }
             }
 
