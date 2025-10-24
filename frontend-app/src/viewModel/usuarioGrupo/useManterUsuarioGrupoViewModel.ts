@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { UsuarioGrupoModel } from "../../model/UsuarioGrupoModel";
 import { extractErrorMessage } from "../../util/SistemaUtil";
 import { type UsuarioGrupoResponse } from "../../model/dto/response/UsuarioGrupoResponse";
+import { AuthContext } from "../../context/AuthProvider";
 
 function useManterUsuarioGrupoViewModel() {
 
@@ -12,8 +13,10 @@ function useManterUsuarioGrupoViewModel() {
     const [usuarioGrupos, setUsuarioGrupos] = useState<UsuarioGrupoResponse[]>( [] );
 
     const [nomePart, setNomePart] = useState<string>( '' );
+    
+    const {setAccessToken} = useContext(AuthContext);
 
-    const usuarioGrupoModel = new UsuarioGrupoModel();
+    const usuarioGrupoModel = new UsuarioGrupoModel( setAccessToken );
 
     const filterUsuarioGrupos = async () => {
         setErrorMessage( null );

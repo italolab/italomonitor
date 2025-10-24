@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { UsuarioModel } from "../../model/UsuarioModel";
 import { extractErrorMessage } from "../../util/SistemaUtil";
 import { type UsuarioResponse } from "../../model/dto/response/UsuarioResponse";
+import { AuthContext } from "../../context/AuthProvider";
 
 function useManterUsuarioViewModel() {
 
@@ -12,8 +13,10 @@ function useManterUsuarioViewModel() {
     const [usuarios, setUsuarios] = useState<UsuarioResponse[]>( [] );
 
     const [nomePart, setNomePart] = useState<string>( '' );
+    
+    const {setAccessToken} = useContext(AuthContext);
 
-    const usuarioModel = new UsuarioModel();
+    const usuarioModel = new UsuarioModel( setAccessToken );
 
     const filterUsuarios = async () => {
         setErrorMessage( null );

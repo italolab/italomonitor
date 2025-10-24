@@ -1,9 +1,10 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { UsuarioModel } from "../../model/UsuarioModel";
 import { extractErrorMessage } from "../../util/SistemaUtil";
 import type { UsuarioGrupoResponse } from "../../model/dto/response/UsuarioGrupoResponse";
 import type { UsuarioResponse } from "../../model/dto/response/UsuarioResponse";
 import { UsuarioGrupoModel } from "../../model/UsuarioGrupoModel";
+import { AuthContext } from "../../context/AuthProvider";
 
 function useVincularUsuarioGrupoViewModel() {
 
@@ -19,16 +20,19 @@ function useVincularUsuarioGrupoViewModel() {
         empresa: {
             id: 0,
             nome: '',
-            emailNotif: ''
+            emailNotif: '',
+            porcentagemMaxFalhasPorLote: 0
         },
         grupos: []
     } );
 
     const [otherGrupos, setOtherGrupos] = useState<UsuarioGrupoResponse[]>( [] );
     const [grupos, setGrupos] = useState<UsuarioGrupoResponse[]>( [] );
+    
+    const {setAccessToken} = useContext(AuthContext);
 
-    const usuarioModel = new UsuarioModel();
-    const usuarioGrupoModel = new UsuarioGrupoModel();
+    const usuarioModel = new UsuarioModel( setAccessToken );
+    const usuarioGrupoModel = new UsuarioGrupoModel( setAccessToken );
 
     const loadUsuario = async ( usuarioId : number ) => {
         setErrorMessage( null );

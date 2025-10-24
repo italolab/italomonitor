@@ -1,18 +1,17 @@
-import axios from "axios";
-import { BASE_API_URL } from "../constants/api-constants";
+import { api, configuraInterceptor, type SetAccessTokenFunction } from "./Api";
 
 export class DispositivoMonitorModel {
 
+    constructor( setAccessToken : SetAccessTokenFunction ) {
+        configuraInterceptor( setAccessToken );
+    }
+
     async startMonitoramento( dispositivoId : number ) {
-        return axios.post( BASE_API_URL + "/dispositivos/monitoramento/start/"+dispositivoId, {}, {
-            withCredentials: true
-        } );
+        return api.post( "/dispositivos/monitoramento/start/"+dispositivoId, {} );
     }
 
     async stopMonitoramento( dispositivoId : number ) {
-        return axios.post( BASE_API_URL + "/dispositivos/monitoramento/stop/"+dispositivoId, {}, {
-            withCredentials: true
-        } );
+        return api.post( "/dispositivos/monitoramento/stop/"+dispositivoId, {} );
     }
 
 }

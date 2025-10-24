@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { type UsuarioResponse } from "../../model/dto/response/UsuarioResponse";
 import { extractErrorMessage } from "../../util/SistemaUtil";
 import { UsuarioModel } from "../../model/UsuarioModel";
+import { AuthContext } from "../../context/AuthProvider";
 
 function useDetalhesUsuarioViewModel() {
 
@@ -17,12 +18,15 @@ function useDetalhesUsuarioViewModel() {
         empresa: {
             id: 0,
             nome: '',
-            emailNotif: ''
+            emailNotif: '',
+            porcentagemMaxFalhasPorLote: 0
         },
         grupos: []
     } );
+    
+    const {setAccessToken} = useContext(AuthContext);
 
-    const usuarioModel = new UsuarioModel();
+    const usuarioModel = new UsuarioModel( setAccessToken );
 
     const loadUsuario = async ( usuarioId : number ) => {
         setErrorMessage( null );

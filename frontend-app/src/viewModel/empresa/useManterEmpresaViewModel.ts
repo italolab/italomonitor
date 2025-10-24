@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { EmpresaModel } from "../../model/EmpresaModel";
 import type { EmpresaResponse } from "../../model/dto/response/EmpresaResponse";
 import { extractErrorMessage } from "../../util/SistemaUtil";
+import { AuthContext } from "../../context/AuthProvider";
 
 function useManterEmpresaViewModel() {
 
@@ -12,8 +13,10 @@ function useManterEmpresaViewModel() {
     const [empresas, setEmpresas] = useState<EmpresaResponse[]>( [] );
 
     const [nomePart, setNomePart] = useState<string>( '' );
+    
+    const {setAccessToken} = useContext(AuthContext);
 
-    const empresaModel = new EmpresaModel();
+    const empresaModel = new EmpresaModel( setAccessToken );
 
     const filterEmpresas = async () => {
         setErrorMessage( null );

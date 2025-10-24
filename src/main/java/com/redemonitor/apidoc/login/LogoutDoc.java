@@ -16,15 +16,13 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 @Operation(
-        summary = "Responsável por autenticar um usuário e retornar o access token, o refresh token e outras informações do usuário logado."
+        summary = "Responsável por fazer logout."
 )
 @ApiResponses(value= {
         @ApiResponse(
                 responseCode = "200",
-                description = "Token e outros dados retornados.",
-                content = {@Content(
-                        mediaType = MediaType.APPLICATION_JSON_VALUE,
-                        schema = @Schema(implementation =  LoginResponse.class))}),
+                description = "Logout bem sucedido.",
+                content = @Content),
         @ApiResponse(
                 responseCode = "400",
                 description = APIDocConstants.MSG_400,
@@ -34,6 +32,6 @@ import java.lang.annotation.Target;
 })
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
-public @interface LoginDoc {
+public @interface LogoutDoc {
 
 }

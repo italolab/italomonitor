@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { type EmpresaResponse } from "../../model/dto/response/EmpresaResponse";
 import { extractErrorMessage } from "../../util/SistemaUtil";
 import { EmpresaModel } from "../../model/EmpresaModel";
+import { AuthContext } from "../../context/AuthProvider";
 
 
 function useDetalhesEmpresaViewModel() {
@@ -16,8 +17,10 @@ function useDetalhesEmpresaViewModel() {
         emailNotif: '',
         porcentagemMaxFalhasPorLote: 0
     } );
+    
+    const {setAccessToken} = useContext(AuthContext);
 
-    const empresaModel = new EmpresaModel();
+    const empresaModel = new EmpresaModel( setAccessToken );
 
     const loadEmpresa = async ( empresaId : number ) => {
         setErrorMessage( null );

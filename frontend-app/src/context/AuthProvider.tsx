@@ -4,13 +4,13 @@ import { createContext, useState, type ReactNode } from "react";
 export const AuthContext = createContext( {
     nome: '',
     username: '',
-    token: '',
+    accessToken: '',
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     setNome: (t : string) => {},
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     setUsername: (t : string ) => {},
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    setToken: (t : string ) => {}
+    setAccessToken: (t : string ) => {}
 } );
 
 interface AuthProviderProps {
@@ -21,10 +21,10 @@ export const AuthProvider = ({children} : AuthProviderProps ) => {
 
     const [nome, setNome] = useState<string>('');
     const [username, setUsername] = useState<string>('');
-    const [token, setToken] = useState<string>('');
+    const [accessToken, setAccessToken] = useState<string>('');
 
     return (
-        <AuthContext.Provider value={{nome, setNome, username, setUsername, token, setToken}}>
+        <AuthContext.Provider value={{nome, setNome, username, setUsername, accessToken, setAccessToken}}>
             {children}
         </AuthContext.Provider>
     );

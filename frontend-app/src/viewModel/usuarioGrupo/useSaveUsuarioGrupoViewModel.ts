@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { UsuarioGrupoModel } from "../../model/UsuarioGrupoModel";
 import { extractErrorMessage } from "../../util/SistemaUtil";
 import type { UsuarioGrupoResponse } from "../../model/dto/response/UsuarioGrupoResponse";
 import type { SaveUsuarioGrupoRequest } from "../../model/dto/request/SaveUsuarioGrupoRequest";
+import { AuthContext } from "../../context/AuthProvider";
 
 
 function useSaveUsuarioGrupoViewModel() {
@@ -10,8 +11,10 @@ function useSaveUsuarioGrupoViewModel() {
     const [errorMessage, setErrorMessage] = useState<string|null>( null );
     const [infoMessage, setInfoMessage] = useState<string|null>( null );
     const [loading, setLoading] = useState<boolean>( false );
+    
+    const {setAccessToken} = useContext(AuthContext);
 
-    const usuarioGrupoModel = new UsuarioGrupoModel();
+    const usuarioGrupoModel = new UsuarioGrupoModel( setAccessToken );
 
     const createUsuarioGrupo = async ( grupo : SaveUsuarioGrupoRequest ) => {
         setErrorMessage( null );

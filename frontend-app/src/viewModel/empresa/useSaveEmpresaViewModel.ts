@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { EmpresaModel } from "../../model/EmpresaModel";
 import { extractErrorMessage } from "../../util/SistemaUtil";
 import type { EmpresaResponse } from "../../model/dto/response/EmpresaResponse";
 import type { SaveEmpresaRequest } from "../../model/dto/request/SaveEmpresaRequest";
+import { AuthContext } from "../../context/AuthProvider";
 
 
 function useSaveEmpresaViewModel() {
@@ -10,8 +11,10 @@ function useSaveEmpresaViewModel() {
     const [errorMessage, setErrorMessage] = useState<string|null>( null );
     const [infoMessage, setInfoMessage] = useState<string|null>( null );
     const [loading, setLoading] = useState<boolean>( false );
+    
+    const {setAccessToken} = useContext(AuthContext);
 
-    const empresaModel = new EmpresaModel();
+    const empresaModel = new EmpresaModel( setAccessToken );
 
     const createEmpresa = async ( empresa : SaveEmpresaRequest ) => {
         setErrorMessage( null );

@@ -2,6 +2,9 @@ package com.redemonitor.security;
 
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.redemonitor.dto.response.ErrorResponse;
+import com.redemonitor.exception.Errors;
 import com.redemonitor.util.JwtTokenUtil;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -24,13 +27,13 @@ import java.util.Date;
 import java.util.List;
 
 @Component
-public class AuthInterceptor extends OncePerRequestFilter {
+public class AuthorizationFilter2 extends OncePerRequestFilter {
 
     @Autowired
     private JwtTokenUtil jwtTokenUtil;
 
-    @Value("${jwt.token.cookie.name}")
-    private String tokenCookieName;
+    @Value("${jwt.access_token.cookie.name}")
+    private String accessTokenCookieName;
 
     @Override
     protected void doFilterInternal(
@@ -38,25 +41,25 @@ public class AuthInterceptor extends OncePerRequestFilter {
             @NonNull HttpServletResponse response,
             @NonNull FilterChain filterChain) throws ServletException, IOException {
 
-        String token = null;
+        String accessToken = null;
 
-        if ( request.getRequestURI().equals( "/api/v1/login" ) ) {
-            Cookie cookie = new Cookie( tokenCookieName, "" );
+        if ( request.getRequestURI().equals( "/api/v1/auth/login" ) ) {
+            Cookie cookie = new Cookie( accessTokenCookieName, "" );
             cookie.setMaxAge( 0 );
             cookie.setHttpOnly( true );
             response.addCookie( cookie );
         } else {
             Cookie[] cookies = request.getCookies();
             if ( cookies != null ) {
-                for ( int i = 0; token == null && i < cookies.length; i++ )
-                    if ( cookies[ i ].getName().equals( tokenCookieName ) )
-                        token = cookies[ i ].getValue();
+                for ( int i = 0; accessToken == null && i < cookies.length; i++ )
+                    if ( cookies[ i ].getName().equals( accessTokenCookieName ) )
+                        accessToken = cookies[ i ].getValue();
             }
         }
 
-        if ( token != null ) {
+        if ( accessToken != null ) {
             try {
-                DecodedJWT decodedJWT = jwtTokenUtil.verifyToken( token );
+                DecodedJWT decodedJWT = jwtTokenUtil.verifyToken( accessToken );
                 if ( decodedJWT.getExpiresAt().after( new Date() ) ) {
                     String username = decodedJWT.getSubject();
                     String[] roles = decodedJWT.getClaim( "roles" ).asArray( String.class );
@@ -71,10 +74,12 @@ public class AuthInterceptor extends OncePerRequestFilter {
                     SecurityContextHolder.getContext().setAuthentication( userPassToken );
                 }
             } catch ( JWTVerificationException e ) {
-                e.printStackTrace();
-                System.out.println( token );
+                ErrorResponse errResp = ErrorResponse.builder()
+                        .message( Errors.INVALID_OR_EXPIRED_TOKEN )
+                        .build();
 
-                String resp = "{ \"message\" : \"Token inválido ou expirado. Por favor faça login novamente.\" }";
+                String resp = new ObjectMapper().writeValueAsString( errResp );
+
                 response.setContentType( "application/json" );
                 response.setStatus( HttpServletResponse.SC_FORBIDDEN );
 

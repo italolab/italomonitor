@@ -1,37 +1,30 @@
-import axios from "axios";
+import { api, configuraInterceptor, type SetAccessTokenFunction } from "./Api";
 import type { SaveDispositivoRequest } from "./dto/request/SaveDispositivoRequest";
-import { BASE_API_URL } from "../constants/api-constants";
 
 export class DispositivoModel {
 
+    constructor( setAccessToken : SetAccessTokenFunction ) {
+        configuraInterceptor( setAccessToken );
+    }
+
     async createDispositivo( dispositivoSave : SaveDispositivoRequest ) {
-        return await axios.post( BASE_API_URL + "/dispositivos", dispositivoSave, {
-            withCredentials: true
-        } );
+        return await api.post( "/dispositivos", dispositivoSave );
     }
 
     async updateDispositivo( dispositivoId : number, dispositivoSave : SaveDispositivoRequest ) {
-        return await axios.put( BASE_API_URL + "/dispositivos/"+dispositivoId, dispositivoSave, {
-            withCredentials: true
-        } );
+        return await api.put( "/dispositivos/"+dispositivoId, dispositivoSave );
     } 
 
     async filterDispositivos( hostpart : string, nomepart : string, localpart : string ) {
-        return await axios.get( BASE_API_URL + "/dispositivos?hostpart="+hostpart+"&nomepart="+nomepart+"&localpart="+localpart, {
-            withCredentials: true
-        } );
+        return await api.get( "/dispositivos?hostpart="+hostpart+"&nomepart="+nomepart+"&localpart="+localpart );
     }
 
     async getDispositivo( dispositivoId : number ) {
-        return await axios.get( BASE_API_URL + "/dispositivos/"+dispositivoId+"/get", {
-            withCredentials: true
-        })
+        return await api.get( "/dispositivos/"+dispositivoId+"/get" );
     }
 
     async deleteDispositivo( dispositivoId : number ) {
-        return await axios.delete( BASE_API_URL + "/dispositivos/"+dispositivoId, {
-            withCredentials: true
-        } );
+        return await api.delete( "/dispositivos/"+dispositivoId );
     }
 
 }

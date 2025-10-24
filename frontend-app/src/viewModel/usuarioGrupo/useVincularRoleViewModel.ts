@@ -1,9 +1,10 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { extractErrorMessage } from "../../util/SistemaUtil";
 import type { UsuarioGrupoResponse } from "../../model/dto/response/UsuarioGrupoResponse";
 import { UsuarioGrupoModel } from "../../model/UsuarioGrupoModel";
 import { RoleModel } from "../../model/RoleModel";
 import type { RoleResponse } from "../../model/dto/response/RoleResponse";
+import { AuthContext } from "../../context/AuthProvider";
 
 function useVincularRoleViewModel() {
 
@@ -18,9 +19,11 @@ function useVincularRoleViewModel() {
 
     const [otherRoles, setOtherRoles] = useState<UsuarioGrupoResponse[]>( [] );
     const [roles, setRoles] = useState<UsuarioGrupoResponse[]>( [] );
+    
+    const {setAccessToken} = useContext(AuthContext);
 
-    const usuarioGrupoModel = new UsuarioGrupoModel();
-    const roleModel = new RoleModel();
+    const usuarioGrupoModel = new UsuarioGrupoModel( setAccessToken );
+    const roleModel = new RoleModel( setAccessToken );
 
     const loadUsuarioGrupo = async ( usuarioGrupoId : number ) => {
         setErrorMessage( null );

@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { RoleModel } from "../../model/RoleModel";
 import { extractErrorMessage } from "../../util/SistemaUtil";
 import type { RoleResponse } from "../../model/dto/response/RoleResponse";
 import type { SaveRoleRequest } from "../../model/dto/request/SaveRoleRequest";
+import { AuthContext } from "../../context/AuthProvider";
 
 
 function useSaveRoleViewModel() {
@@ -10,8 +11,10 @@ function useSaveRoleViewModel() {
     const [errorMessage, setErrorMessage] = useState<string|null>( null );
     const [infoMessage, setInfoMessage] = useState<string|null>( null );
     const [loading, setLoading] = useState<boolean>( false );
+    
+    const {setAccessToken} = useContext(AuthContext);
 
-    const roleModel = new RoleModel();
+    const roleModel = new RoleModel( setAccessToken );
 
     const createRole = async ( role : SaveRoleRequest ) => {
         setErrorMessage( null );

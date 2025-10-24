@@ -1,9 +1,10 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { DispositivoModel } from "../../model/DispositivoModel";
 import type { SaveDispositivoRequest } from "../../model/dto/request/SaveDispositivoRequest";
 import { extractErrorMessage } from "../../util/SistemaUtil";
 import type { DispositivoResponse } from "../../model/dto/response/DispositivoResponse";
 import { EmpresaModel } from "../../model/EmpresaModel";
+import { AuthContext } from "../../context/AuthProvider";
 
 
 function useSaveDispositivoViewModel() {
@@ -11,9 +12,11 @@ function useSaveDispositivoViewModel() {
     const [errorMessage, setErrorMessage] = useState<string|null>( null );
     const [infoMessage, setInfoMessage] = useState<string|null>( null );
     const [loading, setLoading] = useState<boolean>( false );
-
-    const dispositivoModel = new DispositivoModel();
-    const empresaModel = new EmpresaModel();
+    
+    const {setAccessToken} = useContext(AuthContext);
+    
+    const dispositivoModel = new DispositivoModel( setAccessToken );
+    const empresaModel = new EmpresaModel( setAccessToken );
 
     const createDispositivo = async ( dispositivo : SaveDispositivoRequest ) => {
         setErrorMessage( null );

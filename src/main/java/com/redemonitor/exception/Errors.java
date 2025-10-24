@@ -3,6 +3,7 @@ package com.redemonitor.exception;
 public interface Errors {
 
     public final static String NOT_AUTHORIZED = "Acesso não autorizado.";
+    public final static String INVALID_OR_EXPIRED_TOKEN = "Token inválido ou expirado. Por favor faça login novamente.";
 
     public final static String USER_NOT_FOUND = "Usuário não encontrado.";
     public final static String USER_ALREADY_EXISTS = "Usuário já existe registrado com username informado.";
@@ -20,8 +21,6 @@ public interface Errors {
     public final static String DISPOSITIVO_ALREADY_EXISTS = "Dispositivo já existe registrado com o nome informado.";
     public final static String DISPOSITIVO_ALREADY_MONITORED = "O dispositivo já está sendo monitorado.";
     public final static String DISPOSITIVO_NOT_MONITORED = "O dispositivo não está sendo monitorado.";
-
-    public final static String NOT_PERMISSION_TO_ACCESS_DATA_PART = "Você não tem permissão para acessar parte dos dados.";
 
     public final static String LINK_USER_GROUP_NOT_FOUND = "Vínculo entre usuário e grupo não encontrado.";
     public final static String LINK_ROLE_USERGROUP_NOT_FOUND = "Vínculo entre grupo de usuário e role não encontrado.";

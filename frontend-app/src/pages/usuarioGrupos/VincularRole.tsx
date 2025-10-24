@@ -1,11 +1,12 @@
 import { Button, Card, Modal, Table } from "react-bootstrap";
 import AppMessage from "../../components/AppMessage";
 import AppSpinner from "../../components/AppSpinner";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import AppLayout from "../../layout/AppLayout";
 import { FaLink, FaX } from "react-icons/fa6";
 import useVincularRoleViewModel from "../../viewModel/usuarioGrupo/useVincularRoleViewModel";
+import { MdArrowBack } from "react-icons/md";
 
 function VincularRole() {
 
@@ -24,6 +25,8 @@ function VincularRole() {
     } = useVincularRoleViewModel();
 
     const { usuarioGrupoId } = useParams();
+
+    const navigate = useNavigate();
 
     useEffect( () => {
         onLoad();
@@ -90,7 +93,13 @@ function VincularRole() {
                 </Modal.Body>
             </Modal>
 
-            <div className="d-flex justify-content-center">
+            <div className="d-flex justify-content-start">
+                <Button type="button" onClick={() => navigate( -1 )} className="d-inline-flex align-items-center">
+                    <MdArrowBack size={25}/> Voltar
+                </Button>                            
+            </div>
+
+            <div className="d-flex justify-content-center mt-3">
                 <Card>
                     <Card.Header>
                         <Card.Title className="m-0 text-center">

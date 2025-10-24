@@ -11,6 +11,7 @@ import com.redemonitor.model.*;
 import com.redemonitor.repository.RoleGrupoMapRepository;
 import com.redemonitor.repository.RoleRepository;
 import com.redemonitor.repository.UsuarioGrupoRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -81,6 +82,7 @@ public class UsuarioGrupoService {
         return usuarioGrupoOp.map( usuarioGrupoMapper::map ).orElseThrow();
     }
 
+    @Transactional
     public List<RoleResponse> getRolesByGrupoId( Long grupoId ) {
         Optional<UsuarioGrupo> usuarioGrupoOp = usuarioGrupoRepository.findById( grupoId );
         if ( usuarioGrupoOp.isEmpty() )

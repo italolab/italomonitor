@@ -1,5 +1,5 @@
 import { useContext, useState } from "react";
-import { LoginModel } from "../model/LoginModel";
+import { AuthModel } from "../model/AuthModel";
 import type { LoginResponse } from "../model/dto/response/LoginResponse";
 import type { LoginRequest } from "../model/dto/request/LoginRequest";
 import { extractErrorMessage } from "../util/SistemaUtil";
@@ -13,9 +13,9 @@ export function useLoginViewModel() {
 
     const [loginData, setLoginData] = useState<LoginResponse|null>( null );
 
-    const {setNome, setUsername, setToken} = useContext(AuthContext);
+    const {setNome, setUsername, setAccessToken} = useContext(AuthContext);
 
-    const loginModel = new LoginModel();
+    const authModel = new AuthModel();
 
     const logon = async ( loginReq: LoginRequest ) => {
         setErrorMessage( null );
@@ -23,10 +23,10 @@ export function useLoginViewModel() {
         setLoading( true );
 
         try {
-            const response = await loginModel.login( loginReq );
+            const response = await authModel.login( loginReq );
             setNome( response.data.nome );
             setUsername( response.data.username );
-            setToken( response.data.token );
+            setAccessToken( response.data.accessToken );
 
             setLoginData( response.data );
             setLoading( false );

@@ -1,56 +1,43 @@
-import axios from "axios";
-import { BASE_API_URL } from "../constants/api-constants";
+import { api, configuraInterceptor, type SetAccessTokenFunction } from "./Api";
 import type { CreateUsuarioRequest } from "./dto/request/CreateUsuarioRequest";
 import type { UpdateUsuarioRequest } from "./dto/request/UpdateUsuarioRequest";
 
 export class UsuarioModel {
 
+    constructor( setAccessToken : SetAccessTokenFunction ) {
+        configuraInterceptor( setAccessToken );
+    }
+
     async createUsuario( usuarioSave : CreateUsuarioRequest ) {
-        return await axios.post( BASE_API_URL + "/usuarios", usuarioSave, {
-            withCredentials: true
-        } );
+        return await api.post( "/usuarios", usuarioSave );
     }
 
     async updateUsuario( usuarioId : number, usuarioSave : UpdateUsuarioRequest ) {
-        return await axios.put( BASE_API_URL + "/usuarios/"+usuarioId, usuarioSave, {
-            withCredentials: true
-        } );
+        return await api.put( "/usuarios/"+usuarioId, usuarioSave );
     } 
 
     async filterUsuarios( nomepart : string ) {
-        return await axios.get( BASE_API_URL + "/usuarios?nomepart="+nomepart, {
-            withCredentials: true
-        } );
+        return await api.get( "/usuarios?nomepart="+nomepart );
     }
 
     async getUsuario( usuarioId : number ) {
-        return await axios.get( BASE_API_URL + "/usuarios/"+usuarioId+"/get", {
-            withCredentials: true
-        })
+        return await api.get( "/usuarios/"+usuarioId+"/get" );
     }
 
     async getGrupos( usuarioId : number ) {
-        return await axios.get( BASE_API_URL + "/usuarios/"+usuarioId+"/grupos", {
-            withCredentials: true
-        } );
+        return await api.get( "/usuarios/"+usuarioId+"/grupos" );
     }
 
     async vinculaGrupo( usuarioId : number, usuarioGrupoId : number ) {
-        return await axios.post( BASE_API_URL + "/usuarios/"+usuarioId+"/grupos/"+usuarioGrupoId, {}, {
-            withCredentials: true
-        } );
+        return await api.post( "/usuarios/"+usuarioId+"/grupos/"+usuarioGrupoId, {} );
     }
 
     async deleteGrupoVinculado( usuarioId : number, usuarioGrupoId : number ) {
-        return await axios.delete( BASE_API_URL + "/usuarios/"+usuarioId+"/grupos/"+usuarioGrupoId, {
-            withCredentials: true
-        } );
+        return await api.delete( "/usuarios/"+usuarioId+"/grupos/"+usuarioGrupoId );
     }
 
     async deleteUsuario( usuarioId : number ) {
-        return await axios.delete( BASE_API_URL + "/usuarios/"+usuarioId, {
-            withCredentials: true
-        } );
+        return await api.delete( "/usuarios/"+usuarioId );
     }
 
 }

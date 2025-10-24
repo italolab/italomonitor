@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { type UsuarioGrupoResponse } from "../../model/dto/response/UsuarioGrupoResponse";
 import { extractErrorMessage } from "../../util/SistemaUtil";
 import { UsuarioGrupoModel } from "../../model/UsuarioGrupoModel";
+import { AuthContext } from "../../context/AuthProvider";
 
 function useDetalhesUsuarioGrupoViewModel() {
 
@@ -13,8 +14,10 @@ function useDetalhesUsuarioGrupoViewModel() {
         id: 0,
         nome: '',
     } );
+    
+    const {setAccessToken} = useContext(AuthContext);
 
-    const usuarioGrupoModel = new UsuarioGrupoModel();
+    const usuarioGrupoModel = new UsuarioGrupoModel( setAccessToken );
 
     const loadUsuarioGrupo = async ( usuarioGrupoId : number ) => {
         setErrorMessage( null );

@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { type DispositivoResponse } from "../../model/dto/response/DispositivoResponse";
 import { extractErrorMessage } from "../../util/SistemaUtil";
 import { DispositivoModel } from "../../model/DispositivoModel";
 import { DispositivoMonitorModel } from "../../model/DispositivoMonitorModel";
+import { AuthContext } from "../../context/AuthProvider";
 
 function useDetalhesDispositivoViewModel() {
 
@@ -26,8 +27,10 @@ function useDetalhesDispositivoViewModel() {
         }
     } );
 
-    const dispositivoModel = new DispositivoModel();
-    const dispositivoMonitorModel = new DispositivoMonitorModel();
+    const {setAccessToken} = useContext(AuthContext);
+
+    const dispositivoModel = new DispositivoModel( setAccessToken );
+    const dispositivoMonitorModel = new DispositivoMonitorModel( setAccessToken );
 
     const loadDispositivo = async ( dispositivoId : number ) => {
         setInfoMessage( null );

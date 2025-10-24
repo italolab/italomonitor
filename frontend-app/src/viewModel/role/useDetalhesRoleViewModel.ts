@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { type RoleResponse } from "../../model/dto/response/RoleResponse";
 import { extractErrorMessage } from "../../util/SistemaUtil";
 import { RoleModel } from "../../model/RoleModel";
+import { AuthContext } from "../../context/AuthProvider";
 
 
 function useDetalhesRoleViewModel() {
@@ -14,8 +15,10 @@ function useDetalhesRoleViewModel() {
         id: 0,
         nome: '',
     } );
+    
+    const {setAccessToken} = useContext(AuthContext);
 
-    const roleModel = new RoleModel();
+    const roleModel = new RoleModel( setAccessToken );
 
     const loadRole = async ( roleId : number ) => {
         setErrorMessage( null );

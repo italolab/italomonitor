@@ -17,7 +17,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfiguration {
 
     private final String[] PUBLIC = {
-            "/api/v1/login",
+            "/api/v1/auth/login",
 
             "/swagger-ui/**",
             "/api-docs/**",
@@ -29,7 +29,7 @@ public class SecurityConfiguration {
     };
 
     @Autowired
-    private AuthInterceptor authorizationFilter;
+    private AuthorizationFilter2 authorizationFilter;
 
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {

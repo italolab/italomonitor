@@ -16,7 +16,7 @@ import { AuthContext } from "../../context/AuthProvider";
 
 function DetalhesDispositivo() {
 
-    const {token, username} = useContext(AuthContext);
+    const {accessToken, username} = useContext(AuthContext);
 
     const {
         loadDispositivo,
@@ -35,15 +35,14 @@ function DetalhesDispositivo() {
     const navigate = useNavigate();
 
     useEffect( () => {
-        alert( 1 );
         const socket = new SockJS( BASE_WS_URL );
         const stompClient = Stomp.over( socket );
 
-        if ( token === null || token === '' ) {
+        if ( accessToken === null || accessToken === '' ) {
             setErrorMessage( 'Página atualizada após o login. Para funcionar a atualização de dados em tempo real, é necessário logar novamente sem atualizar a página.' );
         } else {
             stompClient.connect( {
-                Authorization: `Bearer ${token}`
+                Authorization: `Bearer ${accessToken}`
             }, () => {
                 stompClient.subscribe(`/user/${username}/topic/dispositivo`, (message) => {
                     const data = JSON.parse( message.body );

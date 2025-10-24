@@ -1,5 +1,7 @@
 package com.redemonitor.service;
 
+import com.auth0.jwt.exceptions.JWTVerificationException;
+import com.auth0.jwt.interfaces.DecodedJWT;
 import com.redemonitor.dto.request.LoginRequest;
 import com.redemonitor.dto.response.LoginResponse;
 import com.redemonitor.exception.BusinessException;
@@ -13,7 +15,6 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.ResponseCookie;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -32,8 +33,17 @@ public class LoginService {
     @Autowired
     private JwtTokenUtil jwtTokenUtil;
 
-    @Value("${jwt.token.cookie.name}")
-    private String tokenCookieName;
+    @Value("${jwt.access_token.cookie.name}")
+    private String accessTokenCookieName;
+
+    @Value("${jwt.refresh_token.cookie.name}")
+    private String refreshTokenCookieName;
+
+    @Value("${jwt.access_token.expire.at}")
+    private int accessTokenExpireAt;
+
+    @Value("${jwt.refresh_token.expire.at}")
+    private int refreshTokenExpireAt;
 
     @Transactional
     public LoginResponse login(LoginRequest request, HttpServletResponse httpResponse) {
@@ -46,12 +56,58 @@ public class LoginService {
         if ( usuarioOp.isEmpty() )
             throw new BusinessException( Errors.USER_NOT_FOUND );
 
-        List<String> roles = new ArrayList<>();
-
         Usuario usuario = usuarioOp.get();
         String nome = usuario.getNome();
 
-        username = usuario.getUsername();
+        String accessToken = this.generateNewAccessToken( usuario, accessTokenExpireAt );
+        String refreshToken = this.generateNewRefreshToken( usuario, refreshTokenExpireAt );
+
+        httpResponse.addCookie( this.buildAccessTokenCookie( accessToken, accessTokenExpireAt ) );
+        httpResponse.addCookie( this.buildRefreshTokenCookie( refreshToken, refreshTokenExpireAt ) );
+
+        return LoginResponse.builder()
+                .nome( nome )
+                .username( username )
+                .accessToken( accessToken )
+                .build();
+    }
+
+    public LoginResponse generateNewAccessToken( HttpServletResponse httpResponse, String refreshToken ) {
+        try {
+            DecodedJWT decodedJWT = jwtTokenUtil.verifyToken( refreshToken );
+            String username = decodedJWT.getSubject();
+
+            Optional<Usuario> usuarioOp = usuarioRepository.findByUsername( username );
+            if ( usuarioOp.isEmpty() )
+                throw new BusinessException( Errors.USER_NOT_FOUND );
+
+            Usuario usuario = usuarioOp.get();
+            String nome = usuario.getNome();
+
+            String accessToken = this.generateNewAccessToken( usuario, accessTokenExpireAt );
+
+            httpResponse.addCookie( this.buildAccessTokenCookie( accessToken, accessTokenExpireAt ) );
+
+            return LoginResponse.builder()
+                    .nome( nome )
+                    .username( username )
+                    .accessToken( accessToken )
+                    .build();
+        } catch ( JWTVerificationException e ) {
+            throw new BusinessException( Errors.NOT_AUTHORIZED );
+        }
+    }
+
+    public void logout( HttpServletResponse httpResponse ) {
+        httpResponse.addCookie( this.buildAccessTokenCookie( "", 0 ) );
+        httpResponse.addCookie( this.buildRefreshTokenCookie( "", 0 ) );
+    }
+
+    private String generateNewAccessToken( Usuario usuario, int expireAt ) {
+        String nome = usuario.getNome();
+        String username = usuario.getUsername();
+
+        List<String> roles = new ArrayList<>();
 
         for( UsuarioGrupoMap gruposMaps : usuario.getGrupos() ) {
             UsuarioGrupo grupo = gruposMaps.getUsuarioGrupo();
@@ -66,21 +122,30 @@ public class LoginService {
         String[] rolesArray = new String[ roles.size() ];
         rolesArray = roles.toArray( rolesArray );
 
-        String token = jwtTokenUtil.createToken( username, rolesArray );
+        return jwtTokenUtil.createToken( username, rolesArray, expireAt );
+    }
 
-        Cookie cookie = new Cookie( tokenCookieName, token );
-        cookie.setHttpOnly( true );
-        cookie.setSecure( true );
-        cookie.setMaxAge( 60 * 60 * 24 * 7 );
-        cookie.setPath( "/" );
+    private String generateNewRefreshToken( Usuario usuario, int expireAt ) {
+        String username = usuario.getUsername();
+        return jwtTokenUtil.createRefreshToken( username, expireAt );
+    }
 
-        httpResponse.addCookie( cookie );
+    private Cookie buildAccessTokenCookie( String accessToken, int expireAt ) {
+        Cookie accessTokenCookie = new Cookie( accessTokenCookieName, accessToken );
+        accessTokenCookie.setHttpOnly( true );
+        accessTokenCookie.setSecure( true );
+        accessTokenCookie.setMaxAge( expireAt );
+        accessTokenCookie.setPath( "/" );
+        return accessTokenCookie;
+    }
 
-        return LoginResponse.builder()
-                .nome( nome )
-                .username( username )
-                .token( token )
-                .build();
+    private Cookie buildRefreshTokenCookie( String refreshToken, int expireAt ) {
+        Cookie refreshTokenCookie = new Cookie( refreshTokenCookieName, refreshToken );
+        refreshTokenCookie.setHttpOnly( true );
+        refreshTokenCookie.setSecure( true );
+        refreshTokenCookie.setMaxAge( expireAt );
+        refreshTokenCookie.setPath( "/" );
+        return refreshTokenCookie;
     }
 
 }

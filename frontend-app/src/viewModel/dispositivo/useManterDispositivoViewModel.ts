@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { DispositivoModel } from "../../model/DispositivoModel";
 import { extractErrorMessage } from "../../util/SistemaUtil";
 import { type DispositivoResponse } from "../../model/dto/response/DispositivoResponse";
+import { AuthContext } from "../../context/AuthProvider";
 
 function useManterDispositivoViewModel() {
 
@@ -15,7 +16,9 @@ function useManterDispositivoViewModel() {
     const [nomePart, setNomePart] = useState<string>( '' );
     const [localPart, setLocalPart] = useState<string>( '' );
 
-    const dispositivoModel = new DispositivoModel();
+    const {setAccessToken} = useContext(AuthContext);
+    
+    const dispositivoModel = new DispositivoModel( setAccessToken );
 
     const filterDispositivos = async () => {
         setErrorMessage( null );

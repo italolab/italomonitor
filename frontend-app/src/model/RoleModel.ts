@@ -1,37 +1,30 @@
-import axios from "axios";
+import { api, configuraInterceptor, type SetAccessTokenFunction } from "./Api";
 import type { SaveRoleRequest } from "./dto/request/SaveRoleRequest";
-import { BASE_API_URL } from "../constants/api-constants";
 
 export class RoleModel {
 
+    constructor( setAccessToken : SetAccessTokenFunction ) {
+        configuraInterceptor( setAccessToken );
+    }
+
     async createRole( roleSave : SaveRoleRequest ) {
-        return await axios.post( BASE_API_URL + "/roles", roleSave, {
-            withCredentials: true
-        } );
+        return await api.post( "/roles", roleSave );
     }
 
     async updateRole( roleId : number, roleSave : SaveRoleRequest ) {
-        return await axios.put( BASE_API_URL + "/roles/"+roleId, roleSave, {
-            withCredentials: true
-        } );
+        return await api.put( "/roles/"+roleId, roleSave );
     } 
 
     async filterRoles( nomepart : string ) {
-        return await axios.get( BASE_API_URL + "/roles?nomepart="+nomepart, {
-            withCredentials: true
-        } );
+        return await api.get( "/roles?nomepart="+nomepart );
     }
 
     async getRole( roleId : number ) {
-        return await axios.get( BASE_API_URL + "/roles/"+roleId+"/get", {
-            withCredentials: true
-        })
+        return await api.get( "/roles/"+roleId+"/get" );
     }
 
     async deleteRole( roleId : number ) {
-        return await axios.delete( BASE_API_URL + "/roles/"+roleId, {
-            withCredentials: true
-        } );
+        return await api.delete( "/roles/"+roleId );
     }
 
 }
