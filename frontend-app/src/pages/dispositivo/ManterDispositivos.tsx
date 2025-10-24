@@ -78,13 +78,13 @@ function ManterDispositivos() {
                 </Modal.Footer>
             </Modal>            
 
-            <h1 className="title">Funções de dispositivo</h1>
-
             <div className="d-flex justify-content-end">
                 <Button type="button" onClick={() => navigate( '/create-dispositivo')} className="d-flex align-items-center ms-auto">
                     <MdAdd size={25}/> Novo dispositivo
                 </Button>
             </div>
+
+            <h3 className="title">Funções de dispositivo</h3>
 
             <div className="d-block w-100 mt-3 d-flex justify-content-center">
                 <Card>

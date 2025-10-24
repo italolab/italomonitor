@@ -75,13 +75,13 @@ function ManterRoles() {
                 </Modal.Footer>
             </Modal>            
 
-            <h1 className="title">Funções de roles</h1>
-
             <div className="d-flex justify-content-end">
                 <Button type="button" onClick={() => navigate( '/create-role')} className="d-flex align-items-center ms-auto">
                     <MdAdd size={25}/> Novo role
                 </Button>
             </div>
+  
+            <h3 className="title">Funções de roles</h3>
 
             <div className="d-flex flex-wrap justify-content-center mt-3">
                 <Card>

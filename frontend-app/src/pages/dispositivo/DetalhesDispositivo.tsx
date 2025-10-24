@@ -16,7 +16,7 @@ import { AuthContext } from "../../context/AuthProvider";
 
 function DetalhesDispositivo() {
 
-    const {accessToken, username} = useContext(AuthContext);
+    const {accessToken} = useContext(AuthContext);
 
     const {
         loadDispositivo,
@@ -44,7 +44,7 @@ function DetalhesDispositivo() {
             stompClient.connect( {
                 Authorization: `Bearer ${accessToken}`
             }, () => {
-                stompClient.subscribe(`/user/${username}/topic/dispositivo`, (message) => {
+                stompClient.subscribe(`/user/topic/dispositivo`, (message) => {
                     const data = JSON.parse( message.body );
                     setDispositivo( data ); 
                 } );

@@ -72,6 +72,7 @@ public class LoginService {
                 .build();
     }
 
+    @Transactional
     public LoginResponse generateNewAccessToken( HttpServletResponse httpResponse, String refreshToken ) {
         try {
             DecodedJWT decodedJWT = jwtTokenUtil.verifyToken( refreshToken );

@@ -12,11 +12,12 @@ export function configuraInterceptor( setAccessToken : SetAccessTokenFunction ) 
     api.interceptors.response.use( 
         (response) => response,
         async ( error : AxiosError ) => {
-            if ( error.response?.status === 401 ) {
-                try {
+            if ( error.response?.status === 403 ) {
+                try {                    
                     const response = await api.post( '/auth/refresh-token' );
 
                     setAccessToken( response.data.accessToken )
+                    return api( error.config! );
                 } catch ( refreshError ) {
                     console.error( refreshError );
                 }

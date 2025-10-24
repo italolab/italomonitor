@@ -15,7 +15,6 @@ import org.springframework.messaging.support.MessageHeaderAccessor;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
-import java.util.Map;
 
 @Component
 public class WebSocketAuthInterceptor implements ChannelInterceptor {
@@ -31,8 +30,6 @@ public class WebSocketAuthInterceptor implements ChannelInterceptor {
         if ( accessor != null ) {
             if ( StompCommand.CONNECT.equals( accessor.getCommand() ) ) {
                 String authorizationHeader = accessor.getFirstNativeHeader( "Authorization" );
-
-                System.out.println( "TOKEN= "+ authorizationHeader );
 
                 if ( authorizationHeader != null ) {
                     String token = authorizationHeader.substring(7);

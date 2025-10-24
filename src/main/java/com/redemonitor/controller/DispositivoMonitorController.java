@@ -23,7 +23,7 @@ public class DispositivoMonitorController {
     @PreAuthorize("hasAuthority('dispositivo-monitoramento')")
     @PostMapping("/start/{dispositivoId}")
     public ResponseEntity<String> startMonitoramento(
-            @PathVariable Long dispositivoId, @CookieValue("${jwt.token.cookie.name}") String token ) {
+            @PathVariable Long dispositivoId, @CookieValue("${jwt.access_token.cookie.name}") String token ) {
         String username = usuarioService.getTokenUsername( token );
 
         dispositivoMonitorService.startMonitoramento( dispositivoId, username );
@@ -34,7 +34,7 @@ public class DispositivoMonitorController {
     @PreAuthorize("hasAuthority('dispositivo-monitoramento')")
     @PostMapping("/stop/{dispositivoId}")
     public ResponseEntity<String> stopMonitoramento(
-            @PathVariable Long dispositivoId, @CookieValue( "${jwt.token.cookie.name}" ) String token ) {
+            @PathVariable Long dispositivoId, @CookieValue( "${jwt.access_token.cookie.name}" ) String token ) {
         String username = usuarioService.getTokenUsername( token );
 
         dispositivoMonitorService.stopMonitoramento( dispositivoId, username );
