@@ -81,7 +81,7 @@ public class AuthorizationFilter2 extends OncePerRequestFilter {
                 String resp = new ObjectMapper().writeValueAsString( errResp );
 
                 response.setContentType( "application/json" );
-                response.setStatus( HttpServletResponse.SC_FORBIDDEN );
+                response.setStatus( HttpServletResponse.SC_UNAUTHORIZED );
 
                 PrintWriter writer = new PrintWriter( response.getOutputStream() );
                 writer.print( resp );

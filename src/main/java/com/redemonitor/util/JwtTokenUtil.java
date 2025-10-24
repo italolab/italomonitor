@@ -10,10 +10,6 @@ import org.springframework.stereotype.Component;
 
 import java.time.Duration;
 import java.time.Instant;
-import java.time.LocalDateTime;
-import java.time.temporal.TemporalUnit;
-import java.util.Date;
-import java.util.List;
 
 @Component
 public class JwtTokenUtil {
@@ -24,7 +20,7 @@ public class JwtTokenUtil {
     @Value("${jwt.issuer}")
     private String issuer;
 
-    public String createToken( String username, String[] roles, int expireAt ) {
+    public String createAccessToken(String username, String[] roles, int expireAt ) {
         Algorithm algorithm = Algorithm.HMAC256( secretKey );
 
         return JWT.create()

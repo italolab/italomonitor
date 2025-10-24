@@ -123,7 +123,7 @@ public class LoginService {
         String[] rolesArray = new String[ roles.size() ];
         rolesArray = roles.toArray( rolesArray );
 
-        return jwtTokenUtil.createToken( username, rolesArray, expireAt );
+        return jwtTokenUtil.createAccessToken( username, rolesArray, expireAt );
     }
 
     private String generateNewRefreshToken( Usuario usuario, int expireAt ) {
