@@ -103,3 +103,6 @@ delay pequeno entre a execução do último lote e o próximo, também configur�
 As respostas dos comandos ping são interpretadas para identificar o número de sucessos e o número de falhas 
 do lote de pacotes enviados. Atualmente, essa interpretação tem suporte a apenas a resposta do comando ping 
 em português. Se o comando ping do servidor estiver em inglês, será necessário uma pequena adaptação.
+
+Há uma configuração vinculada a empresa no sistema onde se pode configurar a porcentagem de pacotes por 
+lote devem se perder para a conexão ser considerada falha.
