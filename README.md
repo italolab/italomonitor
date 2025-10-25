@@ -13,6 +13,14 @@ microsserviços, principalmente o de monitoramento.
 - React 19.1.1
 - Postgresql 16.3
 
+
+- Spring Scheduler com Thread Pool Task Scheduler
+- Comando PING para envio de pacotes ICMP
+- WebSockets
+- React Bootstrap
+- Swagger/OpenAPI
+- Spring Security e Token JWT
+
 ## 🔓 Segurança e Autenticação
 
 A segurança no backend envolve Spring Security e Token JWT.
