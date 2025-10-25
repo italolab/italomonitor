@@ -12,8 +12,6 @@ microsserviços, principalmente o de monitoramento.
 - Spring Boot 4.0.0-M3
 - React 19.1.1
 - Postgresql 16.3
-
-
 - Spring Scheduler com Thread Pool Task Scheduler
 - Comando PING para envio de pacotes ICMP
 - WebSockets
