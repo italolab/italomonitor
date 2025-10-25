@@ -19,11 +19,11 @@ microsserviços, principalmente o de monitoramento.
 - Swagger/OpenAPI
 - Spring Security e Token JWT
 
-## 🔓 Segurança e Autenticação
+## 🔒 Segurança e Autenticação
 
 A segurança no backend envolve Spring Security e Token JWT.
 
-### 🔒 Os Tokens
+### 🔓 Os Tokens
 
 O Access token é armazenado em um cookie httponly e tem tempo de expiração de 5 minutos e seu payload 
 contém as seguintes claims adicionais:
@@ -53,7 +53,7 @@ gera o access token e o refresh token. Então, gera os cookies httponly para o a
 e os retorna para o navegador armazenar os cookies como httponly e os reenviar a cada nova requisição aos 
 endpoints do backend.
 
-### 🌍 O interceptor de API no frontend e o Refresh Token
+### 🛡️ O interceptor de API no frontend e o Refresh Token
 
 Quando o frontend envia uma requisição e o filtro de autorização retorna uma mensagem 401 ou 403, o 
 interceptor de API captura a resposta e supõe que o token expirou. Então, gera uma nova requisição para 
