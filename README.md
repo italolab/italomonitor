@@ -77,7 +77,7 @@ token e extrai os roles do token. Após isso, o interceptor de websocket verific
 para o envio de mensagens para o usuário específico pelo username funcionar. Isso garante que apenas os 
 usuários com o token válido e com o role necessário e o devido username recebam a mensagem enviada.
 
-## Configuração de Cors
+### 👩‍💻 Configuração de Cors
 
 A configuração de cors está no backend da seguinte forma:
 
