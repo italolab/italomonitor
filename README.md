@@ -94,7 +94,7 @@ desenvolvimento.
 - Todos os métodos são permitidos
 - As credenciais são permitidas, o que necessita do '*withCredentials: true*' nas requisições via axios
 
-### 🌍 Teste de Conexão via ICMP
+## 🌍 Teste de Conexão via ICMP
 
 O sistema executa o monitoramento dos dispositivos emviando pacotes ICMP via comando ping aos dispositivos. 
 Cada lote de pacotes enviados via ping tem uma quantidade de envios configurada no sistema. Há também um 
