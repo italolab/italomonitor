@@ -45,7 +45,6 @@ function useDetalhesDispositivoViewModel() {
                 client.subscribe(`/user/topic/dispositivo`, (message) => {
                     const data = JSON.parse( message.body );
                     setDispositivo( data ); 
-                    alert( JSON.stringify( data ) );
                 } );
             },
             onStompError: ( frame ) => {
