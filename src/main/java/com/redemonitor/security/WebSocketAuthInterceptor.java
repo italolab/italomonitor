@@ -1,6 +1,8 @@
 package com.redemonitor.security;
 
+import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
+import com.redemonitor.service.LoginService;
 import com.redemonitor.util.JwtTokenUtil;
 import org.jspecify.annotations.Nullable;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +24,9 @@ public class WebSocketAuthInterceptor implements ChannelInterceptor {
     @Autowired
     private JwtTokenUtil jwtTokenUtil;
 
+    @Autowired
+    private LoginService loginService;
+
     @Override
     public @Nullable Message<?> preSend(Message<?> message, MessageChannel channel) {
         StompHeaderAccessor accessor =
@@ -34,9 +39,9 @@ public class WebSocketAuthInterceptor implements ChannelInterceptor {
                 if ( authorizationHeader != null ) {
                     String token = authorizationHeader.substring(7);
 
-                    DecodedJWT decodedJWT = jwtTokenUtil.verifyToken(token);
-                    if (decodedJWT.getExpiresAt().after(new Date())) {
-                        accessor.setUser(decodedJWT::getSubject);
+                    DecodedJWT decodedJWT = jwtTokenUtil.verifyToken( token );
+                    if ( decodedJWT.getExpiresAt().after( new Date() ) ) {
+                        accessor.setUser( decodedJWT::getSubject );
                         return message;
                     }
                     throw new MessageDeliveryException("Token inválido.");

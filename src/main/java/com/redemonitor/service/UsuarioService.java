@@ -1,7 +1,5 @@
 package com.redemonitor.service;
 
-import com.auth0.jwt.exceptions.JWTVerificationException;
-import com.auth0.jwt.interfaces.DecodedJWT;
 import com.redemonitor.dto.request.CreateUsuarioRequest;
 import com.redemonitor.dto.request.UpdateUsuarioRequest;
 import com.redemonitor.dto.response.UsuarioGrupoResponse;
@@ -54,18 +52,6 @@ public class UsuarioService {
 
     @Autowired
     private HashUtil hashUtil;
-
-    @Autowired
-    private JwtTokenUtil jwtTokenUtil;
-
-    public String getTokenUsername( String token ) {
-        try {
-            DecodedJWT decodedJWT = jwtTokenUtil.verifyToken( token );
-            return decodedJWT.getSubject();
-        } catch ( JWTVerificationException e ) {
-            throw new BusinessException( Errors.NOT_AUTHORIZED );
-        }
-    }
 
     public void createUsuario( CreateUsuarioRequest request ) {
         request.validate();

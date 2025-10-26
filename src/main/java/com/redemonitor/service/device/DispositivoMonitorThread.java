@@ -10,6 +10,8 @@ import org.springframework.messaging.simp.SimpMessagingTemplate;
 
 import java.io.IOException;
 import java.util.Scanner;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -17,9 +19,9 @@ public class DispositivoMonitorThread implements Runnable {
 
     private Dispositivo dispositivo;
     private Config config;
-    private DispositivoRepository dispositivoRepository;
-    private DispositivoMessageService dispositivoMessageService;
-    private String username;
+    private final DispositivoRepository dispositivoRepository;
+    private final DispositivoMessageService dispositivoMessageService;
+    private final String username;
 
     public DispositivoMonitorThread( Dispositivo dispositivo,
                                      Config config,
@@ -49,41 +51,54 @@ public class DispositivoMonitorThread implements Runnable {
 
         String[] comando = { "ping", "-n", ""+numPacotesPorLote, host };
 
-        int quantFalhas = 0;
         try {
             ProcessBuilder pb = new ProcessBuilder(comando);
             Process proc = pb.start();
 
+            int maxFalhas = (int)Math.round( porcentagemMaxFalhasPorLote * numPacotesPorLote );
+            int maxSucessos = numPacotesPorLote - maxFalhas;
+            int quantFalhas = 0;
+            int quantSucessos = 0;
+
             Scanner scanner = new Scanner(proc.getInputStream());
-            while ( scanner.hasNextLine() ) {
+            while ( quantFalhas < maxFalhas && scanner.hasNextLine() ) {
                 String line = scanner.nextLine();
 
                 if ( ( line.startsWith( "Resposta") && !line.contains("tempo") ) ||
-                        line.startsWith( "Esgotado") || line.startsWith( "A") || line.startsWith( "Falha" ) )
+                        line.startsWith( "Esgotado") || line.startsWith( "A") || line.startsWith( "Falha" ) ) {
                     quantFalhas++;
-                System.out.println( line );
-            }
-
-            if ( quantFalhas >= porcentagemMaxFalhasPorLote * numPacotesPorLote ) {
-                if ( dispositivo.getStatus() == DispositivoStatus.ATIVO ) {
-                    dispositivo.setStatus( DispositivoStatus.INATIVO );
-                    dispositivoRepository.save( dispositivo );
-
-                    dispositivoMessageService.send( dispositivo, username );
                 }
-            } else {
-                if ( dispositivo.getStatus() == DispositivoStatus.INATIVO ) {
-                    dispositivo.setStatus( DispositivoStatus.ATIVO );
-                    dispositivoRepository.save( dispositivo );
 
-                    dispositivoMessageService.send( dispositivo, username );
-                }
+                if ( line.startsWith( "Resposta") && line.contains("tempo") )
+                    quantSucessos++;
+
+                if ( quantFalhas <= maxFalhas )
+                    System.out.println( line );
+
+                if ( quantFalhas >= maxFalhas || quantSucessos >= maxSucessos)
+                    proc.destroy();
             }
 
             try {
                 proc.waitFor();
             } catch (InterruptedException ex) {
 
+            }
+
+            if ( quantFalhas < maxFalhas ) {
+                if ( dispositivo.getStatus() == DispositivoStatus.INATIVO ) {
+                    dispositivo.setStatus( DispositivoStatus.ATIVO );
+                    dispositivoRepository.save( dispositivo );
+
+                    dispositivoMessageService.send( dispositivo, username );
+                }
+            } else {
+                if ( dispositivo.getStatus() == DispositivoStatus.ATIVO ) {
+                    dispositivo.setStatus( DispositivoStatus.INATIVO );
+                    dispositivoRepository.save( dispositivo );
+
+                    dispositivoMessageService.send( dispositivo, username );
+                }
             }
         } catch ( IOException e ) {
             String msg = "Falha no monitoramento do dispositivo: " + nome;

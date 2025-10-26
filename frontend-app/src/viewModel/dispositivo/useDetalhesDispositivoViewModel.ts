@@ -4,6 +4,8 @@ import { extractErrorMessage } from "../../util/SistemaUtil";
 import { DispositivoModel } from "../../model/DispositivoModel";
 import { DispositivoMonitorModel } from "../../model/DispositivoMonitorModel";
 import { AuthContext } from "../../context/AuthProvider";
+import { Client } from "@stomp/stompjs";
+import { BASE_WS_URL } from "../../constants/api-constants";
 
 function useDetalhesDispositivoViewModel() {
 
@@ -27,10 +29,36 @@ function useDetalhesDispositivoViewModel() {
         }
     } );
 
-    const {setAccessToken} = useContext(AuthContext);
+    const {accessToken, setAccessToken} = useContext(AuthContext);
 
     const dispositivoModel = new DispositivoModel( setAccessToken );
     const dispositivoMonitorModel = new DispositivoMonitorModel( setAccessToken );
+
+    const websocketConnect = () : () => void => {
+        const client = new Client( {
+            brokerURL: BASE_WS_URL,
+            connectHeaders: {
+                Authorization: `Bearer ${accessToken}`
+            },
+            reconnectDelay: 5000,
+            onConnect: () => {
+                client.subscribe(`/user/topic/dispositivo`, (message) => {
+                    const data = JSON.parse( message.body );
+                    setDispositivo( data ); 
+                    alert( JSON.stringify( data ) );
+                } );
+            },
+            onStompError: ( frame ) => {
+                console.error( frame.body );
+            }         
+        } );
+
+        client.activate();
+
+        return () => {
+            client.deactivate();
+        };
+    };
 
     const loadDispositivo = async ( dispositivoId : number ) => {
         setInfoMessage( null );
@@ -88,11 +116,11 @@ function useDetalhesDispositivoViewModel() {
         loadDispositivo, 
         startMonitoramento, 
         stopMonitoramento, 
+        websocketConnect,
         dispositivo, 
         loading, 
         errorMessage, 
         infoMessage, 
-        setDispositivo,
         setErrorMessage
     };
 }

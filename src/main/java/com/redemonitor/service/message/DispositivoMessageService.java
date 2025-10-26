@@ -4,7 +4,9 @@ import com.redemonitor.dto.response.DispositivoResponse;
 import com.redemonitor.mapper.DispositivoMapper;
 import com.redemonitor.model.Dispositivo;
 import com.redemonitor.model.enums.DispositivoStatus;
+import com.redemonitor.service.TokenService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
 import org.springframework.messaging.support.MessageHeaderAccessor;
@@ -16,6 +18,9 @@ import java.util.Map;
 
 @Service
 public class DispositivoMessageService {
+
+    @Autowired
+    private TokenService tokenService;
 
     @Autowired
     private SimpMessagingTemplate simpMessagingTemplate;

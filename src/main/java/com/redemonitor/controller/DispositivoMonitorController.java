@@ -3,6 +3,7 @@ package com.redemonitor.controller;
 import com.redemonitor.apidoc.dispositivo.monitor.StartMonitoramentoDoc;
 import com.redemonitor.apidoc.dispositivo.monitor.StopMonitoramentoDoc;
 import com.redemonitor.service.DispositivoMonitorService;
+import com.redemonitor.service.TokenService;
 import com.redemonitor.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -17,14 +18,16 @@ public class DispositivoMonitorController {
     private DispositivoMonitorService dispositivoMonitorService;
 
     @Autowired
-    private UsuarioService usuarioService;
+    private TokenService tokenService;
 
     @StartMonitoramentoDoc
     @PreAuthorize("hasAuthority('dispositivo-monitoramento')")
     @PostMapping("/start/{dispositivoId}")
     public ResponseEntity<String> startMonitoramento(
-            @PathVariable Long dispositivoId, @CookieValue("${jwt.access_token.cookie.name}") String token ) {
-        String username = usuarioService.getTokenUsername( token );
+            @PathVariable Long dispositivoId,
+            @CookieValue("${jwt.access_token.cookie.name}") String accessToken ) {
+
+        String username =  tokenService.getUsername( accessToken );
 
         dispositivoMonitorService.startMonitoramento( dispositivoId, username );
         return ResponseEntity.ok( "Monitoramento iniciado." );
@@ -34,8 +37,10 @@ public class DispositivoMonitorController {
     @PreAuthorize("hasAuthority('dispositivo-monitoramento')")
     @PostMapping("/stop/{dispositivoId}")
     public ResponseEntity<String> stopMonitoramento(
-            @PathVariable Long dispositivoId, @CookieValue( "${jwt.access_token.cookie.name}" ) String token ) {
-        String username = usuarioService.getTokenUsername( token );
+            @PathVariable Long dispositivoId,
+            @CookieValue( "${jwt.access_token.cookie.name}" ) String accessToken ) {
+
+        String username = tokenService.getUsername( accessToken );
 
         dispositivoMonitorService.stopMonitoramento( dispositivoId, username );
         return ResponseEntity.ok( "Monitoramento parado." );

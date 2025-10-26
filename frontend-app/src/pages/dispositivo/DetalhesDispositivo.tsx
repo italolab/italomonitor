@@ -9,9 +9,6 @@ import AppSpinner from "../../components/AppSpinner";
 import { MdArrowBack, MdOutlineEdit, MdPlayCircle, MdStopCircle } from "react-icons/md";
 import AppBoxInfo from "../../components/AppBoxInfo";
 
-import SockJS from 'sockjs-client';
-import { Stomp } from "@stomp/stompjs";
-import { BASE_WS_URL } from "../../constants/api-constants";
 import { AuthContext } from "../../context/AuthProvider";
 
 function DetalhesDispositivo() {
@@ -22,11 +19,11 @@ function DetalhesDispositivo() {
         loadDispositivo,
         startMonitoramento,
         stopMonitoramento,
+        websocketConnect,
         dispositivo,
         loading,
         errorMessage,
         infoMessage,
-        setDispositivo,
         setErrorMessage
     } = useDetalhesDispositivoViewModel();
 
@@ -35,33 +32,16 @@ function DetalhesDispositivo() {
     const navigate = useNavigate();
 
     useEffect( () => {
-        const socket = new SockJS( BASE_WS_URL );
-        const stompClient = Stomp.over( socket );
-
+        let disconnectFunc = () => {};
         if ( accessToken === null || accessToken === '' ) {
             setErrorMessage( 'Página atualizada após o login. Para funcionar a atualização de dados em tempo real, é necessário logar novamente sem atualizar a página.' );
         } else {
-            stompClient.connect( {
-                Authorization: `Bearer ${accessToken}`
-            }, () => {
-                stompClient.subscribe(`/user/topic/dispositivo`, (message) => {
-                    const data = JSON.parse( message.body );
-                    setDispositivo( data ); 
-                } );
-            }, (error: unknown) => {
-                console.error( error );
-            } );
+            disconnectFunc = websocketConnect();
         }
 
         onLoad();
 
-        return () => {
-            if ( stompClient.connected ) {
-                stompClient.disconnect( () => {
-                    console.log( "Disconectado do servidor de mensagens websocket!" );
-                } );                
-            }
-        };
+        return disconnectFunc;
     }, [] )
 
     const onLoad = async () => {

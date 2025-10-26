@@ -11,7 +11,6 @@ import com.redemonitor.service.device.DispositivoMonitor;
 import com.redemonitor.service.device.DispositivoMonitorThread;
 import com.redemonitor.service.message.DispositivoMessageService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 import org.springframework.stereotype.Service;
 
@@ -38,7 +37,7 @@ public class DispositivoMonitorService {
     @Autowired
     private DispositivoMessageService dispositivoMessageService;
 
-    private Map<Long, DispositivoMonitor> dispositivoMonitorMap = new ConcurrentHashMap<>();
+    private final Map<Long, DispositivoMonitor> dispositivoMonitorMap = new ConcurrentHashMap<>();
 
     public void startMonitoramento( Long dispositivoId, String username ) {
         Config config = configRepository.findFirstByOrderByIdAsc();
@@ -50,12 +49,12 @@ public class DispositivoMonitorService {
         Dispositivo dispositivo = dispositivoOp.get();
 
         if ( dispositivoMonitorMap.containsKey( dispositivoId ) ) {
-            dispositivo.setStatus( DispositivoStatus.ATIVO );
+            dispositivo.setSendoMonitorado( true );
             dispositivoRepository.save( dispositivo );
 
             dispositivoMessageService.send( dispositivo, username );
 
-            throw new BusinessException(Errors.DISPOSITIVO_ALREADY_MONITORED);
+            throw new BusinessException( Errors.DISPOSITIVO_ALREADY_MONITORED );
         }
 
         Duration monitorDelay = Duration.ofMillis( 30 );
@@ -82,12 +81,12 @@ public class DispositivoMonitorService {
         Dispositivo dispositivo = dispositivoOp.get();
 
         if ( !dispositivoMonitorMap.containsKey( dispositivoId ) ) {
-            dispositivo.setStatus( DispositivoStatus.INATIVO );
+            dispositivo.setSendoMonitorado( false );
             dispositivoRepository.save( dispositivo );
 
             dispositivoMessageService.send( dispositivo, username );
 
-            throw new BusinessException(Errors.DISPOSITIVO_NOT_MONITORED);
+            throw new BusinessException( Errors.DISPOSITIVO_NOT_MONITORED );
         }
 
         DispositivoMonitor dispositivoMonitor = dispositivoMonitorMap.get( dispositivoId );
