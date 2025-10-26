@@ -1,1 +1,0 @@
-alter table config alter column sendo_monitorado set default false;

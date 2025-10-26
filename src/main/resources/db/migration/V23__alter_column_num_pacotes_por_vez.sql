@@ -1,1 +1,0 @@
-alter table config rename column num_pacotes_por_vez to num_pacotes_por_lote;
