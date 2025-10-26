@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Button, Card, Form } from "react-bootstrap";
 import useSaveRoleViewModel from "../../viewModel/role/useSaveRoleViewModel";
 import AppMessage from "../../components/AppMessage";
@@ -8,6 +8,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import type { SaveRoleRequest } from "../../model/dto/request/SaveRoleRequest";
 import AppLayout from "../../layout/AppLayout";
 import { MdArrowBack } from "react-icons/md";
+import useEffectOnce from "../../viewModel/useEffectOnce";
 
 function UpdateRole() {
 
@@ -25,9 +26,9 @@ function UpdateRole() {
 
     const navigate = useNavigate();
 
-    useEffect( () => {
+    useEffectOnce( () => {
         onLoadRole();
-    }, [] );
+    } );
 
     const onLoadRole = async () => {
         try {

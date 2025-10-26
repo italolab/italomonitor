@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Button, Card, Form } from "react-bootstrap";
 import useSaveUsuarioGrupoViewModel from "../../viewModel/usuarioGrupo/useSaveUsuarioGrupoViewModel";
 import AppMessage from "../../components/AppMessage";
@@ -8,6 +8,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import type { SaveUsuarioGrupoRequest } from "../../model/dto/request/SaveUsuarioGrupoRequest";
 import AppLayout from "../../layout/AppLayout";
 import { MdArrowBack } from "react-icons/md";
+import useEffectOnce from "../../viewModel/useEffectOnce";
 
 function UpdateUsuarioGrupo() {
 
@@ -25,9 +26,9 @@ function UpdateUsuarioGrupo() {
 
     const navigate = useNavigate();
 
-    useEffect( () => {
+    useEffectOnce( () => {
         onLoadUsuarioGrupo();
-    }, [] );
+    } );
 
     const onLoadUsuarioGrupo = async () => {
         try {

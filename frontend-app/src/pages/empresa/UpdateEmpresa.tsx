@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Button, Card, Form } from "react-bootstrap";
 import useSaveEmpresaViewModel from "../../viewModel/empresa/useSaveEmpresaViewModel";
 import AppMessage from "../../components/AppMessage";
@@ -8,6 +8,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import type { SaveEmpresaRequest } from "../../model/dto/request/SaveEmpresaRequest";
 import AppLayout from "../../layout/AppLayout";
 import { MdArrowBack } from "react-icons/md";
+import useEffectOnce from "../../viewModel/useEffectOnce";
 
 function UpdateEmpresa() {
 
@@ -28,9 +29,9 @@ function UpdateEmpresa() {
 
     const navigate = useNavigate();
 
-    useEffect( () => {
+    useEffectOnce( () => {
         onLoadEmpresa();
-    }, [] );
+    } );
 
     const onLoadEmpresa = async () => {
         try {

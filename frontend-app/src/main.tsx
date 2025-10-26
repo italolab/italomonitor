@@ -29,8 +29,10 @@ import ManterDispositivos from './pages/dispositivo/ManterDispositivos.tsx';
 import CreateDispositivo from './pages/dispositivo/CreateDispositivo.tsx';
 import UpdateDispositivo from './pages/dispositivo/UpdateDispositivo.tsx';
 import DetalhesDispositivo from './pages/dispositivo/DetalhesDispositivo.tsx';
+import { StrictMode } from 'react';
 
 createRoot(document.getElementById('root')!).render(
+  <StrictMode>
     <AuthProvider>
       <Router>
         <Routes>
@@ -63,6 +65,5 @@ createRoot(document.getElementById('root')!).render(
         </Routes>
       </Router>
     </AuthProvider>
+  </StrictMode>
 )
-
-// <StrictMode></StrictMode>

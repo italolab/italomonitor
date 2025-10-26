@@ -1,12 +1,12 @@
 import { useNavigate, useParams } from "react-router-dom";
 import useDetalhesRoleViewModel from "../../viewModel/role/useDetalhesRoleViewModel";
-import { useEffect } from "react";
 import AppLayout from "../../layout/AppLayout";
 import { Button, Card } from "react-bootstrap";
 import AppField from "../../components/AppField";
 import AppMessage from "../../components/AppMessage";
 import AppSpinner from "../../components/AppSpinner";
 import { MdArrowBack, MdOutlineEdit } from "react-icons/md";
+import useEffectOnce from "../../viewModel/useEffectOnce";
 
 function DetalhesRole() {
 
@@ -22,9 +22,9 @@ function DetalhesRole() {
 
     const navigate = useNavigate();
 
-    useEffect( () => {
+    useEffectOnce( () => {
         onLoad();
-    }, [] )
+    } )
 
     const onLoad = async () => {
         try {

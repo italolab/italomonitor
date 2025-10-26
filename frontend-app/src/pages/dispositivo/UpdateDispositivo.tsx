@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Button, Card, Form } from "react-bootstrap";
 import useSaveDispositivoViewModel from "../../viewModel/dispositivo/useSaveDispositivoViewModel";
 import AppMessage from "../../components/AppMessage";
@@ -9,6 +9,7 @@ import type { SaveDispositivoRequest } from "../../model/dto/request/SaveDisposi
 import AppLayout from "../../layout/AppLayout";
 import { MdArrowBack } from "react-icons/md";
 import type { EmpresaResponse } from "../../model/dto/response/EmpresaResponse";
+import useEffectOnce from "../../viewModel/useEffectOnce";
 
 function UpdateDispositivo() {
 
@@ -32,9 +33,9 @@ function UpdateDispositivo() {
 
     const navigate = useNavigate();
 
-    useEffect( () => {
+    useEffectOnce( () => {
         onLoadDispositivo();
-    }, [] );
+    } );
 
     const onLoadDispositivo = async () => {
         try {

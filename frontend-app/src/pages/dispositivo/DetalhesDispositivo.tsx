@@ -1,6 +1,6 @@
 import { useNavigate, useParams } from "react-router-dom";
 import useDetalhesDispositivoViewModel from "../../viewModel/dispositivo/useDetalhesDispositivoViewModel";
-import { useContext, useEffect } from "react";
+import { useContext } from "react";
 import AppLayout from "../../layout/AppLayout";
 import { Button, Card } from "react-bootstrap";
 import AppField from "../../components/AppField";
@@ -10,6 +10,7 @@ import { MdArrowBack, MdOutlineEdit, MdPlayCircle, MdStopCircle } from "react-ic
 import AppBoxInfo from "../../components/AppBoxInfo";
 
 import { AuthContext } from "../../context/AuthProvider";
+import useEffectOnce from "../../viewModel/useEffectOnce";
 
 function DetalhesDispositivo() {
 
@@ -31,7 +32,7 @@ function DetalhesDispositivo() {
 
     const navigate = useNavigate();
 
-    useEffect( () => {
+    useEffectOnce( () => {
         let disconnectFunc = () => {};
         if ( accessToken === null || accessToken === '' ) {
             setErrorMessage( 'Página atualizada após o login. Para funcionar a atualização de dados em tempo real, é necessário logar novamente sem atualizar a página.' );
@@ -42,7 +43,7 @@ function DetalhesDispositivo() {
         onLoad();
 
         return disconnectFunc;
-    }, [] )
+    } );
 
     const onLoad = async () => {
         try {
@@ -80,12 +81,16 @@ function DetalhesDispositivo() {
                 <Button type="button" onClick={() => navigate( `/update-dispositivo/${dispositivoId}`)} className="func">
                     <MdOutlineEdit size={25} /> Editar dispositivo
                 </Button>
-                <Button type="button" onClick={onStartMonitoramento} className="func">
-                    <MdPlayCircle size={25} /> Iniciar monitoramento
-                </Button>
-                <Button type="button" onClick={onStopMonitoramento} className="func">
-                    <MdStopCircle size={25} /> Encerrar monitoramento
-                </Button>
+                { dispositivo.sendoMonitorado === false &&
+                    <Button type="button" onClick={onStartMonitoramento} className="func">
+                        <MdPlayCircle size={25} /> Iniciar monitoramento
+                    </Button>
+                }
+                { dispositivo.sendoMonitorado === true &&
+                    <Button type="button" onClick={onStopMonitoramento} className="func">
+                        <MdStopCircle size={25} /> Encerrar monitoramento
+                    </Button>
+                }
             </div>
 
             <div className="d-flex justify-content-center mt-2">

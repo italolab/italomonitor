@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Button, Card, Form } from "react-bootstrap";
 import useSaveUsuarioViewModel from "../../viewModel/usuario/useSaveUsuarioViewModel";
 import AppMessage from "../../components/AppMessage";
@@ -9,6 +9,7 @@ import type { UpdateUsuarioRequest } from "../../model/dto/request/UpdateUsuario
 import AppLayout from "../../layout/AppLayout";
 import { MdArrowBack } from "react-icons/md";
 import type { EmpresaResponse } from "../../model/dto/response/EmpresaResponse";
+import useEffectOnce from "../../viewModel/useEffectOnce";
 
 function UpdateUsuario() {
 
@@ -31,9 +32,9 @@ function UpdateUsuario() {
 
     const navigate = useNavigate();
 
-    useEffect( () => {
+    useEffectOnce( () => {
         onLoadUsuario();
-    }, [] );
+    } );
 
     const onLoadUsuario = async () => {
         try {

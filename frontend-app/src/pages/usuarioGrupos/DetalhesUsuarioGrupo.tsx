@@ -1,12 +1,12 @@
 import { useNavigate, useParams } from "react-router-dom";
 import useDetalhesUsuarioGrupoViewModel from "../../viewModel/usuarioGrupo/useDetalhesUsuarioGrupoViewModel";
-import { useEffect } from "react";
 import AppLayout from "../../layout/AppLayout";
 import { Button, Card } from "react-bootstrap";
 import AppField from "../../components/AppField";
 import AppMessage from "../../components/AppMessage";
 import AppSpinner from "../../components/AppSpinner";
 import { MdArrowBack, MdLink, MdOutlineEdit } from "react-icons/md";
+import useEffectOnce from "../../viewModel/useEffectOnce";
 
 function DetalhesUsuarioGrupo() {
 
@@ -22,9 +22,9 @@ function DetalhesUsuarioGrupo() {
 
     const navigate = useNavigate();
 
-    useEffect( () => {
+    useEffectOnce( () => {
         onLoad();
-    }, [] )
+    } )
 
     const onLoad = async () => {
         try {

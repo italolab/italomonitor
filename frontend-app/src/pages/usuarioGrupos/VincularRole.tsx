@@ -2,11 +2,12 @@ import { Button, Card, Modal, Table } from "react-bootstrap";
 import AppMessage from "../../components/AppMessage";
 import AppSpinner from "../../components/AppSpinner";
 import { useNavigate, useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import AppLayout from "../../layout/AppLayout";
 import { FaLink, FaX } from "react-icons/fa6";
 import useVincularRoleViewModel from "../../viewModel/usuarioGrupo/useVincularRoleViewModel";
 import { MdArrowBack } from "react-icons/md";
+import useEffectOnce from "../../viewModel/useEffectOnce";
 
 function VincularRole() {
 
@@ -28,9 +29,9 @@ function VincularRole() {
 
     const navigate = useNavigate();
 
-    useEffect( () => {
+    useEffectOnce( () => {
         onLoad();
-    }, [] );
+    } );
 
     const onVinculaRole = async ( roleId : number ) => {
         try {
