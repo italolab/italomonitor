@@ -12,7 +12,7 @@ npm install -D sass-embedded
 npm install sockjs-client @stomp/stompjs
 npm i --save-dev @types/sockjs-client
 
-
+npm install date-fns --save
 
 Por causa do scss, é necessário adicionar isto ao defineConfig do arquivo vite.config.js:
 

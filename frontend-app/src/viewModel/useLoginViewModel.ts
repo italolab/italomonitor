@@ -2,7 +2,7 @@ import { useContext, useState } from "react";
 import { AuthModel } from "../model/AuthModel";
 import type { LoginResponse } from "../model/dto/response/LoginResponse";
 import type { LoginRequest } from "../model/dto/request/LoginRequest";
-import { extractErrorMessage } from "../util/SistemaUtil";
+import { extractErrorMessage } from "../util/sistema-util";
 import { AuthContext } from "../context/AuthProvider";
 
 export function useLoginViewModel() {

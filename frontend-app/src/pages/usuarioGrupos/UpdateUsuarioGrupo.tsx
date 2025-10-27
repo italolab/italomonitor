@@ -8,7 +8,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import type { SaveUsuarioGrupoRequest } from "../../model/dto/request/SaveUsuarioGrupoRequest";
 import AppLayout from "../../layout/AppLayout";
 import { MdArrowBack } from "react-icons/md";
-import useEffectOnce from "../../viewModel/useEffectOnce";
+import useEffectOnce from "../../util/useEffectOnce";
 
 function UpdateUsuarioGrupo() {
 

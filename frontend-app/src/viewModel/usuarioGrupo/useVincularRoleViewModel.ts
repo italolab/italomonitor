@@ -1,5 +1,5 @@
 import { useContext, useState } from "react";
-import { extractErrorMessage } from "../../util/SistemaUtil";
+import { extractErrorMessage } from "../../util/sistema-util";
 import type { UsuarioGrupoResponse } from "../../model/dto/response/UsuarioGrupoResponse";
 import { UsuarioGrupoModel } from "../../model/UsuarioGrupoModel";
 import { RoleModel } from "../../model/RoleModel";

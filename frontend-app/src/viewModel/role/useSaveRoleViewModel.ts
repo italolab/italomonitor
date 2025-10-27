@@ -1,6 +1,6 @@
 import { useContext, useState } from "react";
 import { RoleModel } from "../../model/RoleModel";
-import { extractErrorMessage } from "../../util/SistemaUtil";
+import { extractErrorMessage } from "../../util/sistema-util";
 import type { RoleResponse } from "../../model/dto/response/RoleResponse";
 import type { SaveRoleRequest } from "../../model/dto/request/SaveRoleRequest";
 import { AuthContext } from "../../context/AuthProvider";

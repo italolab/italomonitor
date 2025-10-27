@@ -2,7 +2,7 @@ package com.redemonitor.dto.response;
 
 import lombok.*;
 
-import java.time.LocalDateTime;
+import java.util.Date;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -23,6 +23,6 @@ public class EventoResponse {
 
     private int duracao;
 
-    private LocalDateTime criadoEm;
+    private Date criadoEm;
 
 }

@@ -1,7 +1,7 @@
 import { useContext, useState } from "react";
 import { UsuarioModel } from "../../model/UsuarioModel";
 import type { CreateUsuarioRequest } from "../../model/dto/request/CreateUsuarioRequest";
-import { extractErrorMessage } from "../../util/SistemaUtil";
+import { extractErrorMessage } from "../../util/sistema-util";
 import type { UsuarioResponse } from "../../model/dto/response/UsuarioResponse";
 import type { UpdateUsuarioRequest } from "../../model/dto/request/UpdateUsuarioRequest";
 import { EmpresaModel } from "../../model/EmpresaModel";

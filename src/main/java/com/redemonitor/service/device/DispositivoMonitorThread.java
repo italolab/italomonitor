@@ -12,6 +12,7 @@ import com.redemonitor.service.message.DispositivoMessageService;
 import java.io.IOException;
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -156,7 +157,7 @@ public class DispositivoMonitorThread implements Runnable {
                 .quedasQuant( quedasQuantTotal )
                 .tempoInatividade( tempoInatividadeTotal )
                 .duracao( (int) duration.getSeconds() )
-                .criadoEm( LocalDateTime.now() )
+                .criadoEm( new Date() )
                 .build();
 
         evento.setDispositivo( dispositivo );

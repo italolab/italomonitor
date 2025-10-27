@@ -7,7 +7,7 @@ import AppLayout from "../../layout/AppLayout";
 import { FaLink, FaX } from "react-icons/fa6";
 import useVincularRoleViewModel from "../../viewModel/usuarioGrupo/useVincularRoleViewModel";
 import { MdArrowBack } from "react-icons/md";
-import useEffectOnce from "../../viewModel/useEffectOnce";
+import useEffectOnce from "../../util/useEffectOnce";
 
 function VincularRole() {
 

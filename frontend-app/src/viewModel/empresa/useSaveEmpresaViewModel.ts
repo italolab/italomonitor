@@ -1,6 +1,6 @@
 import { useContext, useState } from "react";
 import { EmpresaModel } from "../../model/EmpresaModel";
-import { extractErrorMessage } from "../../util/SistemaUtil";
+import { extractErrorMessage } from "../../util/sistema-util";
 import type { EmpresaResponse } from "../../model/dto/response/EmpresaResponse";
 import type { SaveEmpresaRequest } from "../../model/dto/request/SaveEmpresaRequest";
 import { AuthContext } from "../../context/AuthProvider";

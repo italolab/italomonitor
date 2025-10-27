@@ -9,7 +9,7 @@ import type { SaveDispositivoRequest } from "../../model/dto/request/SaveDisposi
 import AppLayout from "../../layout/AppLayout";
 import { MdArrowBack } from "react-icons/md";
 import type { EmpresaResponse } from "../../model/dto/response/EmpresaResponse";
-import useEffectOnce from "../../viewModel/useEffectOnce";
+import useEffectOnce from "../../util/useEffectOnce";
 
 function UpdateDispositivo() {
 

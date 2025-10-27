@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -29,7 +30,7 @@ public class Evento {
     private int duracao;
 
     @Temporal(TemporalType.TIMESTAMP)
-    private LocalDateTime criadoEm;
+    private Date criadoEm;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="dispositivo_id")

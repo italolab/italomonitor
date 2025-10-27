@@ -1,6 +1,6 @@
 import { useContext, useState } from "react";
 import { UsuarioGrupoModel } from "../../model/UsuarioGrupoModel";
-import { extractErrorMessage } from "../../util/SistemaUtil";
+import { extractErrorMessage } from "../../util/sistema-util";
 import type { UsuarioGrupoResponse } from "../../model/dto/response/UsuarioGrupoResponse";
 import type { SaveUsuarioGrupoRequest } from "../../model/dto/request/SaveUsuarioGrupoRequest";
 import { AuthContext } from "../../context/AuthProvider";

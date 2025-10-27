@@ -30,6 +30,7 @@ import CreateDispositivo from './pages/dispositivo/CreateDispositivo.tsx';
 import UpdateDispositivo from './pages/dispositivo/UpdateDispositivo.tsx';
 import DetalhesDispositivo from './pages/dispositivo/DetalhesDispositivo.tsx';
 import { StrictMode } from 'react';
+import ListEventosByDia from './pages/evento/ListEventosByDia.tsx';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
@@ -62,6 +63,8 @@ createRoot(document.getElementById('root')!).render(
             <Route path='/create-dispositivo' element={<CreateDispositivo />} />
             <Route path='/update-dispositivo/:dispositivoId' element={<UpdateDispositivo />} />
             <Route path='/detalhes-dispositivo/:dispositivoId' element={<DetalhesDispositivo />} />
+
+            <Route path='/list-eventos-by-dia/:dispositivoId' element={<ListEventosByDia />} />
         </Routes>
       </Router>
     </AuthProvider>

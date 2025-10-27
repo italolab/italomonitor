@@ -6,7 +6,7 @@ import AppField from "../../components/AppField";
 import AppMessage from "../../components/AppMessage";
 import AppSpinner from "../../components/AppSpinner";
 import { MdArrowBack, MdLink, MdOutlineEdit } from "react-icons/md";
-import useEffectOnce from "../../viewModel/useEffectOnce";
+import useEffectOnce from "../../util/useEffectOnce";
 
 function DetalhesUsuario() {
 

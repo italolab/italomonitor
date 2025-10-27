@@ -6,7 +6,7 @@ import { Button, Card } from "react-bootstrap";
 import AppField from "../../components/AppField";
 import AppMessage from "../../components/AppMessage";
 import AppSpinner from "../../components/AppSpinner";
-import { MdArrowBack, MdOutlineEdit, MdPlayCircle, MdStopCircle } from "react-icons/md";
+import { MdArrowBack, MdEvent, MdOutlineEdit, MdPlayCircle, MdStopCircle } from "react-icons/md";
 import AppBoxInfo from "../../components/AppBoxInfo";
 
 import { AuthContext } from "../../context/AuthProvider";
@@ -87,6 +87,9 @@ function DetalhesDispositivo() {
                 </Button>
                 <Button type="button" onClick={() => navigate( `/update-dispositivo/${dispositivoId}`)} className="func">
                     <MdOutlineEdit size={25} /> Editar dispositivo
+                </Button>
+                <Button type="button" onClick={() => navigate( `/list-eventos-by-dia/${dispositivoId}`)} className="func">
+                    <MdEvent size={25} /> Eventos
                 </Button>
                 <Button type="button" onClick={onStartMonitoramento} className="func">
                     <MdPlayCircle size={25} /> Iniciar monitoramento

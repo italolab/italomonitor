@@ -1,7 +1,7 @@
 import { useContext, useState } from "react";
 import { EmpresaModel } from "../../model/EmpresaModel";
 import type { EmpresaResponse } from "../../model/dto/response/EmpresaResponse";
-import { extractErrorMessage } from "../../util/SistemaUtil";
+import { extractErrorMessage } from "../../util/sistema-util";
 import { AuthContext } from "../../context/AuthProvider";
 
 function useManterEmpresaViewModel() {

@@ -1,6 +1,6 @@
 import { useContext, useState } from "react";
 import { type UsuarioResponse } from "../../model/dto/response/UsuarioResponse";
-import { extractErrorMessage } from "../../util/SistemaUtil";
+import { extractErrorMessage } from "../../util/sistema-util";
 import { UsuarioModel } from "../../model/UsuarioModel";
 import { AuthContext } from "../../context/AuthProvider";
 

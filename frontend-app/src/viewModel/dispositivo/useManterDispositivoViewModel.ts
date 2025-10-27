@@ -1,6 +1,6 @@
 import { useContext, useState } from "react";
 import { DispositivoModel } from "../../model/DispositivoModel";
-import { extractErrorMessage } from "../../util/SistemaUtil";
+import { extractErrorMessage } from "../../util/sistema-util";
 import { type DispositivoResponse } from "../../model/dto/response/DispositivoResponse";
 import { AuthContext } from "../../context/AuthProvider";
 
