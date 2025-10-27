@@ -4,8 +4,7 @@ import { extractErrorMessage } from "../../util/SistemaUtil";
 import { DispositivoModel } from "../../model/DispositivoModel";
 import { DispositivoMonitorModel } from "../../model/DispositivoMonitorModel";
 import { AuthContext } from "../../context/AuthProvider";
-import { Client } from "@stomp/stompjs";
-import { BASE_WS_URL } from "../../constants/api-constants";
+import useWSDispositivoInfoRefresh from "./useWSDispositivoInfoRefresh";
 
 function useDetalhesDispositivoViewModel() {
 
@@ -29,34 +28,15 @@ function useDetalhesDispositivoViewModel() {
         }
     } );
 
-    const {accessToken, setAccessToken} = useContext(AuthContext);
+    const {setAccessToken} = useContext(AuthContext);
 
     const dispositivoModel = new DispositivoModel( setAccessToken );
     const dispositivoMonitorModel = new DispositivoMonitorModel( setAccessToken );
 
-    const websocketConnect = () : () => void => {
-        const client = new Client( {
-            brokerURL: BASE_WS_URL,
-            connectHeaders: {
-                Authorization: `Bearer ${accessToken}`
-            },
-            reconnectDelay: 5000,
-            onConnect: () => {
-                client.subscribe(`/user/topic/dispositivo`, (message) => {
-                    const data = JSON.parse( message.body );
-                    setDispositivo( data ); 
-                } );
-            },
-            onStompError: ( frame ) => {
-                console.error( frame.body );
-            }         
-        } );
+    const wsRefresh = useWSDispositivoInfoRefresh();
 
-        client.activate();
-
-        return () => {
-            client.deactivate();
-        };
+    const websocketConnect = () => {
+        return wsRefresh.connect( setDispositivo );
     };
 
     const loadDispositivo = async ( dispositivoId : number ) => {
@@ -85,6 +65,9 @@ function useDetalhesDispositivoViewModel() {
             dispositivo.sendoMonitorado = true;
 
             setInfoMessage( 'Dispositivo sendo monitorado!' );
+
+            setTimeout( () => setInfoMessage( null ), 5000 );
+
             setLoading( false );
         } catch ( error ) {
             setErrorMessage( extractErrorMessage( error ) );
@@ -103,6 +86,9 @@ function useDetalhesDispositivoViewModel() {
             dispositivo.sendoMonitorado = false;
 
             setInfoMessage( 'Dispositivo não mais monitorado!' );
+
+            setTimeout( () => setInfoMessage( null ), 5000 );
+
             setLoading( false );
         } catch ( error ) {
             setErrorMessage( extractErrorMessage( error ) );

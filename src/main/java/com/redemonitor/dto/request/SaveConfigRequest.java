@@ -16,6 +16,7 @@ public class SaveConfigRequest {
 
     private int numPacotesPorLote;
     private int monitoramentoDelay;
+    private int registroEventoPeriodoSegundos;
 
     public void validate() {
         List<Validator> validators = new ArrayList<>();
@@ -29,6 +30,13 @@ public class SaveConfigRequest {
 
         validators.addAll(
                 ValidationBuilder.of( "delay de monitoramento", String.valueOf( monitoramentoDelay ) )
+                        .required()
+                        .deveSerMaiorQueZero()
+                        .build()
+        );
+
+        validators.addAll(
+                ValidationBuilder.of( "Período de registro de eventos", String.valueOf( registroEventoPeriodoSegundos ) )
                         .required()
                         .deveSerMaiorQueZero()
                         .build()

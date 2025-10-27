@@ -20,6 +20,6 @@ public class Config {
 
     private int numPacotesPorLote;
 
-    private int registroMonitoramentoPeriodo;
+    private int registroEventoPeriodo;
 
 }

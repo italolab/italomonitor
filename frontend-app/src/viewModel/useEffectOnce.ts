@@ -1,19 +1,15 @@
 import { useEffect, useRef } from "react";
 
-function useEffectOnce( setup: (() => void) | (() => () => void) ) {
+function useEffectOnce( setup: () => void ) {
 
     const effectCalled = useRef( false );
 
     useEffect( () => {
         if ( !effectCalled.current ) {
-            const returnFunc = setup();
+            setup();
             effectCalled.current = true;            
-
-            return returnFunc;
         }
-
-        return () => {};
-    }, [setup] );
+    }, [] );
     
 }
 

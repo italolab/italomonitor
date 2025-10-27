@@ -7,6 +7,7 @@ import com.redemonitor.model.Dispositivo;
 import com.redemonitor.model.enums.DispositivoStatus;
 import com.redemonitor.repository.ConfigRepository;
 import com.redemonitor.repository.DispositivoRepository;
+import com.redemonitor.repository.EventoRepository;
 import com.redemonitor.service.device.DispositivoMonitor;
 import com.redemonitor.service.device.DispositivoMonitorThread;
 import com.redemonitor.service.message.DispositivoMessageService;
@@ -16,6 +17,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.Duration;
 import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
@@ -30,6 +32,9 @@ public class DispositivoMonitorService {
 
     @Autowired
     private DispositivoRepository dispositivoRepository;
+
+    @Autowired
+    private EventoRepository eventoRepository;
 
     @Autowired
     private ThreadPoolTaskScheduler scheduler;
@@ -60,7 +65,7 @@ public class DispositivoMonitorService {
         Duration monitorDelay = Duration.ofMillis( 30 );
 
         DispositivoMonitorThread thread = new DispositivoMonitorThread(
-                dispositivo, config, dispositivoRepository, dispositivoMessageService, username );
+                dispositivo, config, dispositivoRepository, eventoRepository, dispositivoMessageService, username );
 
         ScheduledFuture<?> scheduledFuture = scheduler.scheduleAtFixedRate( thread, Instant.now(), monitorDelay  );
 

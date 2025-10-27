@@ -1,4 +1,4 @@
-import { api, configuraInterceptor, type SetAccessTokenFunction } from "./Api";
+import { configuraInterceptor, noInterceptorAPI, type SetAccessTokenFunction } from "./Api";
 import type { LoginRequest } from "./dto/request/LoginRequest";
 
 export class AuthModel {
@@ -8,11 +8,15 @@ export class AuthModel {
     }
 
     async login( loginObj : LoginRequest ) {
-        return await api.post( "/auth/login", loginObj );
+        return await noInterceptorAPI.post( "/auth/login", loginObj );
     }
 
     async logout() {
-        return await api.post( "/auth/logout", {} );
+        return await noInterceptorAPI.post( "/auth/logout", {} );
+    }
+
+    async refreshAccessToken() {
+        return await noInterceptorAPI.post( '/auth/refresh-token', {} );
     }
 
 }

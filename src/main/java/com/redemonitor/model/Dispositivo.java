@@ -4,6 +4,9 @@ import com.redemonitor.model.enums.DispositivoStatus;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDateTime;
+import java.util.List;
+
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
@@ -33,5 +36,8 @@ public class Dispositivo {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="empresa_id")
     private Empresa empresa;
+
+    @OneToMany(mappedBy = "dispositivo", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<Evento> eventos;
 
 }
