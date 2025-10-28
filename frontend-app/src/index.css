@@ -23,11 +23,11 @@ body {
 }
 
 h1, h2, h3, h4, h5, h6, th {
-  font-family: Georgia, 'Times New Roman', Times, serif;
+  font-family: "Georgia", "Garamond", serif;
 }
 
 p, li {
-  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
 }
 
 tr.blue th {
@@ -44,13 +44,12 @@ button.func {
 
 .title {
   background-color: rgba(50, 50, 50, 0.2);
-  padding: 0.2em;
+  padding: 0.8em;
   margin-top: 0.5em;
   font-weight: bold;
 
   color: #FFF;
   text-align: center;
-  border-radius: 0.35em;
   /*text-shadow: 1px 1px 2px #333;*/
 }
 

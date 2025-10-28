@@ -46,6 +46,8 @@ function useListEventosByDiaViewModel() {
             const response = await eventoModel.listByIntervalo( dispositivoId, dataDiaIni, dataDiaFim );
 
             setLoading( false );
+            if ( response.data.length === 0 )
+                setInfoMessage( 'Nenhum evento encontrado pelo imtervalo informado.' );
             
             return response.data;
         } catch ( error ) {
