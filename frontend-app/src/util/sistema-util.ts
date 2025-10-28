@@ -3,6 +3,8 @@ import axios, { AxiosError } from "axios";
 import type { ErrorResponse } from "../model/dto/response/ErrorResponse";
 import { format, parseISO } from "date-fns";
 
+import { ptBR } from 'date-fns/locale/pt-BR';
+
 export const extractErrorMessage = ( error : unknown ) => {
     if ( axios.isAxiosError( error ) ) {
         const err = error as AxiosError;
@@ -34,10 +36,55 @@ export const formataData = ( date : Date ) => {
 }
 
 export const formataDataHora = ( date : Date ) => {
-    //alert( new Date( date ) );
     return format( date, 'dd/MM/yyyy HH:mm:ss' );
 }
 
-export const formataEmMinutos = ( tempo : number ) => {
-    return Math.floor( tempo / 60 ) + "min";
+export const formataAno = ( date : Date ) => {
+    return format( date, "yyyy" );
+};
+
+export const formataAnoMes = ( date : Date ) => {
+    return format( date, "MM/yyyy");
+}
+
+export const formataMesExtenso = ( date : Date ) => {
+    return format( date, "MMMM", { locale: ptBR } );
+}
+
+export const formataMes = ( date : Date ) => {
+    return format( date, "MM" );
+}
+
+export const formataMesDia = ( date : Date ) => {
+    return format( date, "dd/MM")
+}
+
+export const formataDia = ( date : Date ) => {
+    return format( date, "dd" );
+}
+
+export const formataDataHoraSemSegundos = ( date : Date ) => {
+    return format( date, 'dd/MM/yyyy HH:mm' );
+}
+
+export const formataHora = ( date : Date ) => {
+    return format( date, "HH:mm" );
+}
+
+export const formataTempo = ( tempo : number ) => {
+    const horas = Math.floor( tempo / 3600 );
+    const resto = tempo % 3600;
+
+    const minutos = Math.floor( resto / 60 );
+    const segundos = resto % 60;
+
+    let tempoStr = "";
+    if ( horas > 0 )
+        tempoStr += (horas < 10 ? "0" : "") + horas + ":";
+    if ( minutos > 0 )
+        tempoStr += (minutos < 10 ? "0" : "") + minutos + ":";
+
+    tempoStr += (segundos < 10 ? "0" : "") + segundos;
+
+    return tempoStr;
 };

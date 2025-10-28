@@ -31,7 +31,8 @@ p, li {
 }
 
 tr.blue th {
-  background-color: #B1B1F3;
+  /*background-color: #B1B1F3;*/
+  background-color: rgba(50, 50, 50, 0.2);
 }
 
 button.func {
@@ -42,14 +43,15 @@ button.func {
 }
 
 .title {
-  display: block;
+  background-color: rgba(50, 50, 50, 0.2);
   padding: 0.2em;
+  margin-top: 0.5em;
   font-weight: bold;
 
-  color: #333;
+  color: #FFF;
   text-align: center;
   border-radius: 0.35em;
-  text-shadow: 1px 1px 2px #FFF;
+  /*text-shadow: 1px 1px 2px #333;*/
 }
 
 .icon-btn:hover {
@@ -68,4 +70,7 @@ button.func {
 
 .card {
   width: 40em;
+  border-radius: 0 !important;
+  border: none !important;
+  box-shadow: 3px 3px 5px #333 !important;
 }

@@ -1,0 +1,10 @@
+
+.tabbed-item-link {
+    color: white;
+}
+
+.tabbed-item-link:hover {
+    color: white;
+    background-color: rgba(50, 50, 50, 0.2)
+
+}

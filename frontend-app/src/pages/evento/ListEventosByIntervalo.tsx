@@ -1,4 +1,4 @@
-import { Button, Card, Form, Table } from "react-bootstrap";
+import { Button, Card, Col, Form, Row, Table } from "react-bootstrap";
 import AppMessage from "../../components/AppMessage";
 import AppSpinner from "../../components/AppSpinner";
 import useListEventosByDiaViewModel from "../../viewModel/evento/useListEventosByDiaViewModel";
@@ -8,13 +8,14 @@ import AppPagination from "../../components/AppPagination";
 import { dataToString, formataDataHora, formataTempo } from "../../util/sistema-util";
 import { useParams } from "react-router-dom";
 
-function ListEventosByDia() {
+function ListEventosByIntervalo() {
 
     const [paginationEventos, setPaginationEventos] = useState<EventoResponse[]>( [] );
-    const [dataDia, setDataDia] = useState<string>( dataToString( new Date() ) );
+    const [dataDiaIni, setDataDiaIni] = useState<string>( dataToString( new Date() ) );
+    const [dataDiaFim, setDataDiaFim] = useState<string>( dataToString( new Date() ) );
 
     const {
-        loadEventosByDia,
+        loadEventosByIntervalo,
         eventos,
         loading,
         errorMessage,
@@ -23,10 +24,10 @@ function ListEventosByDia() {
 
     const { dispositivoId } = useParams();
 
-    const onListEventosByDia = async () => {
+    const onListEventos = async () => {
         try {
             const did : number = parseInt( dispositivoId! );
-            await loadEventosByDia( did, dataDia );
+            await loadEventosByIntervalo( did, dataDiaIni, dataDiaFim );
         } catch ( error ) {
             console.error( error );
         }
@@ -41,18 +42,31 @@ function ListEventosByDia() {
                     </Card.Header>
                     <Card.Body className="p-3">
                         <Form>
-                            <Form.Group className="mb-3" controlId="dataDia">
-                                <Form.Label>Data (dia)</Form.Label>
-                                <Form.Control type="date" 
-                                    placeholder="Informe a data"
-                                    value={dataDia}
-                                    onChange={ (e) => setDataDia( e.target.value ) } />
-                            </Form.Group>
+                            <Row>
+                                <Col>
+                                    <Form.Group className="mb-3" controlId="dataDiaIni">
+                                        <Form.Label>Data inicial</Form.Label>
+                                        <Form.Control type="date" 
+                                            placeholder="Informe a data de início"
+                                            value={dataDiaIni}
+                                            onChange={ (e) => setDataDiaIni( e.target.value ) } />
+                                    </Form.Group>
+                                </Col>
+                                <Col>
+                                    <Form.Group className="mb-3" controlId="dataDiaFim">
+                                        <Form.Label>Data final</Form.Label>
+                                        <Form.Control type="date" 
+                                            placeholder="Informe a data de fim"
+                                            value={dataDiaFim}
+                                            onChange={ (e) => setDataDiaFim( e.target.value ) } />
+                                    </Form.Group>
+                                </Col>
+                            </Row>                                                        
 
                             <AppMessage message={errorMessage} type="error" />
                             <AppMessage message={infoMessage} type="info" />
 
-                            <Button type="button" onClick={onListEventosByDia}>
+                            <Button type="button" onClick={onListEventos}>
                                 Filtrar                        
                                 <AppSpinner visible={loading} />
                             </Button>
@@ -100,4 +114,4 @@ function ListEventosByDia() {
     )
 }
 
-export default ListEventosByDia;
+export default ListEventosByIntervalo;

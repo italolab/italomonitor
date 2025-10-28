@@ -88,7 +88,7 @@ function DetalhesDispositivo() {
                 <Button type="button" onClick={() => navigate( `/update-dispositivo/${dispositivoId}`)} className="func">
                     <MdOutlineEdit size={25} /> Editar dispositivo
                 </Button>
-                <Button type="button" onClick={() => navigate( `/list-eventos-by-dia/${dispositivoId}`)} className="func">
+                <Button type="button" onClick={() => navigate( `/infos-eventos/${dispositivoId}`)} className="func">
                     <MdEvent size={25} /> Eventos
                 </Button>
                 <Button type="button" onClick={onStartMonitoramento} className="func">

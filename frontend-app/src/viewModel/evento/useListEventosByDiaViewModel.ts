@@ -33,7 +33,37 @@ function useListEventosByDiaViewModel() {
         }
     }
 
-    return { loadEventosByDia, eventos, errorMessage, infoMessage, loading }
+    const loadEventosByIntervalo = async ( dispositivoId : number, dataDiaIni : string, dataDiaFim : string ) => {
+        setEventos( await listEventosByIntervalo( dispositivoId, dataDiaIni, dataDiaFim ) );
+    }
+
+    const listEventosByIntervalo = async ( dispositivoId : number, dataDiaIni : string, dataDiaFim : string ) => {
+        setErrorMessage( null );
+        setInfoMessage( null );
+        setLoading( true );
+
+        try {
+            const response = await eventoModel.listByIntervalo( dispositivoId, dataDiaIni, dataDiaFim );
+
+            setLoading( false );
+            
+            return response.data;
+        } catch ( error ) {
+            setErrorMessage( extractErrorMessage( error ) );
+            setLoading( false );
+            throw error;
+        }
+    }
+
+    return { 
+        loadEventosByDia, 
+        loadEventosByIntervalo, 
+        listEventosByIntervalo,
+        eventos, 
+        errorMessage, 
+        infoMessage, 
+        loading 
+    }
 
 }
 
