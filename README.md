@@ -77,11 +77,9 @@ de detalhes do dispositivo.
 ### 📡 A autenticação e autorização via Websocket
 
 O websocket tem um interceptor configurado, onde, o token de acesso deve ser extraído do cabeçalho de 
-token de acesso bearer. Então, assim como no filtro de autorização, o interceptor de websocket valida o 
-token e extrai os roles do token. Após isso, o interceptor de websocket verifica se o role 
-"dispositivo-read" está presente nos roles estraídos e, caso sim, carrega o username extraído do token 
-para o envio de mensagens para o usuário específico pelo username funcionar. Isso garante que apenas os 
-usuários com o token válido e com o role necessário e o devido username recebam a mensagem enviada.
+token de acesso bearer. Então, carrega o username extraído do token para o envio de mensagens para o 
+usuário específico pelo username funcionar. Isso garante que apenas os usuários com o token válido 
+e o devido username recebam a mensagem enviada.
 
 ### 👩‍💻 Configuração de Cors
 
@@ -93,6 +91,26 @@ desenvolvimento.
 - Todos os cabeçalhos são permitidos
 - Todos os métodos são permitidos
 - As credenciais são permitidas, o que necessita do '*withCredentials: true*' nas requisições via axios
+
+## 🕸️ A atualização dos detalhes de dispositivo via Websocket
+
+Na página de detalhes do dispositivo são mostradas as informações do dispositivo. Inclusive se ele está 
+sendo monitorado e seu status. Essas informações são atualizadas no backend com o monitoramento do 
+dispositivo e mensagens enviadas via websocket são recebidas na página e, assim, as informações do 
+dispositivo são atualizadas na tela.
+
+Um detalhe técnico importante é o que acontece se o servidor parar de funcionar. Se isso acontecer, o 
+websocket para de funcionar também e, então, inicia a execução periódica do teste de conexão com o 
+servidor. Isto é, periodicamente, a cada 10 segundos, são enviadas requisições ao servidor para refresh 
+do token de acesso. Isso porque o token pode expirar durante o período de inatividade do sistema. As 
+requisições param de ser enviadas quando o servidor voltar a operar, o que significa que o refresh do 
+token teve sucesso e retornou o novo token de acesso. O websocket tem em suas configurações o token de 
+acesso atualizado com o novo token e, então, novas requisições ao servidor podem ser feitas com o novo 
+token.
+
+Inclusive, quando a conexão cai, o websocket fica tentando a conexão a cada 10 segundos para restabelecê-la 
+quando o servidor voltar a funcionar e, como um novo token é gerado, caso o anterior tenha expirado no meio 
+tempo, não há problema, pois agora será utilizado o novo token.
 
 ## 🌍 Teste de Conexão via ICMP
 
