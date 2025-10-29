@@ -31,6 +31,8 @@ import UpdateDispositivo from './pages/dispositivo/UpdateDispositivo.tsx';
 import DetalhesDispositivo from './pages/dispositivo/DetalhesDispositivo.tsx';
 import { StrictMode } from 'react';
 import InfosEventos from './pages/evento/InfosEventos.tsx';
+import DetalhesConfig from './pages/config/DetalhesConfig.tsx';
+import UpdateConfig from './pages/config/UpdateConfig.tsx';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
@@ -65,6 +67,9 @@ createRoot(document.getElementById('root')!).render(
             <Route path='/detalhes-dispositivo/:dispositivoId' element={<DetalhesDispositivo />} />
 
             <Route path='/infos-eventos/:dispositivoId' element={<InfosEventos />} />
+
+            <Route path='/detalhes-config' element={<DetalhesConfig />} />
+            <Route path='/update-config' element={<UpdateConfig />} />
         </Routes>
       </Router>
     </AuthProvider>

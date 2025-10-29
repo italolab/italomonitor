@@ -83,6 +83,10 @@ create table role_grupo_map (
     constraint role_grupo_fk foreign key( role_grupo_id ) references usuario_grupo( id )
 );
 
+insert into config ( num_pacotes_por_lote, monitoramento_delay, registro_evento_periodo ) values (
+    15, 1, 3600
+);
+
 insert into usuario( nome, email, username, senha ) values (
     'Italo Herbert',
     'italoherbert@outlook.com',
@@ -111,7 +115,9 @@ insert into role ( nome ) values
     ( 'dispositivo-read' ),
     ( 'dispositivo-write' ),
     ( 'dispositivo-delete' ),
-    ( 'dispositivo-monitoramento');
+    ( 'dispositivo-monitoramento'),
+    ( 'config-write' ),
+    ( 'config-read' );
 
 insert into usuario_grupo_map( usuario_id, usuario_grupo_id ) values
     ( (select id from usuario where username='italo'), (select id from usuario_grupo where nome='admin') ),
@@ -134,6 +140,8 @@ insert into role_grupo_map( role_id, usuario_grupo_id ) values
     ( (select id from role where nome='dispositivo-read'), (select id from usuario_grupo where nome='admin') ),
     ( (select id from role where nome='dispositivo-delete'), (select id from usuario_grupo where nome='admin') ),
     ( (select id from role where nome='dispositivo-monitoramento'), (select id from usuario_grupo where nome='admin') ),
+    ( (select id from role where nome='config-write'), (select id from usuario_grupo where nome='admin') ),
+    ( (select id from role where nome='config-read'), (select id from usuario_grupo where nome='admin') ),
 
     ( (select id from role where nome='usuario-get'), (select id from usuario_grupo where nome='suporte') ),
     ( (select id from role where nome='empresa-get'), (select id from usuario_grupo where nome='suporte') ),

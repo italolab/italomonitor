@@ -14,8 +14,6 @@ import java.util.logging.Logger;
 @Component
 public class DispositivoMapper {
 
-
-
     public Dispositivo map( SaveDispositivoRequest request ) {
         return Dispositivo.builder()
                 .host( request.getHost() )

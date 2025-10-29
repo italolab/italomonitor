@@ -9,10 +9,12 @@ import lombok.*;
 @Builder
 public class ConfigResponse {
 
+    private Long id;
+
     private int monitoramentoDelay;
 
     private int numPacotesPorLote;
 
-    private int registroEventoPeriodoSegundos;
+    private int registroEventoPeriodo;
 
 }

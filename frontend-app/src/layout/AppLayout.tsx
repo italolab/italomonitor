@@ -1,11 +1,9 @@
 import { type ReactNode, useState } from "react";
 import { Button, Container, Navbar, Offcanvas } from "react-bootstrap";
-import { FaArrowLeftLong, FaRegBuilding } from "react-icons/fa6";
+import { FaArrowLeftLong } from "react-icons/fa6";
 import { HiOutlineMenu } from "react-icons/hi";
-import { LuGroup, LuLogOut, LuUsers, LuUsersRound } from "react-icons/lu";
 import { Link, useNavigate } from "react-router-dom";
 import { useLogoutViewModel } from "../viewModel/useLogoutViewModel";
-import { PiDevices, PiNote } from "react-icons/pi";
 
 import "./AppLayout.css"
 
@@ -45,54 +43,37 @@ function AppLayout( {children, className} : AppLayoutProps ) {
                 </Offcanvas.Header>
                 <Offcanvas.Body className="p-0 bg-light">
                     
-                <Link to="/empresas" 
-                        //onClick={ () => setSidebarVisible( false ) } 
-                        className="sidebar-item">
-                    <FaRegBuilding /> 
-                    &nbsp; 
-                    Empresas
-                </Link>
+                    <Link to="/empresas" className="sidebar-item">
+                        🏢 Empresas
+                    </Link>
 
-                <Link to="/dispositivos" 
-                        // onClick={ () => setSidebarVisible( false ) } 
-                        className="sidebar-item">
-                    <PiDevices /> 
-                    &nbsp; 
-                    Dispositivos
-                </Link>
+                    <Link to="/dispositivos" className="sidebar-item">
+                        🖥️ Dispositivos
+                    </Link>
 
-                <div className="sidebar-item" onClick={ () => setUsuariosOptionsVisible( !usuariosOptionsVisible ) }>
-                    <LuUsersRound /> &nbsp; Usuários
-                </div>
-                <Container fluid hidden={!usuariosOptionsVisible} className="m-0 p-0">
-                    <Link to="/usuarios" 
-                            onClick={ () => setSidebarVisible( false ) } 
-                            className="sidebar-item px-5">
-                        <LuUsers /> 
-                        &nbsp; 
-                        Usuarios
+                    <div className="sidebar-item" onClick={ () => setUsuariosOptionsVisible( !usuariosOptionsVisible ) }>
+                        👤 Usuários
+                    </div>
+                    <Container fluid hidden={!usuariosOptionsVisible} className="m-0 p-0">
+                        <Link to="/usuarios" className="sidebar-item px-5">
+                            👤 Usuarios
+                        </Link>
+                        <Link to="/usuario-grupos" className="sidebar-item px-5">
+                            👥 Grupos
+                        </Link>
+                        <Link to="/roles" className="sidebar-item px-5">
+                            📄 Roles
+                        </Link>
+                    </Container>
+
+                    <Link to="/detalhes-config" className="sidebar-item">
+                        ⚙️ Configurações
                     </Link>
-                    <Link to="/usuario-grupos" 
-                            onClick={ () => setSidebarVisible( false ) } 
-                            className="sidebar-item px-5">
-                        <LuGroup /> 
-                        &nbsp; 
-                        Grupos
-                    </Link>
-                    <Link to="/roles" 
-                            onClick={ () => setSidebarVisible( false ) } 
-                            className="sidebar-item px-5">
-                        <PiNote /> 
-                        &nbsp; 
-                        Roles
-                    </Link>
-                </Container>
-                <div onClick={appLogout} className="sidebar-item">
-                    <LuLogOut />
-                    &nbsp;
-                    Sair
-                </div>
-            </Offcanvas.Body>
+
+                    <div onClick={appLogout} className="sidebar-item">
+                        ↙️ Sair
+                    </div>
+                </Offcanvas.Body>
             </Offcanvas>
             <div className="vw-100 p-3">
                 {children}
