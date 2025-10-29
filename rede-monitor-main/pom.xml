@@ -11,7 +11,8 @@
 	<groupId>com.redemonitor</groupId>
 	<artifactId>rede-monitor</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>rede-monitor</name>
+    <packaging>pom</packaging>
+    <name>rede-monitor</name>
 	<description>Sistema de gerenciamento de dispositivos de rede</description>
 	<url/>
 	<licenses>
@@ -20,7 +21,11 @@
 	<developers>
 		<developer/>
 	</developers>
-	<scm>
+    <modules>
+        <module>rede-monitor-eureka</module>
+		<module>rede-monitor-eureka2</module>
+	</modules>
+    <scm>
 		<connection/>
 		<developerConnection/>
 		<tag/>
