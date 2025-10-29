@@ -38,8 +38,6 @@ function useWSDispositivoInfoRefresh() {
             client.subscribe(`/user/topic/dispositivo`, (message) => {
                 const data = JSON.parse( message.body );
                 setDispositivo( data );                 
-
-                alert( JSON.stringify( data ) );
             } );
         } 
         client.onWebSocketError = () => {
