@@ -5,9 +5,10 @@ import { DispositivoModel } from "../../model/DispositivoModel";
 import { DispositivoMonitorModel } from "../../model/DispositivoMonitorModel";
 import { AuthContext } from "../../context/AuthProvider";
 import useWSDispositivoInfoRefresh from "./useWSDispositivoInfoRefresh";
+import { MENSAGEM_DELAY } from "../../constants/constants";
 
 function useDetalhesDispositivoViewModel() {
-
+    
     const [errorMessage, setErrorMessage] = useState<string|null>( null );
     const [infoMessage, setInfoMessage] = useState<string|null>( null );
     const [loading, setLoading] = useState<boolean>( false );
@@ -49,7 +50,8 @@ function useDetalhesDispositivoViewModel() {
             setDispositivo( response.data );
             setLoading( false );
         } catch ( error ) {
-            setErrorMessage( extractErrorMessage( error ) );
+            setErrorMessage( extractErrorMessage( error ) );            
+            setTimeout( () => setErrorMessage( null ), MENSAGEM_DELAY );
             setLoading( false );
             throw error;
         }
@@ -65,12 +67,12 @@ function useDetalhesDispositivoViewModel() {
             dispositivo.sendoMonitorado = true;
 
             setInfoMessage( 'Dispositivo sendo monitorado!' );
-
-            setTimeout( () => setInfoMessage( null ), 5000 );
+            setTimeout( () => setInfoMessage( null ), MENSAGEM_DELAY );
 
             setLoading( false );
         } catch ( error ) {
-            setErrorMessage( extractErrorMessage( error ) );
+            setErrorMessage( extractErrorMessage( error ) );            
+            setTimeout( () => setErrorMessage( null ), MENSAGEM_DELAY );
             setLoading( false );
             throw error;
         }
@@ -86,12 +88,12 @@ function useDetalhesDispositivoViewModel() {
             dispositivo.sendoMonitorado = false;
 
             setInfoMessage( 'Dispositivo não mais monitorado!' );
-
-            setTimeout( () => setInfoMessage( null ), 5000 );
+            setTimeout( () => setInfoMessage( null ), MENSAGEM_DELAY );
 
             setLoading( false );
         } catch ( error ) {
-            setErrorMessage( extractErrorMessage( error ) );
+            setErrorMessage( extractErrorMessage( error ) );            
+            setTimeout( () => setErrorMessage( null ), MENSAGEM_DELAY );
             setLoading( false );
             throw error;
         }
