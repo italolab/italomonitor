@@ -12,7 +12,7 @@ function AppBoxInfo( {name, children} : AppBoxInfoProps ) {
                 <h6 className="m-0">{name}</h6>
             </div>
             <h3 className="d-flex justify-content-center text-dark mt-2">
-                {children}
+                <span>{children}</span>
             </h3>
         </div>
     );

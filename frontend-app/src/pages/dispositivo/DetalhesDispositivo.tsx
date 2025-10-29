@@ -112,10 +112,16 @@ function DetalhesDispositivo() {
 
                         <div className="d-flex align-items-center justify-content-center">
                             <AppBoxInfo name="status">
-                                {dispositivo.status == 'ATIVO' ? "Ativo" : "Inativo"}
+                                { dispositivo.status == 'ATIVO' ? 
+                                    <span className="text-blue">Ativo</span> : 
+                                    <span className="text-danger">Inativo</span>
+                                }
                             </AppBoxInfo>
                             <AppBoxInfo name="sendo monitorado">
-                                {dispositivo.sendoMonitorado == true ? "Sim" : "Não" }
+                                { dispositivo.sendoMonitorado == true ? 
+                                    <span className="text-blue">Sim</span> : 
+                                    <span className="text-dark">Não</span>                                
+                                }
                             </AppBoxInfo>
                         </div>
 
