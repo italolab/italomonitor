@@ -1,21 +1,20 @@
 package com.redemonitor.main.apidoc.dispositivo.monitor;
 
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
+
+import org.springframework.http.MediaType;
+
+import com.redemonitor.main.apidoc.APIDocConstants;
+import com.redemonitor.main.dto.response.ErrorResponse;
+
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
-import org.springframework.http.MediaType;
-
-import com.redemonitor.main.apidoc.APIDocConstants;
-import com.redemonitor.main.dto.response.DispositivoResponse;
-import com.redemonitor.main.dto.response.ErrorResponse;
-import com.redemonitor.main.dto.response.RoleResponse;
-
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
 
 @Operation(
         summary = "Responsável por iniciar o monitoramento de um dispositivo pelo ID."

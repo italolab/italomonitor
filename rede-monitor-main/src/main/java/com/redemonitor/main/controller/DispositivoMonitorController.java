@@ -3,13 +3,16 @@ package com.redemonitor.main.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CookieValue;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.redemonitor.main.apidoc.dispositivo.monitor.StartMonitoramentoDoc;
 import com.redemonitor.main.apidoc.dispositivo.monitor.StopMonitoramentoDoc;
 import com.redemonitor.main.service.DispositivoMonitorService;
 import com.redemonitor.main.service.TokenService;
-import com.redemonitor.main.service.UsuarioService;
 
 /*
  * A propriedade "jwt.access_token.cookie.name" está sendo acessada em algums métodos desse controller.

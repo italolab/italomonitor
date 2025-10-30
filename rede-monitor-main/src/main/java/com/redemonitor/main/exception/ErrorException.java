@@ -4,7 +4,9 @@ import com.redemonitor.main.dto.response.ErrorResponse;
 
 public class ErrorException extends RuntimeException {
 
-    private final String error;
+	private static final long serialVersionUID = 1L;
+	
+	private final String error;
     private final String[] params;
 
     public ErrorException( String error, String... params ) {

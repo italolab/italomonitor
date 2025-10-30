@@ -1,5 +1,9 @@
 package com.redemonitor.main.service;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,11 +17,6 @@ import com.redemonitor.main.model.Dispositivo;
 import com.redemonitor.main.model.Empresa;
 import com.redemonitor.main.repository.DispositivoRepository;
 import com.redemonitor.main.repository.EmpresaRepository;
-import com.redemonitor.main.util.HashUtil;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
 
 @Service
 public class DispositivoService {
@@ -36,9 +35,6 @@ public class DispositivoService {
 
     @Autowired
     private EmpresaMapper empresaMapper;
-
-    @Autowired
-    private HashUtil hashUtil;
 
     public void createDispositivo( SaveDispositivoRequest request ) {
         request.validate();

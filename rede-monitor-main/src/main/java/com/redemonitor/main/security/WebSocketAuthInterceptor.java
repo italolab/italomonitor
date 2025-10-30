@@ -1,13 +1,9 @@
 package com.redemonitor.main.security;
 
-import com.auth0.jwt.exceptions.JWTVerificationException;
-import com.auth0.jwt.interfaces.DecodedJWT;
-import com.redemonitor.main.service.LoginService;
-import com.redemonitor.main.util.JwtTokenUtil;
+import java.util.Date;
 
 import org.jspecify.annotations.Nullable;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.MessageChannel;
 import org.springframework.messaging.MessageDeliveryException;
@@ -17,16 +13,14 @@ import org.springframework.messaging.support.ChannelInterceptor;
 import org.springframework.messaging.support.MessageHeaderAccessor;
 import org.springframework.stereotype.Component;
 
-import java.util.Date;
+import com.auth0.jwt.interfaces.DecodedJWT;
+import com.redemonitor.main.util.JwtTokenUtil;
 
 @Component
 public class WebSocketAuthInterceptor implements ChannelInterceptor {
 
     @Autowired
     private JwtTokenUtil jwtTokenUtil;
-
-    @Autowired
-    private LoginService loginService;
 
     @Override
     public @Nullable Message<?> preSend(Message<?> message, MessageChannel channel) {

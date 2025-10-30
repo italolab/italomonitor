@@ -1,5 +1,9 @@
 package com.redemonitor.main.service;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,12 +24,6 @@ import com.redemonitor.main.repository.EmpresaRepository;
 import com.redemonitor.main.repository.UsuarioGrupoMapRepository;
 import com.redemonitor.main.repository.UsuarioGrupoRepository;
 import com.redemonitor.main.repository.UsuarioRepository;
-import com.redemonitor.main.util.HashUtil;
-import com.redemonitor.main.util.JwtTokenUtil;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
 
 @Service
 public class UsuarioService {
@@ -50,9 +48,6 @@ public class UsuarioService {
 
     @Autowired
     private EmpresaMapper empresaMapper;
-
-    @Autowired
-    private HashUtil hashUtil;
 
     public void createUsuario( CreateUsuarioRequest request ) {
         request.validate();

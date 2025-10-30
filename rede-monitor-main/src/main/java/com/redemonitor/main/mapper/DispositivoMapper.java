@@ -1,16 +1,15 @@
 package com.redemonitor.main.mapper;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import org.springframework.stereotype.Component;
+
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.redemonitor.main.dto.request.SaveDispositivoRequest;
 import com.redemonitor.main.dto.response.DispositivoResponse;
 import com.redemonitor.main.model.Dispositivo;
-import com.redemonitor.main.service.device.DispositivoMonitorThread;
-
-import org.springframework.stereotype.Component;
-
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 @Component
 public class DispositivoMapper {

@@ -94,6 +94,7 @@ public class DispositivoMonitorThread implements Runnable {
                 if ( quantFalhas >= maxFalhas || quantSucessos >= maxSucessos)
                     proc.destroy();
             }
+            scanner.close();
 
             try {
                 proc.waitFor();

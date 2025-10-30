@@ -1,25 +1,15 @@
 package com.redemonitor.main.service.message;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.redemonitor.main.dto.response.DispositivoResponse;
-import com.redemonitor.main.mapper.DispositivoMapper;
-import com.redemonitor.main.model.Dispositivo;
-import com.redemonitor.main.service.TokenService;
-import com.redemonitor.main.service.device.DispositivoMonitorThread;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import com.redemonitor.main.dto.response.DispositivoResponse;
+import com.redemonitor.main.mapper.DispositivoMapper;
+import com.redemonitor.main.model.Dispositivo;
 
 @Service
 public class DispositivoMessageService {
-
-    @Autowired
-    private TokenService tokenService;
 
     @Autowired
     private SimpMessagingTemplate simpMessagingTemplate;

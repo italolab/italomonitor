@@ -1,5 +1,13 @@
 package com.redemonitor.main.service;
 
+import java.time.Duration;
+import java.time.Instant;
+import java.util.Map;
+import java.util.Optional;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ScheduledFuture;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 import org.springframework.stereotype.Service;
@@ -8,22 +16,12 @@ import com.redemonitor.main.exception.BusinessException;
 import com.redemonitor.main.exception.Errors;
 import com.redemonitor.main.model.Config;
 import com.redemonitor.main.model.Dispositivo;
-import com.redemonitor.main.model.enums.DispositivoStatus;
 import com.redemonitor.main.repository.ConfigRepository;
 import com.redemonitor.main.repository.DispositivoRepository;
 import com.redemonitor.main.repository.EventoRepository;
 import com.redemonitor.main.service.device.DispositivoMonitor;
 import com.redemonitor.main.service.device.DispositivoMonitorThread;
 import com.redemonitor.main.service.message.DispositivoMessageService;
-
-import java.time.Duration;
-import java.time.Instant;
-import java.time.LocalDateTime;
-import java.util.Map;
-import java.util.Optional;
-import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ScheduledFuture;
 
 @Service
 public class DispositivoMonitorService {
