@@ -5,9 +5,9 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useState } from "react";
 import AppLayout from "../../layout/AppLayout";
 import { FaLink, FaX } from "react-icons/fa6";
-import useVincularRoleViewModel from "../../viewModel/usuarioGrupo/useVincularRoleViewModel";
+import useVincularRoleViewModel from "../../core/viewModel/usuarioGrupo/useVincularRoleViewModel";
 import { MdArrowBack } from "react-icons/md";
-import useEffectOnce from "../../util/useEffectOnce";
+import useEffectOnce from "../../core/util/useEffectOnce";
 
 function VincularRole() {
 

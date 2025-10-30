@@ -37,6 +37,9 @@ public class AuthorizationFilter2 extends OncePerRequestFilter {
     @Value("${jwt.access_token.cookie.name}")
     private String accessTokenCookieName;
 
+    @Value("${login.endpoint}")
+    private String loginEndpoint;
+    
     @Override
     protected void doFilterInternal(
             @NonNull HttpServletRequest request,
@@ -45,7 +48,7 @@ public class AuthorizationFilter2 extends OncePerRequestFilter {
 
         String accessToken = null;
 
-        if ( request.getRequestURI().equals( "/api/v1/auth/login" ) ) {
+        if ( request.getRequestURI().equals( loginEndpoint ) ) {
             Cookie cookie = new Cookie( accessTokenCookieName, "" );
             cookie.setMaxAge( 0 );
             cookie.setHttpOnly( true );

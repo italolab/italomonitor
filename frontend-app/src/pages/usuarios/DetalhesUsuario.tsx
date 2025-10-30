@@ -1,12 +1,12 @@
 import { useNavigate, useParams } from "react-router-dom";
-import useDetalhesUsuarioViewModel from "../../viewModel/usuario/useDetalhesUsuarioViewModel";
+import useDetalhesUsuarioViewModel from "../../core/viewModel/usuario/useDetalhesUsuarioViewModel";
 import AppLayout from "../../layout/AppLayout";
 import { Badge, Button, Card } from "react-bootstrap";
 import AppField from "../../components/AppField";
 import AppMessage from "../../components/AppMessage";
 import AppSpinner from "../../components/AppSpinner";
 import { MdArrowBack, MdLink, MdOutlineEdit } from "react-icons/md";
-import useEffectOnce from "../../util/useEffectOnce";
+import useEffectOnce from "../../core/util/useEffectOnce";
 
 function DetalhesUsuario() {
 

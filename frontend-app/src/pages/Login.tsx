@@ -1,5 +1,5 @@
 import { Button, Card, Form } from "react-bootstrap";
-import { useLoginViewModel } from "../viewModel/useLoginViewModel";
+import { useLoginViewModel } from "../core/viewModel/useLoginViewModel";
 import AppMessage from "../components/AppMessage";
 import AppSpinner from "../components/AppSpinner";
 import { useState, type KeyboardEvent } from "react";

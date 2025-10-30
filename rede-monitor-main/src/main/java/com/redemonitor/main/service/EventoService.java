@@ -39,6 +39,13 @@ public class EventoService {
         List<Evento> eventos = eventoRepository.listByIntervalo( dispositivoId, dataHoraIni, dataHoraFim );
         return eventos.stream().map( eventoMapper::map ).toList();
     }
+    
+    public List<EventoResponse> listByIntervaloOrdemInversa( Long dispositivoId, LocalDate dataDiaIni, LocalDate dataDiaFim ) {
+        LocalDateTime dataHoraIni = dataDiaIni.atStartOfDay();
+        LocalDateTime dataHoraFim = dataDiaFim.atStartOfDay().plusSeconds( DateConstants.PLUS_END_DIA_SEGUNDOS );
+        List<Evento> eventos = eventoRepository.listByIntervaloOrdemInversa( dispositivoId, dataHoraIni, dataHoraFim );
+        return eventos.stream().map( eventoMapper::map ).toList();
+    }
 
     public List<EventoResponse> listByDia( Long dispositivoId, LocalDate dataDia ) {
         LocalDateTime dataHoraIni = dataDia.atStartOfDay();

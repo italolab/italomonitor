@@ -1,14 +1,14 @@
 import { useEffect, useState } from "react";
 import { Button, Card, Form } from "react-bootstrap";
-import useSaveUsuarioViewModel from "../../viewModel/usuario/useSaveUsuarioViewModel";
+import useSaveUsuarioViewModel from "../../core/viewModel/usuario/useSaveUsuarioViewModel";
 import AppMessage from "../../components/AppMessage";
 import AppSpinner from "../../components/AppSpinner";
 
-import type { CreateUsuarioRequest } from "../../model/dto/request/CreateUsuarioRequest";
+import type { CreateUsuarioRequest } from "../../core/model/dto/request/CreateUsuarioRequest";
 import AppLayout from "../../layout/AppLayout";
 import { MdArrowBack } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
-import type { EmpresaResponse } from "../../model/dto/response/EmpresaResponse";
+import type { EmpresaResponse } from "../../core/model/dto/response/EmpresaResponse";
 
 function CreateUsuario() {
 

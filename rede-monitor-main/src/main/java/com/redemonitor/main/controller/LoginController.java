@@ -13,7 +13,7 @@ import com.redemonitor.main.dto.response.LoginResponse;
 import com.redemonitor.main.service.LoginService;
 
 @RestController
-@RequestMapping("/api/v1/auth")
+@RequestMapping("/main/api/v1/auth")
 public class LoginController {
 
     @Autowired

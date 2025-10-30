@@ -1,14 +1,14 @@
 import { useState } from "react";
 import { Button, Card, Form } from "react-bootstrap";
-import useSaveUsuarioGrupoViewModel from "../../viewModel/usuarioGrupo/useSaveUsuarioGrupoViewModel";
+import useSaveUsuarioGrupoViewModel from "../../core/viewModel/usuarioGrupo/useSaveUsuarioGrupoViewModel";
 import AppMessage from "../../components/AppMessage";
 import AppSpinner from "../../components/AppSpinner";
 
 import { useNavigate, useParams } from "react-router-dom";
-import type { SaveUsuarioGrupoRequest } from "../../model/dto/request/SaveUsuarioGrupoRequest";
+import type { SaveUsuarioGrupoRequest } from "../../core/model/dto/request/SaveUsuarioGrupoRequest";
 import AppLayout from "../../layout/AppLayout";
 import { MdArrowBack } from "react-icons/md";
-import useEffectOnce from "../../util/useEffectOnce";
+import useEffectOnce from "../../core/util/useEffectOnce";
 
 function UpdateUsuarioGrupo() {
 

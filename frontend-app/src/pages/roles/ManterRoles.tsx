@@ -1,13 +1,13 @@
 import { useState } from "react";
 import { Button, Card, Form, Modal, Table } from "react-bootstrap";
-import useManterRoleViewModel from "../../viewModel/role/useManterRoleViewModel";
+import useManterRoleViewModel from "../../core/viewModel/role/useManterRoleViewModel";
 import AppSpinner from "../../components/AppSpinner";
 import AppMessage from "../../components/AppMessage";
 import AppLayout from "../../layout/AppLayout";
 import { useNavigate } from "react-router-dom";
 import { MdAdd } from "react-icons/md";
 import AppOperations from "../../components/AppOperations";
-import type { RoleResponse } from "../../model/dto/response/RoleResponse";
+import type { RoleResponse } from "../../core/model/dto/response/RoleResponse";
 import AppPagination from "../../components/AppPagination";
 
 function ManterRoles() {

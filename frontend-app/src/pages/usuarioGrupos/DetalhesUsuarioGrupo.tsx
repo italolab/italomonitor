@@ -1,12 +1,12 @@
 import { useNavigate, useParams } from "react-router-dom";
-import useDetalhesUsuarioGrupoViewModel from "../../viewModel/usuarioGrupo/useDetalhesUsuarioGrupoViewModel";
+import useDetalhesUsuarioGrupoViewModel from "../../core/viewModel/usuarioGrupo/useDetalhesUsuarioGrupoViewModel";
 import AppLayout from "../../layout/AppLayout";
 import { Button, Card } from "react-bootstrap";
 import AppField from "../../components/AppField";
 import AppMessage from "../../components/AppMessage";
 import AppSpinner from "../../components/AppSpinner";
 import { MdArrowBack, MdLink, MdOutlineEdit } from "react-icons/md";
-import useEffectOnce from "../../util/useEffectOnce";
+import useEffectOnce from "../../core/util/useEffectOnce";
 
 function DetalhesUsuarioGrupo() {
 

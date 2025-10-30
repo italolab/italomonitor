@@ -3,7 +3,7 @@ import { Button, Container, Navbar, Offcanvas } from "react-bootstrap";
 import { FaArrowLeftLong } from "react-icons/fa6";
 import { HiOutlineMenu } from "react-icons/hi";
 import { Link, useNavigate } from "react-router-dom";
-import { useLogoutViewModel } from "../viewModel/useLogoutViewModel";
+import { useLogoutViewModel } from "../core/viewModel/useLogoutViewModel";
 
 import "./AppLayout.css"
 

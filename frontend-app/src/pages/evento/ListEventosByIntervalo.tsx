@@ -1,11 +1,11 @@
 import { Button, Card, Col, Form, Row, Table } from "react-bootstrap";
 import AppMessage from "../../components/AppMessage";
 import AppSpinner from "../../components/AppSpinner";
-import useListEventosByDiaViewModel from "../../viewModel/evento/useListEventosByDiaViewModel";
+import useListEventosByDiaViewModel from "../../core/viewModel/evento/useListEventosByDiaViewModel";
 import { useState } from "react";
-import type { EventoResponse } from "../../model/dto/response/EventoResponse";
+import type { EventoResponse } from "../../core/model/dto/response/EventoResponse";
 import AppPagination from "../../components/AppPagination";
-import { dataToString, formataDataHora, formataTempo } from "../../util/sistema-util";
+import { dataToString, formataDataHora, formataTempo } from "../../core/util/sistema-util";
 import { useParams } from "react-router-dom";
 
 function ListEventosByIntervalo() {

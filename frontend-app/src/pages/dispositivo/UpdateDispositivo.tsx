@@ -1,15 +1,15 @@
 import { useState } from "react";
 import { Button, Card, Form } from "react-bootstrap";
-import useSaveDispositivoViewModel from "../../viewModel/dispositivo/useSaveDispositivoViewModel";
+import useSaveDispositivoViewModel from "../../core/viewModel/dispositivo/useSaveDispositivoViewModel";
 import AppMessage from "../../components/AppMessage";
 import AppSpinner from "../../components/AppSpinner";
 
 import { useNavigate, useParams } from "react-router-dom";
-import type { SaveDispositivoRequest } from "../../model/dto/request/SaveDispositivoRequest";
+import type { SaveDispositivoRequest } from "../../core/model/dto/request/SaveDispositivoRequest";
 import AppLayout from "../../layout/AppLayout";
 import { MdArrowBack } from "react-icons/md";
-import type { EmpresaResponse } from "../../model/dto/response/EmpresaResponse";
-import useEffectOnce from "../../util/useEffectOnce";
+import type { EmpresaResponse } from "../../core/model/dto/response/EmpresaResponse";
+import useEffectOnce from "../../core/util/useEffectOnce";
 
 function UpdateDispositivo() {
 

@@ -1,14 +1,14 @@
 import { useState } from "react";
 import { Button, Card, Form } from "react-bootstrap";
-import useSaveEmpresaViewModel from "../../viewModel/empresa/useSaveEmpresaViewModel";
+import useSaveEmpresaViewModel from "../../core/viewModel/empresa/useSaveEmpresaViewModel";
 import AppMessage from "../../components/AppMessage";
 import AppSpinner from "../../components/AppSpinner";
 
 import { useNavigate, useParams } from "react-router-dom";
-import type { SaveEmpresaRequest } from "../../model/dto/request/SaveEmpresaRequest";
+import type { SaveEmpresaRequest } from "../../core/model/dto/request/SaveEmpresaRequest";
 import AppLayout from "../../layout/AppLayout";
 import { MdArrowBack } from "react-icons/md";
-import useEffectOnce from "../../util/useEffectOnce";
+import useEffectOnce from "../../core/util/useEffectOnce";
 
 function UpdateEmpresa() {
 

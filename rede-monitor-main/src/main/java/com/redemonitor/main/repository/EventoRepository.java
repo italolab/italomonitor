@@ -13,4 +13,7 @@ public interface EventoRepository extends JpaRepository<Evento, Long> {
     @Query( "select e from Evento e where e.dispositivo.id=?1 and e.criadoEm between ?2 and ?3 order by e.criadoEm" )
     List<Evento> listByIntervalo( Long dispositivoId, LocalDateTime dataHoraIni, LocalDateTime dataHoraFim );
 
+    @Query( "select e from Evento e where e.dispositivo.id=?1 and e.criadoEm between ?2 and ?3 order by e.criadoEm desc" )
+    List<Evento> listByIntervaloOrdemInversa( Long dispositivoId, LocalDateTime dataHoraIni, LocalDateTime dataHoraFim );
+
 }

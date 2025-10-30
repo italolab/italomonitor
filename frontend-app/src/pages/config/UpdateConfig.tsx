@@ -1,15 +1,15 @@
 import { useState } from "react";
 import { Button, Card, Form } from "react-bootstrap";
-import useSaveConfigViewModel from "../../viewModel/config/useSaveConfigViewModel";
+import useSaveConfigViewModel from "../../core/viewModel/config/useSaveConfigViewModel";
 import AppMessage from "../../components/AppMessage";
 import AppSpinner from "../../components/AppSpinner";
 
 import { useNavigate } from "react-router-dom";
-import type { SaveConfigRequest } from "../../model/dto/request/SaveConfigRequest";
+import type { SaveConfigRequest } from "../../core/model/dto/request/SaveConfigRequest";
 import AppLayout from "../../layout/AppLayout";
 import { MdArrowBack } from "react-icons/md";
-import useEffectOnce from "../../util/useEffectOnce";
-import type { ConfigResponse } from "../../model/dto/response/ConfigResponse";
+import useEffectOnce from "../../core/util/useEffectOnce";
+import type { ConfigResponse } from "../../core/model/dto/response/ConfigResponse";
 
 function UpdateConfig() {
 

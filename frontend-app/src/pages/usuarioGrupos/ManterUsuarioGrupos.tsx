@@ -1,13 +1,13 @@
 import { useState } from "react";
 import { Button, Card, Form, Modal, Table } from "react-bootstrap";
-import useManterUsuarioGrupoViewModel from "../../viewModel/usuarioGrupo/useManterUsuarioGrupoViewModel";
+import useManterUsuarioGrupoViewModel from "../../core/viewModel/usuarioGrupo/useManterUsuarioGrupoViewModel";
 import AppSpinner from "../../components/AppSpinner";
 import AppMessage from "../../components/AppMessage";
 import AppLayout from "../../layout/AppLayout";
 import { useNavigate } from "react-router-dom";
 import { MdAdd } from "react-icons/md";
 import AppOperations from "../../components/AppOperations";
-import type { UsuarioGrupoResponse } from "../../model/dto/response/UsuarioGrupoResponse";
+import type { UsuarioGrupoResponse } from "../../core/model/dto/response/UsuarioGrupoResponse";
 
 function ManterUsuarioGrupos() {
 

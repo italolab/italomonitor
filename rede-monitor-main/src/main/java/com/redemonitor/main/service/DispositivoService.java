@@ -106,11 +106,13 @@ public class DispositivoService {
         return this.buildDispositivoResponse( dispositivoOp.get() );
     }
 
-    public void deleteDispositivo( Long dispositivoId ) {
+    public void deleteDispositivo( Long dispositivoId, String username ) {
         Optional<Dispositivo> dispositivoOp = dispositivoRepository.findById( dispositivoId );
         if ( dispositivoOp.isEmpty() )
             throw new BusinessException( Errors.DISPOSITIVO_NOT_FOUND );
 
+        dispositivoMonitorService.stopMonitoramento( dispositivoId, username );
+        
         dispositivoRepository.deleteById( dispositivoId );
     }
 

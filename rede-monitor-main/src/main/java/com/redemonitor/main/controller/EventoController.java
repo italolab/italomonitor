@@ -45,6 +45,17 @@ public class EventoController {
         List<EventoResponse> responses = eventoService.listByIntervalo( dispositivoId, dataDiaIni, dataDiaFim );
         return ResponseEntity.ok( responses );
     }
+    
+    @ListEventosByIntervaloDoc
+    @PreAuthorize("hasAuthority('dispositivo-read')")
+    @GetMapping("/{dispositivoId}/diaIni/{dataDiaIni}/diaFim/{dataDiaFim}/ordemInversa")
+    public ResponseEntity<List<EventoResponse>> listByIntervaloOrdemInversa(
+            @PathVariable Long dispositivoId,
+            @PathVariable LocalDate dataDiaIni,
+            @PathVariable LocalDate dataDiaFim ) {
+        List<EventoResponse> responses = eventoService.listByIntervaloOrdemInversa( dispositivoId, dataDiaIni, dataDiaFim );
+        return ResponseEntity.ok( responses );
+    }
 
     @GetEventoDoc
     @PreAuthorize("hasAuthority('dispositivo-read')")

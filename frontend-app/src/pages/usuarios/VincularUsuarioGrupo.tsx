@@ -1,5 +1,5 @@
 import { Button, Card, Modal, Table } from "react-bootstrap";
-import useVincularUsuarioGrupoViewModel from "../../viewModel/usuario/useVincularUsuarioGrupoViewModel";
+import useVincularUsuarioGrupoViewModel from "../../core/viewModel/usuario/useVincularUsuarioGrupoViewModel";
 import AppMessage from "../../components/AppMessage";
 import AppSpinner from "../../components/AppSpinner";
 import { useNavigate, useParams } from "react-router-dom";
@@ -7,7 +7,7 @@ import { useState } from "react";
 import AppLayout from "../../layout/AppLayout";
 import { FaLink, FaX } from "react-icons/fa6";
 import { MdArrowBack } from "react-icons/md";
-import useEffectOnce from "../../util/useEffectOnce";
+import useEffectOnce from "../../core/util/useEffectOnce";
 
 function VincularUsuarioGrupo() {
 

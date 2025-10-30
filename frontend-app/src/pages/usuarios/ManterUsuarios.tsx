@@ -1,13 +1,13 @@
 import { useState } from "react";
 import { Button, Card, Form, Modal, Table } from "react-bootstrap";
-import useManterUsuarioViewModel from "../../viewModel/usuario/useManterUsuarioViewModel";
+import useManterUsuarioViewModel from "../../core/viewModel/usuario/useManterUsuarioViewModel";
 import AppSpinner from "../../components/AppSpinner";
 import AppMessage from "../../components/AppMessage";
 import AppLayout from "../../layout/AppLayout";
 import { useNavigate } from "react-router-dom";
 import { MdAdd } from "react-icons/md";
 import AppOperations from "../../components/AppOperations";
-import type { UsuarioResponse } from "../../model/dto/response/UsuarioResponse";
+import type { UsuarioResponse } from "../../core/model/dto/response/UsuarioResponse";
 
 function ManterUsuarios() {
 

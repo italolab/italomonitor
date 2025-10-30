@@ -63,7 +63,7 @@ public class DispositivoMonitorService {
             throw new BusinessException( Errors.DISPOSITIVO_ALREADY_MONITORED );
         }
 
-        Duration monitorDelay = Duration.ofMillis( 30 );
+        Duration monitorDelay = Duration.ofMillis( config.getMonitoramentoDelay() );
 
         DispositivoMonitorThread thread = new DispositivoMonitorThread(
                 dispositivo, config, dispositivoRepository, eventoRepository, dispositivoMessageService, username );

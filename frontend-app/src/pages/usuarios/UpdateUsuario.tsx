@@ -1,15 +1,15 @@
 import { useState } from "react";
 import { Button, Card, Form } from "react-bootstrap";
-import useSaveUsuarioViewModel from "../../viewModel/usuario/useSaveUsuarioViewModel";
+import useSaveUsuarioViewModel from "../../core/viewModel/usuario/useSaveUsuarioViewModel";
 import AppMessage from "../../components/AppMessage";
 import AppSpinner from "../../components/AppSpinner";
 
 import { useNavigate, useParams } from "react-router-dom";
-import type { UpdateUsuarioRequest } from "../../model/dto/request/UpdateUsuarioRequest";
+import type { UpdateUsuarioRequest } from "../../core/model/dto/request/UpdateUsuarioRequest";
 import AppLayout from "../../layout/AppLayout";
 import { MdArrowBack } from "react-icons/md";
-import type { EmpresaResponse } from "../../model/dto/response/EmpresaResponse";
-import useEffectOnce from "../../util/useEffectOnce";
+import type { EmpresaResponse } from "../../core/model/dto/response/EmpresaResponse";
+import useEffectOnce from "../../core/util/useEffectOnce";
 
 function UpdateUsuario() {
 

@@ -1,14 +1,14 @@
 import { Button, Card, Col, Form, Nav, Row } from "react-bootstrap";
 import AppMessage from "../../components/AppMessage";
 import AppSpinner from "../../components/AppSpinner";
-import useListEventosByDiaViewModel from "../../viewModel/evento/useListEventosByDiaViewModel";
+import useListEventosByDiaViewModel from "../../core/viewModel/evento/useListEventosByDiaViewModel";
 import { useState } from "react";
 import { useParams } from "react-router-dom";
-import { dataToString, formataDataHoraSemSegundos } from "../../util/sistema-util";
+import { dataToString, formataDataHoraSemSegundos } from "../../core/util/sistema-util";
 import { CartesianGrid, Legend, Line, LineChart, Tooltip, XAxis, YAxis } from "recharts";
 
 import './style/ShowEventosGraficos.css'
-import type { EventoResponse } from "../../model/dto/response/EventoResponse";
+import type { EventoResponse } from "../../core/model/dto/response/EventoResponse";
 
 function ShowEventosGraficos() {
 

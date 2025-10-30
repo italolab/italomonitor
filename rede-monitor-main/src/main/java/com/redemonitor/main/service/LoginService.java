@@ -106,7 +106,6 @@ public class LoginService {
     }
 
     private String generateNewAccessToken( Usuario usuario, int expireAt ) {
-        String nome = usuario.getNome();
         String username = usuario.getUsername();
 
         List<String> roles = new ArrayList<>();

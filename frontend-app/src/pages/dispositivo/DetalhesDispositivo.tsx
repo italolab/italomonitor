@@ -1,5 +1,5 @@
 import { useNavigate, useParams } from "react-router-dom";
-import useDetalhesDispositivoViewModel from "../../viewModel/dispositivo/useDetalhesDispositivoViewModel";
+import useDetalhesDispositivoViewModel from "../../core/viewModel/dispositivo/useDetalhesDispositivoViewModel";
 import { useContext, useEffect, useRef } from "react";
 import AppLayout from "../../layout/AppLayout";
 import { Button, Card } from "react-bootstrap";

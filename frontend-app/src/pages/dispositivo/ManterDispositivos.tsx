@@ -1,13 +1,13 @@
 import { useState } from "react";
 import { Button, Card, Col, Form, Modal, Row } from "react-bootstrap";
-import useManterDispositivoViewModel from "../../viewModel/dispositivo/useManterDispositivoViewModel";
+import useManterDispositivoViewModel from "../../core/viewModel/dispositivo/useManterDispositivoViewModel";
 import AppSpinner from "../../components/AppSpinner";
 import AppMessage from "../../components/AppMessage";
 import AppLayout from "../../layout/AppLayout";
 import { useNavigate } from "react-router-dom";
 import { MdAdd } from "react-icons/md";
 import AppOperations from "../../components/AppOperations";
-import type { DispositivoResponse } from "../../model/dto/response/DispositivoResponse";
+import type { DispositivoResponse } from "../../core/model/dto/response/DispositivoResponse";
 
 import './style/ManterDispositivos.css'
 
