@@ -25,8 +25,6 @@ export function useLoginViewModel() {
         try {
             const response = await authModel.login( loginReq );
 
-            alert( JSON.stringify( response.data ) );
-
             setNome( response.data.nome );
             setUsername( response.data.username );
             setAccessToken( response.data.accessToken );
