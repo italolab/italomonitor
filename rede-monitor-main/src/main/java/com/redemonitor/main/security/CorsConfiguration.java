@@ -1,6 +1,11 @@
 package com.redemonitor.main.security;
 
-/*
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+
 @Configuration
 @EnableWebMvc
 public class CorsConfiguration {
@@ -9,7 +14,7 @@ public class CorsConfiguration {
     WebMvcConfigurer corsConfigurer() {
         return new WebMvcConfigurer() {
             @Override
-            public void addCorsMappings(@NonNull CorsRegistry registry) {
+            public void addCorsMappings(CorsRegistry registry) {
                 registry
                         .addMapping("/**")
                         .allowedMethods("*")
@@ -21,4 +26,3 @@ public class CorsConfiguration {
     }
 
 }
-*/

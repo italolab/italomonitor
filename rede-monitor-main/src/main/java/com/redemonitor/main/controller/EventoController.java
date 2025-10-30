@@ -18,7 +18,7 @@ import com.redemonitor.main.dto.response.EventoResponse;
 import com.redemonitor.main.service.EventoService;
 
 @RestController
-@RequestMapping("/main/api/v1/eventos")
+@RequestMapping("/api/v1/eventos")
 public class EventoController {
 
     @Autowired

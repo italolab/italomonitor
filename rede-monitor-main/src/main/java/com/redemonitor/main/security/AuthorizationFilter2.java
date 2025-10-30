@@ -26,7 +26,6 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import lombok.NonNull;
 
 @Component
 public class AuthorizationFilter2 extends OncePerRequestFilter {
@@ -42,13 +41,12 @@ public class AuthorizationFilter2 extends OncePerRequestFilter {
     
     @Override
     protected void doFilterInternal(
-            @NonNull HttpServletRequest request,
-            @NonNull HttpServletResponse response,
-            @NonNull FilterChain filterChain) throws ServletException, IOException {
+            HttpServletRequest request,
+            HttpServletResponse response,
+            FilterChain filterChain) throws ServletException, IOException {
 
         String accessToken = null;
 
-        System.out.println( request.getRequestURI()+"  "+loginEndpoint );
         if ( request.getRequestURI().equals( loginEndpoint ) ) {
             Cookie cookie = new Cookie( accessTokenCookieName, "" );
             cookie.setMaxAge( 0 );

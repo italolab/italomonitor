@@ -14,7 +14,7 @@ import com.redemonitor.main.service.UsuarioGrupoService;
 import java.util.List;
 
 @RestController
-@RequestMapping("/main/api/v1/usuario-grupos")
+@RequestMapping("/api/v1/usuario-grupos")
 public class UsuarioGrupoController {
 
     @Autowired

@@ -13,7 +13,7 @@ import com.redemonitor.main.service.EmpresaService;
 import java.util.List;
 
 @RestController
-@RequestMapping("/main/api/v1/empresas")
+@RequestMapping("/api/v1/empresas")
 public class EmpresaController {
 
     @Autowired

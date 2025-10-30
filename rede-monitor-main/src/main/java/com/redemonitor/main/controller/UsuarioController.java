@@ -15,7 +15,7 @@ import com.redemonitor.main.service.UsuarioService;
 import java.util.List;
 
 @RestController
-@RequestMapping("/main/api/v1/usuarios")
+@RequestMapping("/api/v1/usuarios")
 public class UsuarioController {
 
     @Autowired
