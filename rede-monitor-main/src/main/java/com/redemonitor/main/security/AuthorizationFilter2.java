@@ -48,6 +48,7 @@ public class AuthorizationFilter2 extends OncePerRequestFilter {
 
         String accessToken = null;
 
+        System.out.println( request.getRequestURI()+"  "+loginEndpoint );
         if ( request.getRequestURI().equals( loginEndpoint ) ) {
             Cookie cookie = new Cookie( accessTokenCookieName, "" );
             cookie.setMaxAge( 0 );

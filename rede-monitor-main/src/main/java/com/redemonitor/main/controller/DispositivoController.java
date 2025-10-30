@@ -31,7 +31,7 @@ import com.redemonitor.main.service.TokenService;
  */
 
 @RestController
-@RequestMapping("/api/v1/dispositivos")
+@RequestMapping("/main/api/v1/dispositivos")
 public class DispositivoController {
 
     @Autowired

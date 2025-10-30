@@ -12,7 +12,7 @@ import com.redemonitor.main.dto.response.ConfigResponse;
 import com.redemonitor.main.service.ConfigService;
 
 @RestController
-@RequestMapping("/api/v1/config")
+@RequestMapping("/main/api/v1/config")
 public class ConfigController {
 
     @Autowired

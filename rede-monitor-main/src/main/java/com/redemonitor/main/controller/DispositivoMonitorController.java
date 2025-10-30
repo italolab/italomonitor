@@ -12,11 +12,11 @@ import com.redemonitor.main.service.TokenService;
 import com.redemonitor.main.service.UsuarioService;
 
 /*
-A propriedade "jwt.access_token.cookie.name" está sendo acessada em algums métodos desse controller.
-*/
+ * A propriedade "jwt.access_token.cookie.name" está sendo acessada em algums métodos desse controller.
+ */
 
 @RestController
-@RequestMapping("/api/v1/dispositivos/monitoramento")
+@RequestMapping("/main/api/v1/dispositivos/monitoramento")
 public class DispositivoMonitorController {
 
     @Autowired

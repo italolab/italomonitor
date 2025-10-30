@@ -1,5 +1,8 @@
 package com.redemonitor.main.controller;
 
+import java.time.LocalDate;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -12,14 +15,10 @@ import com.redemonitor.main.apidoc.evento.GetEventoDoc;
 import com.redemonitor.main.apidoc.evento.ListEventosByDiaDoc;
 import com.redemonitor.main.apidoc.evento.ListEventosByIntervaloDoc;
 import com.redemonitor.main.dto.response.EventoResponse;
-import com.redemonitor.main.model.Evento;
 import com.redemonitor.main.service.EventoService;
 
-import java.time.LocalDate;
-import java.util.List;
-
 @RestController
-@RequestMapping("/api/v1/eventos")
+@RequestMapping("/main/api/v1/eventos")
 public class EventoController {
 
     @Autowired
