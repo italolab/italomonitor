@@ -8,6 +8,8 @@ import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.springframework.beans.factory.annotation.Value;
+
 import com.redemonitor.main.model.Config;
 import com.redemonitor.main.model.Dispositivo;
 import com.redemonitor.main.model.Empresa;
@@ -19,6 +21,9 @@ import com.redemonitor.main.service.message.DispositivoMessageService;
 
 public class DispositivoMonitorThread implements Runnable {
 
+	@Value("${ping.os}")
+	private String pingOS;
+	
     private Dispositivo dispositivo;
     private Config config;
     private final DispositivoRepository dispositivoRepository;
@@ -65,12 +70,16 @@ public class DispositivoMonitorThread implements Runnable {
             registroEventoPeriodo = config.getRegistroEventoPeriodo();
         }
 
-        String[] comando = { "ping", "-n", ""+numPacotesPorLote, host };
+        String countParam = "-c";
+        if ( pingOS.equals( "windows" ) )
+        	countParam = "-n";
+        
+        String[] comando = { "ping", countParam, ""+numPacotesPorLote, host };
 
         try {
-            ProcessBuilder pb = new ProcessBuilder(comando);
+        	ProcessBuilder pb = new ProcessBuilder(comando);
             Process proc = pb.start();
-
+            
             int maxFalhas = (int)Math.round( porcentagemMaxFalhasPorLote * numPacotesPorLote );
             int maxSucessos = numPacotesPorLote - maxFalhas;
             int quantFalhas = 0;
@@ -80,13 +89,47 @@ public class DispositivoMonitorThread implements Runnable {
             while ( quantFalhas < maxFalhas && scanner.hasNextLine() ) {
                 String line = scanner.nextLine();
 
-                if ( ( line.startsWith( "Resposta") && !line.contains("tempo") ) ||
-                        line.startsWith( "Esgotado") || line.startsWith( "A") || line.startsWith( "Falha" ) ) {
+                if ( line.startsWith( "ping" ) || 
+                        line.contains( "Unreachable" ) || 
+                    	line.contains( "timeout" ) || 
+                    	line.contains( "unknown" ) ||                    	
+                        line.startsWith( "Esgotado" ) || 
+                        line.startsWith( "A" ) || 
+                        line.startsWith( "Falha" ) ||
+                        ( line.startsWith( "Resposta" ) && !line.contains( "tempo" ) ) ) {
                     quantFalhas++;
                 }
 
-                if ( line.startsWith( "Resposta") && line.contains("tempo") )
-                    quantSucessos++;
+                if ( ( line.startsWith( "Resposta") && line.contains("tempo") ) || 
+                		( line.contains( "icmp_seq") && line.contains( "ttl" ) && line.contains( "time" ) ) ) {
+                	
+                	String timeStr = "0";
+                	int i = line.indexOf( "time" );
+                	int j = line.indexOf( " ", i );
+                	if ( i > -1 ) {
+                		timeStr = line.substring( i+5, j );
+                	} else {
+                		i = line.indexOf( "tempo" );
+                   		timeStr = line.substring( i+6, j );
+                	}
+                	
+                	if ( timeStr.endsWith( "ms" ) )
+                		timeStr = timeStr.substring( 0, timeStr.length()-2 );
+                	
+                	double time = 0;
+                	try {
+                		time = Double.parseDouble( timeStr );
+                	} catch ( NumberFormatException e ) {
+                		
+                	}
+                	
+                	// DEVE SER CONFIGURADO NA TELA DE CONFIGURAÇÕES
+                	if ( time < 1000 ) { 
+                		quantSucessos++;
+                	} else {
+                		quantFalhas++;
+                	}
+                }
 
                 if ( quantFalhas <= maxFalhas )
                     System.out.println( line );
@@ -118,6 +161,7 @@ public class DispositivoMonitorThread implements Runnable {
                 this.registraEvento( duration );
 
         } catch ( IOException e ) {
+        	e.printStackTrace();
             String msg = "Falha no monitoramento do dispositivo: " + nome;
             Logger.getLogger(DispositivoMonitorThread.class.getName()).log(Level.SEVERE, msg, e);
         }

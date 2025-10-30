@@ -1,0 +1,1 @@
+alter table dispositivo add column host varchar( 100 ) not null;

@@ -1,0 +1,5 @@
+node_modules
+notas.txt
+README.md
+Dockerfile
+.dockerignore

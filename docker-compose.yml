@@ -1,0 +1,62 @@
+services:
+  rede-monitor-db:
+    image: postgres:17-alpine
+    container_name: rede-monitor-db
+    restart: always
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=redemonitor
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgresql_data:/var/lib/postgresql/data
+
+  rabbitmq:
+    image: rabbitmq:management
+    container_name: rabbitmq-server
+    restart: always
+    environment:
+      - RABBITMQ_DEFAULT_USER=admin
+      - RABBITMQ_DEFAULT_PASS=admin
+      - RABBITMQ_DEFAULT_VHOST=/
+      - RABBITMQ_NODENAME=rabbit@rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
+      - rabbitmq_log:/var/log/rabbitmq
+      - rabbitmq_conf:/etc/rabbitmq
+
+  rede-monitor-main:
+    build: ./rede-monitor-main/
+    container_name: rede-monitor-main
+    ports:
+      - 8080:8080
+    environment:
+      - DB_URL=jdbc:postgresql://rede-monitor-db:5432/redemonitor
+      - DB_USER=postgres
+      - DB_PASS=postgres 
+      - APP_SERVER_URL=http://localhost:8080
+      - JWT_SECRET=949f5f9c8048fa7ff45ffc69e8208a26cd3865e29c65ff720abe330d68e4a572
+    depends_on:
+      - rede-monitor-db
+      - rabbitmq
+
+  rede-monitor-frontend:
+    build: ./rede-monitor-frontend/
+    container_name: rede-monitor-frontend
+    ports:
+      - 5173:5173
+
+volumes:
+  postgresql_data:
+    driver: local
+  rabbitmq_data:
+    driver: local
+  rabbitmq_log:
+    driver: local
+  rabbitmq_conf:
+    driver: local
+   
