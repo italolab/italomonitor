@@ -11,8 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.redemonitor.main.apidoc.dispositivo.monitor.StartMonitoramentoDoc;
 import com.redemonitor.main.apidoc.dispositivo.monitor.StopMonitoramentoDoc;
-import com.redemonitor.main.service.DispositivoMonitorService;
-import com.redemonitor.main.service.TokenService;
+import com.redemonitor.main.integration.DispositivoMonitorIntegration;
 
 /*
  * A propriedade "jwt.access_token.cookie.name" está sendo acessada em algums métodos desse controller.
@@ -23,10 +22,7 @@ import com.redemonitor.main.service.TokenService;
 public class DispositivoMonitorController {
 
     @Autowired
-    private DispositivoMonitorService dispositivoMonitorService;
-
-    @Autowired
-    private TokenService tokenService;
+    private DispositivoMonitorIntegration dispositivoMonitorIntegration;
 
     @StartMonitoramentoDoc
     @PreAuthorize("hasAuthority('dispositivo-monitoramento')")
@@ -35,9 +31,7 @@ public class DispositivoMonitorController {
             @PathVariable Long dispositivoId,
             @CookieValue("${jwt.access_token.cookie.name}") String accessToken ) {
 
-        String username =  tokenService.getUsername( accessToken );
-
-        dispositivoMonitorService.startMonitoramento( dispositivoId, username );
+        dispositivoMonitorIntegration.startMonitoramento( dispositivoId, accessToken );
         return ResponseEntity.ok( "Monitoramento iniciado." );
     }
 
@@ -48,9 +42,7 @@ public class DispositivoMonitorController {
             @PathVariable Long dispositivoId,
             @CookieValue( "${jwt.access_token.cookie.name}" ) String accessToken ) {
 
-        String username = tokenService.getUsername( accessToken );
-
-        dispositivoMonitorService.stopMonitoramento( dispositivoId, username );
+        dispositivoMonitorIntegration.stopMonitoramento( dispositivoId, accessToken );
         return ResponseEntity.ok( "Monitoramento parado." );
     }
 

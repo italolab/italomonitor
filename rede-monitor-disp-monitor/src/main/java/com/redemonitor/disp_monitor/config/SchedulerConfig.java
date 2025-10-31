@@ -1,4 +1,4 @@
-package com.redemonitor.main.config;
+package com.redemonitor.disp_monitor.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

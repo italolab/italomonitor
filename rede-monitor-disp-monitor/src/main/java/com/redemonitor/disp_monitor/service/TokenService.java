@@ -14,14 +14,14 @@ public class TokenService {
 
     @Autowired
     private JwtTokenUtil jwtTokenUtil;
-
-    public String getUsername( String token ) {
-        try {
-            DecodedJWT decodedJWT = jwtTokenUtil.verifyToken( token );
+    
+    public String getUsernameByAccessToken( String accessToken ) {
+    	try {        	        	
+            DecodedJWT decodedJWT = jwtTokenUtil.verifyToken( accessToken );
             return decodedJWT.getSubject();
         } catch ( JWTVerificationException e ) {
             throw new BusinessException( Errors.NOT_AUTHORIZED );
         }
     }
-
+    
 }

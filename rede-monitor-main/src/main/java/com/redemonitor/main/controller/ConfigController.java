@@ -28,7 +28,7 @@ public class ConfigController {
 
     @GetConfigDoc
     @PreAuthorize("hasAuthority('config-read')")
-    @GetMapping
+    @GetMapping("/get")
     public ResponseEntity<ConfigResponse> getConfig() {
         ConfigResponse resp = configService.getConfig();
         return ResponseEntity.ok( resp );

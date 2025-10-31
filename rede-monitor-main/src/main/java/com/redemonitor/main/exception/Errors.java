@@ -32,5 +32,6 @@ public interface Errors {
     public final static String VALUE_LESS_OR_EQUALS_THAN_ZERO = "O valor do campo '$1' é menor ou igual a zero ou não numérico.";
     public final static String INVALID_EMAIL = "O valor do campo '$1' está em formato inválido.";
 
+    public final static String ERROR_STATUS = "Erro no microserviço principal.\nURI=$1\nStatus=$2";
 
 }

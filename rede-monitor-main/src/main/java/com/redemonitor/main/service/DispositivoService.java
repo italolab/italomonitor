@@ -8,9 +8,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.redemonitor.main.dto.request.SaveDispositivoRequest;
+import com.redemonitor.main.dto.request.SaveDispositivoStatusRequest;
 import com.redemonitor.main.dto.response.DispositivoResponse;
 import com.redemonitor.main.exception.BusinessException;
 import com.redemonitor.main.exception.Errors;
+import com.redemonitor.main.integration.DispositivoMonitorIntegration;
 import com.redemonitor.main.mapper.DispositivoMapper;
 import com.redemonitor.main.mapper.EmpresaMapper;
 import com.redemonitor.main.model.Dispositivo;
@@ -22,7 +24,7 @@ import com.redemonitor.main.repository.EmpresaRepository;
 public class DispositivoService {
 
     @Autowired
-    private DispositivoMonitorService dispositivoMonitorService;
+    private DispositivoMonitorIntegration dispositivoMonitorIntegration;
 
     @Autowired
     private DispositivoRepository dispositivoRepository;
@@ -56,7 +58,7 @@ public class DispositivoService {
         dispositivoRepository.save( dispositivo );
     }
 
-    public void updateDispositivo( Long dispositivoId, SaveDispositivoRequest request ) {
+    public void updateDispositivo( Long dispositivoId, SaveDispositivoRequest request, String accessToken ) {
         request.validate();
 
         String nome = request.getNome();
@@ -79,7 +81,19 @@ public class DispositivoService {
         dispositivoMapper.load( dispositivo, request );
 
         dispositivoRepository.save( dispositivo );
-        dispositivoMonitorService.setDeviceInMonitor( dispositivoId );
+        dispositivoMonitorIntegration.updateDispositivoInMonitor( dispositivoId, accessToken );
+    }
+    
+    public void updateStatus( Long dispositivoId, SaveDispositivoStatusRequest request ) {
+    	 Optional<Dispositivo> dispositivoOp = dispositivoRepository.findById( dispositivoId );
+         if ( dispositivoOp.isEmpty() )
+             throw new BusinessException( Errors.DISPOSITIVO_NOT_FOUND );
+
+         Dispositivo dispositivo = dispositivoOp.get();
+         
+         dispositivoMapper.load( dispositivo, request );
+         
+         dispositivoRepository.save( dispositivo );
     }
 
     public List<DispositivoResponse> filterDispositivos( String hostPart, String nomePart, String localPart ) {
@@ -102,12 +116,12 @@ public class DispositivoService {
         return this.buildDispositivoResponse( dispositivoOp.get() );
     }
 
-    public void deleteDispositivo( Long dispositivoId, String username ) {
+    public void deleteDispositivo( Long dispositivoId, String accessToken ) {
         Optional<Dispositivo> dispositivoOp = dispositivoRepository.findById( dispositivoId );
         if ( dispositivoOp.isEmpty() )
             throw new BusinessException( Errors.DISPOSITIVO_NOT_FOUND );
 
-        dispositivoMonitorService.stopMonitoramento( dispositivoId, username );
+        dispositivoMonitorIntegration.stopMonitoramento( dispositivoId, accessToken );
         
         dispositivoRepository.deleteById( dispositivoId );
     }

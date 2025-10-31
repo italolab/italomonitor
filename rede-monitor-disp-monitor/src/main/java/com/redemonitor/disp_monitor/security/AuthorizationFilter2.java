@@ -18,6 +18,7 @@ import com.auth0.jwt.interfaces.DecodedJWT;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.redemonitor.disp_monitor.dto.ErrorResponse;
 import com.redemonitor.disp_monitor.exception.Errors;
+import com.redemonitor.disp_monitor.util.BearerTokenUtil;
 import com.redemonitor.disp_monitor.util.JwtTokenUtil;
 
 import jakarta.servlet.FilterChain;
@@ -31,6 +32,9 @@ public class AuthorizationFilter2 extends OncePerRequestFilter {
     @Autowired
     private JwtTokenUtil jwtTokenUtil;
     
+    @Autowired
+    private BearerTokenUtil bearerTokenUtil;
+    
     @Override
     protected void doFilterInternal(
             HttpServletRequest request,
@@ -39,10 +43,7 @@ public class AuthorizationFilter2 extends OncePerRequestFilter {
 
     	String authorizationHeader = request.getHeader( "Authorization" );
     	
-    	String accessToken = null;
-        if ( authorizationHeader != null )
-        	if ( authorizationHeader.length() > 7 )
-        		accessToken = authorizationHeader.substring( 7 );        
+    	String accessToken = bearerTokenUtil.extractAccessToken( authorizationHeader );       
 
         if ( accessToken != null ) {
             try {

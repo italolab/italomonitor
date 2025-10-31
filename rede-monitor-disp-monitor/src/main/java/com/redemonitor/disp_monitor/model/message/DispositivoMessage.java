@@ -1,6 +1,6 @@
 package com.redemonitor.disp_monitor.model.message;
 
-import com.redemonitor.disp_monitor.integration.dto.enums.DispositivoStatus;
+import com.redemonitor.disp_monitor.model.enums.DispositivoStatus;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

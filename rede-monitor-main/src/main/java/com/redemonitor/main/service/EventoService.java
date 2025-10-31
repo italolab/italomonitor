@@ -1,30 +1,50 @@
 package com.redemonitor.main.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import com.redemonitor.main.constants.DateConstants;
-import com.redemonitor.main.dto.response.EventoResponse;
-import com.redemonitor.main.exception.BusinessException;
-import com.redemonitor.main.exception.Errors;
-import com.redemonitor.main.mapper.EventoMapper;
-import com.redemonitor.main.model.Evento;
-import com.redemonitor.main.repository.EventoRepository;
-
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.redemonitor.main.constants.DateConstants;
+import com.redemonitor.main.dto.request.SaveEventoRequest;
+import com.redemonitor.main.dto.response.EventoResponse;
+import com.redemonitor.main.exception.BusinessException;
+import com.redemonitor.main.exception.Errors;
+import com.redemonitor.main.mapper.EventoMapper;
+import com.redemonitor.main.model.Dispositivo;
+import com.redemonitor.main.model.Evento;
+import com.redemonitor.main.repository.DispositivoRepository;
+import com.redemonitor.main.repository.EventoRepository;
 
 @Service
 public class EventoService {
 
     @Autowired
     private EventoRepository eventoRepository;
+    
+    @Autowired
+    private DispositivoRepository dispositivoRepository;
 
     @Autowired
     private EventoMapper eventoMapper;
 
+    public void createEvento( SaveEventoRequest request ) {
+    	Long dispositivoId = request.getDispositivoId();
+    	Optional<Dispositivo> dispositivoOp = dispositivoRepository.findById( dispositivoId );
+    	if ( dispositivoOp.isEmpty() )
+    		throw new BusinessException( Errors.DISPOSITIVO_NOT_FOUND );
+    	
+    	Dispositivo dispositivo = dispositivoOp.get();
+    	
+    	Evento evento = eventoMapper.map( request );
+    	evento.setDispositivo( dispositivo );
+    	
+    	eventoRepository.save( evento );    	
+    }
+    
     public EventoResponse getEvento(Long eventoId ) {
         Optional<Evento> eventoOp = eventoRepository.findById( eventoId );
         if ( eventoOp.isEmpty() )

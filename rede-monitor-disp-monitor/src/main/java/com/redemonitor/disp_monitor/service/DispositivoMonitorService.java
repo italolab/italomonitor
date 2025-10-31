@@ -8,7 +8,6 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ScheduledFuture;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 import org.springframework.stereotype.Service;
 
@@ -25,9 +24,6 @@ import com.redemonitor.disp_monitor.service.message.DispositivoMessageService;
 
 @Service
 public class DispositivoMonitorService {
-
-	@Value("${ping.os}")
-	private String pingOS;
 	
     @Autowired
     private ConfigIntegration configRepository;
@@ -46,16 +42,16 @@ public class DispositivoMonitorService {
 
     private final Map<Long, DispositivoMonitor> dispositivoMonitorMap = new ConcurrentHashMap<>();
 
-    public void startMonitoramento( Long dispositivoId, String username ) {
-        Config config = configRepository.getConfig();
+    public void startMonitoramento( Long dispositivoId, String accessToken ) {
+        Config config = configRepository.getConfig( accessToken );
 
-        Dispositivo dispositivo = dispositivoRepository.getDispositivo( dispositivoId );
-       
+        Dispositivo dispositivo = dispositivoRepository.getDispositivo( dispositivoId, accessToken );
+              
         if ( dispositivoMonitorMap.containsKey( dispositivoId ) ) {
             dispositivo.setSendoMonitorado( true );
-            dispositivoRepository.saveDispositivo( dispositivo );
+            dispositivoRepository.saveDispositivo( dispositivo, accessToken );
 
-            dispositivoMessageService.sendMessage( dispositivo, username ); 
+            dispositivoMessageService.sendMessage( dispositivo, accessToken ); 
 
             throw new BusinessException( Errors.DISPOSITIVO_ALREADY_MONITORED );
         }
@@ -63,7 +59,7 @@ public class DispositivoMonitorService {
         Duration monitorDelay = Duration.ofMillis( config.getMonitoramentoDelay() );
 
         DispositivoMonitorThread thread = new DispositivoMonitorThread(
-                dispositivo, config, dispositivoRepository, eventoRepository, dispositivoMessageService, username, pingOS );
+                dispositivo, config, dispositivoRepository, eventoRepository, dispositivoMessageService, accessToken );
 
         ScheduledFuture<?> scheduledFuture = scheduler.scheduleAtFixedRate( thread, Instant.now(), monitorDelay  );
 
@@ -71,19 +67,19 @@ public class DispositivoMonitorService {
         dispositivoMonitorMap.put( dispositivoId, dispositivoMonitor );
 
         dispositivo.setSendoMonitorado( true );
-        dispositivoRepository.saveDispositivo( dispositivo );
+        dispositivoRepository.saveDispositivo( dispositivo, accessToken );
 
-        dispositivoMessageService.sendMessage( dispositivo, username );
+        dispositivoMessageService.sendMessage( dispositivo, accessToken );
     }
 
-    public void stopMonitoramento( Long dispositivoId, String username ) {
-        Dispositivo dispositivo = dispositivoRepository.getDispositivo( dispositivoId );
+    public void stopMonitoramento( Long dispositivoId, String accessToken ) {
+        Dispositivo dispositivo = dispositivoRepository.getDispositivo( dispositivoId, accessToken );
         
         if ( !dispositivoMonitorMap.containsKey( dispositivoId ) ) {
             dispositivo.setSendoMonitorado( false );
-            dispositivoRepository.saveDispositivo( dispositivo );
+            dispositivoRepository.saveDispositivo( dispositivo, accessToken );
 
-            dispositivoMessageService.sendMessage( dispositivo, username );
+            dispositivoMessageService.sendMessage( dispositivo, accessToken );
 
             throw new BusinessException( Errors.DISPOSITIVO_NOT_MONITORED );
         }
@@ -94,13 +90,13 @@ public class DispositivoMonitorService {
         dispositivoMonitorMap.remove( dispositivoId );
 
         dispositivo.setSendoMonitorado( false );
-        dispositivoRepository.saveDispositivo( dispositivo );
+        dispositivoRepository.saveDispositivo( dispositivo, accessToken );
 
-        dispositivoMessageService.sendMessage( dispositivo, username );
+        dispositivoMessageService.sendMessage( dispositivo, accessToken );
     }
 
-    public void setConfigInMonitores() {
-        Config config = configRepository.getConfig();
+    public void updateConfigInMonitores( String accessToken ) {
+        Config config = configRepository.getConfig( accessToken );
 
         Set<Long> ids = dispositivoMonitorMap.keySet();
         for( Long dispositivoId : ids ) {
@@ -115,8 +111,8 @@ public class DispositivoMonitorService {
         }
     }
 
-    public void setDeviceInMonitor( Long dispositivoId ) {
-        Dispositivo dispositivo = dispositivoRepository.getDispositivo( dispositivoId );
+    public void updateDispositivoInMonitor( Long dispositivoId, String accessToken ) {
+        Dispositivo dispositivo = dispositivoRepository.getDispositivo( dispositivoId, accessToken );
        
         DispositivoMonitor dispositivoMonitor = dispositivoMonitorMap.get( dispositivoId );
         if ( dispositivoMonitor != null )

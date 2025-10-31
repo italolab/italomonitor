@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.redemonitor.main.dto.request.SaveDispositivoRequest;
+import com.redemonitor.main.dto.request.SaveDispositivoStatusRequest;
 import com.redemonitor.main.dto.response.DispositivoResponse;
 import com.redemonitor.main.model.Dispositivo;
 
@@ -49,6 +50,11 @@ public class DispositivoMapper {
         disp.setNome( request.getNome() );
         disp.setDescricao( request.getDescricao() );
         disp.setLocalizacao( request.getLocalizacao() );
+    }
+    
+    public void load( Dispositivo disp, SaveDispositivoStatusRequest request ) {
+    	disp.setSendoMonitorado( request.isSendoMonitorado() );
+    	disp.setStatus( request.getStatus() ); 
     }
 
 }

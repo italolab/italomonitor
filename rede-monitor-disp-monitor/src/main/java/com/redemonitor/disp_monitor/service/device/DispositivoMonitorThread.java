@@ -10,11 +10,11 @@ import java.util.logging.Logger;
 
 import com.redemonitor.disp_monitor.integration.DispositivoIntegration;
 import com.redemonitor.disp_monitor.integration.EventoIntegration;
-import com.redemonitor.disp_monitor.integration.dto.enums.DispositivoStatus;
 import com.redemonitor.disp_monitor.model.Config;
 import com.redemonitor.disp_monitor.model.Dispositivo;
 import com.redemonitor.disp_monitor.model.Empresa;
 import com.redemonitor.disp_monitor.model.Evento;
+import com.redemonitor.disp_monitor.model.enums.DispositivoStatus;
 import com.redemonitor.disp_monitor.service.message.DispositivoMessageService;
 
 public class DispositivoMonitorThread implements Runnable {
@@ -24,8 +24,7 @@ public class DispositivoMonitorThread implements Runnable {
     private final DispositivoIntegration dispositivoIntegration;
     private final DispositivoMessageService dispositivoWebSocketIntegration;
     private final EventoIntegration eventoIntegration;
-    private final String username;
-    private final String pingOS;
+    private final String accessToken;
 
     private int sucessosQuantTotal = 0;
     private int falhasQuantTotal = 0;
@@ -39,15 +38,13 @@ public class DispositivoMonitorThread implements Runnable {
                                      DispositivoIntegration dispositivoIntegration,
                                      EventoIntegration eventoIntegration,
                                      DispositivoMessageService dispositivoMessageService,
-                                     String username,
-                                     String pingOS ) {
+                                     String accessToken ) {
         this.dispositivo = dispositivo;
         this.config = config;
         this.dispositivoIntegration = dispositivoIntegration;
         this.eventoIntegration = eventoIntegration;
         this.dispositivoWebSocketIntegration = dispositivoMessageService;
-        this.username = username;
-        this.pingOS = pingOS;
+        this.accessToken = accessToken;
     }
 
     public void run() {
@@ -69,8 +66,10 @@ public class DispositivoMonitorThread implements Runnable {
         }
 
         String countParam = "-c";
-        if ( pingOS.equals( "windows" ) )
-        	countParam = "-n";
+        String os = System.getProperty( "os.name" );
+        if ( os != null )
+        	if ( os.toLowerCase().contains( "win" ) || os.toLowerCase().contains( "windows") ) 
+        		countParam = "-n";
         
         String[] comando = { "ping", countParam, ""+numPacotesPorLote, host };
 
@@ -108,7 +107,8 @@ public class DispositivoMonitorThread implements Runnable {
                 		timeStr = line.substring( i+5, j );
                 	} else {
                 		i = line.indexOf( "tempo" );
-                   		timeStr = line.substring( i+6, j );
+                		j = line.indexOf( " ", i );
+                   		timeStr = line.substring( i+6, j );                		
                 	}
                 	
                 	if ( timeStr.endsWith( "ms" ) )
@@ -171,9 +171,9 @@ public class DispositivoMonitorThread implements Runnable {
         tempoInatividadeTotal += (int) duration.getSeconds();
 
         dispositivo.setStatus( DispositivoStatus.ATIVO );
-        dispositivoIntegration.saveDispositivo( dispositivo );
+        dispositivoIntegration.saveDispositivo( dispositivo, accessToken );
 
-        dispositivoWebSocketIntegration.sendMessage( dispositivo, username );
+        dispositivoWebSocketIntegration.sendMessage( dispositivo, accessToken );
     }
 
     private void mudaStatusParaInativo() {
@@ -181,9 +181,9 @@ public class DispositivoMonitorThread implements Runnable {
         quedasQuantTotal++;
 
         dispositivo.setStatus( DispositivoStatus.INATIVO );
-        dispositivoIntegration.saveDispositivo( dispositivo );
+        dispositivoIntegration.saveDispositivo( dispositivo, accessToken );
 
-        dispositivoWebSocketIntegration.sendMessage( dispositivo, username );
+        dispositivoWebSocketIntegration.sendMessage( dispositivo, accessToken );
     }
 
     private void registraEvento( Duration duration ) {
@@ -204,7 +204,7 @@ public class DispositivoMonitorThread implements Runnable {
                 .dispositivoId( dispositivo.getId() )
                 .build();
 
-        eventoIntegration.save( evento );
+        eventoIntegration.saveEvento( evento, accessToken );
 
         sucessosQuantTotal = 0;
         falhasQuantTotal = 0;

@@ -8,6 +8,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -21,10 +22,11 @@ import com.redemonitor.main.apidoc.dispositivo.DeleteDispositivoDoc;
 import com.redemonitor.main.apidoc.dispositivo.FilterDispositivosDoc;
 import com.redemonitor.main.apidoc.dispositivo.GetDispositivoDoc;
 import com.redemonitor.main.apidoc.dispositivo.UpdateDispositivoDoc;
+import com.redemonitor.main.apidoc.dispositivo.UpdateDispositivoStatusDoc;
 import com.redemonitor.main.dto.request.SaveDispositivoRequest;
+import com.redemonitor.main.dto.request.SaveDispositivoStatusRequest;
 import com.redemonitor.main.dto.response.DispositivoResponse;
 import com.redemonitor.main.service.DispositivoService;
-import com.redemonitor.main.service.TokenService;
 
 /*
  * O endpoint de remover acessa a propriedade 'jwt.access_token.cookie.name'
@@ -36,14 +38,11 @@ public class DispositivoController {
 
     @Autowired
     private DispositivoService dispositivoService;
-    
-    @Autowired
-    private TokenService tokenService;
-        
+            
     @CreateDispositivoDoc
     @PreAuthorize("hasAuthority('dispositivo-write')")
     @PostMapping
-    public ResponseEntity<String> createDispositivo(@RequestBody SaveDispositivoRequest request ) {
+    public ResponseEntity<String> createDispositivo( @RequestBody SaveDispositivoRequest request ) {
         dispositivoService.createDispositivo( request );
         return ResponseEntity.ok( "Dispositivo registrado com sucesso." );
     }
@@ -51,9 +50,23 @@ public class DispositivoController {
     @UpdateDispositivoDoc
     @PreAuthorize("hasAuthority('dispositivo-write')")
     @PutMapping("/{dispositivoId}")
-    public ResponseEntity<String> updateDispositivo( @PathVariable Long dispositivoId, @RequestBody SaveDispositivoRequest request ) {
-        dispositivoService.updateDispositivo( dispositivoId, request );
+    public ResponseEntity<String> updateDispositivo( 
+    		@PathVariable Long dispositivoId, 
+    		@RequestBody SaveDispositivoRequest request, 
+    		@CookieValue("${jwt.access_token.cookie.name}") String accessToken ) {
+    	
+        dispositivoService.updateDispositivo( dispositivoId, request, accessToken );
         return ResponseEntity.ok( "Dispositivo alterado com sucesso." );
+    }
+    
+    @UpdateDispositivoStatusDoc
+    @PreAuthorize("hasAuthority('dispositivo-write')") 
+    @PatchMapping("/{dispositivoId}/update-status")
+    public ResponseEntity<String> updateDispositivoStatus( 
+    		@PathVariable Long dispositivoId, 
+    		@RequestBody SaveDispositivoStatusRequest request ) {
+    	dispositivoService.updateStatus( dispositivoId, request );
+    	return ResponseEntity.ok( "Status do dispositivo alterado com sucesso." );
     }
 
     @FilterDispositivosDoc
@@ -84,10 +97,8 @@ public class DispositivoController {
     public ResponseEntity<String> deleteDispositivo( 
     		@PathVariable Long dispositivoId, 
     		@CookieValue("${jwt.access_token.cookie.name}") String accessToken ) {
-    	
-    	String username = tokenService.getUsername( accessToken );
-    	
-        dispositivoService.deleteDispositivo( dispositivoId, username );
+    	    	
+        dispositivoService.deleteDispositivo( dispositivoId, accessToken );
         return ResponseEntity.ok( "Dispositivo deletado com sucesso." );
     }
 

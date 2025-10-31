@@ -19,6 +19,7 @@ import com.auth0.jwt.interfaces.DecodedJWT;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.redemonitor.main.dto.response.ErrorResponse;
 import com.redemonitor.main.exception.Errors;
+import com.redemonitor.main.util.BearerTokenUtil;
 import com.redemonitor.main.util.JwtTokenUtil;
 
 import jakarta.servlet.FilterChain;
@@ -38,6 +39,9 @@ public class AuthorizationFilter2 extends OncePerRequestFilter {
 
     @Value("${login.endpoint}")
     private String loginEndpoint;
+    
+    @Autowired
+    private BearerTokenUtil bearerTokenUtil;
     
     @Override
     protected void doFilterInternal(
@@ -59,6 +63,11 @@ public class AuthorizationFilter2 extends OncePerRequestFilter {
                     if ( cookies[ i ].getName().equals( accessTokenCookieName ) )
                         accessToken = cookies[ i ].getValue();
             }
+        }
+        
+        if ( accessToken == null ) {
+        	String authorizationHeader = request.getHeader( "Authorization" );
+        	accessToken = bearerTokenUtil.extractAccessToken( authorizationHeader );        	
         }
 
         if ( accessToken != null ) {

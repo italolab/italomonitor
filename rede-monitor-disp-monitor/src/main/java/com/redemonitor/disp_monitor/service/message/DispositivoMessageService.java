@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import com.redemonitor.disp_monitor.mapper.DispositivoMapper;
 import com.redemonitor.disp_monitor.model.Dispositivo;
 import com.redemonitor.disp_monitor.model.message.DispositivoMessage;
+import com.redemonitor.disp_monitor.service.TokenService;
 
 @Service
 public class DispositivoMessageService {
@@ -13,7 +14,12 @@ public class DispositivoMessageService {
 	@Autowired
 	private DispositivoMapper dispositivoMapper;
 	
-	public void sendMessage( Dispositivo dispositivo, String username ) {
+	@Autowired
+	private TokenService tokenService;
+	
+	public void sendMessage( Dispositivo dispositivo, String accessToken ) {
+		String username = tokenService.getUsernameByAccessToken( accessToken );
+		
 		DispositivoMessage message = DispositivoMessage.builder()
 				.username( username )
 				.id( dispositivo.getId() )
