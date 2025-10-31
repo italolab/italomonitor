@@ -12,7 +12,7 @@ export class ConfigModel {
     }
 
     async getConfig() {
-        return await api.get( "/config" );
+        return await api.get( "/config/get" );
     }
 
 }

@@ -28,7 +28,7 @@ services:
       - rabbitmq_data:/var/lib/rabbitmq
       - rabbitmq_log:/var/log/rabbitmq
       - rabbitmq_conf:/etc/rabbitmq
-
+    
   rede-monitor-main:
     build: ./rede-monitor-main/
     container_name: rede-monitor-main
@@ -38,10 +38,23 @@ services:
       - DB_URL=jdbc:postgresql://rede-monitor-db:5432/redemonitor
       - DB_USER=postgres
       - DB_PASS=postgres 
-      - APP_SERVER_URL=http://localhost:8080
+      - MONITORAMENTO_DISPOSITIVO_SERVER=http://rede-monitor-disp-monitor:8081
+      - APP_SERVER_URL=http://rede-monitor-main:8080
       - JWT_SECRET=949f5f9c8048fa7ff45ffc69e8208a26cd3865e29c65ff720abe330d68e4a572
     depends_on:
       - rede-monitor-db
+      - rabbitmq
+
+  rede-monitor-disp-monitor:
+    build: ./rede-monitor-disp-monitor/
+    container_name: rede-monitor-disp-monitor
+    ports:
+      - 8081:8081
+    environment:
+      - MAIN_SERVER=http://rede-monitor-main:8080
+      - APP_SERVER_URL=http://rede-monitor-disp-monitor:8081
+      - JWT_SECRET=949f5f9c8048fa7ff45ffc69e8208a26cd3865e29c65ff720abe330d68e4a572
+    depends_on:
       - rabbitmq
 
   rede-monitor-frontend:
