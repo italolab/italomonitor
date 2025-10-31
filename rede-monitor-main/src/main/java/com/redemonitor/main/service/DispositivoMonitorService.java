@@ -9,6 +9,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ScheduledFuture;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 import org.springframework.stereotype.Service;
 
@@ -26,6 +27,9 @@ import com.redemonitor.main.service.message.DispositivoMessageService;
 @Service
 public class DispositivoMonitorService {
 
+	@Value("${ping.os}")
+	private String pingOS;
+	
     @Autowired
     private ConfigRepository configRepository;
 
@@ -64,7 +68,7 @@ public class DispositivoMonitorService {
         Duration monitorDelay = Duration.ofMillis( config.getMonitoramentoDelay() );
 
         DispositivoMonitorThread thread = new DispositivoMonitorThread(
-                dispositivo, config, dispositivoRepository, eventoRepository, dispositivoMessageService, username );
+                dispositivo, config, dispositivoRepository, eventoRepository, dispositivoMessageService, username, pingOS );
 
         ScheduledFuture<?> scheduledFuture = scheduler.scheduleAtFixedRate( thread, Instant.now(), monitorDelay  );
 

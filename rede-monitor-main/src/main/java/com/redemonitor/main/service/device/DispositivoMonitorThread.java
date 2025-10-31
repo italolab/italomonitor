@@ -8,8 +8,6 @@ import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.springframework.beans.factory.annotation.Value;
-
 import com.redemonitor.main.model.Config;
 import com.redemonitor.main.model.Dispositivo;
 import com.redemonitor.main.model.Empresa;
@@ -20,9 +18,6 @@ import com.redemonitor.main.repository.EventoRepository;
 import com.redemonitor.main.service.message.DispositivoMessageService;
 
 public class DispositivoMonitorThread implements Runnable {
-
-	@Value("${ping.os}")
-	private String pingOS;
 	
     private Dispositivo dispositivo;
     private Config config;
@@ -30,6 +25,7 @@ public class DispositivoMonitorThread implements Runnable {
     private final DispositivoMessageService dispositivoMessageService;
     private final EventoRepository eventoRepository;
     private final String username;
+    private final String pingOS;
 
     private int sucessosQuantTotal = 0;
     private int falhasQuantTotal = 0;
@@ -43,13 +39,15 @@ public class DispositivoMonitorThread implements Runnable {
                                      DispositivoRepository dispositivoRepository,
                                      EventoRepository eventoRepository,
                                      DispositivoMessageService dispositivoMessageService,
-                                     String username ) {
+                                     String username,
+                                     String pingOS ) {
         this.dispositivo = dispositivo;
         this.config = config;
         this.dispositivoRepository = dispositivoRepository;
         this.eventoRepository = eventoRepository;
         this.dispositivoMessageService = dispositivoMessageService;
         this.username = username;
+        this.pingOS = pingOS;
     }
 
     public void run() {
