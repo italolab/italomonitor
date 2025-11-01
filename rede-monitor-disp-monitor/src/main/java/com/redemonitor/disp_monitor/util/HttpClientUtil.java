@@ -65,6 +65,8 @@ public class HttpClientUtil {
 			ErrorResponse err = e.getResponseBodyAs( ErrorResponse.class );
 			if ( err == null )
 				throw new BusinessException( Errors.ERROR_STATUS, uri, ""+e.getStatusCode().value() );
+			if ( err.getMessage() == null )
+				System.out.println( "MENSAGEM NULA." );
 			throw new BusinessException( err.getMessage() );
 		}			
 	}

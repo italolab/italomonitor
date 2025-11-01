@@ -113,7 +113,8 @@ public class DispositivoService {
         if ( dispositivoOp.isEmpty() )
             throw new BusinessException( Errors.DISPOSITIVO_NOT_FOUND );
 
-        return this.buildDispositivoResponse( dispositivoOp.get() );
+        Dispositivo dispositivo = dispositivoOp.get();
+        return this.buildDispositivoResponse( dispositivo );
     }
 
     public void deleteDispositivo( Long dispositivoId, String accessToken ) {
@@ -126,9 +127,9 @@ public class DispositivoService {
         dispositivoRepository.deleteById( dispositivoId );
     }
 
-    private DispositivoResponse buildDispositivoResponse(Dispositivo dispositivo ) {
+    private DispositivoResponse buildDispositivoResponse( Dispositivo dispositivo ) {
         DispositivoResponse resp = dispositivoMapper.map( dispositivo );
-
+        System.out.println( "Status="+dispositivo.getStatus() );
         Empresa empresa = dispositivo.getEmpresa();
         if ( empresa != null )
             resp.setEmpresa( empresaMapper.map( empresa ) );

@@ -38,6 +38,11 @@ services:
       - DB_URL=jdbc:postgresql://rede-monitor-db:5432/redemonitor
       - DB_USER=postgres
       - DB_PASS=postgres 
+      - RABBITMQ_HOST=localhost
+      - RABBITMQ_PORT=5672
+      - RABBITMQ_USERNAME=admin
+      - RABBITMQ_PASSWORD=admin
+      - RABBITMQ_DISPOSITIVOS_QUEUE=dispositivos-queue
       - MONITORAMENTO_DISPOSITIVO_SERVER=http://rede-monitor-disp-monitor:8081
       - APP_SERVER_URL=http://rede-monitor-main:8080
       - JWT_SECRET=949f5f9c8048fa7ff45ffc69e8208a26cd3865e29c65ff720abe330d68e4a572
@@ -51,6 +56,14 @@ services:
     ports:
       - 8081:8081
     environment:
+      - RABBITMQ_HOST=localhost
+      - RABBITMQ_PORT=5672
+      - RABBITMQ_USERNAME=admin
+      - RABBITMQ_PASSWORD=admin
+      - RABBITMQ_VIRTUAL_HOST=/
+      - RABBITMQ_DISPOSITIVOS_QUEUE=dispositivos-queue
+      - RABBITMQ_DISPOSITIVOS_EXCHANGE=dispositivos-exchange
+      - RABBITMQ_DISPOSITIVOS_ROUTING_KEY=dispositivos-routing-key
       - MAIN_SERVER=http://rede-monitor-main:8080
       - APP_SERVER_URL=http://rede-monitor-disp-monitor:8081
       - JWT_SECRET=949f5f9c8048fa7ff45ffc69e8208a26cd3865e29c65ff720abe330d68e4a572
@@ -60,6 +73,8 @@ services:
   rede-monitor-frontend:
     build: ./rede-monitor-frontend/
     container_name: rede-monitor-frontend
+    environment:
+      - VITE_REACT_APP_X=abc
     ports:
       - 5173:5173
 

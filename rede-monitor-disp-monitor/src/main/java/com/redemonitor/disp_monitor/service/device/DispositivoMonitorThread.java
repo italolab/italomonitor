@@ -10,12 +10,12 @@ import java.util.logging.Logger;
 
 import com.redemonitor.disp_monitor.integration.DispositivoIntegration;
 import com.redemonitor.disp_monitor.integration.EventoIntegration;
+import com.redemonitor.disp_monitor.messaging.DispositivoMessageService;
 import com.redemonitor.disp_monitor.model.Config;
 import com.redemonitor.disp_monitor.model.Dispositivo;
 import com.redemonitor.disp_monitor.model.Empresa;
 import com.redemonitor.disp_monitor.model.Evento;
 import com.redemonitor.disp_monitor.model.enums.DispositivoStatus;
-import com.redemonitor.disp_monitor.service.message.DispositivoMessageService;
 
 public class DispositivoMonitorThread implements Runnable {
 	

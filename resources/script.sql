@@ -32,7 +32,7 @@ create table dispositivo (
     descricao varchar( 511 ),
     localizacao varchar( 255 ) not null,
     sendo_monitorado boolean default false,
-    status varchar(255) check (status in ('ATIVO','INATIVO')) default 'INATIVO',
+    status varchar(20) check (status in ('ATIVO','INATIVO')) default 'INATIVO',
     empresa_id bigint not null,
     constraint empresa_fk foreign key( empresa_id ) references empresa( id )
 );

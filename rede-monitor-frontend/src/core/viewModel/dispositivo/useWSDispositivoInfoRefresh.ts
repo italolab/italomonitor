@@ -1,9 +1,9 @@
 import { useContext } from "react";
-import { BASE_WS_URL } from "../../constants/api-constants";
 import { AuthContext } from "../../../context/AuthProvider";
 import { Client } from "@stomp/stompjs";
 import type { DispositivoResponse } from "../../model/dto/response/DispositivoResponse";
 import { AuthModel } from "../../model/AuthModel";
+import { BASE_WS_URL, DISPOSITIVOS_TOPIC } from "../../constants/websocket-constants";
 
 function useWSDispositivoInfoRefresh() {
 
@@ -11,7 +11,7 @@ function useWSDispositivoInfoRefresh() {
 
     const {accessToken, setAccessToken} = useContext(AuthContext);
 
-    const authModel = new AuthModel( setAccessToken );    
+    const authModel = new AuthModel();    
 
     const websocketConfig = {
         brokerURL: BASE_WS_URL,
@@ -28,16 +28,16 @@ function useWSDispositivoInfoRefresh() {
 
     const connect = ( setDispositivo : SetDispositivoFunc ) : () => void => {
         const client = new Client( websocketConfig );
-        client.onConnect = () => {                
+        client.onConnect = () => {       
             websocketErrorFlag = false;
             if ( interval! !== null ) {
                 clearInterval( interval! );
                 interval = null;
             }
 
-            client.subscribe(`/user/topic/dispositivo`, (message) => {
+            client.subscribe( DISPOSITIVOS_TOPIC, (message) => {
                 const data = JSON.parse( message.body );
-                setDispositivo( data );                 
+                setDispositivo( data );                       
             } );
         } 
         client.onWebSocketError = () => {
@@ -77,7 +77,7 @@ function useWSDispositivoInfoRefresh() {
         };
 
         client.activate();
-
+        
         return () => {
             if ( deactivateFlag === false ) {
                 deactivateFlag = true;

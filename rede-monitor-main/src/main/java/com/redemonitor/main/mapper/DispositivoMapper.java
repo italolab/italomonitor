@@ -3,18 +3,25 @@ package com.redemonitor.main.mapper;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.redemonitor.main.dto.message.DispositivoMessage;
 import com.redemonitor.main.dto.request.SaveDispositivoRequest;
 import com.redemonitor.main.dto.request.SaveDispositivoStatusRequest;
 import com.redemonitor.main.dto.response.DispositivoResponse;
+import com.redemonitor.main.dto.response.EmpresaResponse;
 import com.redemonitor.main.model.Dispositivo;
+import com.redemonitor.main.model.Empresa;
 
 @Component
 public class DispositivoMapper {
 
+	@Autowired
+	private EmpresaMapper empresaMapper;
+	
     public Dispositivo map( SaveDispositivoRequest request ) {
         return Dispositivo.builder()
                 .host( request.getHost() )
@@ -25,6 +32,12 @@ public class DispositivoMapper {
     }
 
     public DispositivoResponse map( Dispositivo dispositivo ) {
+    	EmpresaResponse empresaResp = null;
+    	
+    	Empresa empresa = dispositivo.getEmpresa();
+    	if ( empresa != null )
+    		empresaResp = empresaMapper.map( empresa );    	
+    	
         return DispositivoResponse.builder()
                 .id( dispositivo.getId() )
                 .host( dispositivo.getHost() )
@@ -33,6 +46,7 @@ public class DispositivoMapper {
                 .localizacao( dispositivo.getLocalizacao() )
                 .sendoMonitorado( dispositivo.isSendoMonitorado() )
                 .status( dispositivo.getStatus() )
+                .empresa( empresaResp )
                 .build();
     }
 
@@ -55,6 +69,11 @@ public class DispositivoMapper {
     public void load( Dispositivo disp, SaveDispositivoStatusRequest request ) {
     	disp.setSendoMonitorado( request.isSendoMonitorado() );
     	disp.setStatus( request.getStatus() ); 
+    }
+    
+    public void load( Dispositivo disp, DispositivoMessage message ) {
+    	disp.setSendoMonitorado( message.isSendoMonitorado() );
+    	disp.setStatus( message.getStatus() ); 
     }
 
 }

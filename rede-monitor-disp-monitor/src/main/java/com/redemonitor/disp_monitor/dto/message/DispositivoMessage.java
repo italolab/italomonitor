@@ -1,4 +1,4 @@
-package com.redemonitor.disp_monitor.model.message;
+package com.redemonitor.disp_monitor.dto.message;
 
 import com.redemonitor.disp_monitor.model.enums.DispositivoStatus;
 

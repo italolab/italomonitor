@@ -16,11 +16,11 @@ import com.redemonitor.disp_monitor.exception.Errors;
 import com.redemonitor.disp_monitor.integration.ConfigIntegration;
 import com.redemonitor.disp_monitor.integration.DispositivoIntegration;
 import com.redemonitor.disp_monitor.integration.EventoIntegration;
+import com.redemonitor.disp_monitor.messaging.DispositivoMessageService;
 import com.redemonitor.disp_monitor.model.Config;
 import com.redemonitor.disp_monitor.model.Dispositivo;
 import com.redemonitor.disp_monitor.service.device.DispositivoMonitor;
 import com.redemonitor.disp_monitor.service.device.DispositivoMonitorThread;
-import com.redemonitor.disp_monitor.service.message.DispositivoMessageService;
 
 @Service
 public class DispositivoMonitorService {
