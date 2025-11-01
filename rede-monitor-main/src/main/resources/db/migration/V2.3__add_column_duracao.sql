@@ -1,1 +1,0 @@
-alter table evento add column duracao int not null;

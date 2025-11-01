@@ -1,7 +1,7 @@
 services:
-  rede-monitor-db:
+  main-db-server:
     image: postgres:17-alpine
-    container_name: rede-monitor-db
+    container_name: main-db-server
     restart: always
     environment:
       - POSTGRES_USER=postgres
@@ -12,7 +12,7 @@ services:
     volumes:
       - postgresql_data:/var/lib/postgresql/data
 
-  rabbitmq:
+  rabbitmq-server:
     image: rabbitmq:management
     container_name: rabbitmq-server
     restart: always
@@ -20,7 +20,7 @@ services:
       - RABBITMQ_DEFAULT_USER=admin
       - RABBITMQ_DEFAULT_PASS=admin
       - RABBITMQ_DEFAULT_VHOST=/
-      - RABBITMQ_NODENAME=rabbit@rabbitmq
+      - RABBITMQ_NODENAME=rabbit@rabbitmq-server
     ports:
       - "5672:5672"
       - "15672:15672"
@@ -29,34 +29,34 @@ services:
       - rabbitmq_log:/var/log/rabbitmq
       - rabbitmq_conf:/etc/rabbitmq
     
-  rede-monitor-main:
-    build: ./rede-monitor-main/
-    container_name: rede-monitor-main
+  main-api:
+    build: ./main-api/
+    container_name: main-api
     ports:
       - 8080:8080
     environment:
-      - DB_URL=jdbc:postgresql://rede-monitor-db:5432/redemonitor
+      - DB_URL=jdbc:postgresql://main-db-server:5432/redemonitor
       - DB_USER=postgres
       - DB_PASS=postgres 
-      - RABBITMQ_HOST=localhost
+      - RABBITMQ_HOST=rabbitmq-server
       - RABBITMQ_PORT=5672
       - RABBITMQ_USERNAME=admin
       - RABBITMQ_PASSWORD=admin
       - RABBITMQ_DISPOSITIVOS_QUEUE=dispositivos-queue
-      - MONITORAMENTO_DISPOSITIVO_SERVER=http://rede-monitor-disp-monitor:8081
-      - APP_SERVER_URL=http://rede-monitor-main:8080
+      - MONITORAMENTO_DISPOSITIVO_SERVER=http://disp-monitor-api-1:8081
+      - APP_SERVER_URL=http://main-api:8080
       - JWT_SECRET=949f5f9c8048fa7ff45ffc69e8208a26cd3865e29c65ff720abe330d68e4a572
     depends_on:
-      - rede-monitor-db
-      - rabbitmq
+      - main-db-server
+      - rabbitmq-server
 
-  rede-monitor-disp-monitor:
-    build: ./rede-monitor-disp-monitor/
-    container_name: rede-monitor-disp-monitor
+  disp-monitor-api-1:
+    build: ./disp-monitor-api/
+    container_name: disp-monitor-api-1
     ports:
       - 8081:8081
     environment:
-      - RABBITMQ_HOST=localhost
+      - RABBITMQ_HOST=rabbitmq-server
       - RABBITMQ_PORT=5672
       - RABBITMQ_USERNAME=admin
       - RABBITMQ_PASSWORD=admin
@@ -64,17 +64,58 @@ services:
       - RABBITMQ_DISPOSITIVOS_QUEUE=dispositivos-queue
       - RABBITMQ_DISPOSITIVOS_EXCHANGE=dispositivos-exchange
       - RABBITMQ_DISPOSITIVOS_ROUTING_KEY=dispositivos-routing-key
-      - MAIN_SERVER=http://rede-monitor-main:8080
-      - APP_SERVER_URL=http://rede-monitor-disp-monitor:8081
+      - MAIN_SERVER=http://main-api:8080
+      - APP_SERVER_URL=http://disp-monitor-api-1:8081
       - JWT_SECRET=949f5f9c8048fa7ff45ffc69e8208a26cd3865e29c65ff720abe330d68e4a572
     depends_on:
-      - rabbitmq
+      - rabbitmq-server
 
-  rede-monitor-frontend:
-    build: ./rede-monitor-frontend/
-    container_name: rede-monitor-frontend
+  disp-monitor-api-2:
+    build: ./disp-monitor-api/
+    container_name: disp-monitor-api-2
+    ports:
+      - 8082:8082
     environment:
-      - VITE_REACT_APP_X=abc
+      - RABBITMQ_HOST=rabbitmq-server
+      - RABBITMQ_PORT=5672
+      - RABBITMQ_USERNAME=admin
+      - RABBITMQ_PASSWORD=admin
+      - RABBITMQ_VIRTUAL_HOST=/
+      - RABBITMQ_DISPOSITIVOS_QUEUE=dispositivos-queue
+      - RABBITMQ_DISPOSITIVOS_EXCHANGE=dispositivos-exchange
+      - RABBITMQ_DISPOSITIVOS_ROUTING_KEY=dispositivos-routing-key
+      - MAIN_SERVER=http://main-api:8080
+      - APP_SERVER_URL=http://disp-monitor-api-2:8082
+      - JWT_SECRET=949f5f9c8048fa7ff45ffc69e8208a26cd3865e29c65ff720abe330d68e4a572
+    depends_on:
+      - rabbitmq-server
+
+  disp-monitor-api-3:
+    build: ./disp-monitor-api/
+    container_name: disp-monitor-api-3
+    ports:
+      - 8083:8083
+    environment:
+      - RABBITMQ_HOST=rabbitmq-server
+      - RABBITMQ_PORT=5672
+      - RABBITMQ_USERNAME=admin
+      - RABBITMQ_PASSWORD=admin
+      - RABBITMQ_VIRTUAL_HOST=/
+      - RABBITMQ_DISPOSITIVOS_QUEUE=dispositivos-queue
+      - RABBITMQ_DISPOSITIVOS_EXCHANGE=dispositivos-exchange
+      - RABBITMQ_DISPOSITIVOS_ROUTING_KEY=dispositivos-routing-key
+      - MAIN_SERVER=http://main-api:8080
+      - APP_SERVER_URL=http://disp-monitor-api-3:8083
+      - JWT_SECRET=949f5f9c8048fa7ff45ffc69e8208a26cd3865e29c65ff720abe330d68e4a572
+    depends_on:
+      - rabbitmq-server
+
+  frontend-app:
+    build: ./frontend-app/
+    container_name: frontend-app
+    environment:
+      - VITE_REACT_APP_BASE_API_URL=http://localhost:8080/api/v1
+      - VITE_REACT_APP_BASE_WS_URL=ws://localhost:8080/ws/websocket
     ports:
       - 5173:5173
 
