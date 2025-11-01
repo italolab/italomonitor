@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Button, Card, Form } from "react-bootstrap";
 import useSaveDispositivoViewModel from "../../core/viewModel/dispositivo/useSaveDispositivoViewModel";
 import AppMessage from "../../components/AppMessage";
@@ -9,6 +9,7 @@ import AppLayout from "../../layout/AppLayout";
 import { MdArrowBack } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
 import type { EmpresaResponse } from "../../core/model/dto/response/EmpresaResponse";
+import useEffectOnce from "../../core/util/useEffectOnce";
 
 function CreateDispositivo() {
 
@@ -30,9 +31,9 @@ function CreateDispositivo() {
 
     const navigate = useNavigate();
 
-    useEffect( () => {
+    useEffectOnce( () => {
         loadData();
-    }, [] );
+    } );
 
     const loadData = async () => {
         try {
@@ -119,6 +120,10 @@ function CreateDispositivo() {
 
                             <AppMessage message={errorMessage} type="error" />
                             <AppMessage message={infoMessage} type="info" />
+
+                            <div className="d-flex">
+                                <AppSpinner className="mx-auto" visible={loading} />
+                            </div>
 
                             <Button type="button" onClick={onSave}>
                                 Salvar 

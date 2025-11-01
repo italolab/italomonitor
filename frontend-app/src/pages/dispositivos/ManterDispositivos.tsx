@@ -78,8 +78,8 @@ function ManterDispositivos() {
                 </Modal.Footer>
             </Modal>            
 
-            <div className="d-flex justify-content-end">
-                <Button type="button" onClick={() => navigate( '/create-dispositivo')} className="d-flex align-items-center ms-auto">
+            <div className="d-flex justify-content-start">
+                <Button type="button" onClick={() => navigate( '/create-dispositivo')} className="func">
                     <MdAdd size={25}/> Novo dispositivo
                 </Button>
             </div>
@@ -124,6 +124,10 @@ function ManterDispositivos() {
 
                             <AppMessage message={errorMessage} type="error" />
                             <AppMessage message={infoMessage} type="info" />
+
+                            <div className="d-flex">
+                                <AppSpinner className="mx-auto" visible={loading} />
+                            </div>
 
                             <Button type="button" onClick={onFilter}>
                                 Filtrar                        

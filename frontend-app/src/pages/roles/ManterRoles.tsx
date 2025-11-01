@@ -75,8 +75,8 @@ function ManterRoles() {
                 </Modal.Footer>
             </Modal>            
 
-            <div className="d-flex justify-content-end">
-                <Button type="button" onClick={() => navigate( '/create-role')} className="d-flex align-items-center ms-auto">
+            <div className="d-flex justify-content-start">
+                <Button type="button" onClick={() => navigate( '/create-role')} className="func">
                     <MdAdd size={25}/> Novo role
                 </Button>
             </div>
@@ -100,6 +100,10 @@ function ManterRoles() {
 
                             <AppMessage message={errorMessage} type="error" />
                             <AppMessage message={infoMessage} type="info" />
+
+                            <div className="d-flex">
+                                <AppSpinner className="mx-auto" visible={loading} />
+                            </div> 
 
                             <Button type="button" onClick={onFilter}>
                                 Filtrar                        

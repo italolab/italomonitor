@@ -5,7 +5,7 @@ import AppSpinner from "../../components/AppSpinner";
 import AppMessage from "../../components/AppMessage";
 import AppLayout from "../../layout/AppLayout";
 import { useNavigate } from "react-router-dom";
-import { MdAdd } from "react-icons/md";
+import { MdAdd, MdArrowBack } from "react-icons/md";
 import AppOperations from "../../components/AppOperations";
 import type { MonitorServerResponse } from "../../core/model/dto/response/MonitorServerResponse";
 
@@ -71,9 +71,12 @@ function ManterMonitorServers() {
                     </Button>
                 </Modal.Footer>
             </Modal>            
-
-            <div className="d-flex justify-content-end">
-                <Button type="button" onClick={() => navigate( '/create-monitor-server')} className="d-flex align-items-center ms-auto">
+            
+            <div className="d-flex justify-content-start">
+                <Button type="button" onClick={() => navigate( -1 )} className="func">
+                    <MdArrowBack size={25}/> Voltar
+                </Button>
+                <Button type="button" onClick={() => navigate( '/create-monitor-server')} className="func">
                     <MdAdd size={25}/> Novo servidor
                 </Button>
             </div>
@@ -97,6 +100,10 @@ function ManterMonitorServers() {
 
                             <AppMessage message={errorMessage} type="error" />
                             <AppMessage message={infoMessage} type="info" />
+
+                            <div className="d-flex">
+                                <AppSpinner className="mx-auto" visible={loading} />
+                            </div> 
 
                             <Button type="button" onClick={onFilter}>
                                 Filtrar                        

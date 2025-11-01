@@ -76,6 +76,10 @@ function UpdateEmpresa() {
                         <h3 className="text-center m-0">Alteração de empresa</h3>
                     </Card.Header>
                     <Card.Body>
+                        <div className="d-flex">
+                            <AppSpinner className="mx-auto" visible={loading} />
+                        </div>
+                                                
                         <Form>
                             <Form.Group className="mb-3" controlId="nome">
                                 <Form.Label>Nome</Form.Label>
@@ -105,6 +109,10 @@ function UpdateEmpresa() {
                             <AppMessage message={errorMessage} type="error" />
                             <AppMessage message={infoMessage} type="info" />
 
+                            <div className="d-flex">
+                                <AppSpinner className="mx-auto" visible={loading} />
+                            </div>
+                        
                             <Button type="button" onClick={onSave}>
                                 Salvar 
                                 <AppSpinner visible={loading} />

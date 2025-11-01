@@ -53,7 +53,9 @@ function DetalhesConfig() {
                         <AppMessage message={errorMessage} type="error" />
                         <AppMessage message={infoMessage} type="info" />
 
-                        <AppSpinner className="mx-auto" visible={loading} />
+                        <div className="d-flex">
+                            <AppSpinner className="mx-auto" visible={loading} />
+                        </div>
                         
                         <AppField name="número de pacotes por lote">
                             {config.numPacotesPorLote}

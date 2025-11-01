@@ -69,7 +69,11 @@ function UpdateMonitorServer() {
                         <h3 className="text-center m-0">Alteração de servidor de monitoramento</h3>
                     </Card.Header>
                     <Card.Body>
-                        <Form>
+                        <div className="d-flex">
+                            <AppSpinner className="mx-auto" visible={loading} />
+                        </div>
+
+                        <Form>                                                                                
                             <Form.Group className="mb-3" controlId="host">
                                 <Form.Label>Host</Form.Label>
                                 <Form.Control type="text"
@@ -80,6 +84,10 @@ function UpdateMonitorServer() {
 
                             <AppMessage message={errorMessage} type="error" />
                             <AppMessage message={infoMessage} type="info" />
+
+                            <div className="d-flex">
+                                <AppSpinner className="mx-auto" visible={loading} />
+                            </div>                                                    
 
                             <Button type="button" onClick={onSave}>
                                 Salvar 

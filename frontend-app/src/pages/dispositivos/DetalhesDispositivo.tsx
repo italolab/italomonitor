@@ -108,7 +108,9 @@ function DetalhesDispositivo() {
                         <AppMessage message={errorMessage} type="error" />
                         <AppMessage message={infoMessage} type="info" />
                         
-                        <AppSpinner className="mx-auto" visible={loading} />
+                        <div className="d-flex">
+                            <AppSpinner className="mx-auto" visible={loading} />
+                        </div>
 
                         <div className="d-flex align-items-center justify-content-center">
                             <AppBoxInfo name="status">

@@ -72,8 +72,8 @@ function ManterUsuarios() {
                 </Modal.Footer>
             </Modal>            
 
-            <div className="d-flex justify-content-end">
-                <Button type="button" onClick={() => navigate( '/create-usuario')} className="d-flex align-items-center ms-auto">
+            <div className="d-flex justify-content-start">
+                <Button type="button" onClick={() => navigate( '/create-usuario')} className="func">
                     <MdAdd size={25}/> Novo usuário
                 </Button>
             </div>
@@ -97,6 +97,10 @@ function ManterUsuarios() {
 
                             <AppMessage message={errorMessage} type="error" />
                             <AppMessage message={infoMessage} type="info" />
+
+                            <div className="d-flex">
+                                <AppSpinner className="mx-auto" visible={loading} />
+                            </div> 
 
                             <Button type="button" onClick={onFilter}>
                                 Filtrar                        

@@ -68,7 +68,7 @@ public class DispositivoMonitorController {
     @PreAuthorize("hasAuthority('dispositivo-monitoramento')")
     @PostMapping("/{dispositivoId}/update-dispositivo-in-monitor")
     public ResponseEntity<String> updateDispositivoInMonitor( 
-    		Long dispositivoId, 
+    		@PathVariable Long dispositivoId, 
             @RequestHeader("Authorization") String authorizationHeader ) {
     	
         String accessToken =  bearerTokenUtil.extractAccessToken( authorizationHeader );

@@ -110,6 +110,7 @@ function VincularUsuarioGrupo() {
                     <Card.Body>
                         <AppMessage message={errorMessage} type="error" />
                         <AppMessage message={infoMessage} type="info" />
+                        
                         <div className="d-flex justify-content-center">
                             <AppSpinner visible={loading} />
                         </div>
