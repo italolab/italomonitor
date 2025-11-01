@@ -17,6 +17,9 @@ public interface Errors {
     public final static String EMPRESA_NOT_FOUND = "Empresa não encontrada.";
     public final static String EMPRESA_ALREADY_EXISTS = "Empresa já existe registrada com o nome informado.";
 
+    public final static String MONITOR_SERVER_NOT_FOUND = "Servidor de monitoramento não encontrado.";
+    public final static String MONITOR_SERVER_ALREADY_EXISTS = "Servidor de monitoramento já existe registrado com o host informado.";
+
     public final static String DISPOSITIVO_NOT_FOUND = "Dispositivo não encontrado.";
     public final static String DISPOSITIVO_ALREADY_EXISTS = "Dispositivo já existe registrado com o nome informado.";
     public final static String DISPOSITIVO_ALREADY_MONITORED = "O dispositivo já está sendo monitorado.";

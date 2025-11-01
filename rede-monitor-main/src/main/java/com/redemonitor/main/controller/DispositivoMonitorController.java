@@ -18,7 +18,7 @@ import com.redemonitor.main.integration.DispositivoMonitorIntegration;
  */
 
 @RestController
-@RequestMapping("/api/v1/dispositivos/monitoramento")
+@RequestMapping("/api/v1/monitoramento/dispositivos")
 public class DispositivoMonitorController {
 
     @Autowired
@@ -26,7 +26,7 @@ public class DispositivoMonitorController {
 
     @StartMonitoramentoDoc
     @PreAuthorize("hasAuthority('dispositivo-monitoramento')")
-    @PostMapping("/start/{dispositivoId}")
+    @PostMapping("/{dispositivoId}/start")
     public ResponseEntity<String> startMonitoramento(
             @PathVariable Long dispositivoId,
             @CookieValue("${jwt.access_token.cookie.name}") String accessToken ) {
@@ -37,7 +37,7 @@ public class DispositivoMonitorController {
 
     @StopMonitoramentoDoc
     @PreAuthorize("hasAuthority('dispositivo-monitoramento')")
-    @PostMapping("/stop/{dispositivoId}")
+    @PostMapping("/{dispositivoId}/stop")
     public ResponseEntity<String> stopMonitoramento(
             @PathVariable Long dispositivoId,
             @CookieValue( "${jwt.access_token.cookie.name}" ) String accessToken ) {

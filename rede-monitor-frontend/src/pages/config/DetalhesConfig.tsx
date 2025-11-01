@@ -1,12 +1,13 @@
 import { useNavigate } from "react-router-dom";
 import useDetalhesConfigViewModel from "../../core/viewModel/config/useDetalhesConfigViewModel";
 import AppLayout from "../../layout/AppLayout";
-import { Button, Card } from "react-bootstrap";
+import { Badge, Button, Card } from "react-bootstrap";
 import AppField from "../../components/AppField";
 import AppMessage from "../../components/AppMessage";
 import AppSpinner from "../../components/AppSpinner";
 import { MdArrowBack, MdOutlineEdit } from "react-icons/md";
 import useEffectOnce from "../../core/util/useEffectOnce";
+import { FaServer } from "react-icons/fa";
 
 function DetalhesConfig() {
 
@@ -63,6 +64,19 @@ function DetalhesConfig() {
                         <AppField name="período de registro de evento">
                             {config.registroEventoPeriodo}
                         </AppField>
+                        <AppField name="servidores de monitoramento">
+                            { config.monitorServers.map( (monitor, index) => 
+                                <div key={index}>
+                                    <Badge bg="primary" className="my-1 d-inline-flex align-items-center">
+                                        <FaServer size={14}/> &nbsp; 
+                                        {monitor.host}
+                                    </Badge>
+                                </div>
+                            )}
+                        </AppField>
+                        <Button type="button" onClick={() => navigate( '/monitor-servers' )} className="func mt-3">
+                            <FaServer size={25}/> &nbsp; Servidores de monitoramento
+                        </Button>
                     </Card.Body>
                 </Card>
             </div>

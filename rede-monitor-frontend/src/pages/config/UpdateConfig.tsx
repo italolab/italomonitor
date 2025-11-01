@@ -37,8 +37,7 @@ function UpdateConfig() {
             const config : ConfigResponse = await getConfig();
             setNumPacotesPorLote( ""+config.numPacotesPorLote );
             setMonitoramentoDelay( ""+config.monitoramentoDelay );
-            setRegistroEventoPeriodo( ""+config.registroEventoPeriodo );
-
+            setRegistroEventoPeriodo( ""+config.registroEventoPeriodo );                      
         } catch ( error ) {
             console.error( error );
         }

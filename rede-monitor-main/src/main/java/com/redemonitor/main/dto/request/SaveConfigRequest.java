@@ -1,12 +1,16 @@
 package com.redemonitor.main.dto.request;
 
-import lombok.*;
-
 import java.util.ArrayList;
 import java.util.List;
 
 import com.redemonitor.main.validation.ValidationBuilder;
 import com.redemonitor.main.validation.Validator;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -18,7 +22,7 @@ public class SaveConfigRequest {
     private int numPacotesPorLote;
     private int monitoramentoDelay;
     private int registroEventoPeriodo;
-
+    
     public void validate() {
         List<Validator> validators = new ArrayList<>();
 

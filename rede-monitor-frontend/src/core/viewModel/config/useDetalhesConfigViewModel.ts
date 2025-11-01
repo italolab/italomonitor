@@ -14,7 +14,8 @@ function useDetalhesConfigViewModel() {
         id: 0,
         numPacotesPorLote: 0,
         monitoramentoDelay: 0,
-        registroEventoPeriodo: 0
+        registroEventoPeriodo: 0,
+        monitorServers: []
     } );
 
     const { setAccessToken } = useContext(AuthContext);

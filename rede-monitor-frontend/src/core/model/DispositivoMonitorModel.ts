@@ -7,11 +7,11 @@ export class DispositivoMonitorModel {
     }
 
     async startMonitoramento( dispositivoId : number ) {
-        return api.post( "/dispositivos/monitoramento/start/"+dispositivoId, {} );
+        return api.post( "/monitoramento/dispositivos/"+dispositivoId+"/start", {} );
     }
 
     async stopMonitoramento( dispositivoId : number ) {
-        return api.post( "/dispositivos/monitoramento/stop/"+dispositivoId, {} );
+        return api.post( "/monitoramento/dispositivos/"+dispositivoId+"/stop", {} );
     }
 
 }

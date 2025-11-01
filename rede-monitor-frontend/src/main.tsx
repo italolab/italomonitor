@@ -21,18 +21,22 @@ import CreateRole from './pages/roles/CreateRole.tsx';
 import DetalhesRole from './pages/roles/DetalhesRole.tsx';
 import VincularUsuarioGrupo from './pages/usuarios/VincularUsuarioGrupo.tsx';
 import VincularRole from './pages/usuarioGrupos/VincularRole.tsx';
-import ManterEmpresas from './pages/empresa/ManterEmpresa.tsx';
-import CreateEmpresa from './pages/empresa/CreateEmpresa.tsx';
-import UpdateEmpresa from './pages/empresa/UpdateEmpresa.tsx';
-import DetalhesEmpresa from './pages/empresa/DetalhesEmpresa.tsx';
-import ManterDispositivos from './pages/dispositivo/ManterDispositivos.tsx';
-import CreateDispositivo from './pages/dispositivo/CreateDispositivo.tsx';
-import UpdateDispositivo from './pages/dispositivo/UpdateDispositivo.tsx';
-import DetalhesDispositivo from './pages/dispositivo/DetalhesDispositivo.tsx';
+import ManterEmpresas from './pages/empresas/ManterEmpresas.tsx';
+import CreateEmpresa from './pages/empresas/CreateEmpresa.tsx';
+import UpdateEmpresa from './pages/empresas/UpdateEmpresa.tsx';
+import DetalhesEmpresa from './pages/empresas/DetalhesEmpresa.tsx';
+import ManterDispositivos from './pages/dispositivos/ManterDispositivos.tsx';
+import CreateDispositivo from './pages/dispositivos/CreateDispositivo.tsx';
+import UpdateDispositivo from './pages/dispositivos/UpdateDispositivo.tsx';
+import DetalhesDispositivo from './pages/dispositivos/DetalhesDispositivo.tsx';
 import { StrictMode } from 'react';
-import InfosEventos from './pages/evento/InfosEventos.tsx';
+import InfosEventos from './pages/eventos/InfosEventos.tsx';
 import DetalhesConfig from './pages/config/DetalhesConfig.tsx';
 import UpdateConfig from './pages/config/UpdateConfig.tsx';
+import ManterMonitorServers from './pages/monitorServers/ManterMonitorServers.tsx';
+import CreateMonitorServer from './pages/monitorServers/CreateMonitorServer.tsx';
+import UpdateMonitorServer from './pages/monitorServers/UpdateMonitorServer.tsx';
+import DetalhesMonitorServer from './pages/monitorServers/DetalhesMonitorServer.tsx';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
@@ -70,6 +74,11 @@ createRoot(document.getElementById('root')!).render(
 
             <Route path='/detalhes-config' element={<DetalhesConfig />} />
             <Route path='/update-config' element={<UpdateConfig />} />
+
+            <Route path='/monitor-servers' element={<ManterMonitorServers />} />
+            <Route path='/create-monitor-server' element={<CreateMonitorServer />} />
+            <Route path='/update-monitor-server/:monitorServerId' element={<UpdateMonitorServer />} />
+            <Route path='/detalhes-monitor-server/:monitorServerId' element={<DetalhesMonitorServer />} />
         </Routes>
       </Router>
     </AuthProvider>
