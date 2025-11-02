@@ -22,7 +22,7 @@ public class SaveConfigRequest {
     private int numPacotesPorLote;
     private int monitoramentoDelay;
     private int registroEventoPeriodo;
-    private int threadsLimite;
+    private int numThreadsLimite;
     
     public void validate() {
         List<Validator> validators = new ArrayList<>();
@@ -49,7 +49,7 @@ public class SaveConfigRequest {
         );
         
         validators.addAll(
-                ValidationBuilder.of( "Limite de threads", String.valueOf( threadsLimite ) )
+                ValidationBuilder.of( "Limite de threads", String.valueOf( numThreadsLimite ) )
                         .required()
                         .deveSerMaiorQueZero()
                         .build()

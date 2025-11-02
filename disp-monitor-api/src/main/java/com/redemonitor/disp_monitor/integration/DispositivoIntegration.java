@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import com.redemonitor.disp_monitor.integration.dto.request.SaveDispositivoStatusRequest;
+import com.redemonitor.disp_monitor.integration.dto.response.DispositivoResponse;
 import com.redemonitor.disp_monitor.mapper.DispositivoMapper;
 import com.redemonitor.disp_monitor.model.Dispositivo;
 import com.redemonitor.disp_monitor.util.HttpClientUtil;
@@ -35,7 +36,9 @@ public class DispositivoIntegration {
 	public Dispositivo getDispositivo( Long dispositivoId, String accessToken ) {
 		String uri = dispositivoGetEndpoint.replace( "{dispositivoId}", ""+dispositivoId ); 
 		
-		return httpClientUtil.get( uri, accessToken, Dispositivo.class );		
+		DispositivoResponse resp = httpClientUtil.get( uri, accessToken, DispositivoResponse.class );
+		
+		return dispositivoMapper.map( resp );
 	}
 	
 }

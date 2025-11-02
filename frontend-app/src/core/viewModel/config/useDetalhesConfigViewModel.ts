@@ -15,7 +15,7 @@ function useDetalhesConfigViewModel() {
         numPacotesPorLote: 0,
         monitoramentoDelay: 0,
         registroEventoPeriodo: 0,
-        threadsLimite: 0,
+        numThreadsLimite: 0,
         monitorServers: []
     } );
 

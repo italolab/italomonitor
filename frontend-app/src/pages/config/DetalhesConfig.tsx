@@ -67,7 +67,7 @@ function DetalhesConfig() {
                             {config.registroEventoPeriodo}
                         </AppField>
                         <AppField name="limite de threads">
-                            {config.threadsLimite}
+                            {config.numThreadsLimite}
                         </AppField>
                         <AppField name="servidores de monitoramento">
                             { config.monitorServers.map( (monitor, index) => 

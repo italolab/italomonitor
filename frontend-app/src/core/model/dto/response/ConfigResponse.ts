@@ -5,6 +5,6 @@ export interface ConfigResponse {
     numPacotesPorLote : number;
     monitoramentoDelay : number;
     registroEventoPeriodo : number;
-    threadsLimite : number;
+    numThreadsLimite : number;
     monitorServers : MonitorServerResponse[];
 }

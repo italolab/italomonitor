@@ -14,6 +14,5 @@ import lombok.Setter;
 public class InfoResponse {
 
 	private int numThreadsAtivas;
-	
-	
+		
 }

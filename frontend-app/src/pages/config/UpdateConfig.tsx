@@ -16,7 +16,7 @@ function UpdateConfig() {
     const [numPacotesPorLote, setNumPacotesPorLote] = useState<string>( '' );
     const [monitoramentoDelay, setMonitoramentoDelay] = useState<string>( '' );
     const [registroEventoPeriodo, setRegistroEventoPeriodo] = useState<string>( '' );
-    const [threadsLimite, setThreadsLimite] = useState<string>( '' );
+    const [numThreadsLimite, setNumThreadsLimite] = useState<string>( '' );
 
     const {
         updateConfig,
@@ -39,7 +39,7 @@ function UpdateConfig() {
             setNumPacotesPorLote( ""+config.numPacotesPorLote );
             setMonitoramentoDelay( ""+config.monitoramentoDelay );
             setRegistroEventoPeriodo( ""+config.registroEventoPeriodo );                      
-            setThreadsLimite( ""+config.threadsLimite );
+            setNumThreadsLimite( ""+config.numThreadsLimite );
         } catch ( error ) {
             console.error( error );
         }
@@ -55,7 +55,7 @@ function UpdateConfig() {
                 numPacotesPorLote: parseInt( numPacotesPorLote ),
                 monitoramentoDelay: parseInt( monitoramentoDelay ),
                 registroEventoPeriodo: parseInt( registroEventoPeriodo ),
-                threadsLimite: parseInt( threadsLimite )
+                numThreadsLimite: parseInt( numThreadsLimite )
             };
            
             await updateConfig( config );            
@@ -77,7 +77,7 @@ function UpdateConfig() {
             setErrorMessage( 'O período de registro de evento está em formato não numérico.' );
             return false;
         }
-        if ( Number.isNaN( threadsLimite ) === true ) {
+        if ( Number.isNaN( numThreadsLimite ) === true ) {
             setErrorMessage( 'O limite de threads está em formato não numérico.' );
             return false;
         }
@@ -125,12 +125,12 @@ function UpdateConfig() {
                                     onChange={ ( e ) => setNumPacotesPorLote( e.target.value ) } />
                             </Form.Group>
 
-                            <Form.Group className="mb-3" controlId="threadsLimite">
+                            <Form.Group className="mb-3" controlId="numThreadsLimite">
                                 <Form.Label>Limite de threads</Form.Label>
                                 <Form.Control type="number"
                                     placeholder="Informe o limite de threads"
-                                    value={threadsLimite}
-                                    onChange={ ( e ) => setThreadsLimite( e.target.value ) } />
+                                    value={numThreadsLimite}
+                                    onChange={ ( e ) => setNumThreadsLimite( e.target.value ) } />
                             </Form.Group>
 
                             <AppMessage message={errorMessage} type="error" />

@@ -44,6 +44,10 @@ public class DispositivoMonitorService {
 
     public void startMonitoramento( Long dispositivoId, String accessToken ) {
         Config config = configRepository.getConfig( accessToken );
+        
+        if ( dispositivoMonitorMap.size() >= config.getNumThreadsLimite() ) {
+        	
+        }
 
         Dispositivo dispositivo = dispositivoRepository.getDispositivo( dispositivoId, accessToken );
               

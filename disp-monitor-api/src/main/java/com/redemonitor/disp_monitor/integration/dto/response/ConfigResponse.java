@@ -20,5 +20,7 @@ public class ConfigResponse {
     private int numPacotesPorLote;
 
     private int registroEventoPeriodo;
+    
+    private int numThreadsLimite;
 
 }

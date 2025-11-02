@@ -22,6 +22,6 @@ public class Config {
 
     private int registroEventoPeriodo;
     
-    private int threadsLimite;
+    private int numThreadsLimite;
 
 }
