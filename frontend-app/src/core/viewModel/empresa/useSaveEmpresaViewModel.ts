@@ -73,7 +73,8 @@ function useSaveEmpresaViewModel() {
         loading, 
         errorMessage, 
         infoMessage, 
-        setErrorMessage };    
+        setErrorMessage 
+    };    
 }
 
 export default useSaveEmpresaViewModel;

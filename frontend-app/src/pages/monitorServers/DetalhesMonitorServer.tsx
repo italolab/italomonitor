@@ -59,16 +59,16 @@ function DetalhesMonitorServer() {
                             <AppSpinner className="mx-auto" visible={loading} />
                         </div>
                         
-                        <AppField name="id">
+                        <AppField name="ID">
                             {monitorServer.id}
                         </AppField>
                         <AppField name="host">
                             {monitorServer.host}
                         </AppField>
-                        <AppField name="ativo">  
+                        <AppField name="status">  
                             {monitorServer.ativo === true ? 
-                                <span className="text-green">Sim</span>: 
-                                <span className="text-danger">Não</span>
+                                <span className="text-success fw-bold">Ativo</span>: 
+                                <span className="text-danger fw-bold">Inativo</span>
                             }
                         </AppField>                      
                         <AppField name="threads ativas">

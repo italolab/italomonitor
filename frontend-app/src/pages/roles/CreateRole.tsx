@@ -29,6 +29,8 @@ function CreateRole() {
             }
 
             await createRole( role );
+
+            setNome( '' );
         } catch ( error ) {
             console.error( error );
         }

@@ -29,6 +29,8 @@ function CreateMonitorServer() {
             }
 
             await createMonitorServer( monitorServer );
+
+            setHost( '' );
         } catch ( error ) {
             console.error( error );
         }

@@ -9,9 +9,9 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.redemonitor.disp_monitor</groupId>
-	<artifactId>rede-monitor-disp-monitor</artifactId>
+	<artifactId>rede-monitor-disp-monitor-api</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>rede-monitor-disp-monitor</name>
+	<name>disp-monitor-api</name>
 	<description>REDE Monitor - microserviço monitor de dispositivos</description>
 	<url/>
 	<licenses>

@@ -29,6 +29,8 @@ function CreateUsuarioGrupo() {
             }
 
             await createUsuarioGrupo( usuario );
+
+            setNome( '' );
         } catch ( error ) {
             console.error( error );
         }

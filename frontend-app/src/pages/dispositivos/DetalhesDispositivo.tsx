@@ -85,7 +85,7 @@ function DetalhesDispositivo() {
                 <Button type="button" onClick={() => navigate( -1 )} className="func">
                     <MdArrowBack size={25} /> Voltar
                 </Button>
-                <Button type="button" onClick={() => navigate( `/update-dispositivo/${dispositivoId}`)} className="func">
+                <Button type="button" onClick={() => navigate( `/update-dispositivo/${dispositivoId}/${dispositivo.empresa.id}`)} className="func">
                     <MdOutlineEdit size={25} /> Editar dispositivo
                 </Button>
                 <Button type="button" onClick={() => navigate( `/infos-eventos/${dispositivoId}`)} className="func">

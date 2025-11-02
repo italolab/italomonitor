@@ -7,44 +7,25 @@ import AppSpinner from "../../components/AppSpinner";
 import type { SaveDispositivoRequest } from "../../core/model/dto/request/SaveDispositivoRequest";
 import AppLayout from "../../layout/AppLayout";
 import { MdArrowBack } from "react-icons/md";
-import { useNavigate } from "react-router-dom";
-import type { EmpresaResponse } from "../../core/model/dto/response/EmpresaResponse";
-import useEffectOnce from "../../core/util/useEffectOnce";
+import { useNavigate, useParams } from "react-router-dom";
 
 function CreateDispositivo() {
 
     const [host, setHost] = useState<string>( '' );
     const [nome, setNome] = useState<string>( '' );
     const [descricao, setDescricao] = useState<string>( '' );
-    const [localizacao, setLocalizacao] = useState<string>( '' );
-    const [empresaId, setEmpresaId] = useState<number>( -1 );
-    const [empresas, setEmpresas] = useState<EmpresaResponse[]>( [] );
-    
+    const [localizacao, setLocalizacao] = useState<string>( '' );    
 
     const {
         createDispositivo,
-        getEmpresas,
         loading,
         errorMessage,
         infoMessage
     } = useSaveDispositivoViewModel();
 
+    const { empresaId } = useParams(); 
+
     const navigate = useNavigate();
-
-    useEffectOnce( () => {
-        loadData();
-    } );
-
-    const loadData = async () => {
-        try {
-            const empresasList = await getEmpresas();
-            setEmpresas( empresasList );
-            if ( empresasList.length > 0 )
-                setEmpresaId( empresasList[ 0 ].id );            
-        } catch ( error ) {
-            console.error( error );
-        }
-    };
 
     const onSave = async () => {
         try {
@@ -53,10 +34,15 @@ function CreateDispositivo() {
                 nome : nome,
                 descricao : descricao,
                 localizacao : localizacao,
-                empresaId : empresaId
+                empresaId : parseInt( empresaId! )
             }
 
             await createDispositivo( dispositivo );
+
+            setHost( '' );
+            setNome( '' );
+            setDescricao( '' );
+            setLocalizacao( '' );
         } catch ( error ) {
             console.error( error );
         }
@@ -104,20 +90,7 @@ function CreateDispositivo() {
                                     value={localizacao}
                                     onChange={ ( e ) => setLocalizacao( e.target.value ) } />
                             </Form.Group>
-
-                            <Form.Group controlId="empresa">
-                                <Form.Label>Empresa</Form.Label>
-                                <Form.Select className="mb-3"
-                                        value={empresaId} 
-                                        onChange={(e) => setEmpresaId( parseInt( e.target.value ) )}>
-                                    {empresas.map( (emp, index) => 
-                                        <option key={index} value={emp.id}>
-                                            {emp.nome}
-                                        </option>
-                                    )}
-                                </Form.Select>
-                            </Form.Group>
-
+                           
                             <AppMessage message={errorMessage} type="error" />
                             <AppMessage message={infoMessage} type="info" />
 

@@ -129,8 +129,8 @@ public class DispositivoMonitorThread implements Runnable {
                 	}
                 }
 
-                if ( quantFalhas <= maxFalhas )
-                    System.out.println( line );
+                //if ( quantFalhas <= maxFalhas )
+                //    System.out.println( line );
 
                 if ( quantFalhas >= maxFalhas || quantSucessos >= maxSucessos)
                     proc.destroy();

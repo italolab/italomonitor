@@ -63,6 +63,12 @@ function CreateUsuario() {
             }
 
             await createUsuario( usuario );
+
+            setNome( '' );
+            setEmail( '' );
+            setUsername( '' );
+            setSenha( '' );
+            setSenha2( '' );
         } catch ( error ) {
             console.error( error );
         }

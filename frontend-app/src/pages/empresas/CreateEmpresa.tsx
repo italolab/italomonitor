@@ -13,30 +13,47 @@ function CreateEmpresa() {
 
     const [nome, setNome] = useState<string>( '' );
     const [emailNotif, setEmailNotif] = useState<string>( '' );
-    const [porcentagemMaxFalhasPorLote, setPorcentagemMaxFalhasPorLote] = useState<number>( 33.3333 );
+    const [porcentagemMaxFalhasPorLote, setPorcentagemMaxFalhasPorLote] = useState<string>( '33.3333' );
 
     const {
         createEmpresa,
         loading,
         errorMessage,
-        infoMessage
+        infoMessage,
+        setErrorMessage
     } = useSaveEmpresaViewModel();
 
     const navigate = useNavigate();
 
     const onSave = async () => {
+        const valid = await validateForm();
+        if ( valid === false )
+            return;
+
         try {
             const empresa : SaveEmpresaRequest = {
                 nome : nome,
                 emailNotif : emailNotif,
-                porcentagemMaxFalhasPorLote: ( porcentagemMaxFalhasPorLote / 100.0 )
+                porcentagemMaxFalhasPorLote: ( parseFloat( porcentagemMaxFalhasPorLote ) / 100.0 )
             }
 
             await createEmpresa( empresa );
+
+            setNome( '' );
+            setEmailNotif( '' );
         } catch ( error ) {
             console.error( error );
         }
     };
+
+    const validateForm = async () => {
+        if ( Number.isNaN( porcentagemMaxFalhasPorLote ) === true ) {
+            setErrorMessage( 'Porcentagem máxima de falhas por lote está em formato não numérico.' );
+            return false;
+        }
+
+        return true;
+    }
 
     return (
         <AppLayout>
@@ -71,7 +88,7 @@ function CreateEmpresa() {
                                 <Form.Label>Max falhas por lote (%)</Form.Label>
                                 <Form.Range min={1} max={100} step={1}
                                     value={porcentagemMaxFalhasPorLote}
-                                    onChange={ ( e ) => setPorcentagemMaxFalhasPorLote( parseFloat(e.target.value ) ) } />
+                                    onChange={ ( e ) => setPorcentagemMaxFalhasPorLote( e.target.value ) } />
                                 <Form.Text>
                                     Valor atual: {porcentagemMaxFalhasPorLote}%
                                 </Form.Text>

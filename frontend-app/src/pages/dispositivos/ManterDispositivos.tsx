@@ -5,7 +5,7 @@ import AppSpinner from "../../components/AppSpinner";
 import AppMessage from "../../components/AppMessage";
 import AppLayout from "../../layout/AppLayout";
 import { useNavigate, useParams } from "react-router-dom";
-import { MdAdd, MdPlayCircle, MdStopCircle } from "react-icons/md";
+import { MdAdd, MdArrowBack, MdPlayCircle, MdStopCircle } from "react-icons/md";
 import AppOperations from "../../components/AppOperations";
 import type { DispositivoResponse } from "../../core/model/dto/response/DispositivoResponse";
 
@@ -119,7 +119,10 @@ function ManterDispositivos() {
             </Modal>            
 
             <div className="d-flex justify-content-start">
-                <Button type="button" onClick={() => navigate( '/create-dispositivo')} className="func">
+                <Button type="button" onClick={() => navigate( -1 )} className="func">
+                    <MdArrowBack size={25} /> Voltar
+                </Button>
+                <Button type="button" onClick={() => navigate( `/create-dispositivo/${empresaId}`)} className="func">
                     <MdAdd size={25}/> Novo dispositivo
                 </Button>
                 <Button type="button" onClick={onStartAllMonitoramentos} className="func">

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { Button, Card, Form } from "react-bootstrap";
 import useSaveDispositivoViewModel from "../../core/viewModel/dispositivo/useSaveDispositivoViewModel";
 import AppMessage from "../../components/AppMessage";
@@ -8,7 +8,6 @@ import { useNavigate, useParams } from "react-router-dom";
 import type { SaveDispositivoRequest } from "../../core/model/dto/request/SaveDispositivoRequest";
 import AppLayout from "../../layout/AppLayout";
 import { MdArrowBack } from "react-icons/md";
-import type { EmpresaResponse } from "../../core/model/dto/response/EmpresaResponse";
 import useEffectOnce from "../../core/util/useEffectOnce";
 
 function UpdateDispositivo() {
@@ -17,13 +16,12 @@ function UpdateDispositivo() {
     const [nome, setNome] = useState<string>( '' );
     const [descricao, setDescricao] = useState<string>( '' );
     const [localizacao, setLocalizacao] = useState<string>( '' );
-    const [empresaId, setEmpresaId] = useState<number>( -1 );
-    const [empresas, setEmpresas] = useState<EmpresaResponse[]>( [] );
+
+    const empresaId = useRef<number>( -1 );
 
     const {
         updateDispositivo,
         getDispositivo,
-        getEmpresas,
         loading,
         errorMessage,
         infoMessage
@@ -45,10 +43,8 @@ function UpdateDispositivo() {
             setNome( dispositivo.nome );
             setDescricao( dispositivo.descricao );
             setLocalizacao( dispositivo.localizacao );
-            setEmpresaId( dispositivo.empresa.id );
 
-            const empresasList = await getEmpresas();
-            setEmpresas( empresasList );
+            empresaId.current = dispositivo.id;
         } catch ( error ) {
             console.error( error );
         }
@@ -61,7 +57,7 @@ function UpdateDispositivo() {
                 nome : nome,
                 descricao : descricao,
                 localizacao : localizacao,
-                empresaId : empresaId
+                empresaId : empresaId.current
             };
            
             const uid : number = parseInt( dispositivoId! );
@@ -118,21 +114,7 @@ function UpdateDispositivo() {
                                     value={localizacao}
                                     onChange={ ( e ) => setLocalizacao( e.target.value ) } />
                             </Form.Group>
-
-                            <Form.Group controlId="empresa">
-                                <Form.Label>Empresa</Form.Label>
-                                <Form.Select className="mb-3"
-                                        value={empresaId} 
-                                        onChange={(e) => setEmpresaId( parseInt( e.target.value ) )}>
-                                    <option value={-1}>Nenhuma empresa</option>
-                                    {empresas.map( (emp, index) => 
-                                        <option key={index} value={emp.id}>
-                                            {emp.nome}
-                                        </option>
-                                    )}
-                                </Form.Select>
-                            </Form.Group>
-
+                            
                             <AppMessage message={errorMessage} type="error" />
                             <AppMessage message={infoMessage} type="info" />
 

@@ -80,8 +80,8 @@ function DetalhesConfig() {
                                     -
                                     &nbsp;
                                     {monitor.ativo === true ? 
-                                        <span className="text-green">Ativo</span>: 
-                                        <span className="text-danger">Inativo</span>
+                                        <span className="text-success fw-bold">Ativo</span>: 
+                                        <span className="text-danger fw-bold">Inativo</span>
                                     }
                                     &nbsp;
                                     -

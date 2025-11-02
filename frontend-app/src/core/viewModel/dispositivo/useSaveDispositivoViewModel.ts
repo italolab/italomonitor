@@ -3,7 +3,6 @@ import { DispositivoModel } from "../../model/DispositivoModel";
 import type { SaveDispositivoRequest } from "../../model/dto/request/SaveDispositivoRequest";
 import { extractErrorMessage } from "../../util/sistema-util";
 import type { DispositivoResponse } from "../../model/dto/response/DispositivoResponse";
-import { EmpresaModel } from "../../model/EmpresaModel";
 import { AuthContext } from "../../../context/AuthProvider";
 
 
@@ -16,7 +15,6 @@ function useSaveDispositivoViewModel() {
     const {setAccessToken} = useContext(AuthContext);
     
     const dispositivoModel = new DispositivoModel( setAccessToken );
-    const empresaModel = new EmpresaModel( setAccessToken );
 
     const createDispositivo = async ( dispositivo : SaveDispositivoRequest ) => {
         setErrorMessage( null );
@@ -68,28 +66,10 @@ function useSaveDispositivoViewModel() {
         }
     }
 
-    const getEmpresas = async () => {
-        setErrorMessage( null );
-        setInfoMessage( null );
-        setLoading( true );
-        
-        try {
-            const response = await empresaModel.filterEmpresas( "" );
-
-            setLoading( false );
-            return response.data;
-        } catch ( error ) {
-            setErrorMessage( extractErrorMessage( error ) );
-            setLoading( false );
-            throw error;
-        }
-    };
-
     return { 
         createDispositivo, 
         updateDispositivo, 
         getDispositivo, 
-        getEmpresas,
         loading, 
         errorMessage, 
         infoMessage, 
