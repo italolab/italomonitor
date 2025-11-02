@@ -11,20 +11,18 @@ function useManterMonitorServerViewModel() {
     const [loading, setLoading] = useState<boolean>( false );
 
     const [monitorServers, setMonitorServers] = useState<MonitorServerResponse[]>( [] );
-
-    const [hostPart, setHostPart] = useState<string>( '' );
     
     const {setAccessToken} = useContext(AuthContext);
 
     const monitorServerModel = new MonitorServerModel( setAccessToken );
 
-    const filterMonitorServers = async () => {
+    const loadMonitorServers = async () => {
         setErrorMessage( null );
         setInfoMessage( null );
         setLoading( true );
 
         try {
-            const response = await monitorServerModel.filterMonitorServers( hostPart );
+            const response = await monitorServerModel.filterMonitorServers( '' );
 
             setMonitorServers( response.data );
             setLoading( false );
@@ -41,7 +39,7 @@ function useManterMonitorServerViewModel() {
         setLoading( true );
         try {
             await monitorServerModel.deleteMonitorServer( monitorServerId );
-            const response = await monitorServerModel.filterMonitorServers( hostPart );
+            const response = await monitorServerModel.filterMonitorServers( '' );
 
             setMonitorServers( response.data );
             setInfoMessage( 'Servidor de monitoramento deletado com sucesso.' );            
@@ -61,15 +59,13 @@ function useManterMonitorServerViewModel() {
     };
 
     return { 
-        filterMonitorServers, 
+        loadMonitorServers, 
         removeMonitorServer,         
         getMonitorServerById,
         monitorServers, 
-        hostPart,        
         loading, 
         errorMessage,
-        infoMessage,
-        setHostPart
+        infoMessage
     };
 }
 

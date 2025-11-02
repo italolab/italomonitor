@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Button, Card, Form, Modal, Table } from "react-bootstrap";
+import { Button, Modal, Table } from "react-bootstrap";
 import useManterMonitorServerViewModel from "../../core/viewModel/monitorServer/useManterMonitorServerViewModel";
 import AppSpinner from "../../components/AppSpinner";
 import AppMessage from "../../components/AppMessage";
@@ -8,6 +8,7 @@ import { useNavigate } from "react-router-dom";
 import { MdAdd, MdArrowBack } from "react-icons/md";
 import AppOperations from "../../components/AppOperations";
 import type { MonitorServerResponse } from "../../core/model/dto/response/MonitorServerResponse";
+import useEffectOnce from "../../core/util/useEffectOnce";
 
 function ManterMonitorServers() {
 
@@ -15,22 +16,24 @@ function ManterMonitorServers() {
     const [toRemoveMonitorServer, setToRemoveMonitorServer] = useState<MonitorServerResponse|null>( null );
 
     const { 
-        filterMonitorServers, 
+        loadMonitorServers, 
         removeMonitorServer,
         getMonitorServerById,
         monitorServers, 
-        hostPart,
         loading, 
         errorMessage, 
         infoMessage,
-        setHostPart
     } = useManterMonitorServerViewModel();
 
     const navigate = useNavigate();
 
-    const onFilter = async () => {
+    useEffectOnce( () => {
+        onLoad();
+    } );
+
+    const onLoad = async () => {
         try {
-            await filterMonitorServers();
+            await loadMonitorServers();
         } catch ( error ) {
             console.log( error );
         }
@@ -81,63 +84,39 @@ function ManterMonitorServers() {
                 </Button>
             </div>
   
-            <h3 className="title">Funções de servidor de monitoramento</h3>
+            <h3 className="title">Lista de servidores de monitoramento</h3>     
 
-            <div className="d-flex flex-wrap justify-content-center mt-3">
-                <Card>
-                    <Card.Header>
-                        <h5 className="my-2">Campos do filtro</h5>
-                    </Card.Header>
-                    <Card.Body className="p-3">
-                        <Form>
-                            <Form.Group className="mb-3" controlId="hostpart">
-                                <Form.Label>Host</Form.Label>
-                                <Form.Control type="text" 
-                                    placeholder="Informe parte do host"
-                                    value={hostPart}
-                                    onChange={ (e) => setHostPart( e.target.value ) } />
-                            </Form.Group>
+            <AppMessage message={errorMessage} type="error" />
+            <AppMessage message={infoMessage} type="info" />
 
-                            <AppMessage message={errorMessage} type="error" />
-                            <AppMessage message={infoMessage} type="info" />
+            <div className="d-flex">
+                <AppSpinner className="mx-auto" visible={loading} />
+            </div>
 
-                            <div className="d-flex">
-                                <AppSpinner className="mx-auto" visible={loading} />
-                            </div> 
-
-                            <Button type="button" onClick={onFilter}>
-                                Filtrar                        
-                                <AppSpinner visible={loading} />
-                            </Button>
-                        </Form>
-                    </Card.Body>
-                </Card>
-                   
-                <div className="w-100 overflow-auto mt-3">
-                    <Table striped bordered hover>
-                        <thead>
-                            <tr className="blue">
-                                <th>ID</th>
-                                <th>Host</th>
-                                <th>Operações</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            { monitorServers.map( (monitorServer, index) => 
-                                <tr key={index}>
-                                    <td>{monitorServer.id}</td>
-                                    <td>{monitorServer.host}</td>
-                                    <td>
-                                        <AppOperations 
-                                            toDetalhes={`/detalhes-monitor-server/${monitorServer.id}`}
-                                            toEdit={`/update-monitor-server/${monitorServer.id}`} 
-                                            onRemover={() => onConfirmRemover( monitorServer.id )} />
-                                    </td>
-                                </tr> 
-                            )}
-                        </tbody>
-                    </Table>
-                </div>                   
+            <div className="w-100 overflow-auto mt-3">
+                <Table striped bordered hover>
+                    <thead>
+                        <tr className="blue">
+                            <th>ID</th>
+                            <th>Host</th>
+                            <th>Operações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        { monitorServers.map( (monitorServer, index) => 
+                            <tr key={index}>
+                                <td>{monitorServer.id}</td>
+                                <td>{monitorServer.host}</td>
+                                <td>
+                                    <AppOperations 
+                                        toDetalhes={`/detalhes-monitor-server/${monitorServer.id}`}
+                                        toEdit={`/update-monitor-server/${monitorServer.id}`} 
+                                        onRemover={() => onConfirmRemover( monitorServer.id )} />
+                                </td>
+                            </tr> 
+                        )}
+                    </tbody>
+                </Table>                               
             </div>
         </AppLayout>
     );

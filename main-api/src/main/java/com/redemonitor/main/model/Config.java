@@ -21,5 +21,7 @@ public class Config {
     private int numPacotesPorLote;
 
     private int registroEventoPeriodo;
+    
+    private int threadsLimite;
 
 }

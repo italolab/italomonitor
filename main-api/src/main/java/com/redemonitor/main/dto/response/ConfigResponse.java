@@ -23,6 +23,8 @@ public class ConfigResponse {
 
     private int registroEventoPeriodo;
     
+    private int threadsLimite;
+    
     private List<MonitorServerResponse> monitorServers;
 
 }

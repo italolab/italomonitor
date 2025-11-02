@@ -14,6 +14,7 @@ public class ConfigMapper {
                 .numPacotesPorLote( request.getNumPacotesPorLote() )
                 .monitoramentoDelay( request.getMonitoramentoDelay() )
                 .registroEventoPeriodo( request.getRegistroEventoPeriodo() )
+                .threadsLimite( request.getThreadsLimite() )
                 .build();
     }
 
@@ -23,6 +24,7 @@ public class ConfigMapper {
                 .numPacotesPorLote( config.getNumPacotesPorLote() )
                 .monitoramentoDelay( config.getMonitoramentoDelay() )
                 .registroEventoPeriodo( config.getRegistroEventoPeriodo() )
+                .threadsLimite( config.getThreadsLimite() )
                 .build();
     }
 
@@ -30,6 +32,7 @@ public class ConfigMapper {
         config.setNumPacotesPorLote( request.getNumPacotesPorLote() );
         config.setMonitoramentoDelay( request.getMonitoramentoDelay() );
         config.setRegistroEventoPeriodo( request.getRegistroEventoPeriodo() );
+        config.setThreadsLimite( request.getThreadsLimite() ); 
     }
 
 }

@@ -40,7 +40,7 @@ public class DispositivoMonitorService {
     @Autowired
     private DispositivoMessageService dispositivoMessageService;
 
-    private final Map<Long, DispositivoMonitor> dispositivoMonitorMap = new ConcurrentHashMap<>();
+    private final Map<Long, DispositivoMonitor> dispositivoMonitorMap = new ConcurrentHashMap<>();    
 
     public void startMonitoramento( Long dispositivoId, String accessToken ) {
         Config config = configRepository.getConfig( accessToken );
