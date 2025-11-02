@@ -32,11 +32,12 @@ public class ConfigController {
 
     @GetConfigDoc
     @PreAuthorize("hasAuthority('config-read')")
-    @GetMapping("/get")
+    @GetMapping("/load-monitor-server/{isLoadMonitorServer}/get")
     public ResponseEntity<ConfigResponse> getConfig(
+    		@PathVariable Boolean isLoadMonitorServer,
     		@CookieValue("${jwt.access_token.cookie.name}") String accessToken ) {
     	
-        ConfigResponse resp = configService.getConfig( accessToken );
+        ConfigResponse resp = configService.getConfig( isLoadMonitorServer, accessToken );
         return ResponseEntity.ok( resp );
     }
 

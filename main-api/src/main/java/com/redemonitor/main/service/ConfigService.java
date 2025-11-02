@@ -46,21 +46,24 @@ public class ConfigService {
         configRepository.save( config );
     }
 
-    public ConfigResponse getConfig( String accessToken ) {
+    public ConfigResponse getConfig( boolean isLoadMonitorServer, String accessToken ) {
         Config config = configRepository.findFirstByOrderByIdAsc();
         
-        List<MonitorServer> monitorServers = monitorServerRepository.findAll();
-        List<MonitorServerResponse> monitorServerResps = monitorServers.stream().map( monitorServerMapper::map ).toList();
-                        
-        for( MonitorServerResponse server : monitorServerResps ) {
-        	String host = server.getHost();
-        	MonitorInfo info = dispositivoMonitorEscalonador.getInfo( host, accessToken );
-        	
-        	monitorServerMapper.load( server, info ); 
-        }
-        
         ConfigResponse resp = configMapper.map( config );
-        resp.setMonitorServers( monitorServerResps );
+
+        if ( isLoadMonitorServer ) {
+	        List<MonitorServer> monitorServers = monitorServerRepository.findAll();
+	        List<MonitorServerResponse> monitorServerResps = monitorServers.stream().map( monitorServerMapper::map ).toList();
+	                        
+	        for( MonitorServerResponse server : monitorServerResps ) {
+	        	String host = server.getHost();
+	        	MonitorInfo info = dispositivoMonitorEscalonador.getInfo( host, accessToken );
+	        	
+	        	monitorServerMapper.load( server, info ); 
+	        }
+	        
+	        resp.setMonitorServers( monitorServerResps );
+        }
         return resp;
     }
 
