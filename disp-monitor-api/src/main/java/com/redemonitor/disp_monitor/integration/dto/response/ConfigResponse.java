@@ -22,5 +22,5 @@ public class ConfigResponse {
     private int registroEventoPeriodo;
     
     private int numThreadsLimite;
-
+        
 }

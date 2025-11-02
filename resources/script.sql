@@ -17,7 +17,8 @@ create table config (
     num_pacotes_por_lote int default 15,
     monitoramento_delay int default 1,
     registro_evento_periodo int default 3600,
-    threadsLimite int 32
+    threadsLimite int default 32,
+    monitor_server_corrente int default 0
 );
 
 create table monitor_server (
@@ -39,8 +40,7 @@ create table dispositivo (
     descricao varchar( 511 ),
     localizacao varchar( 255 ) not null,
     sendo_monitorado boolean default false,
-    status varchar(20) check (status in ('ATIVO','INATIVO')) default 'INATIVO',
-    monitor_server_host varchar( 255 ),
+    status varchar(20) not null,
     empresa_id bigint not null,
     constraint empresa_fk foreign key( empresa_id ) references empresa( id )
 );

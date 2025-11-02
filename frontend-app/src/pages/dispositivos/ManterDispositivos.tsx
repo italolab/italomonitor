@@ -4,12 +4,13 @@ import useManterDispositivoViewModel from "../../core/viewModel/dispositivo/useM
 import AppSpinner from "../../components/AppSpinner";
 import AppMessage from "../../components/AppMessage";
 import AppLayout from "../../layout/AppLayout";
-import { useNavigate } from "react-router-dom";
-import { MdAdd } from "react-icons/md";
+import { useNavigate, useParams } from "react-router-dom";
+import { MdAdd, MdPlayCircle, MdStopCircle } from "react-icons/md";
 import AppOperations from "../../components/AppOperations";
 import type { DispositivoResponse } from "../../core/model/dto/response/DispositivoResponse";
 
 import './style/ManterDispositivos.css'
+import useEffectOnce from "../../core/util/useEffectOnce";
 
 function ManterDispositivos() {
 
@@ -17,10 +18,14 @@ function ManterDispositivos() {
     const [toRemoveDispositivo, setToRemoveDispositivo] = useState<DispositivoResponse|null>( null );
 
     const { 
+        loadInfos,
         filterDispositivos, 
         removeDispositivo,
         getDispositivoById,
+        startAllMonitoramentos,
+        stopAllMonitoramentos,
         dispositivos, 
+        empresa,
         hostPart,
         nomePart,
         localPart,
@@ -32,11 +37,27 @@ function ManterDispositivos() {
         setLocalPart
     } = useManterDispositivoViewModel();
 
+    const { empresaId } = useParams();
+
     const navigate = useNavigate();
+
+    useEffectOnce( () => {
+        onLoad();
+    } );
+
+    const onLoad = async () => {
+        try {
+            const eid : number = parseInt( empresaId! );
+            await loadInfos( eid );
+        } catch ( error ) {
+            console.error( error );
+        }
+    };
 
     const onFilter = async () => {
         try {
-            await filterDispositivos();
+            const eid : number = parseInt( empresaId! );
+            await filterDispositivos( eid );
         } catch ( error ) {
             console.log( error );
         }
@@ -50,7 +71,26 @@ function ManterDispositivos() {
     const onRemover = async () => {
         setRemoveModalVisible( false );
         try {
-            await removeDispositivo( toRemoveDispositivo!.id );
+            const eid : number = parseInt( empresaId! );
+            await removeDispositivo( toRemoveDispositivo!.id, eid );
+        } catch ( error ) {
+            console.error( error );
+        }
+    };
+
+    const onStartAllMonitoramentos = async () => {
+        try {
+            const eid : number = parseInt( empresaId! );
+            await startAllMonitoramentos( eid );
+        } catch ( error ) {
+            console.error( error );
+        }
+    };
+
+    const onStopAllMonitoramentos = async () => {
+        try {
+            const eid : number = parseInt( empresaId! );
+            await stopAllMonitoramentos( eid );
         } catch ( error ) {
             console.error( error );
         }
@@ -82,9 +122,15 @@ function ManterDispositivos() {
                 <Button type="button" onClick={() => navigate( '/create-dispositivo')} className="func">
                     <MdAdd size={25}/> Novo dispositivo
                 </Button>
+                <Button type="button" onClick={onStartAllMonitoramentos} className="func">
+                    <MdPlayCircle size={25} /> Iniciar todos os monitoramento
+                </Button>
+                <Button type="button" onClick={onStopAllMonitoramentos} className="func">
+                    <MdStopCircle size={25} /> Encerrar todos os monitoramento
+                </Button>
             </div>
 
-            <h3 className="title">Funções de dispositivo</h3>
+            <h3 className="title">Dispositivos de {empresa.nome}</h3>
 
             <div className="d-block w-100 mt-3 d-flex justify-content-center">
                 <Card>
@@ -124,10 +170,6 @@ function ManterDispositivos() {
 
                             <AppMessage message={errorMessage} type="error" />
                             <AppMessage message={infoMessage} type="info" />
-
-                            <div className="d-flex">
-                                <AppSpinner className="mx-auto" visible={loading} />
-                            </div>
 
                             <Button type="button" onClick={onFilter}>
                                 Filtrar                        

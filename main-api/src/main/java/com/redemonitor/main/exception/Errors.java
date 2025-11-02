@@ -24,6 +24,7 @@ public interface Errors {
     public final static String DISPOSITIVO_ALREADY_EXISTS = "Dispositivo já existe registrado com o nome informado.";
     public final static String DISPOSITIVO_ALREADY_MONITORED = "O dispositivo já está sendo monitorado.";
     public final static String DISPOSITIVO_NOT_MONITORED = "O dispositivo não está sendo monitorado.";
+    public final static String DISPOSITIVO_START_EXCEDE_LIMITE = "Dispositivo não monitorado.\nNão há mais vaga para monitorar mais um dispositivo.\n$1 de $2 dispositivos monitorados";
 
     public final static String EVENT_NOT_FOUND = "Evento não encontrado.";
 
@@ -36,5 +37,7 @@ public interface Errors {
     public final static String INVALID_EMAIL = "O valor do campo '$1' está em formato inválido.";
 
     public final static String ERROR_STATUS = "Erro no microserviço principal.\nURI=$1\nStatus=$2";
+    
+    public final static String INVALID_MONITOR_SERVER_CURRENT_VALUE = "O valor do índice de servidor de monitoramento é maior que o número de servidores.";
 
 }

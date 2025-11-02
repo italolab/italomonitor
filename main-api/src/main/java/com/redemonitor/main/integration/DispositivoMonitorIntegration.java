@@ -4,48 +4,69 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import com.redemonitor.main.integration.dto.ExisteNoMonitorResponse;
+import com.redemonitor.main.integration.dto.InfoResponse;
+import com.redemonitor.main.integration.dto.MonitoramentoOperResponse;
 import com.redemonitor.main.util.HttpClientUtil;
 
 @Component
 public class DispositivoMonitorIntegration {
 
-	@Value("${monitoramento.dispositivo.start.endpoint}")
-	private String startEndpoint;
+	@Value("${monitoramento.dispositivo.start.endpoint.path}")
+	private String startEndpointPath;
 	
-	@Value("${monitoramento.dispositivo.stop.endpoint}")
-	private String stopEndpoint;
+	@Value("${monitoramento.dispositivo.stop.endpoint.path}")
+	private String stopEndpointPath;
 	
-	@Value("${monitoramento.dispositivo.update-config-in-monitores.endpoint}")
-	private String updateConfigEndpoint;
+	@Value("${monitoramento.dispositivo.update-config-in-monitores.endpoint.path}")
+	private String updateConfigEndpointPath;
 	
-	@Value("${monitoramento.dispositivo.update-dispositivo-in-monitor.endpoint}")
-	private String updateDispositivoEndpoint;
+	@Value("${monitoramento.dispositivo.update-dispositivo-in-monitor.endpoint.path}")
+	private String updateDispositivoEndpointPath;
+	
+	@Value("${monitoramento.dispositivo.info}")
+	private String infoEndpointPath;
+	
+	@Value("${monitoramento.dispositivo.existe-no-monitor}")
+	private String existeNoMonitorPath;
 	
 	@Autowired
 	private HttpClientUtil httpClientUtil;
 	
-	public void startMonitoramento( Long dispositivoId, String accessToken ) {
-		String uri = startEndpoint.replace( "{dispositivoId}", ""+dispositivoId );
+	public MonitoramentoOperResponse startMonitoramento( String serverHost, Long dispositivoId, String accessToken ) {
+		String uri = serverHost + startEndpointPath.replace( "{dispositivoId}", ""+dispositivoId );
 		
-		httpClientUtil.post( uri, accessToken );
+		return httpClientUtil.postWithResponse( uri, accessToken, MonitoramentoOperResponse.class );
 	}
 	
-	public void stopMonitoramento( Long dispositivoId, String accessToken ) {
-		String uri = stopEndpoint.replace( "{dispositivoId}", ""+dispositivoId );
+	public MonitoramentoOperResponse stopMonitoramento( String serverHost, Long dispositivoId, String accessToken ) {
+		String uri = serverHost + stopEndpointPath.replace( "{dispositivoId}", ""+dispositivoId );
 		
-		httpClientUtil.post( uri, accessToken );
+		return httpClientUtil.postWithResponse( uri, accessToken, MonitoramentoOperResponse.class );
 	}
 	
-	public void updateConfigInMonitores( String accessToken ) {
-		String uri = updateConfigEndpoint;
+	public MonitoramentoOperResponse updateConfigInMonitores( String serverHost, String accessToken ) {
+		String uri = serverHost + updateConfigEndpointPath;
 		
-		httpClientUtil.post( uri, accessToken );
+		return httpClientUtil.postWithResponse( uri, accessToken, MonitoramentoOperResponse.class );
 	}
 	
-	public void updateDispositivoInMonitor( Long dispositivoId, String accessToken ) {
-		String uri = updateDispositivoEndpoint.replace( "{dispositivoId}", ""+dispositivoId );
+	public MonitoramentoOperResponse updateDispositivoInMonitor( String serverHost, Long dispositivoId, String accessToken ) {
+		String uri = serverHost + updateDispositivoEndpointPath.replace( "{dispositivoId}", ""+dispositivoId );
 		
-		httpClientUtil.post( uri, accessToken );				
+		return httpClientUtil.postWithResponse( uri, accessToken, MonitoramentoOperResponse.class );				
+	}
+	
+	public InfoResponse getInfo( String serverHost, String accessToken ) {
+		String uri = serverHost + infoEndpointPath;
+		
+		return httpClientUtil.get( uri, accessToken, InfoResponse.class );
+	}
+	
+	public ExisteNoMonitorResponse getExisteNoMonitor( String serverHost, Long dispositivoId, String accessToken ) {
+		String uri = serverHost + existeNoMonitorPath.replace( "{dispositivoId}", ""+dispositivoId );
+		
+		return httpClientUtil.get( uri, accessToken, ExisteNoMonitorResponse.class );
 	}
 	
 }

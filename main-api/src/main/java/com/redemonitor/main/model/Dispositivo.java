@@ -2,7 +2,7 @@ package com.redemonitor.main.model;
 
 import java.util.List;
 
-import com.redemonitor.main.model.enums.DispositivoStatus;
+import com.redemonitor.main.enums.DispositivoStatus;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;

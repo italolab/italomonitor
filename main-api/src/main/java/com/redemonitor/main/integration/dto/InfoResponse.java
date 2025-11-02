@@ -1,6 +1,4 @@
-package com.redemonitor.disp_monitor.dto;
-
-import com.redemonitor.disp_monitor.enums.StartMonitoramentoStatus;
+package com.redemonitor.main.integration.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -13,10 +11,8 @@ import lombok.Setter;
 @Getter
 @Setter
 @Builder
-public class StartMonitoramentoResponse {
+public class InfoResponse {
 
-	private StartMonitoramentoStatus status;
-	
 	private int numThreadsAtivas;
 	
 }

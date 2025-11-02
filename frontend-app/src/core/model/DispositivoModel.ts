@@ -15,8 +15,8 @@ export class DispositivoModel {
         return await api.put( "/dispositivos/"+dispositivoId, dispositivoSave );
     } 
 
-    async filterDispositivos( hostpart : string, nomepart : string, localpart : string ) {
-        return await api.get( "/dispositivos?hostpart="+hostpart+"&nomepart="+nomepart+"&localpart="+localpart );
+    async filterDispositivos( empresaId : number, hostpart : string, nomepart : string, localpart : string ) {
+        return await api.get( "/dispositivos/empresa/"+empresaId+"?hostpart="+hostpart+"&nomepart="+nomepart+"&localpart="+localpart );
     }
 
     async getDispositivo( dispositivoId : number ) {

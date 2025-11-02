@@ -7,12 +7,12 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.redemonitor.main.components.DispositivoMonitorEscalonador;
 import com.redemonitor.main.dto.request.SaveDispositivoRequest;
 import com.redemonitor.main.dto.request.SaveDispositivoStatusRequest;
 import com.redemonitor.main.dto.response.DispositivoResponse;
 import com.redemonitor.main.exception.BusinessException;
 import com.redemonitor.main.exception.Errors;
-import com.redemonitor.main.integration.DispositivoMonitorIntegration;
 import com.redemonitor.main.mapper.DispositivoMapper;
 import com.redemonitor.main.mapper.EmpresaMapper;
 import com.redemonitor.main.model.Dispositivo;
@@ -24,7 +24,7 @@ import com.redemonitor.main.repository.EmpresaRepository;
 public class DispositivoService {
 
     @Autowired
-    private DispositivoMonitorIntegration dispositivoMonitorIntegration;
+    private DispositivoMonitorEscalonador dispositivoMonitorEscalonador;
 
     @Autowired
     private DispositivoRepository dispositivoRepository;
@@ -81,7 +81,7 @@ public class DispositivoService {
         dispositivoMapper.load( dispositivo, request );
 
         dispositivoRepository.save( dispositivo );
-        dispositivoMonitorIntegration.updateDispositivoInMonitor( dispositivoId, accessToken );
+        dispositivoMonitorEscalonador.updateDispositivoInMonitor( dispositivoId, accessToken );
     }
     
     public void updateStatus( Long dispositivoId, SaveDispositivoStatusRequest request ) {
@@ -96,11 +96,14 @@ public class DispositivoService {
          dispositivoRepository.save( dispositivo );
     }
 
-    public List<DispositivoResponse> filterDispositivos( String hostPart, String nomePart, String localPart ) {
+    public List<DispositivoResponse> filterDispositivos( 
+    		Long empresaId, String hostPart, String nomePart, String localPart ) {
+    	
         List<Dispositivo> dispositivos = dispositivoRepository.filter( 
-                "%"+hostPart+"%",
-                "%"+nomePart+"%",
-                "%"+localPart+"%" );
+        		empresaId,
+        		"%"+hostPart+"%", 
+        		"%"+nomePart+"%", 
+        		"%"+localPart+"%" );
         
         List<DispositivoResponse> responses = new ArrayList<>();
         for( Dispositivo dispositivo : dispositivos )
@@ -122,14 +125,13 @@ public class DispositivoService {
         if ( dispositivoOp.isEmpty() )
             throw new BusinessException( Errors.DISPOSITIVO_NOT_FOUND );
 
-        dispositivoMonitorIntegration.stopMonitoramento( dispositivoId, accessToken );
+        dispositivoMonitorEscalonador.stopMonitoramento( dispositivoId, accessToken );
         
         dispositivoRepository.deleteById( dispositivoId );
     }
 
     private DispositivoResponse buildDispositivoResponse( Dispositivo dispositivo ) {
         DispositivoResponse resp = dispositivoMapper.map( dispositivo );
-        System.out.println( "Status="+dispositivo.getStatus() );
         Empresa empresa = dispositivo.getEmpresa();
         if ( empresa != null )
             resp.setEmpresa( empresaMapper.map( empresa ) );

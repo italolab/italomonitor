@@ -39,7 +39,13 @@ function useDetalhesEmpresaViewModel() {
         }
     };
 
-    return { loadEmpresa, empresa, loading, errorMessage, infoMessage };
+    return { 
+        loadEmpresa,  
+        empresa, 
+        loading, 
+        errorMessage, 
+        infoMessage 
+    };
 }
 
 export default useDetalhesEmpresaViewModel;

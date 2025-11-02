@@ -43,7 +43,6 @@ services:
       - RABBITMQ_USERNAME=admin
       - RABBITMQ_PASSWORD=admin
       - RABBITMQ_DISPOSITIVOS_QUEUE=dispositivos-queue
-      - MONITORAMENTO_DISPOSITIVO_SERVER=http://disp-monitor-api-1:8081
       - APP_SERVER_URL=http://main-api:8080
       - JWT_SECRET=949f5f9c8048fa7ff45ffc69e8208a26cd3865e29c65ff720abe330d68e4a572
     depends_on:

@@ -71,14 +71,15 @@ public class DispositivoController {
 
     @FilterDispositivosDoc
     @PreAuthorize("hasAuthority('dispositivo-read')")
-    @GetMapping
+    @GetMapping("/empresa/{empresaId}")
     public ResponseEntity<List<DispositivoResponse>> filterDispositivos(
+    		@PathVariable Long empresaId,
             @RequestParam("hostpart") String hostPart,
             @RequestParam("nomepart") String nomePart,
             @RequestParam("localpart") String localPart ) {
 
         List<DispositivoResponse> responses =
-                dispositivoService.filterDispositivos( hostPart, nomePart, localPart );
+                dispositivoService.filterDispositivos( empresaId, hostPart, nomePart, localPart );
 
         return ResponseEntity.ok( responses );
     }

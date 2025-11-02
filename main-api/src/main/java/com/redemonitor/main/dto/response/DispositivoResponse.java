@@ -1,6 +1,6 @@
 package com.redemonitor.main.dto.response;
 
-import com.redemonitor.main.model.enums.DispositivoStatus;
+import com.redemonitor.main.enums.DispositivoStatus;
 
 import lombok.*;
 

@@ -5,7 +5,7 @@ import { Button, Card } from "react-bootstrap";
 import AppField from "../../components/AppField";
 import AppMessage from "../../components/AppMessage";
 import AppSpinner from "../../components/AppSpinner";
-import { MdArrowBack, MdOutlineEdit } from "react-icons/md";
+import { MdArrowBack, MdDeviceHub, MdOutlineEdit } from "react-icons/md";
 import useEffectOnce from "../../core/util/useEffectOnce";
 
 function DetalhesEmpresa() {
@@ -37,12 +37,18 @@ function DetalhesEmpresa() {
 
     return (
         <AppLayout>
-            <div className="d-flex justify-content-between">
+            <div className="d-flex justify-content-start">
                 <Button type="button" onClick={() => navigate( -1 )} className="func">
                     <MdArrowBack size={25}/> Voltar
                 </Button>
                 <Button type="button" onClick={() => navigate( `/update-empresa/${empresaId}`)} className="func">
                     <MdOutlineEdit size={25}/> Editar empresa
+                </Button>
+                <Button type="button" onClick={() => navigate( `/update-empresa/${empresaId}`)} className="func">
+                    <MdOutlineEdit size={25}/> Editar empresa
+                </Button>
+                <Button type="button" onClick={() => navigate( `/dispositivos/${empresaId}`)} className="func">
+                    <MdDeviceHub size={25}/> Ver dispositivos
                 </Button>
             </div>
 

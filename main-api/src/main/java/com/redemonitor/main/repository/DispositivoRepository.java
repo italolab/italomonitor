@@ -10,10 +10,15 @@ import java.util.Optional;
 
 public interface DispositivoRepository extends JpaRepository<Dispositivo, Long> {
 
-    @Query( "select d from Dispositivo d where lower(d.host) like lower(?1) and " +
-            "lower(d.nome) like lower(?2) and lower(d.localizacao) like lower(?3)" )
-    List<Dispositivo> filter( String hostPart, String nomePart, String localPart );
+    @Query( "select d from Dispositivo d where d.empresa.id=?1 and "
+    		+ "d.host like ?2 and "
+    		+ "lower(d.nome) like lower(?3) and "
+    		+ "lower(d.localizacao) like lower(?4)" )
+    List<Dispositivo> filter( Long empresaId, String hostPart, String nomePart, String localPart );
 
+    @Query( "select d.id from Dispositivo d where d.empresa.id=?1")
+    List<Long> findIDsByEmpresaId( Long empresaId );
+    
     Optional<Dispositivo> findByNome( String nome );
 
 }

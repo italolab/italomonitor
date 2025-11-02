@@ -8,6 +8,7 @@ import org.springframework.web.client.RestClient;
 
 import com.redemonitor.main.dto.response.ErrorResponse;
 import com.redemonitor.main.exception.BusinessException;
+import com.redemonitor.main.exception.ErrorException;
 import com.redemonitor.main.exception.Errors;
 
 @Component
@@ -27,9 +28,9 @@ public class HttpClientUtil {
 		} catch ( HttpClientErrorException e ) {
 			ErrorResponse err = e.getResponseBodyAs( ErrorResponse.class );
 			if ( err == null )
-				throw new BusinessException( Errors.ERROR_STATUS, uri, ""+e.getStatusCode().value() );
+				throw new ErrorException( Errors.ERROR_STATUS, uri, ""+e.getStatusCode().value() );
 			throw new BusinessException( err.getMessage() );
-		}		
+		}	
 	}
 	
 	public void post( String uri, String accessToken ) {
@@ -44,10 +45,28 @@ public class HttpClientUtil {
 		} catch ( HttpClientErrorException e ) {
 			ErrorResponse err = e.getResponseBodyAs( ErrorResponse.class );
 			if ( err == null )
-				throw new BusinessException( Errors.ERROR_STATUS, uri, ""+e.getStatusCode().value() );
+				throw new ErrorException( Errors.ERROR_STATUS, uri, ""+e.getStatusCode().value() );
 			throw new BusinessException( err.getMessage() );
-		}	
-				
+		}					
+	}
+	
+	public <T extends Object> T postWithResponse( String uri, String accessToken, Class<T> clazz ) {
+		RestClient client = RestClient.create();
+
+		try {
+			ResponseEntity<T> resp = client.post()		
+				.uri( uri ) 	
+				.header( "Authorization", "Bearer: "+accessToken )
+				.retrieve()
+				.toEntity( clazz );
+			
+			return resp.getBody();
+		} catch ( HttpClientErrorException e ) {
+			ErrorResponse err = e.getResponseBodyAs( ErrorResponse.class );
+			if ( err == null )
+				throw new ErrorException( Errors.ERROR_STATUS, uri, ""+e.getStatusCode().value() );
+			throw new BusinessException( err.getMessage() );
+		}					
 	}
 	
 	public void post( String uri, String accessToken, Object body ) {
@@ -64,7 +83,7 @@ public class HttpClientUtil {
 		} catch ( HttpClientErrorException e ) {
 			ErrorResponse err = e.getResponseBodyAs( ErrorResponse.class );
 			if ( err == null )
-				throw new BusinessException( Errors.ERROR_STATUS, uri, ""+e.getStatusCode().value() );
+				throw new ErrorException( Errors.ERROR_STATUS, uri, ""+e.getStatusCode().value() );
 			throw new BusinessException( err.getMessage() );
 		}			
 	}
@@ -83,7 +102,7 @@ public class HttpClientUtil {
 		} catch ( HttpClientErrorException e ) {
 			ErrorResponse err = e.getResponseBodyAs( ErrorResponse.class );
 			if ( err == null )
-				throw new BusinessException( Errors.ERROR_STATUS, uri, ""+e.getStatusCode().value() );
+				throw new ErrorException( Errors.ERROR_STATUS, uri, ""+e.getStatusCode().value() );
 			throw new BusinessException( err.getMessage() );
 		}
 	}

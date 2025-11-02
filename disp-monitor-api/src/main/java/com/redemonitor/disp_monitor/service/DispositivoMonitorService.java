@@ -11,8 +11,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 import org.springframework.stereotype.Service;
 
-import com.redemonitor.disp_monitor.exception.BusinessException;
-import com.redemonitor.disp_monitor.exception.Errors;
+import com.redemonitor.disp_monitor.dto.InfoResponse;
+import com.redemonitor.disp_monitor.dto.ExisteNoMonitorResponse;
+import com.redemonitor.disp_monitor.dto.MonitoramentoOperResponse;
+import com.redemonitor.disp_monitor.enums.MonitoramentoOperResult;
 import com.redemonitor.disp_monitor.integration.ConfigIntegration;
 import com.redemonitor.disp_monitor.integration.DispositivoIntegration;
 import com.redemonitor.disp_monitor.integration.EventoIntegration;
@@ -42,23 +44,22 @@ public class DispositivoMonitorService {
 
     private final Map<Long, DispositivoMonitor> dispositivoMonitorMap = new ConcurrentHashMap<>();    
 
-    public void startMonitoramento( Long dispositivoId, String accessToken ) {
+    public MonitoramentoOperResponse startMonitoramento( Long dispositivoId, String accessToken ) {
+    	if ( dispositivoMonitorMap.containsKey( dispositivoId ) ) {
+            return MonitoramentoOperResponse.builder()
+            		.result( MonitoramentoOperResult.JA_INICIADO )
+            		.build();
+        }
+    	
         Config config = configRepository.getConfig( accessToken );
         
         if ( dispositivoMonitorMap.size() >= config.getNumThreadsLimite() ) {
-        	
+        	return MonitoramentoOperResponse.builder()
+        			.result( MonitoramentoOperResult.EXCEDE_LIMITE ) 
+        			.build();
         }
-
-        Dispositivo dispositivo = dispositivoRepository.getDispositivo( dispositivoId, accessToken );
               
-        if ( dispositivoMonitorMap.containsKey( dispositivoId ) ) {
-            dispositivo.setSendoMonitorado( true );
-            dispositivoRepository.saveDispositivo( dispositivo, accessToken );
-
-            dispositivoMessageService.sendMessage( dispositivo, accessToken ); 
-
-            throw new BusinessException( Errors.DISPOSITIVO_ALREADY_MONITORED );
-        }
+        Dispositivo dispositivo = dispositivoRepository.getDispositivo( dispositivoId, accessToken );
 
         Duration monitorDelay = Duration.ofMillis( config.getMonitoramentoDelay() );
 
@@ -72,20 +73,19 @@ public class DispositivoMonitorService {
 
         dispositivo.setSendoMonitorado( true );
         dispositivoRepository.saveDispositivo( dispositivo, accessToken );
-
-        dispositivoMessageService.sendMessage( dispositivo, accessToken );
+        
+        return MonitoramentoOperResponse.builder()
+    			.result( MonitoramentoOperResult.INICIADO ) 
+    			.build();
     }
 
-    public void stopMonitoramento( Long dispositivoId, String accessToken ) {
+    public MonitoramentoOperResponse stopMonitoramento( Long dispositivoId, String accessToken ) {    	    	
         Dispositivo dispositivo = dispositivoRepository.getDispositivo( dispositivoId, accessToken );
         
         if ( !dispositivoMonitorMap.containsKey( dispositivoId ) ) {
-            dispositivo.setSendoMonitorado( false );
-            dispositivoRepository.saveDispositivo( dispositivo, accessToken );
-
-            dispositivoMessageService.sendMessage( dispositivo, accessToken );
-
-            throw new BusinessException( Errors.DISPOSITIVO_NOT_MONITORED );
+            return MonitoramentoOperResponse.builder()
+            		.result( MonitoramentoOperResult.NAO_ENCONTRADO )
+            		.build();
         }
 
         DispositivoMonitor dispositivoMonitor = dispositivoMonitorMap.get( dispositivoId );
@@ -95,11 +95,13 @@ public class DispositivoMonitorService {
 
         dispositivo.setSendoMonitorado( false );
         dispositivoRepository.saveDispositivo( dispositivo, accessToken );
-
-        dispositivoMessageService.sendMessage( dispositivo, accessToken );
+        
+        return MonitoramentoOperResponse.builder()
+        		.result( MonitoramentoOperResult.FINALIZADO )
+        		.build(); 
     }
 
-    public void updateConfigInMonitores( String accessToken ) {
+    public MonitoramentoOperResponse updateConfigInMonitores( String accessToken ) {
         Config config = configRepository.getConfig( accessToken );
 
         Set<Long> ids = dispositivoMonitorMap.keySet();
@@ -111,16 +113,47 @@ public class DispositivoMonitorService {
 
                 Duration monitorDelay = Duration.ofSeconds( config.getMonitoramentoDelay() );
                 scheduler.scheduleWithFixedDelay( dispositivoMonitor.getDeviceMonitorThread(), monitorDelay );
+                
+                return MonitoramentoOperResponse.builder()
+                		.result( MonitoramentoOperResult.ATUALIZADO )
+                		.build();
             }
         }
+        
+        return MonitoramentoOperResponse.builder()
+        		.result( MonitoramentoOperResult.NAO_ENCONTRADO )
+        		.build();
     }
 
-    public void updateDispositivoInMonitor( Long dispositivoId, String accessToken ) {
+    public MonitoramentoOperResponse updateDispositivoInMonitor( Long dispositivoId, String accessToken ) {
         Dispositivo dispositivo = dispositivoRepository.getDispositivo( dispositivoId, accessToken );
        
         DispositivoMonitor dispositivoMonitor = dispositivoMonitorMap.get( dispositivoId );
-        if ( dispositivoMonitor != null )
+        if ( dispositivoMonitor != null ) {
             dispositivoMonitor.getDeviceMonitorThread().setDispositivo( dispositivo );
+            
+            return MonitoramentoOperResponse.builder()
+            		.result( MonitoramentoOperResult.ATUALIZADO )
+            		.build();
+        }
+        
+        return MonitoramentoOperResponse.builder()
+        		.result( MonitoramentoOperResult.NAO_ENCONTRADO ) 
+        		.build();
+    }
+    
+    public InfoResponse getInfo() {
+    	return InfoResponse.builder()
+    			.numThreadsAtivas( dispositivoMonitorMap.size() ) 
+    			.build();
+    }
+    
+    public ExisteNoMonitorResponse existeNoMonitor( Long dispositivoId ) {
+    	boolean existe = dispositivoMonitorMap.containsKey( dispositivoId );
+    	
+    	return ExisteNoMonitorResponse.builder()
+    			.existe( existe )
+     			.build();
     }
 
 }

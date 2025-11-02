@@ -13,6 +13,7 @@ import com.redemonitor.main.dto.request.SaveDispositivoRequest;
 import com.redemonitor.main.dto.request.SaveDispositivoStatusRequest;
 import com.redemonitor.main.dto.response.DispositivoResponse;
 import com.redemonitor.main.dto.response.EmpresaResponse;
+import com.redemonitor.main.enums.DispositivoStatus;
 import com.redemonitor.main.model.Dispositivo;
 import com.redemonitor.main.model.Empresa;
 
@@ -28,6 +29,7 @@ public class DispositivoMapper {
                 .nome( request.getNome() )
                 .descricao( request.getDescricao() )
                 .localizacao( request.getLocalizacao() )
+                .status( DispositivoStatus.INATIVO )
                 .build();
     }
 
@@ -64,6 +66,7 @@ public class DispositivoMapper {
         disp.setNome( request.getNome() );
         disp.setDescricao( request.getDescricao() );
         disp.setLocalizacao( request.getLocalizacao() );
+        disp.setStatus( DispositivoStatus.INATIVO ); 
     }
     
     public void load( Dispositivo disp, SaveDispositivoStatusRequest request ) {

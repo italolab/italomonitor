@@ -98,10 +98,6 @@ function ManterUsuarios() {
                             <AppMessage message={errorMessage} type="error" />
                             <AppMessage message={infoMessage} type="info" />
 
-                            <div className="d-flex">
-                                <AppSpinner className="mx-auto" visible={loading} />
-                            </div> 
-
                             <Button type="button" onClick={onFilter}>
                                 Filtrar                        
                                 <AppSpinner visible={loading} />

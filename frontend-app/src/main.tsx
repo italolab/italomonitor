@@ -65,7 +65,7 @@ createRoot(document.getElementById('root')!).render(
             <Route path='/update-empresa/:empresaId' element={<UpdateEmpresa />} />
             <Route path='/detalhes-empresa/:empresaId' element={<DetalhesEmpresa />} />
 
-            <Route path='/dispositivos' element={<ManterDispositivos />} />
+            <Route path='/dispositivos/:empresaId' element={<ManterDispositivos />} />
             <Route path='/create-dispositivo' element={<CreateDispositivo />} />
             <Route path='/update-dispositivo/:dispositivoId' element={<UpdateDispositivo />} />
             <Route path='/detalhes-dispositivo/:dispositivoId' element={<DetalhesDispositivo />} />

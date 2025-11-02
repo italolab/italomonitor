@@ -23,5 +23,7 @@ public class Config {
     private int registroEventoPeriodo;
     
     private int numThreadsLimite;
+        
+    private int monitorServerCorrente;
 
 }

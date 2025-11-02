@@ -1,4 +1,4 @@
-package com.redemonitor.main.model.enums;
+package com.redemonitor.main.enums;
 
 public enum DispositivoStatus {
     ATIVO, INATIVO

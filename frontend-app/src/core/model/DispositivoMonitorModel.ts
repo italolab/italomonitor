@@ -14,4 +14,12 @@ export class DispositivoMonitorModel {
         return api.post( "/monitoramento/dispositivos/"+dispositivoId+"/stop", {} );
     }
 
+    async startAllMonitoramentos( empresaId : number ) {
+        return api.post( "/monitoramento/dispositivos/empresa/"+empresaId+"/start-all", {} );
+    }
+
+    async stopAllMonitoramentos( empresaId : number ) {
+        return api.post( "/monitoramento/dispositivos/empresa/"+empresaId+"/stop-all", {} );
+    }
+
 }

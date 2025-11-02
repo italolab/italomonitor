@@ -47,10 +47,6 @@ function AppLayout( {children, className} : AppLayoutProps ) {
                         🏢 Empresas
                     </Link>
 
-                    <Link to="/dispositivos" className="sidebar-item">
-                        🖥️ Dispositivos
-                    </Link>
-
                     <div className="sidebar-item" onClick={ () => setUsuariosOptionsVisible( !usuariosOptionsVisible ) }>
                         👤 Usuários
                     </div>
