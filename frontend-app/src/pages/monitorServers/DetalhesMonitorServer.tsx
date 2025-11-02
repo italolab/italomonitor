@@ -64,7 +64,16 @@ function DetalhesMonitorServer() {
                         </AppField>
                         <AppField name="host">
                             {monitorServer.host}
-                        </AppField>                        
+                        </AppField>
+                        <AppField name="ativo">  
+                            {monitorServer.ativo === true ? 
+                                <span className="text-green">Sim</span>: 
+                                <span className="text-danger">Não</span>
+                            }
+                        </AppField>                      
+                        <AppField name="threads ativas">
+                            {monitorServer.numThreadsAtivas}
+                        </AppField>
                     </Card.Body>
                 </Card>
             </div>

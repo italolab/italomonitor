@@ -14,6 +14,7 @@ import com.redemonitor.main.exception.ErrorException;
 import com.redemonitor.main.exception.Errors;
 import com.redemonitor.main.integration.DispositivoMonitorIntegration;
 import com.redemonitor.main.integration.dto.ExisteNoMonitorResponse;
+import com.redemonitor.main.integration.dto.InfoResponse;
 import com.redemonitor.main.integration.dto.MonitoramentoOperResponse;
 import com.redemonitor.main.messaging.DispositivoWebSocket;
 import com.redemonitor.main.model.Config;
@@ -207,6 +208,15 @@ public class DispositivoMonitorEscalonador {
 			}
 		}		
 	}
+		
+	public MonitorInfo getInfo( String serverHost, String accessToken ) {
+		try {
+			InfoResponse resp = dispositivoMonitorIntegration.getInfo( serverHost, accessToken );
+			return new MonitorInfo( resp.getNumThreadsAtivas(), true );
+		} catch ( RestClientException e ) {
+			return new MonitorInfo( 0, false );
+		}
+	}
 	
 	private boolean verificaSeSendoMonitorado( Long dispositivoId, String accessToken, List<MonitorServer> monitorServers ) {		
 		for( MonitorServer server : monitorServers ) {	
@@ -234,6 +244,26 @@ public class DispositivoMonitorEscalonador {
         dispositivoRepository.save( dispositivo );
 
         dispositivoWebSocket.sendMessage( dispositivo, accessToken );
+	}
+	
+	public static class MonitorInfo {
+		
+		private final int numThreadsAtivas;
+		private final boolean ativo;
+		
+		public MonitorInfo( int numThreadsAtivas, boolean ativo ) {
+			this.numThreadsAtivas = numThreadsAtivas;
+			this.ativo = ativo;
+		}
+		
+		public int getNumThreadsAtivas() {
+			return numThreadsAtivas;
+		}
+		
+		public boolean isAtivo() {
+			return ativo;
+		}
+		
 	}
 		
 }

@@ -5,6 +5,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.redemonitor.main.components.DispositivoMonitorEscalonador;
+import com.redemonitor.main.components.DispositivoMonitorEscalonador.MonitorInfo;
 import com.redemonitor.main.dto.request.SaveConfigRequest;
 import com.redemonitor.main.dto.response.ConfigResponse;
 import com.redemonitor.main.dto.response.MonitorServerResponse;
@@ -32,22 +34,31 @@ public class ConfigService {
     @Autowired
     private ConfigMapper configMapper;
 
+    @Autowired
+    private DispositivoMonitorEscalonador dispositivoMonitorEscalonador;
+    
     @Transactional
     public void updateConfig( SaveConfigRequest request ) {
         request.validate();
 
-        Config config = configRepository.findFirstByOrderByIdAsc();
-                	
-        configMapper.load( config, request );
+        Config config = configRepository.findFirstByOrderByIdAsc();                       	
+        configMapper.load( config, request );        
         configRepository.save( config );
     }
 
-    public ConfigResponse getConfig() {
+    public ConfigResponse getConfig( String accessToken ) {
         Config config = configRepository.findFirstByOrderByIdAsc();
         
         List<MonitorServer> monitorServers = monitorServerRepository.findAll();
         List<MonitorServerResponse> monitorServerResps = monitorServers.stream().map( monitorServerMapper::map ).toList();
                         
+        for( MonitorServerResponse server : monitorServerResps ) {
+        	String host = server.getHost();
+        	MonitorInfo info = dispositivoMonitorEscalonador.getInfo( host, accessToken );
+        	
+        	monitorServerMapper.load( server, info ); 
+        }
+        
         ConfigResponse resp = configMapper.map( config );
         resp.setMonitorServers( monitorServerResps );
         return resp;

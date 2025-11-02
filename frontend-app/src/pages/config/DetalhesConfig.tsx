@@ -76,6 +76,17 @@ function DetalhesConfig() {
                                         <FaServer size={14}/> &nbsp; 
                                         {monitor.host}
                                     </Badge>
+                                    &nbsp;
+                                    -
+                                    &nbsp;
+                                    {monitor.ativo === true ? 
+                                        <span className="text-green">Ativo</span>: 
+                                        <span className="text-danger">Inativo</span>
+                                    }
+                                    &nbsp;
+                                    -
+                                    &nbsp;
+                                    {monitor.numThreadsAtivas} threads ativas
                                 </div>
                             )}
                         </AppField>

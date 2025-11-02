@@ -2,6 +2,7 @@ package com.redemonitor.main.mapper;
 
 import org.springframework.stereotype.Component;
 
+import com.redemonitor.main.components.DispositivoMonitorEscalonador.MonitorInfo;
 import com.redemonitor.main.dto.request.SaveMonitorServerRequest;
 import com.redemonitor.main.dto.response.MonitorServerResponse;
 import com.redemonitor.main.model.MonitorServer;
@@ -24,6 +25,11 @@ public class MonitorServerMapper {
 	
 	public void load( MonitorServer monitorServer, SaveMonitorServerRequest request ) {
 		monitorServer.setHost( request.getHost() ); 
+	}
+	
+	public void load( MonitorServerResponse resp, MonitorInfo info ) {
+		resp.setNumThreadsAtivas( info.getNumThreadsAtivas() );
+		resp.setAtivo( info.isAtivo() );
 	}
 	
 }

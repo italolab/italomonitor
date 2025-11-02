@@ -17,4 +17,8 @@ public class MonitorServerResponse {
 	
 	private String host;
 	
+	private int numThreadsAtivas;
+	
+	private boolean ativo;
+	
 }

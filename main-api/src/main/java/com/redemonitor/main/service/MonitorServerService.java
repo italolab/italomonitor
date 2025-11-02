@@ -1,11 +1,14 @@
 package com.redemonitor.main.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.redemonitor.main.components.DispositivoMonitorEscalonador;
+import com.redemonitor.main.components.DispositivoMonitorEscalonador.MonitorInfo;
 import com.redemonitor.main.dto.request.SaveMonitorServerRequest;
 import com.redemonitor.main.dto.response.MonitorServerResponse;
 import com.redemonitor.main.exception.BusinessException;
@@ -22,6 +25,9 @@ public class MonitorServerService {
 
     @Autowired
     private MonitorServerMapper monitorServerMapper;
+    
+    @Autowired
+    private DispositivoMonitorEscalonador dispositivoMonitorEscalonador;
 
     public void createMonitorServer( SaveMonitorServerRequest request ) {
         request.validate();
@@ -55,17 +61,22 @@ public class MonitorServerService {
         monitorServerRepository.save( monitorServer );
     }
 
-    public List<MonitorServerResponse> filterMonitorServers( String hostPart ) {
+    public List<MonitorServerResponse> filterMonitorServers( String hostPart, String accessToken ) {
         List<MonitorServer> monitorServers = monitorServerRepository.filter( "%"+hostPart+"%" );
-        return monitorServers.stream().map( monitorServerMapper::map ).toList();
+        
+        List<MonitorServerResponse> responses = new ArrayList<>();
+        for( MonitorServer server : monitorServers )
+        	responses.add( this.buildMonitorServer( server, accessToken ) );
+        return responses;
     }
 
-    public MonitorServerResponse getMonitorServer( Long id ) {
+    public MonitorServerResponse getMonitorServer( Long id, String accessToken ) {
         Optional<MonitorServer> monitorServerOp = monitorServerRepository.findById( id );
         if ( monitorServerOp.isEmpty() )
             throw new BusinessException( Errors.MONITOR_SERVER_NOT_FOUND );
 
-        return monitorServerOp.map( monitorServerMapper::map ).orElseThrow();
+        MonitorServer monitorServer = monitorServerOp.get();
+        return this.buildMonitorServer( monitorServer, accessToken );        
     }
 
     public void deleteMonitorServer( Long id ) {
@@ -76,4 +87,15 @@ public class MonitorServerService {
         monitorServerRepository.deleteById( id );
     }
 
+    private MonitorServerResponse buildMonitorServer( MonitorServer monitorServer, String accessToken ) {    	
+    	MonitorServerResponse resp = monitorServerMapper.map( monitorServer );
+    	        
+      	String host = monitorServer.getHost();
+       	MonitorInfo info = dispositivoMonitorEscalonador.getInfo( host, accessToken );
+        	
+        monitorServerMapper.load( resp, info ); 
+        
+        return resp;
+    }
+    
 }

@@ -11,6 +11,10 @@ import com.redemonitor.main.dto.request.SaveConfigRequest;
 import com.redemonitor.main.dto.response.ConfigResponse;
 import com.redemonitor.main.service.ConfigService;
 
+/*
+ * A propriedade "jwt.access_token.cookie.name" está sendo acessada em algums métodos desse controller.
+ */
+
 @RestController
 @RequestMapping("/api/v1/config")
 public class ConfigController {
@@ -29,8 +33,10 @@ public class ConfigController {
     @GetConfigDoc
     @PreAuthorize("hasAuthority('config-read')")
     @GetMapping("/get")
-    public ResponseEntity<ConfigResponse> getConfig() {
-        ConfigResponse resp = configService.getConfig();
+    public ResponseEntity<ConfigResponse> getConfig(
+    		@CookieValue("${jwt.access_token.cookie.name}") String accessToken ) {
+    	
+        ConfigResponse resp = configService.getConfig( accessToken );
         return ResponseEntity.ok( resp );
     }
 
