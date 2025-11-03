@@ -5,7 +5,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -24,11 +23,11 @@ import com.redemonitor.main.apidoc.dispositivo.FilterDispositivosDoc;
 import com.redemonitor.main.apidoc.dispositivo.GetDispositivoDoc;
 import com.redemonitor.main.apidoc.dispositivo.UpdateDispositivoDoc;
 import com.redemonitor.main.apidoc.dispositivo.UpdateDispositivoStatusDoc;
-import com.redemonitor.main.components.BearerTokenUtil;
 import com.redemonitor.main.dto.request.SaveDispositivoRequest;
 import com.redemonitor.main.dto.request.SaveDispositivoStatusRequest;
 import com.redemonitor.main.dto.response.DispositivoResponse;
 import com.redemonitor.main.service.DispositivoService;
+import com.redemonitor.main.service.TokenService;
 
 @RestController
 @RequestMapping("/api/v1/dispositivos")
@@ -38,7 +37,7 @@ public class DispositivoController {
     private DispositivoService dispositivoService;
     
     @Autowired
-    private BearerTokenUtil bearerTokenUtil;
+    private TokenService tokenService;
             
     @CreateDispositivoDoc
     @PreAuthorize("hasAuthority('dispositivo-write')")
@@ -53,15 +52,14 @@ public class DispositivoController {
     @PutMapping("/{dispositivoId}")
     public ResponseEntity<String> updateDispositivo( 
     		@PathVariable Long dispositivoId, 
-    		@RequestBody SaveDispositivoRequest request, 
-    		@CookieValue("${jwt.access_token.cookie.name}") String accessToken ) {
+    		@RequestBody SaveDispositivoRequest request ) {
     	
-        dispositivoService.updateDispositivo( dispositivoId, request, accessToken );
+        dispositivoService.updateDispositivo( dispositivoId, request );
         return ResponseEntity.ok( "Dispositivo alterado com sucesso." );
     }
     
     @UpdateDispositivoStatusDoc
-    @PreAuthorize("hasAuthority('dispositivo-write')") 
+    @PreAuthorize("hasAnyAuthority('dispositivo-write', 'microservice')") 
     @PatchMapping("/{dispositivoId}/update-status")
     public ResponseEntity<String> updateDispositivoStatus( 
     		@PathVariable Long dispositivoId, 
@@ -86,7 +84,7 @@ public class DispositivoController {
     }
 
     @GetDispositivoDoc
-    @PreAuthorize("hasAuthority('dispositivo-read')")
+    @PreAuthorize("hasAnyAuthority('dispositivo-read', 'microservice')")
     @GetMapping("/{dispositivoId}/get")
     public ResponseEntity<DispositivoResponse> getDispositivo( @PathVariable Long dispositivoId ) {
         DispositivoResponse resp = dispositivoService.getDispositivo( dispositivoId );
@@ -99,10 +97,10 @@ public class DispositivoController {
     public ResponseEntity<String> deleteDispositivo( 
     		@PathVariable Long dispositivoId, 
     		@RequestHeader("Authorization") String authorizationHeader ) {
+    	    	    	
+    	String username = tokenService.getUsernameByAuthorizationHeader( authorizationHeader );
     	
-    	String accessToken = bearerTokenUtil.extractAccessToken( authorizationHeader );
-    	    	
-        dispositivoService.deleteDispositivo( dispositivoId, accessToken );
+        dispositivoService.deleteDispositivo( dispositivoId, username );
         return ResponseEntity.ok( "Dispositivo deletado com sucesso." );
     }
 

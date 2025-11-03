@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useRef, useState } from "react";
 import { type DispositivoResponse } from "../../model/dto/response/DispositivoResponse";
 import { extractErrorMessage } from "../../util/sistema-util";
 import { DispositivoModel } from "../../model/DispositivoModel";
@@ -29,6 +29,8 @@ function useDetalhesDispositivoViewModel() {
         }
     } );
 
+    const dispositivoIDRef = useRef( 0 );
+
     const {setAccessToken} = useContext(AuthContext);
 
     const dispositivoModel = new DispositivoModel( setAccessToken );
@@ -41,9 +43,9 @@ function useDetalhesDispositivoViewModel() {
     };
 
     const setDispositivoSeIDCorreto = async ( disp : DispositivoResponse ) => {
-        if ( dispositivo.id == disp.id )
+        if ( dispositivoIDRef.current == disp.id )
             setDispositivo( disp );
-    }
+    };
 
     const loadDispositivo = async ( dispositivoId : number ) => {
         setInfoMessage( null );
@@ -51,6 +53,8 @@ function useDetalhesDispositivoViewModel() {
 
         try {
             const response = await dispositivoModel.getDispositivo( dispositivoId );
+
+            dispositivoIDRef.current = response.data.id;
 
             setDispositivo( response.data );
             setLoading( false );

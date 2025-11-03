@@ -24,7 +24,7 @@ public class DispositivoMonitorThread implements Runnable {
     private final DispositivoIntegration dispositivoIntegration;
     private final DispositivoMessageService dispositivoWebSocketIntegration;
     private final EventoIntegration eventoIntegration;
-    private final String accessToken;
+    private final String username;
 
     private int sucessosQuantTotal = 0;
     private int falhasQuantTotal = 0;
@@ -38,13 +38,13 @@ public class DispositivoMonitorThread implements Runnable {
                                      DispositivoIntegration dispositivoIntegration,
                                      EventoIntegration eventoIntegration,
                                      DispositivoMessageService dispositivoMessageService,
-                                     String accessToken ) {
+                                     String username ) {
         this.dispositivo = dispositivo;
         this.config = config;
         this.dispositivoIntegration = dispositivoIntegration;
         this.eventoIntegration = eventoIntegration;
         this.dispositivoWebSocketIntegration = dispositivoMessageService;
-        this.accessToken = accessToken;
+        this.username = username;
     }
 
     public void run() {
@@ -178,9 +178,9 @@ public class DispositivoMonitorThread implements Runnable {
         tempoInatividadeTotal += (int) duration.getSeconds();
 
         dispositivo.setStatus( DispositivoStatus.ATIVO );
-        dispositivoIntegration.saveDispositivo( dispositivo, accessToken );
+        dispositivoIntegration.saveDispositivo( dispositivo );
 
-        dispositivoWebSocketIntegration.sendMessage( dispositivo, accessToken );
+        dispositivoWebSocketIntegration.sendMessage( dispositivo, username );
     }
 
     private void mudaStatusParaInativo() {
@@ -188,9 +188,9 @@ public class DispositivoMonitorThread implements Runnable {
         quedasQuantTotal++;
 
         dispositivo.setStatus( DispositivoStatus.INATIVO );
-        dispositivoIntegration.saveDispositivo( dispositivo, accessToken );
+        dispositivoIntegration.saveDispositivo( dispositivo );
         
-        dispositivoWebSocketIntegration.sendMessage( dispositivo, accessToken );
+        dispositivoWebSocketIntegration.sendMessage( dispositivo, username );
     }
 
     private void registraEvento( Duration duration ) {
@@ -211,7 +211,7 @@ public class DispositivoMonitorThread implements Runnable {
                 .dispositivoId( dispositivo.getId() )
                 .build();
 
-        eventoIntegration.saveEvento( evento, accessToken );
+        eventoIntegration.saveEvento( evento );
 
         sucessosQuantTotal = 0;
         falhasQuantTotal = 0;

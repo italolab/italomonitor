@@ -1,4 +1,4 @@
-package com.redemonitor.main.components;
+package com.redemonitor.main.components.util;
 
 import java.time.Duration;
 import java.time.Instant;
@@ -20,7 +20,7 @@ public class JwtTokenUtil {
 
     @Value("${jwt.issuer}")
     private String issuer;
-
+    
     public String createAccessToken(String username, String[] roles, int expireAt ) {
         Algorithm algorithm = Algorithm.HMAC256( secretKey );
 

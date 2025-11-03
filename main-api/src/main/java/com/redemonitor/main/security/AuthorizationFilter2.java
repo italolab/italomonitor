@@ -17,10 +17,10 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.redemonitor.main.components.BearerTokenUtil;
-import com.redemonitor.main.components.JwtTokenUtil;
+import com.redemonitor.main.components.util.JwtTokenUtil;
 import com.redemonitor.main.dto.response.ErrorResponse;
 import com.redemonitor.main.exception.Errors;
+import com.redemonitor.main.service.TokenService;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -31,9 +31,6 @@ import jakarta.servlet.http.HttpServletResponse;
 @Component
 public class AuthorizationFilter2 extends OncePerRequestFilter {
 
-    @Autowired
-    private JwtTokenUtil jwtTokenUtil;
-
     @Value("${jwt.access_token.cookie.name}")
     private String accessTokenCookieName;
 
@@ -41,7 +38,10 @@ public class AuthorizationFilter2 extends OncePerRequestFilter {
     private String loginEndpoint;
     
     @Autowired
-    private BearerTokenUtil bearerTokenUtil;
+    private JwtTokenUtil jwtTokenUtil;
+    
+    @Autowired
+    private TokenService tokenService;;
     
     @Override
     protected void doFilterInternal(
@@ -72,7 +72,7 @@ public class AuthorizationFilter2 extends OncePerRequestFilter {
         
         if ( accessToken == null ) {
         	String authorizationHeader = mutableRequest.getHeader( "Authorization" );
-        	accessToken = bearerTokenUtil.extractAccessToken( authorizationHeader );        	
+        	accessToken = tokenService.extractAccessToken( authorizationHeader );        	
         }
 
         if ( accessToken != null ) {

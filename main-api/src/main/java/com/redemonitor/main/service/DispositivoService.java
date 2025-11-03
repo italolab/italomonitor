@@ -58,7 +58,7 @@ public class DispositivoService {
         dispositivoRepository.save( dispositivo );
     }
 
-    public void updateDispositivo( Long dispositivoId, SaveDispositivoRequest request, String accessToken ) {
+    public void updateDispositivo( Long dispositivoId, SaveDispositivoRequest request ) {
         request.validate();
 
         String nome = request.getNome();
@@ -81,7 +81,7 @@ public class DispositivoService {
         dispositivoMapper.load( dispositivo, request );
 
         dispositivoRepository.save( dispositivo );
-        dispositivoMonitorEscalonador.updateDispositivoInMonitor( dispositivoId, accessToken );
+        dispositivoMonitorEscalonador.updateDispositivoInMonitor( dispositivoId );
     }
     
     public void updateStatus( Long dispositivoId, SaveDispositivoStatusRequest request ) {

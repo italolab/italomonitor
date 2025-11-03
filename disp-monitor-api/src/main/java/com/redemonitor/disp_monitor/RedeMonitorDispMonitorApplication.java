@@ -6,7 +6,7 @@ import org.springframework.boot.autoconfigure.security.servlet.UserDetailsServic
 
 @SpringBootApplication(exclude = UserDetailsServiceAutoConfiguration.class)
 public class RedeMonitorDispMonitorApplication {
-
+	
 	public static void main(String[] args) {
 		SpringApplication.run(RedeMonitorDispMonitorApplication.class, args);
 	}

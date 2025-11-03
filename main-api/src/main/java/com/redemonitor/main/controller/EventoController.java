@@ -30,7 +30,7 @@ public class EventoController {
     private EventoService eventoService;
     
     @CreateEventoDoc
-    @PreAuthorize("hasAuthority('dispositivo-write')")  
+    @PreAuthorize("hasAnyAuthority('dispositivo-write', 'microservice')")  
     @PostMapping
     public ResponseEntity<String> createEvento( @RequestBody SaveEventoRequest request ) {
     	eventoService.createEvento( request );

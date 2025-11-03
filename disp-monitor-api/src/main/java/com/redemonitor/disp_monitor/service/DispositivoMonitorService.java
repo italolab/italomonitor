@@ -44,14 +44,14 @@ public class DispositivoMonitorService {
 
     private final Map<Long, DispositivoMonitor> dispositivoMonitorMap = new ConcurrentHashMap<>();    
 
-    public MonitoramentoOperResponse startMonitoramento( Long dispositivoId, String accessToken ) {
+    public MonitoramentoOperResponse startMonitoramento( Long dispositivoId, String username ) {
     	if ( dispositivoMonitorMap.containsKey( dispositivoId ) ) {
             return MonitoramentoOperResponse.builder()
             		.result( MonitoramentoOperResult.JA_INICIADO )
             		.build();
         }
     	
-        Config config = configRepository.getConfig( accessToken );
+        Config config = configRepository.getConfig();
         
         if ( dispositivoMonitorMap.size() >= config.getNumThreadsLimite() ) {
         	return MonitoramentoOperResponse.builder()
@@ -59,12 +59,12 @@ public class DispositivoMonitorService {
         			.build();
         }
               
-        Dispositivo dispositivo = dispositivoRepository.getDispositivo( dispositivoId, accessToken );
+        Dispositivo dispositivo = dispositivoRepository.getDispositivo( dispositivoId );
 
         Duration monitorDelay = Duration.ofMillis( config.getMonitoramentoDelay() );
 
         DispositivoMonitorThread thread = new DispositivoMonitorThread(
-                dispositivo, config, dispositivoRepository, eventoRepository, dispositivoMessageService, accessToken );
+                dispositivo, config, dispositivoRepository, eventoRepository, dispositivoMessageService, username );
 
         ScheduledFuture<?> scheduledFuture = scheduler.scheduleAtFixedRate( thread, Instant.now(), monitorDelay  );
 
@@ -72,15 +72,15 @@ public class DispositivoMonitorService {
         dispositivoMonitorMap.put( dispositivoId, dispositivoMonitor );
 
         dispositivo.setSendoMonitorado( true );
-        dispositivoRepository.saveDispositivo( dispositivo, accessToken );
+        dispositivoRepository.saveDispositivo( dispositivo );
         
         return MonitoramentoOperResponse.builder()
     			.result( MonitoramentoOperResult.INICIADO ) 
     			.build();
     }
 
-    public MonitoramentoOperResponse stopMonitoramento( Long dispositivoId, String accessToken ) {    	    	
-        Dispositivo dispositivo = dispositivoRepository.getDispositivo( dispositivoId, accessToken );
+    public MonitoramentoOperResponse stopMonitoramento( Long dispositivoId ) {    	    	
+        Dispositivo dispositivo = dispositivoRepository.getDispositivo( dispositivoId );
         
         if ( !dispositivoMonitorMap.containsKey( dispositivoId ) ) {
             return MonitoramentoOperResponse.builder()
@@ -94,15 +94,15 @@ public class DispositivoMonitorService {
         dispositivoMonitorMap.remove( dispositivoId );
 
         dispositivo.setSendoMonitorado( false );
-        dispositivoRepository.saveDispositivo( dispositivo, accessToken );
+        dispositivoRepository.saveDispositivo( dispositivo );
         
         return MonitoramentoOperResponse.builder()
         		.result( MonitoramentoOperResult.FINALIZADO )
         		.build(); 
     }
 
-    public MonitoramentoOperResponse updateConfigInMonitores( String accessToken ) {
-        Config config = configRepository.getConfig( accessToken );
+    public MonitoramentoOperResponse updateConfigInMonitores() {
+        Config config = configRepository.getConfig();
 
         Set<Long> ids = dispositivoMonitorMap.keySet();
         for( Long dispositivoId : ids ) {
@@ -125,8 +125,8 @@ public class DispositivoMonitorService {
         		.build();
     }
 
-    public MonitoramentoOperResponse updateDispositivoInMonitor( Long dispositivoId, String accessToken ) {
-        Dispositivo dispositivo = dispositivoRepository.getDispositivo( dispositivoId, accessToken );
+    public MonitoramentoOperResponse updateDispositivoInMonitor( Long dispositivoId ) {
+        Dispositivo dispositivo = dispositivoRepository.getDispositivo( dispositivoId );
        
         DispositivoMonitor dispositivoMonitor = dispositivoMonitorMap.get( dispositivoId );
         if ( dispositivoMonitor != null ) {

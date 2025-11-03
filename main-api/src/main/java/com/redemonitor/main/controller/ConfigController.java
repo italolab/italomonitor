@@ -7,13 +7,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.redemonitor.main.apidoc.config.GetConfigDoc;
 import com.redemonitor.main.apidoc.config.UpdateConfigDoc;
-import com.redemonitor.main.components.BearerTokenUtil;
 import com.redemonitor.main.dto.request.SaveConfigRequest;
 import com.redemonitor.main.dto.response.ConfigResponse;
 import com.redemonitor.main.service.ConfigService;
@@ -25,9 +23,6 @@ public class ConfigController {
     @Autowired
     private ConfigService configService;
     
-    @Autowired
-    private BearerTokenUtil bearerTokenUtil;
-
     @UpdateConfigDoc
     @PreAuthorize("hasAuthority('config-write')")
     @PostMapping
@@ -37,15 +32,10 @@ public class ConfigController {
     }
 
     @GetConfigDoc
-    @PreAuthorize("hasAuthority('config-read')")
+    @PreAuthorize("hasAnyAuthority('config-read', 'microservice')")
     @GetMapping("/load-monitor-server/{isLoadMonitorServer}/get")
-    public ResponseEntity<ConfigResponse> getConfig(
-    		@PathVariable Boolean isLoadMonitorServer,
-    		@RequestHeader("Authorization") String authorizationHeader ) {
-    	
-    	String accessToken = bearerTokenUtil.extractAccessToken( authorizationHeader );
-    	    	
-        ConfigResponse resp = configService.getConfig( isLoadMonitorServer, accessToken );
+    public ResponseEntity<ConfigResponse> getConfig( @PathVariable Boolean isLoadMonitorServer ) {    	
+        ConfigResponse resp = configService.getConfig( isLoadMonitorServer );
         return ResponseEntity.ok( resp );
     }
 

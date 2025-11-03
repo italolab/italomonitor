@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import com.redemonitor.main.components.HttpClientUtil;
+import com.redemonitor.main.components.HttpClientManager;
 import com.redemonitor.main.integration.dto.ExisteNoMonitorResponse;
 import com.redemonitor.main.integration.dto.InfoResponse;
 import com.redemonitor.main.integration.dto.MonitoramentoOperResponse;
@@ -31,42 +31,44 @@ public class DispositivoMonitorIntegration {
 	private String existeNoMonitorPath;
 	
 	@Autowired
-	private HttpClientUtil httpClientUtil;
+	private HttpClientManager httpClientManager;
 	
-	public MonitoramentoOperResponse startMonitoramento( String serverHost, Long dispositivoId, String accessToken ) {
-		String uri = serverHost + startEndpointPath.replace( "{dispositivoId}", ""+dispositivoId );
+	public MonitoramentoOperResponse startMonitoramento( String serverHost, Long dispositivoId, String username ) {
+		String uri = serverHost + 
+				startEndpointPath.replace( "{dispositivoId}", ""+dispositivoId )
+					.replace( "{username}", username ); 
 		
-		return httpClientUtil.postWithResponse( uri, accessToken, MonitoramentoOperResponse.class );
+		return httpClientManager.postWithResponse( uri, MonitoramentoOperResponse.class );
 	}
 	
-	public MonitoramentoOperResponse stopMonitoramento( String serverHost, Long dispositivoId, String accessToken ) {
+	public MonitoramentoOperResponse stopMonitoramento( String serverHost, Long dispositivoId ) {
 		String uri = serverHost + stopEndpointPath.replace( "{dispositivoId}", ""+dispositivoId );
 		
-		return httpClientUtil.postWithResponse( uri, accessToken, MonitoramentoOperResponse.class );
+		return httpClientManager.postWithResponse( uri, MonitoramentoOperResponse.class );
 	}
 	
-	public MonitoramentoOperResponse updateConfigInMonitores( String serverHost, String accessToken ) {
+	public MonitoramentoOperResponse updateConfigInMonitores( String serverHost ) {
 		String uri = serverHost + updateConfigEndpointPath;
 		
-		return httpClientUtil.postWithResponse( uri, accessToken, MonitoramentoOperResponse.class );
+		return httpClientManager.postWithResponse( uri, MonitoramentoOperResponse.class );
 	}
 	
-	public MonitoramentoOperResponse updateDispositivoInMonitor( String serverHost, Long dispositivoId, String accessToken ) {
+	public MonitoramentoOperResponse updateDispositivoInMonitor( String serverHost, Long dispositivoId ) {
 		String uri = serverHost + updateDispositivoEndpointPath.replace( "{dispositivoId}", ""+dispositivoId );
 		
-		return httpClientUtil.postWithResponse( uri, accessToken, MonitoramentoOperResponse.class );				
+		return httpClientManager.postWithResponse( uri, MonitoramentoOperResponse.class );				
 	}
 	
-	public InfoResponse getInfo( String serverHost, String accessToken ) {
+	public InfoResponse getInfo( String serverHost ) {
 		String uri = serverHost + infoEndpointPath;
 		
-		return httpClientUtil.get( uri, accessToken, InfoResponse.class );
+		return httpClientManager.get( uri, InfoResponse.class );
 	}
 	
-	public ExisteNoMonitorResponse getExisteNoMonitor( String serverHost, Long dispositivoId, String accessToken ) {
+	public ExisteNoMonitorResponse getExisteNoMonitor( String serverHost, Long dispositivoId ) {
 		String uri = serverHost + existeNoMonitorPath.replace( "{dispositivoId}", ""+dispositivoId );
 		
-		return httpClientUtil.get( uri, accessToken, ExisteNoMonitorResponse.class );
+		return httpClientManager.get( uri, ExisteNoMonitorResponse.class );
 	}
 	
 }

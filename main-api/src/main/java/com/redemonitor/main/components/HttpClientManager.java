@@ -1,5 +1,6 @@
 package com.redemonitor.main.components;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
@@ -12,15 +13,18 @@ import com.redemonitor.main.exception.ErrorException;
 import com.redemonitor.main.exception.Errors;
 
 @Component
-public class HttpClientUtil {
+public class HttpClientManager {
 	
-	public <T extends Object> T get( String uri, String accessToken, Class<T> clazz ) {
+	@Value("${microservice.access-token}") 
+	private String microserviceAccessToken;
+	
+	public <T extends Object> T get( String uri, Class<T> clazz ) {
 		RestClient client = RestClient.create();
 		
 		try {
 			ResponseEntity<T> resp = client.get()		
 				.uri( uri ) 	
-				.header( "Authorization", "Bearer "+accessToken )
+				.header( "Authorization", "Bearer "+microserviceAccessToken )
 				.retrieve()
 				.toEntity( clazz );
 			
@@ -33,13 +37,13 @@ public class HttpClientUtil {
 		}	
 	}
 	
-	public void post( String uri, String accessToken ) {
+	public void post( String uri ) {
 		RestClient client = RestClient.create();
 
 		try {
 			client.post()		
 				.uri( uri ) 	
-				.header( "Authorization", "Bearer "+accessToken )
+				.header( "Authorization", "Bearer "+microserviceAccessToken )
 				.retrieve()
 				.toBodilessEntity();								
 		} catch ( HttpClientErrorException e ) {
@@ -50,13 +54,13 @@ public class HttpClientUtil {
 		}					
 	}
 	
-	public <T extends Object> T postWithResponse( String uri, String accessToken, Class<T> clazz ) {
+	public <T extends Object> T postWithResponse( String uri, Class<T> clazz ) {
 		RestClient client = RestClient.create();
 
 		try {
 			ResponseEntity<T> resp = client.post()		
 				.uri( uri ) 	
-				.header( "Authorization", "Bearer "+accessToken )
+				.header( "Authorization", "Bearer "+microserviceAccessToken )
 				.retrieve()
 				.toEntity( clazz );
 			
@@ -69,13 +73,13 @@ public class HttpClientUtil {
 		}					
 	}
 	
-	public void post( String uri, String accessToken, Object body ) {
+	public void post( String uri, Object body ) {
 		RestClient client = RestClient.create();
 		
 		try {
 			client.post()
 					.uri( uri ) 	
-					.header( "Authorization", "Bearer "+accessToken )
+					.header( "Authorization", "Bearer "+microserviceAccessToken )
 					.contentType( MediaType.APPLICATION_JSON ) 
 					.body( body )
 					.retrieve()
@@ -88,13 +92,13 @@ public class HttpClientUtil {
 		}			
 	}
 	
-	public void patch( String uri, String accessToken, Object body ) {
+	public void patch( String uri, Object body ) {
 		RestClient client = RestClient.create();
 		
 		try {
 			client.patch()
 				.uri( uri ) 	
-				.header( "Authorization", "Bearer "+accessToken )
+				.header( "Authorization", "Bearer "+microserviceAccessToken )
 				.contentType( MediaType.APPLICATION_JSON ) 
 				.body( body )
 				.retrieve()

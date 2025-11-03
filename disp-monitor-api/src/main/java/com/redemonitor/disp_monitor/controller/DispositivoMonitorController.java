@@ -6,19 +6,17 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.redemonitor.disp_monitor.apidoc.dispositivo.monitor.GetInfoDoc;
 import com.redemonitor.disp_monitor.apidoc.dispositivo.monitor.GetExisteNoMonitorDoc;
+import com.redemonitor.disp_monitor.apidoc.dispositivo.monitor.GetInfoDoc;
 import com.redemonitor.disp_monitor.apidoc.dispositivo.monitor.StartMonitoramentoDoc;
 import com.redemonitor.disp_monitor.apidoc.dispositivo.monitor.StopMonitoramentoDoc;
 import com.redemonitor.disp_monitor.apidoc.dispositivo.monitor.UpdateConfigInMonitoresDoc;
 import com.redemonitor.disp_monitor.apidoc.dispositivo.monitor.UpdateDispositivoInMonitorDoc;
-import com.redemonitor.disp_monitor.components.BearerTokenUtil;
-import com.redemonitor.disp_monitor.dto.InfoResponse;
 import com.redemonitor.disp_monitor.dto.ExisteNoMonitorResponse;
+import com.redemonitor.disp_monitor.dto.InfoResponse;
 import com.redemonitor.disp_monitor.dto.MonitoramentoOperResponse;
 import com.redemonitor.disp_monitor.service.DispositivoMonitorService;
 
@@ -29,62 +27,43 @@ public class DispositivoMonitorController {
     @Autowired
     private DispositivoMonitorService dispositivoMonitorService;
 
-    @Autowired
-    private BearerTokenUtil bearerTokenUtil;
-
     @StartMonitoramentoDoc
-    @PreAuthorize("hasAuthority('dispositivo-monitoramento')")
-    @PostMapping("/{dispositivoId}/start")
+    @PreAuthorize("hasAuthority('microservice')")
+    @PostMapping("/{dispositivoId}/username/{username}/start")
     public ResponseEntity<MonitoramentoOperResponse> startMonitoramento(
             @PathVariable Long dispositivoId,
-            @RequestHeader("Authorization") String authorizationHeader ) {
+            @PathVariable String username ) {
 
-        String accessToken =  bearerTokenUtil.extractAccessToken( authorizationHeader );
-
-        MonitoramentoOperResponse resp = dispositivoMonitorService.startMonitoramento( dispositivoId, accessToken );
+        MonitoramentoOperResponse resp = dispositivoMonitorService.startMonitoramento( dispositivoId, username );
         return ResponseEntity.ok( resp );
     }
 
     @StopMonitoramentoDoc
-    @PreAuthorize("hasAuthority('dispositivo-monitoramento')")
+    @PreAuthorize("hasAuthority('microservice')")
     @PostMapping("/{dispositivoId}/stop")
-    public ResponseEntity<MonitoramentoOperResponse> stopMonitoramento(
-            @PathVariable Long dispositivoId,
-            @RequestHeader("Authorization") String authorizationHeader ) {
-
-        String accessToken =  bearerTokenUtil.extractAccessToken( authorizationHeader );
-
-        MonitoramentoOperResponse resp = dispositivoMonitorService.stopMonitoramento( dispositivoId, accessToken );
+    public ResponseEntity<MonitoramentoOperResponse> stopMonitoramento( @PathVariable Long dispositivoId ) {
+        MonitoramentoOperResponse resp = dispositivoMonitorService.stopMonitoramento( dispositivoId );
         return ResponseEntity.ok( resp );
     }
     
     @UpdateConfigInMonitoresDoc
-    @PreAuthorize("hasAuthority('dispositivo-monitoramento')")
+    @PreAuthorize("hasAuthority('microservice')")
     @PostMapping("/update-config-in-monitores")
-    public ResponseEntity<MonitoramentoOperResponse> updateConfigInMonitores(
-            @RequestHeader("Authorization") String authorizationHeader ) {
-    	
-        String accessToken =  bearerTokenUtil.extractAccessToken( authorizationHeader );
-
-    	MonitoramentoOperResponse resp = dispositivoMonitorService.updateConfigInMonitores( accessToken );
+    public ResponseEntity<MonitoramentoOperResponse> updateConfigInMonitores() {    	
+    	MonitoramentoOperResponse resp = dispositivoMonitorService.updateConfigInMonitores();
     	return ResponseEntity.ok( resp );
     }
     
     @UpdateDispositivoInMonitorDoc
-    @PreAuthorize("hasAuthority('dispositivo-monitoramento')")
+    @PreAuthorize("hasAuthority('microservice')")
     @PostMapping("/{dispositivoId}/update-dispositivo-in-monitor")
-    public ResponseEntity<MonitoramentoOperResponse> updateDispositivoInMonitor( 
-    		@PathVariable Long dispositivoId, 
-            @RequestHeader("Authorization") String authorizationHeader ) {
-    	
-        String accessToken =  bearerTokenUtil.extractAccessToken( authorizationHeader );
-
-        MonitoramentoOperResponse resp = dispositivoMonitorService.updateDispositivoInMonitor( dispositivoId, accessToken );
+    public ResponseEntity<MonitoramentoOperResponse> updateDispositivoInMonitor( @PathVariable Long dispositivoId ) {    	
+        MonitoramentoOperResponse resp = dispositivoMonitorService.updateDispositivoInMonitor( dispositivoId );
     	return ResponseEntity.ok( resp );
     } 
 
     @GetInfoDoc
-    @PreAuthorize("hasAuthority('dispositivo-monitoramento')") 
+    @PreAuthorize("hasAuthority('microservice')")
     @GetMapping("/info")
     public ResponseEntity<InfoResponse> getInfo() {
     	InfoResponse resp = dispositivoMonitorService.getInfo();
@@ -92,7 +71,7 @@ public class DispositivoMonitorController {
     }
     
     @GetExisteNoMonitorDoc
-    @PreAuthorize("hasAuthority('dispositivo-monitoramento')")
+    @PreAuthorize("hasAuthority('microservice')")
     @GetMapping("/{dispositivoId}/existe-no-monitor")
     public ResponseEntity<ExisteNoMonitorResponse> getExisteNoMonitor( @PathVariable Long dispositivoId ) {
     	ExisteNoMonitorResponse resp = dispositivoMonitorService.existeNoMonitor( dispositivoId );

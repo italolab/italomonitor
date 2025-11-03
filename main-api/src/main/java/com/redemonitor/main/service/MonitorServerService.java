@@ -61,22 +61,22 @@ public class MonitorServerService {
         monitorServerRepository.save( monitorServer );
     }
 
-    public List<MonitorServerResponse> filterMonitorServers( String hostPart, String accessToken ) {
+    public List<MonitorServerResponse> filterMonitorServers( String hostPart ) {
         List<MonitorServer> monitorServers = monitorServerRepository.filter( "%"+hostPart+"%" );
         
         List<MonitorServerResponse> responses = new ArrayList<>();
         for( MonitorServer server : monitorServers )
-        	responses.add( this.buildMonitorServer( server, accessToken ) );
+        	responses.add( this.buildMonitorServer( server ) );
         return responses;
     }
 
-    public MonitorServerResponse getMonitorServer( Long id, String accessToken ) {
+    public MonitorServerResponse getMonitorServer( Long id ) {
         Optional<MonitorServer> monitorServerOp = monitorServerRepository.findById( id );
         if ( monitorServerOp.isEmpty() )
             throw new BusinessException( Errors.MONITOR_SERVER_NOT_FOUND );
 
         MonitorServer monitorServer = monitorServerOp.get();
-        return this.buildMonitorServer( monitorServer, accessToken );        
+        return this.buildMonitorServer( monitorServer );        
     }
 
     public void deleteMonitorServer( Long id ) {
@@ -87,11 +87,11 @@ public class MonitorServerService {
         monitorServerRepository.deleteById( id );
     }
 
-    private MonitorServerResponse buildMonitorServer( MonitorServer monitorServer, String accessToken ) {    	
+    private MonitorServerResponse buildMonitorServer( MonitorServer monitorServer ) {    	
     	MonitorServerResponse resp = monitorServerMapper.map( monitorServer );
     	        
       	String host = monitorServer.getHost();
-       	MonitorInfo info = dispositivoMonitorEscalonador.getInfo( host, accessToken );
+       	MonitorInfo info = dispositivoMonitorEscalonador.getInfo( host );
         	
         monitorServerMapper.load( resp, info ); 
         

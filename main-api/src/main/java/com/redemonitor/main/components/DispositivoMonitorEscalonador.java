@@ -101,12 +101,12 @@ public class DispositivoMonitorEscalonador {
 	
 	public MonitoramentoOperResult startMonitoramento( 
 			Long dispositivoId, 
-			String accessToken, 
+			String username, 
 			Config config, 
 			List<MonitorServer> monitorServers ) {
 		
-		if ( this.verificaSeSendoMonitorado( dispositivoId, accessToken, monitorServers ) ) {
-			this.updateDispositivo( dispositivoId, true, accessToken );  
+		if ( this.verificaSeSendoMonitorado( dispositivoId, monitorServers ) ) {
+			this.updateDispositivo( dispositivoId, true, username );  
 		
 			return MonitoramentoOperResult.JA_INICIADO;
 		}
@@ -132,7 +132,7 @@ public class DispositivoMonitorEscalonador {
 			MonitoramentoOperResponse resp = null;
 			
 			try {
-				resp = dispositivoMonitorIntegration.startMonitoramento( host, dispositivoId, accessToken );
+				resp = dispositivoMonitorIntegration.startMonitoramento( host, dispositivoId, username );
 			} catch ( RestClientException e ) {				
 				Logger.getLogger( DispositivoMonitorEscalonador.class ).error( "Servidor inacessível = "+host );					
 			}
@@ -148,7 +148,7 @@ public class DispositivoMonitorEscalonador {
 						startou = true;
 						break;
 					case JA_INICIADO:
-						this.updateDispositivo( dispositivoId, true, accessToken );  
+						this.updateDispositivo( dispositivoId, true, username );  
 		
 						return MonitoramentoOperResult.JA_INICIADO;					
 					default:
@@ -164,12 +164,12 @@ public class DispositivoMonitorEscalonador {
 		return MonitoramentoOperResult.INICIADO;
 	}
 	
-	public MonitoramentoOperResult stopMonitoramento( Long dispositivoId, String accessToken, List<MonitorServer> monitorServers ) {		
+	public MonitoramentoOperResult stopMonitoramento( Long dispositivoId, String username, List<MonitorServer> monitorServers ) {		
 		for( MonitorServer server : monitorServers ) {
 			String host = server.getHost();
 			
 			try {
-				MonitoramentoOperResponse resp = dispositivoMonitorIntegration.stopMonitoramento( host, dispositivoId, accessToken );				
+				MonitoramentoOperResponse resp = dispositivoMonitorIntegration.stopMonitoramento( host, dispositivoId );				
 				if ( resp.getResult() == MonitoramentoOperResult.FINALIZADO )				
 					return MonitoramentoOperResult.FINALIZADO;
 			} catch ( RestClientException e ) {
@@ -177,19 +177,19 @@ public class DispositivoMonitorEscalonador {
 			}															
 		}
 		
-		this.updateDispositivo( dispositivoId, false, accessToken );
+		this.updateDispositivo( dispositivoId, false, username );
 			
 		return MonitoramentoOperResult.NAO_ENCONTRADO;
 	}
 	
-	public void updateConfigInMonitores( String accessToken ) {
+	public void updateConfigInMonitores() {
 		List<MonitorServer> monitorServers = monitorServerRepository.findAll();
 		
 		for( MonitorServer server : monitorServers ) {	
 			String host = server.getHost();
 			
 			try {
-				MonitoramentoOperResponse resp = dispositivoMonitorIntegration.updateConfigInMonitores( host, accessToken );							
+				MonitoramentoOperResponse resp = dispositivoMonitorIntegration.updateConfigInMonitores( host );							
 				if ( resp.getResult() == MonitoramentoOperResult.ATUALIZADO )
 					return;
 			} catch ( RestClientException e ) {
@@ -198,14 +198,14 @@ public class DispositivoMonitorEscalonador {
 		}		
 	}
 	
-	public void updateDispositivoInMonitor( Long dispositivoId, String accessToken ) {
+	public void updateDispositivoInMonitor( Long dispositivoId ) {
 		List<MonitorServer> monitorServers = monitorServerRepository.findAll();
 		
 		for( MonitorServer server : monitorServers ) {	
 			String host = server.getHost();
 			
 			try {
-				MonitoramentoOperResponse resp = dispositivoMonitorIntegration.updateDispositivoInMonitor( host, dispositivoId, accessToken );						
+				MonitoramentoOperResponse resp = dispositivoMonitorIntegration.updateDispositivoInMonitor( host, dispositivoId );						
 				if ( resp.getResult() == MonitoramentoOperResult.ATUALIZADO )
 					return;
 			} catch ( RestClientException e ) {
@@ -214,21 +214,21 @@ public class DispositivoMonitorEscalonador {
 		}		
 	}
 		
-	public MonitorInfo getInfo( String serverHost, String accessToken ) {
+	public MonitorInfo getInfo( String serverHost ) {
 		try {
-			InfoResponse resp = dispositivoMonitorIntegration.getInfo( serverHost, accessToken );
+			InfoResponse resp = dispositivoMonitorIntegration.getInfo( serverHost );
 			return new MonitorInfo( resp.getNumThreadsAtivas(), true );
 		} catch ( RestClientException e ) {
 			return new MonitorInfo( 0, false );
 		}
 	}
 	
-	private boolean verificaSeSendoMonitorado( Long dispositivoId, String accessToken, List<MonitorServer> monitorServers ) {		
+	private boolean verificaSeSendoMonitorado( Long dispositivoId, List<MonitorServer> monitorServers ) {		
 		for( MonitorServer server : monitorServers ) {	
 			String host = server.getHost();
 			
 			try {
-				ExisteNoMonitorResponse resp = dispositivoMonitorIntegration.getExisteNoMonitor( host, dispositivoId, accessToken );							
+				ExisteNoMonitorResponse resp = dispositivoMonitorIntegration.getExisteNoMonitor( host, dispositivoId );							
 				if ( resp.isExiste() )
 					return true;
 			} catch ( RestClientException e ) {
@@ -239,7 +239,7 @@ public class DispositivoMonitorEscalonador {
 		return false;
 	}
 	
-	private void updateDispositivo( Long dispositivoId, boolean sendoMonitorado, String accessToken ) {
+	private void updateDispositivo( Long dispositivoId, boolean sendoMonitorado, String username ) {
 		Optional<Dispositivo> dispositivoOp = dispositivoRepository.findById( dispositivoId );
 		if ( dispositivoOp.isEmpty() )
 			throw new BusinessException( Errors.DISPOSITIVO_NOT_FOUND );
@@ -248,7 +248,7 @@ public class DispositivoMonitorEscalonador {
 		dispositivo.setSendoMonitorado( sendoMonitorado );
         dispositivoRepository.save( dispositivo );
 
-        dispositivoWebSocket.sendMessage( dispositivo, accessToken );
+        dispositivoWebSocket.sendMessage( dispositivo, username );
 	}
 	
 	public static class MonitorInfo {

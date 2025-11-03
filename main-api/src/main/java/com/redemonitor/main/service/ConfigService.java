@@ -46,7 +46,7 @@ public class ConfigService {
         configRepository.save( config );
     }
 
-    public ConfigResponse getConfig( boolean isLoadMonitorServer, String accessToken ) {
+    public ConfigResponse getConfig( boolean isLoadMonitorServer ) {
         Config config = configRepository.findFirstByOrderByIdAsc();
         
         ConfigResponse resp = configMapper.map( config );
@@ -57,7 +57,7 @@ public class ConfigService {
 	                        
 	        for( MonitorServerResponse server : monitorServerResps ) {
 	        	String host = server.getHost();
-	        	MonitorInfo info = dispositivoMonitorEscalonador.getInfo( host, accessToken );
+	        	MonitorInfo info = dispositivoMonitorEscalonador.getInfo( host );
 	        	
 	        	monitorServerMapper.load( server, info ); 
 	        }

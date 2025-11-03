@@ -7,14 +7,10 @@ import org.springframework.stereotype.Service;
 
 import com.redemonitor.disp_monitor.dto.message.DispositivoMessage;
 import com.redemonitor.disp_monitor.model.Dispositivo;
-import com.redemonitor.disp_monitor.service.TokenService;
 
 @Service
 public class DispositivoMessageService {
-		
-	@Autowired
-	private TokenService tokenService;
-	
+			
 	@Autowired
 	private RabbitTemplate rabbitTemplate;
 	
@@ -24,9 +20,7 @@ public class DispositivoMessageService {
 	@Value("${config.rabbitmq.dispositivos.routing-key}") 
 	private String dispositivosRoutingKey;
 	
-	public void sendMessage( Dispositivo dispositivo, String accessToken ) {
-		String username = tokenService.getUsernameByAccessToken( accessToken );
-		
+	public void sendMessage( Dispositivo dispositivo, String username ) {		
 		DispositivoMessage message = DispositivoMessage.builder()
 				.username( username )
 				.id( dispositivo.getId() )

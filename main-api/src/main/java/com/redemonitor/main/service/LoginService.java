@@ -2,8 +2,8 @@ package com.redemonitor.main.service;
 
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
-import com.redemonitor.main.components.HashUtil;
-import com.redemonitor.main.components.JwtTokenUtil;
+import com.redemonitor.main.components.util.HashUtil;
+import com.redemonitor.main.components.util.JwtTokenUtil;
 import com.redemonitor.main.dto.request.LoginRequest;
 import com.redemonitor.main.dto.response.LoginResponse;
 import com.redemonitor.main.exception.BusinessException;

@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import com.redemonitor.disp_monitor.components.HttpClientUtil;
+import com.redemonitor.disp_monitor.components.HttpClientManager;
 import com.redemonitor.disp_monitor.integration.dto.response.ConfigResponse;
 import com.redemonitor.disp_monitor.mapper.ConfigMapper;
 import com.redemonitor.disp_monitor.model.Config;
@@ -19,12 +19,12 @@ public class ConfigIntegration {
 	private ConfigMapper configMapper;
 	
 	@Autowired
-	private HttpClientUtil httpClientUtil;
+	private HttpClientManager httpClientManager;
 	
-	public Config getConfig( String accessToken ) {
+	public Config getConfig() {
 		String uri = configGetEndpoint;
 		
-		ConfigResponse resp = httpClientUtil.get( uri, accessToken, ConfigResponse.class );
+		ConfigResponse resp = httpClientManager.get( uri, ConfigResponse.class );
 		
 		return configMapper.map( resp ); 
 	}

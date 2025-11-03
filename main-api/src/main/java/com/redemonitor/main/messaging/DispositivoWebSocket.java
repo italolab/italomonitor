@@ -8,7 +8,6 @@ import org.springframework.stereotype.Component;
 import com.redemonitor.main.dto.response.DispositivoResponse;
 import com.redemonitor.main.mapper.DispositivoMapper;
 import com.redemonitor.main.model.Dispositivo;
-import com.redemonitor.main.service.TokenService;
 
 @Component
 public class DispositivoWebSocket {
@@ -18,16 +17,11 @@ public class DispositivoWebSocket {
 	
 	@Autowired
 	private SimpMessagingTemplate simpMessagingTemplate;
-		
-	@Autowired
-	private TokenService tokenService;
-	
+			
 	@Autowired
 	private DispositivoMapper dispositivoMapper;
 	
-	public void sendMessage( Dispositivo dispositivo, String accessToken ) {
-		String username = tokenService.getUsernameByAccessToken( accessToken );
-						
+	public void sendMessage( Dispositivo dispositivo, String username ) {						
 		DispositivoResponse resp = dispositivoMapper.map( dispositivo );
         String wsMessage = dispositivoMapper.mapToString( resp );
 

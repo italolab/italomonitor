@@ -126,10 +126,10 @@ function ManterDispositivos() {
                     <MdAdd size={25}/> Novo dispositivo
                 </Button>
                 <Button type="button" onClick={onStartAllMonitoramentos} className="func">
-                    <MdPlayCircle size={25} /> Iniciar todos os monitoramento
+                    <MdPlayCircle size={25} /> Iniciar todos os monitoramentos
                 </Button>
                 <Button type="button" onClick={onStopAllMonitoramentos} className="func">
-                    <MdStopCircle size={25} /> Encerrar todos os monitoramento
+                    <MdStopCircle size={25} /> Encerrar todos os monitoramentos
                 </Button>
             </div>
 

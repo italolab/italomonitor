@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import com.redemonitor.disp_monitor.components.HttpClientUtil;
+import com.redemonitor.disp_monitor.components.HttpClientManager;
 import com.redemonitor.disp_monitor.integration.dto.request.SaveDispositivoStatusRequest;
 import com.redemonitor.disp_monitor.integration.dto.response.DispositivoResponse;
 import com.redemonitor.disp_monitor.mapper.DispositivoMapper;
@@ -20,23 +20,23 @@ public class DispositivoIntegration {
 	private String dispositivoUpdateStatusEndpoint;
 		
 	@Autowired
-	private HttpClientUtil httpClientUtil;
+	private HttpClientManager httpClientManager;
 	
 	@Autowired
 	private DispositivoMapper dispositivoMapper;
 			
-	public void saveDispositivo( Dispositivo dispositivo, String accessToken ) {
+	public void saveDispositivo( Dispositivo dispositivo ) {
 		String uri = dispositivoUpdateStatusEndpoint.replace( "{dispositivoId}", ""+dispositivo.getId() );
 		
 		SaveDispositivoStatusRequest request = dispositivoMapper.map( dispositivo );
 		
-		httpClientUtil.patch( uri, accessToken, request );					
+		httpClientManager.patch( uri, request );					
 	}
 	
-	public Dispositivo getDispositivo( Long dispositivoId, String accessToken ) {
+	public Dispositivo getDispositivo( Long dispositivoId ) {
 		String uri = dispositivoGetEndpoint.replace( "{dispositivoId}", ""+dispositivoId ); 
 		
-		DispositivoResponse resp = httpClientUtil.get( uri, accessToken, DispositivoResponse.class );
+		DispositivoResponse resp = httpClientManager.get( uri, DispositivoResponse.class );
 		
 		return dispositivoMapper.map( resp );
 	}

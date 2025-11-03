@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import com.redemonitor.disp_monitor.components.HttpClientUtil;
+import com.redemonitor.disp_monitor.components.HttpClientManager;
 import com.redemonitor.disp_monitor.integration.dto.request.SaveEventoRequest;
 import com.redemonitor.disp_monitor.mapper.EventoMapper;
 import com.redemonitor.disp_monitor.model.Evento;
@@ -16,17 +16,17 @@ public class EventoIntegration {
 	private String eventoCreateEndpoint;
 		
 	@Autowired
-	private HttpClientUtil httpClientUtil;
+	private HttpClientManager httpClientManager;
 
 	@Autowired
 	private EventoMapper eventoMapper;
 	
-	public void saveEvento( Evento evento, String accessToken ) {
+	public void saveEvento( Evento evento ) {
 		String uri = eventoCreateEndpoint;
 		
 		SaveEventoRequest request = eventoMapper.map( evento );
 		
-		httpClientUtil.post( uri, accessToken, request );			
+		httpClientManager.post( uri, request );			
 	}
 	
 }
