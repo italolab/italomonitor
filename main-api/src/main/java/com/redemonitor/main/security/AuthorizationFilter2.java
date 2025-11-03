@@ -17,10 +17,10 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.redemonitor.main.components.BearerTokenUtil;
+import com.redemonitor.main.components.JwtTokenUtil;
 import com.redemonitor.main.dto.response.ErrorResponse;
 import com.redemonitor.main.exception.Errors;
-import com.redemonitor.main.util.BearerTokenUtil;
-import com.redemonitor.main.util.JwtTokenUtil;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -49,24 +49,29 @@ public class AuthorizationFilter2 extends OncePerRequestFilter {
             HttpServletResponse response,
             FilterChain filterChain) throws ServletException, IOException {
 
+    	MutableHttpServletRequest mutableRequest = new MutableHttpServletRequest( request );
+    	
         String accessToken = null;
 
-        if ( request.getRequestURI().equals( loginEndpoint ) ) {
+        if ( mutableRequest.getRequestURI().equals( loginEndpoint ) ) {
             Cookie cookie = new Cookie( accessTokenCookieName, "" );
             cookie.setMaxAge( 0 );
             cookie.setHttpOnly( true );
             response.addCookie( cookie );
         } else {
-            Cookie[] cookies = request.getCookies();
+            Cookie[] cookies = mutableRequest.getCookies();
             if ( cookies != null ) {
-                for ( int i = 0; accessToken == null && i < cookies.length; i++ )
-                    if ( cookies[ i ].getName().equals( accessTokenCookieName ) )
+                for ( int i = 0; accessToken == null && i < cookies.length; i++ ) {
+                    if ( cookies[ i ].getName().equals( accessTokenCookieName ) ) {
                         accessToken = cookies[ i ].getValue();
+                        mutableRequest.setAuthorizationHeader( "Bearer "+accessToken );
+                    }
+                }
             }
         }
         
         if ( accessToken == null ) {
-        	String authorizationHeader = request.getHeader( "Authorization" );
+        	String authorizationHeader = mutableRequest.getHeader( "Authorization" );
         	accessToken = bearerTokenUtil.extractAccessToken( authorizationHeader );        	
         }
 
@@ -103,7 +108,7 @@ public class AuthorizationFilter2 extends OncePerRequestFilter {
                 return;
             }
         }
-        super.doFilter( request, response, filterChain );
+        super.doFilter( mutableRequest, response, filterChain );
     }
 
 }

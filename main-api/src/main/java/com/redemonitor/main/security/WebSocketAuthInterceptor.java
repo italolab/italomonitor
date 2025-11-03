@@ -14,7 +14,7 @@ import org.springframework.messaging.support.MessageHeaderAccessor;
 import org.springframework.stereotype.Component;
 
 import com.auth0.jwt.interfaces.DecodedJWT;
-import com.redemonitor.main.util.JwtTokenUtil;
+import com.redemonitor.main.components.JwtTokenUtil;
 
 @Component
 public class WebSocketAuthInterceptor implements ChannelInterceptor {

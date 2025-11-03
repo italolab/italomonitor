@@ -38,7 +38,7 @@ function CreateRole() {
 
     return (
         <AppLayout>
-            <div className="d-flex justify-content-start">
+            <div>
                 <Button type="button" onClick={() => navigate( -1 )} className="d-inline-flex align-items-center">
                     <MdArrowBack size={25}/> Voltar
                 </Button>                            

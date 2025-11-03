@@ -46,7 +46,7 @@ public class DispositivosMessageReceiver {
 		
 		DispositivoResponse resp = dispositivoMapper.map( dispositivo );
         String wsMessage = dispositivoMapper.mapToString( resp );
-
+        
         simpMessagingTemplate.convertAndSendToUser( username, dispositivosTopic, wsMessage );
 	}
 	

@@ -72,7 +72,7 @@ function ManterUsuarioGrupos() {
                 </Modal.Footer>
             </Modal>            
 
-            <div className="d-flex justify-content-start">
+            <div>
                 <Button type="button" onClick={() => navigate( '/create-usuario-grupo')} className="func">
                     <MdAdd size={25}/> Novo grupo
                 </Button>

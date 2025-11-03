@@ -72,7 +72,7 @@ function ManterUsuarios() {
                 </Modal.Footer>
             </Modal>            
 
-            <div className="d-flex justify-content-start">
+            <div>
                 <Button type="button" onClick={() => navigate( '/create-usuario')} className="func">
                     <MdAdd size={25}/> Novo usuário
                 </Button>

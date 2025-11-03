@@ -7,7 +7,7 @@ import { BASE_WS_URL, DISPOSITIVOS_TOPIC } from "../../constants/websocket-const
 
 function useWSDispositivoInfoRefresh() {
 
-    type SetDispositivoFunc = ( d : DispositivoResponse ) => void;
+    type SetDispositivoSeIDCorretoFunc = ( d : DispositivoResponse ) => void;
 
     const {accessToken, setAccessToken} = useContext(AuthContext);
 
@@ -26,7 +26,7 @@ function useWSDispositivoInfoRefresh() {
     let websocketErrorFlag = false;
     let interval = null;
 
-    const connect = ( setDispositivo : SetDispositivoFunc ) : () => void => {
+    const connect = ( setDispositivoSeIDCorreto : SetDispositivoSeIDCorretoFunc ) : () => void => {
         const client = new Client( websocketConfig );
         client.onConnect = () => {       
             websocketErrorFlag = false;
@@ -37,7 +37,7 @@ function useWSDispositivoInfoRefresh() {
 
             client.subscribe( DISPOSITIVOS_TOPIC, (message) => {
                 const data = JSON.parse( message.body );
-                setDispositivo( data );                       
+                setDispositivoSeIDCorreto( data );                      
             } );
         } 
         client.onWebSocketError = () => {

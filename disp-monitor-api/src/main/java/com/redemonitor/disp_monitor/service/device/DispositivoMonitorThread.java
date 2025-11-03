@@ -132,6 +132,14 @@ public class DispositivoMonitorThread implements Runnable {
                 //if ( quantFalhas <= maxFalhas )
                 //    System.out.println( line );
 
+                if ( line.contains( "transmitted" ) && 
+                		line.contains( "received") && 
+                		line.contains( "100%" ) ) {
+                
+                	quantFalhas = numPacotesPorLote;
+                }
+                	
+                
                 if ( quantFalhas >= maxFalhas || quantSucessos >= maxSucessos)
                     proc.destroy();
             }
@@ -148,7 +156,7 @@ public class DispositivoMonitorThread implements Runnable {
                     this.mudaStatusParaAtivo();
             } else {
                 if ( dispositivo.getStatus() == DispositivoStatus.ATIVO )
-                    this.mudaStatusParaInativo();
+                    this.mudaStatusParaInativo();                
             }
 
             sucessosQuantTotal += quantSucessos;
@@ -157,7 +165,6 @@ public class DispositivoMonitorThread implements Runnable {
             Duration duration = Duration.between( ultimoRegistroEventoEm, LocalDateTime.now() );
             if ( duration.getSeconds() >= registroEventoPeriodo )
                 this.registraEvento( duration );
-
         } catch ( IOException e ) {
         	e.printStackTrace();
             String msg = "Falha no monitoramento do dispositivo: " + nome;
@@ -182,7 +189,7 @@ public class DispositivoMonitorThread implements Runnable {
 
         dispositivo.setStatus( DispositivoStatus.INATIVO );
         dispositivoIntegration.saveDispositivo( dispositivo, accessToken );
-
+        
         dispositivoWebSocketIntegration.sendMessage( dispositivo, accessToken );
     }
 

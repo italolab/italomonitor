@@ -119,7 +119,13 @@ public class DispositivoMonitorEscalonador {
 						
 		boolean startou = false;
 		boolean naoStartou = false;
-		while( !startou && !naoStartou ) {			
+		boolean isFirst = true;
+		while( !startou && !naoStartou ) {
+			if ( !isFirst && current == config.getMonitorServerCorrente() ) {
+				naoStartou = true;
+				continue;
+			}
+			
 			MonitorServer server = monitorServers.get( current );
 			String host = server.getHost();
 					
@@ -130,15 +136,15 @@ public class DispositivoMonitorEscalonador {
 			} catch ( RestClientException e ) {				
 				Logger.getLogger( DispositivoMonitorEscalonador.class ).error( "Servidor inacessível = "+host );					
 			}
-			
+						
 			current = ( current+1 ) % serversQuant;
-
+			
 			if ( resp != null ) { 
 				switch( resp.getResult() ) {
 					case INICIADO:
 						config.setMonitorServerCorrente( current );
 						configRepository.save( config );
-						
+												
 						startou = true;
 						break;
 					case JA_INICIADO:
@@ -150,12 +156,11 @@ public class DispositivoMonitorEscalonador {
 				}
 			}
 			
-			if ( current == config.getMonitorServerCorrente() )
-				naoStartou = true;
+			isFirst = false;
 		}
-		
+				
 		if ( naoStartou )
-			return MonitoramentoOperResult.EXCEDE_LIMITE;
+			return MonitoramentoOperResult.EXCEDE_LIMITE;		
 		return MonitoramentoOperResult.INICIADO;
 	}
 	

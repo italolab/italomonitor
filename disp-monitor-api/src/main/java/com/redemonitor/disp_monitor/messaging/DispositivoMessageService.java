@@ -33,7 +33,7 @@ public class DispositivoMessageService {
 				.sendoMonitorado( dispositivo.isSendoMonitorado() )
 				.status( dispositivo.getStatus() ) 
 				.build();
-
+		
 		rabbitTemplate.convertAndSend( dispositivosExchange, dispositivosRoutingKey, message ); 
     }
 

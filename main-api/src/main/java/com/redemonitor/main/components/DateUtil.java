@@ -1,4 +1,4 @@
-package com.redemonitor.main.util;
+package com.redemonitor.main.components;
 
 import org.springframework.stereotype.Component;
 

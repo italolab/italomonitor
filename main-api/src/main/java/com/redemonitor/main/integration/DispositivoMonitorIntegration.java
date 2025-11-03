@@ -4,10 +4,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import com.redemonitor.main.components.HttpClientUtil;
 import com.redemonitor.main.integration.dto.ExisteNoMonitorResponse;
 import com.redemonitor.main.integration.dto.InfoResponse;
 import com.redemonitor.main.integration.dto.MonitoramentoOperResponse;
-import com.redemonitor.main.util.HttpClientUtil;
 
 @Component
 public class DispositivoMonitorIntegration {

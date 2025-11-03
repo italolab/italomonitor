@@ -5,9 +5,9 @@ import org.springframework.stereotype.Service;
 
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
+import com.redemonitor.disp_monitor.components.JwtTokenUtil;
 import com.redemonitor.disp_monitor.exception.BusinessException;
 import com.redemonitor.disp_monitor.exception.Errors;
-import com.redemonitor.disp_monitor.util.JwtTokenUtil;
 
 @Service
 public class TokenService {
@@ -23,5 +23,5 @@ public class TokenService {
             throw new BusinessException( Errors.NOT_AUTHORIZED );
         }
     }
-    
+        
 }

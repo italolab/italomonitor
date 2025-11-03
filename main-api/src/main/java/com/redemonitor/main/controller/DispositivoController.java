@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -23,14 +24,11 @@ import com.redemonitor.main.apidoc.dispositivo.FilterDispositivosDoc;
 import com.redemonitor.main.apidoc.dispositivo.GetDispositivoDoc;
 import com.redemonitor.main.apidoc.dispositivo.UpdateDispositivoDoc;
 import com.redemonitor.main.apidoc.dispositivo.UpdateDispositivoStatusDoc;
+import com.redemonitor.main.components.BearerTokenUtil;
 import com.redemonitor.main.dto.request.SaveDispositivoRequest;
 import com.redemonitor.main.dto.request.SaveDispositivoStatusRequest;
 import com.redemonitor.main.dto.response.DispositivoResponse;
 import com.redemonitor.main.service.DispositivoService;
-
-/*
- * O endpoint de remover acessa a propriedade 'jwt.access_token.cookie.name'
- */
 
 @RestController
 @RequestMapping("/api/v1/dispositivos")
@@ -38,6 +36,9 @@ public class DispositivoController {
 
     @Autowired
     private DispositivoService dispositivoService;
+    
+    @Autowired
+    private BearerTokenUtil bearerTokenUtil;
             
     @CreateDispositivoDoc
     @PreAuthorize("hasAuthority('dispositivo-write')")
@@ -97,7 +98,9 @@ public class DispositivoController {
     @DeleteMapping("/{dispositivoId}")
     public ResponseEntity<String> deleteDispositivo( 
     		@PathVariable Long dispositivoId, 
-    		@CookieValue("${jwt.access_token.cookie.name}") String accessToken ) {
+    		@RequestHeader("Authorization") String authorizationHeader ) {
+    	
+    	String accessToken = bearerTokenUtil.extractAccessToken( authorizationHeader );
     	    	
         dispositivoService.deleteDispositivo( dispositivoId, accessToken );
         return ResponseEntity.ok( "Dispositivo deletado com sucesso." );

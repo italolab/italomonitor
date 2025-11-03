@@ -75,7 +75,7 @@ function ManterRoles() {
                 </Modal.Footer>
             </Modal>            
 
-            <div className="d-flex justify-content-start">
+            <div>
                 <Button type="button" onClick={() => navigate( '/create-role')} className="func">
                     <MdAdd size={25}/> Novo role
                 </Button>

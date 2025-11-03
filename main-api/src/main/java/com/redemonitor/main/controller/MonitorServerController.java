@@ -5,13 +5,13 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -21,13 +21,10 @@ import com.redemonitor.main.apidoc.monitor_server.DeleteMonitorServerDoc;
 import com.redemonitor.main.apidoc.monitor_server.FilterMonitorServersDoc;
 import com.redemonitor.main.apidoc.monitor_server.GetMonitorServerDoc;
 import com.redemonitor.main.apidoc.monitor_server.UpdateMonitorServerDoc;
+import com.redemonitor.main.components.BearerTokenUtil;
 import com.redemonitor.main.dto.request.SaveMonitorServerRequest;
 import com.redemonitor.main.dto.response.MonitorServerResponse;
 import com.redemonitor.main.service.MonitorServerService;
-
-/*
- * A propriedade "jwt.access_token.cookie.name" está sendo acessada em algums métodos desse controller.
- */
 
 @RestController
 @RequestMapping("/api/v1/monitor-servers")
@@ -35,6 +32,9 @@ public class MonitorServerController {
 
     @Autowired
     private MonitorServerService monitorServerService;
+    
+    @Autowired
+    private BearerTokenUtil bearerTokenUtil;
     
     @CreateMonitorServerDoc
     @PreAuthorize("hasAuthority('config-write')")
@@ -56,8 +56,10 @@ public class MonitorServerController {
     @PreAuthorize("hasAuthority('config-read')")
     @GetMapping
     public ResponseEntity<List<MonitorServerResponse>> filterMonitorServers(
-    		@CookieValue("${jwt.access_token.cookie.name}") String accessToken,
-    		@RequestParam("hostpart") String hostPart ) {
+    		@RequestParam("hostpart") String hostPart,
+    		@RequestHeader("Authorization") String authorizationHeader ) {
+
+    	String accessToken = bearerTokenUtil.extractAccessToken( authorizationHeader );
     	
         List<MonitorServerResponse> responses = monitorServerService.filterMonitorServers( hostPart, accessToken );
         return ResponseEntity.ok( responses );
@@ -67,8 +69,10 @@ public class MonitorServerController {
     @PreAuthorize("hasAuthority('config-read')")
     @GetMapping("/{monitorServerId}/get")
     public ResponseEntity<MonitorServerResponse> getMonitorServer( 
-    		@CookieValue("${jwt.access_token.cookie.name}") String accessToken,
-    		@PathVariable Long monitorServerId ) {
+    		@PathVariable Long monitorServerId,
+    		@RequestHeader("Authorization") String authorizationHeader ) {
+
+    	String accessToken = bearerTokenUtil.extractAccessToken( authorizationHeader );
     	
         MonitorServerResponse resp = monitorServerService.getMonitorServer( monitorServerId, accessToken );
         return ResponseEntity.ok( resp );

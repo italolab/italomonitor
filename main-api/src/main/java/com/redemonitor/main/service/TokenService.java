@@ -5,9 +5,9 @@ import org.springframework.stereotype.Service;
 
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
+import com.redemonitor.main.components.JwtTokenUtil;
 import com.redemonitor.main.exception.BusinessException;
 import com.redemonitor.main.exception.Errors;
-import com.redemonitor.main.util.JwtTokenUtil;
 
 @Service
 public class TokenService {

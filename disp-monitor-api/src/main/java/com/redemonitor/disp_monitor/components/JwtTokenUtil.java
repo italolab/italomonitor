@@ -1,4 +1,4 @@
-package com.redemonitor.disp_monitor.util;
+package com.redemonitor.disp_monitor.components;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;

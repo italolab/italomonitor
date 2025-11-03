@@ -37,7 +37,7 @@ function DetalhesEmpresa() {
 
     return (
         <AppLayout>
-            <div className="d-flex justify-content-start">
+            <div>
                 <Button type="button" onClick={() => navigate( -1 )} className="func">
                     <MdArrowBack size={25}/> Voltar
                 </Button>

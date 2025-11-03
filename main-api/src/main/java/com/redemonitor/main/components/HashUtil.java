@@ -1,4 +1,4 @@
-package com.redemonitor.main.util;
+package com.redemonitor.main.components;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;

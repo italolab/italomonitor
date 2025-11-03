@@ -118,7 +118,7 @@ function ManterDispositivos() {
                 </Modal.Footer>
             </Modal>            
 
-            <div className="d-flex justify-content-start">
+            <div>
                 <Button type="button" onClick={() => navigate( -1 )} className="func">
                     <MdArrowBack size={25} /> Voltar
                 </Button>
@@ -189,16 +189,23 @@ function ManterDispositivos() {
                         <Col key={index} sm={4} className="disp-col">
                             <div className="disp-card">
                                 <div className="d-flex align-items-center justify-content-between">
-                                    <h3 className="fw-bold rounded-2 bg-dark px-2 py-1">
-                                        {dispositivo.id}
-                                    </h3>
+                                    <div>
+                                        <h3 className="d-inline-block fw-bold rounded-2 bg-dark px-2 py-1">
+                                            {dispositivo.id}
+                                        </h3>
+                                        <span className="mx-2"></span>
+                                        {dispositivo.status === 'ATIVO' 
+                                            ? <h3 className="d-inline-block text-light"><span>Ativo</span></h3> 
+                                            : <h3 className="d-inline-block text-warning"><span>Inativo</span></h3>
+                                        }
+                                    </div>
                                     <span className="p-2 rounded-3 bg-white text-dark">
                                         <AppOperations 
                                             toDetalhes={`/detalhes-dispositivo/${dispositivo.id}`}
                                             toEdit={`/update-dispositivo/${dispositivo.id}`} 
                                             onRemover={() => onConfirmRemover( dispositivo.id)} />
                                     </span>
-                                </div>
+                                </div>                                
                                 <h3 className="mb-3">{dispositivo.nome}</h3>
                                 <div>{dispositivo.localizacao}</div>                            
                             </div>

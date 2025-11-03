@@ -3,17 +3,20 @@ package com.redemonitor.main.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.redemonitor.main.apidoc.config.GetConfigDoc;
 import com.redemonitor.main.apidoc.config.UpdateConfigDoc;
+import com.redemonitor.main.components.BearerTokenUtil;
 import com.redemonitor.main.dto.request.SaveConfigRequest;
 import com.redemonitor.main.dto.response.ConfigResponse;
 import com.redemonitor.main.service.ConfigService;
-
-/*
- * A propriedade "jwt.access_token.cookie.name" está sendo acessada em algums métodos desse controller.
- */
 
 @RestController
 @RequestMapping("/api/v1/config")
@@ -21,6 +24,9 @@ public class ConfigController {
 
     @Autowired
     private ConfigService configService;
+    
+    @Autowired
+    private BearerTokenUtil bearerTokenUtil;
 
     @UpdateConfigDoc
     @PreAuthorize("hasAuthority('config-write')")
@@ -35,8 +41,10 @@ public class ConfigController {
     @GetMapping("/load-monitor-server/{isLoadMonitorServer}/get")
     public ResponseEntity<ConfigResponse> getConfig(
     		@PathVariable Boolean isLoadMonitorServer,
-    		@CookieValue("${jwt.access_token.cookie.name}") String accessToken ) {
+    		@RequestHeader("Authorization") String authorizationHeader ) {
     	
+    	String accessToken = bearerTokenUtil.extractAccessToken( authorizationHeader );
+    	    	
         ConfigResponse resp = configService.getConfig( isLoadMonitorServer, accessToken );
         return ResponseEntity.ok( resp );
     }

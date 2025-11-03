@@ -75,7 +75,7 @@ function ManterEmpresas() {
                 </Modal.Footer>
             </Modal>            
 
-            <div className="d-flex justify-content-start">
+            <div>
                 <Button type="button" onClick={() => navigate( '/create-empresa')} className="func">
                     <MdAdd size={25}/> Nova empresa
                 </Button>

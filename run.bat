@@ -9,6 +9,9 @@ if %1 == upall (
     call :upmain
     call :updispmnt
     call :upfront
+) else if %1 == upmicros (
+    call :upmain
+    call :updispmnt
 ) else if %1 == upbase (
     call :upbase
 ) else if %1 == upmain (
@@ -26,6 +29,9 @@ if %1 == upall (
     call :downmain
     call :downdispmnt
     call :downfront
+) else if %1 == downmicros (
+    call :downmain
+    call :downdispmnt
 ) else if %1 == downbase (
     call :downbase
 ) else if %1 == downmain (
