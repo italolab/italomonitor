@@ -11,6 +11,7 @@ O Rede Monitor é um sistema web de monitoramento de dispositivos de rede. Esse 
 - Spring Scheduler com Thread Pool Task Scheduler
 - Comando PING para envio de pacotes ICMP
 - WebSockets
+- Messageria com RabbitMQ
 - React Bootstrap
 - Swagger/OpenAPI
 - Spring Security e Token JWT
