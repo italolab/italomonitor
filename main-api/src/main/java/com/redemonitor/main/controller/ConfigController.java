@@ -24,7 +24,7 @@ public class ConfigController {
     private ConfigService configService;
     
     @UpdateConfigDoc
-    @PreAuthorize("hasAuthority('config-write')")
+    @PreAuthorize("hasAuthority('config-all')")
     @PostMapping
     public ResponseEntity<String> updateConfig( @RequestBody SaveConfigRequest request ) {
         configService.updateConfig( request );
@@ -32,7 +32,7 @@ public class ConfigController {
     }
 
     @GetConfigDoc
-    @PreAuthorize("hasAnyAuthority('config-read', 'microservice')")
+    @PreAuthorize("hasAnyAuthority('config-all', 'microservice')")
     @GetMapping("/load-monitor-server/{isLoadMonitorServer}/get")
     public ResponseEntity<ConfigResponse> getConfig( @PathVariable Boolean isLoadMonitorServer ) {    	
         ConfigResponse resp = configService.getConfig( isLoadMonitorServer );

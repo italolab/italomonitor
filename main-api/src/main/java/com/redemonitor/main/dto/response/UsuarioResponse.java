@@ -1,8 +1,14 @@
 package com.redemonitor.main.dto.response;
 
-import lombok.*;
-
 import java.util.List;
+
+import com.redemonitor.main.enums.UsuarioPerfil;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -19,6 +25,8 @@ public class UsuarioResponse {
 
     private String username;
 
+    private UsuarioPerfil perfil;
+    
     private EmpresaResponse empresa;
 
     private List<UsuarioGrupoResponse> grupos;

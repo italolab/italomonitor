@@ -65,6 +65,9 @@ function DetalhesUsuario() {
                         <AppField name="ID">
                             {usuario.id}
                         </AppField>
+                        <AppField name="perfil">
+                            {usuario.perfil === 'ADMIN' ? 'Administrador' : 'Usuário'}
+                        </AppField>
                         <AppField name="nome">
                             {usuario.nome}
                         </AppField>

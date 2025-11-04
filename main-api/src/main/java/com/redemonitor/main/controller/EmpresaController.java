@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import com.redemonitor.main.apidoc.empresa.*;
 import com.redemonitor.main.dto.request.SaveEmpresaRequest;
 import com.redemonitor.main.dto.response.EmpresaResponse;
+import com.redemonitor.main.service.AuthorizationService;
 import com.redemonitor.main.service.EmpresaService;
 
 import java.util.List;
@@ -18,9 +19,12 @@ public class EmpresaController {
 
     @Autowired
     private EmpresaService empresaService;
+    
+    @Autowired
+    private AuthorizationService authorizationService;
 
     @CreateEmpresaDoc
-    @PreAuthorize("hasAuthority('empresa-write')")
+    @PreAuthorize("hasAuthority('empresa-all')")
     @PostMapping
     public ResponseEntity<String> createEmpresa(@RequestBody SaveEmpresaRequest request ) {
         empresaService.createEmpresa( request );
@@ -28,7 +32,7 @@ public class EmpresaController {
     }
 
     @UpdateEmpresaDoc
-    @PreAuthorize("hasAuthority('empresa-write')")
+    @PreAuthorize("hasAuthority('empresa-all')")
     @PutMapping("/{empresaId}")
     public ResponseEntity<String> updateEmpresa( @PathVariable Long empresaId, @RequestBody SaveEmpresaRequest request ) {
         empresaService.updateEmpresa( empresaId, request );
@@ -36,7 +40,7 @@ public class EmpresaController {
     }
 
     @FilterEmpresasDoc
-    @PreAuthorize("hasAuthority('empresa-read')")
+    @PreAuthorize("hasAuthority('empresa-all')")
     @GetMapping
     public ResponseEntity<List<EmpresaResponse>> filterEmpresas(@RequestParam("nomepart") String nomePart ) {
         List<EmpresaResponse> responses = empresaService.filterEmpresas( nomePart );
@@ -44,15 +48,20 @@ public class EmpresaController {
     }
 
     @GetEmpresaDoc
-    @PreAuthorize("hasAuthority('empresa-read')")
+    @PreAuthorize("hasAnyAuthority('empresa-all', 'empresa-get')")
     @GetMapping("/{empresaId}/get")
-    public ResponseEntity<EmpresaResponse> getEmpresa( @PathVariable Long empresaId ) {
+    public ResponseEntity<EmpresaResponse> getEmpresa( 
+    		@PathVariable Long empresaId, 
+    		@RequestHeader( "Authorization" ) String authorizationHeader ) {
+    	
+    	authorizationService.authorizeByEmpresa( empresaId, authorizationHeader );
+    	
         EmpresaResponse resp = empresaService.getEmpresa( empresaId );
         return ResponseEntity.ok( resp );
     }
 
     @DeleteEmpresaDoc
-    @PreAuthorize("hasAuthority('empresa-delete')")
+    @PreAuthorize("hasAuthority('empresa-all')")
     @DeleteMapping("/{empresaId}")
     public ResponseEntity<String> deleteEmpresa( @PathVariable Long empresaId ) {
         empresaService.deleteEmpresa( empresaId );

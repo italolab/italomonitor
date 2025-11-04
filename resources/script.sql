@@ -63,6 +63,7 @@ create table usuario (
     email varchar( 100 ) not null,
     username varchar( 100 ) not null unique,
     senha varchar( 128 ) not null,
+    perfil varchar( 20 ) not null,
     empresa_id bigint,
     constraint empresa_fk foreign key( empresa_id ) references empresa( id )
 );
@@ -97,65 +98,43 @@ insert into config ( num_pacotes_por_lote, monitoramento_delay, registro_evento_
     15, 1, 3600
 );
 
-insert into usuario( nome, email, username, senha ) values (
+insert into usuario( nome, email, username, senha, perfil ) values (
     'Italo Herbert',
     'italoherbert@outlook.com',
     'italo',
-    '59f62a0320ea304cbec2498764c5c6742bfcabf1b591e26a3bea6bfcca3e358e'
+    '59f62a0320ea304cbec2498764c5c6742bfcabf1b591e26a3bea6bfcca3e358e',
+    'ADMIN'
 );
 
 insert into usuario_grupo ( nome ) values ( 'admin' );
 insert into usuario_grupo ( nome ) values ( 'suporte' );
 
 insert into role ( nome ) values
-    ( 'usuario-write' ),
-    ( 'usuario-read' ),
+    ( 'usuario-all' ),
+    ( 'usuario-grupo-all' ),
+    ( 'role-all' ),
+    ( 'empresa-all' ),
+    ( 'dispositivo-all' ),
+    ( 'dispositivo-monitoramento-all'),
+    ( 'config-all' ),
+
     ( 'usuario-get' ),
-    ( 'usuario-delete' ),
-    ( 'usuario-grupo-write' ),
-    ( 'usuario-grupo-read' ),
-    ( 'usuario-grupo-delete' ),
-    ( 'role-write' ),
-    ( 'role-read' ),
-    ( 'role-delete' ),
-    ( 'empresa-read' ),
-    ( 'empresa-write' ),
-    ( 'empresa-delete' ),
     ( 'empresa-get' ),
-    ( 'dispositivo-read' ),
-    ( 'dispositivo-write' ),
-    ( 'dispositivo-delete' ),
-    ( 'dispositivo-monitoramento'),
-    ( 'config-write' ),
-    ( 'config-read' );
+    ( 'dispositivo-get' );
 
 insert into usuario_grupo_map( usuario_id, usuario_grupo_id ) values
-    ( (select id from usuario where username='italo'), (select id from usuario_grupo where nome='admin') ),
-    ( (select id from usuario where username='italo'), (select id from usuario_grupo where nome='suporte') );
+    ( (select id from usuario where username='italo'), (select id from usuario_grupo where nome='admin') );
 
 insert into role_grupo_map( role_id, usuario_grupo_id ) values
-    ( (select id from role where nome='usuario-write'), (select id from usuario_grupo where nome='admin') ),
-    ( (select id from role where nome='usuario-read'), (select id from usuario_grupo where nome='admin') ),
-    ( (select id from role where nome='usuario-delete'), (select id from usuario_grupo where nome='admin') ),
-    ( (select id from role where nome='usuario-grupo-write'), (select id from usuario_grupo where nome='admin') ),
-    ( (select id from role where nome='usuario-grupo-read'), (select id from usuario_grupo where nome='admin') ),
-    ( (select id from role where nome='usuario-grupo-delete'), (select id from usuario_grupo where nome='admin') ),
-    ( (select id from role where nome='role-write'), (select id from usuario_grupo where nome='admin') ),
-    ( (select id from role where nome='role-read'), (select id from usuario_grupo where nome='admin') ),
-    ( (select id from role where nome='role-delete'), (select id from usuario_grupo where nome='admin') ),
-    ( (select id from role where nome='empresa-read'), (select id from usuario_grupo where nome='admin') ),
-    ( (select id from role where nome='empresa-write'), (select id from usuario_grupo where nome='admin') ),
-    ( (select id from role where nome='empresa-delete'), (select id from usuario_grupo where nome='admin') ),
-    ( (select id from role where nome='dispositivo-write'), (select id from usuario_grupo where nome='admin') ),
-    ( (select id from role where nome='dispositivo-read'), (select id from usuario_grupo where nome='admin') ),
-    ( (select id from role where nome='dispositivo-delete'), (select id from usuario_grupo where nome='admin') ),
-    ( (select id from role where nome='dispositivo-monitoramento'), (select id from usuario_grupo where nome='admin') ),
-    ( (select id from role where nome='config-write'), (select id from usuario_grupo where nome='admin') ),
-    ( (select id from role where nome='config-read'), (select id from usuario_grupo where nome='admin') ),
+    ( (select id from role where nome='usuario-all'), (select id from usuario_grupo where nome='admin') ),
+    ( (select id from role where nome='usuario-grupo-all'), (select id from usuario_grupo where nome='admin') ),
+    ( (select id from role where nome='role-all'), (select id from usuario_grupo where nome='admin') ),
+    ( (select id from role where nome='empresa-all'), (select id from usuario_grupo where nome='admin') ),
+    ( (select id from role where nome='dispositivo-all'), (select id from usuario_grupo where nome='admin') ),
+    ( (select id from role where nome='dispositivo-monitoramento-all'), (select id from usuario_grupo where nome='admin') ),
+    ( (select id from role where nome='config-all'), (select id from usuario_grupo where nome='admin') ),
 
     ( (select id from role where nome='usuario-get'), (select id from usuario_grupo where nome='suporte') ),
     ( (select id from role where nome='empresa-get'), (select id from usuario_grupo where nome='suporte') ),
-    ( (select id from role where nome='dispositivo-write'), (select id from usuario_grupo where nome='suporte') ),
-    ( (select id from role where nome='dispositivo-read'), (select id from usuario_grupo where nome='suporte') ),
-    ( (select id from role where nome='dispositivo-delete'), (select id from usuario_grupo where nome='suporte') ),
-    ( (select id from role where nome='dispositivo-monitoramento'), (select id from usuario_grupo where nome='suporte') );
+    ( (select id from role where nome='dispositivo-all'), (select id from usuario_grupo where nome='suporte') ),
+    ( (select id from role where nome='dispositivo-monitoramento-all'), (select id from usuario_grupo where nome='suporte') );

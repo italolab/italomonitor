@@ -7,6 +7,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.redemonitor.main.components.util.HashUtil;
 import com.redemonitor.main.dto.request.CreateUsuarioRequest;
 import com.redemonitor.main.dto.request.UpdateUsuarioRequest;
 import com.redemonitor.main.dto.response.UsuarioGrupoResponse;
@@ -49,10 +50,15 @@ public class UsuarioService {
     @Autowired
     private EmpresaMapper empresaMapper;
 
+    @Autowired
+    private HashUtil hashUtil;
+    
     public void createUsuario( CreateUsuarioRequest request ) {
         request.validate();
 
         Usuario usuario = usuarioMapper.map( request );
+        usuario.setSenha( hashUtil.geraHash( usuario.getSenha() ) ); 
+        
         String username = usuario.getUsername();
 
         Optional<Usuario> usuarioOp = usuarioRepository.findByUsername( username );
@@ -101,7 +107,6 @@ public class UsuarioService {
         }
 
         usuarioMapper.load( usuario, request );
-
         usuarioRepository.save( usuario );
     }
 

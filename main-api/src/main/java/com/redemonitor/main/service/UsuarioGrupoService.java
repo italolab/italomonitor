@@ -1,8 +1,12 @@
 package com.redemonitor.main.service;
 
-import jakarta.transaction.Transactional;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.redemonitor.main.dto.request.SaveUsuarioGrupoRequest;
 import com.redemonitor.main.dto.response.RoleResponse;
@@ -11,14 +15,12 @@ import com.redemonitor.main.exception.BusinessException;
 import com.redemonitor.main.exception.Errors;
 import com.redemonitor.main.mapper.RoleMapper;
 import com.redemonitor.main.mapper.UsuarioGrupoMapper;
-import com.redemonitor.main.model.*;
+import com.redemonitor.main.model.Role;
+import com.redemonitor.main.model.RoleGrupoMap;
+import com.redemonitor.main.model.UsuarioGrupo;
 import com.redemonitor.main.repository.RoleGrupoMapRepository;
 import com.redemonitor.main.repository.RoleRepository;
 import com.redemonitor.main.repository.UsuarioGrupoRepository;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
 
 @Service
 public class UsuarioGrupoService {
@@ -83,7 +85,7 @@ public class UsuarioGrupoService {
         return usuarioGrupoOp.map( usuarioGrupoMapper::map ).orElseThrow();
     }
 
-    @Transactional
+    @Transactional(readOnly=true)
     public List<RoleResponse> getRolesByGrupoId( Long grupoId ) {
         Optional<UsuarioGrupo> usuarioGrupoOp = usuarioGrupoRepository.findById( grupoId );
         if ( usuarioGrupoOp.isEmpty() )

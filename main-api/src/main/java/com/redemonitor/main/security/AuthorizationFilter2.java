@@ -20,7 +20,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.redemonitor.main.components.util.JwtTokenUtil;
 import com.redemonitor.main.dto.response.ErrorResponse;
 import com.redemonitor.main.exception.Errors;
-import com.redemonitor.main.service.TokenService;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -39,10 +38,7 @@ public class AuthorizationFilter2 extends OncePerRequestFilter {
     
     @Autowired
     private JwtTokenUtil jwtTokenUtil;
-    
-    @Autowired
-    private TokenService tokenService;;
-    
+        
     @Override
     protected void doFilterInternal(
             HttpServletRequest request,
@@ -72,7 +68,7 @@ public class AuthorizationFilter2 extends OncePerRequestFilter {
         
         if ( accessToken == null ) {
         	String authorizationHeader = mutableRequest.getHeader( "Authorization" );
-        	accessToken = tokenService.extractAccessToken( authorizationHeader );        	
+        	accessToken = jwtTokenUtil.extractAccessToken( authorizationHeader );        	
         }
 
         if ( accessToken != null ) {
@@ -81,10 +77,10 @@ public class AuthorizationFilter2 extends OncePerRequestFilter {
                 if ( decodedJWT.getExpiresAt().after( new Date() ) ) {
                     String username = decodedJWT.getSubject();
                     String[] roles = decodedJWT.getClaim( "roles" ).asArray( String.class );
-
+                    
                     List<SimpleGrantedAuthority> authorities = new ArrayList<>();
                     for( String role : roles )
-                        authorities.add( new SimpleGrantedAuthority( role ) );
+                        authorities.add( new SimpleGrantedAuthority( role ) );                    
 
                     UsernamePasswordAuthenticationToken userPassToken =
                             new UsernamePasswordAuthenticationToken( username, null, authorities );

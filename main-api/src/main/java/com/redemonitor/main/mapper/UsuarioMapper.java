@@ -16,6 +16,7 @@ public class UsuarioMapper {
                 .email( request.getEmail() )
                 .username( request.getUsername() )
                 .senha( request.getSenha() )
+                .perfil( request.getPerfil() )
                 .build();
     }
 
@@ -25,6 +26,7 @@ public class UsuarioMapper {
                 .nome( usuario.getNome() )
                 .username( usuario.getUsername() )
                 .email( usuario.getEmail() )
+                .perfil( usuario.getPerfil() ) 
                 .build();
     }
 
@@ -32,6 +34,7 @@ public class UsuarioMapper {
         usuario.setNome( request.getNome() );
         usuario.setEmail( request.getEmail() );
         usuario.setUsername( request.getUsername() );
+        usuario.setPerfil( request.getPerfil() ); 
     }
 
 }

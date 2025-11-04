@@ -10,6 +10,7 @@ import { MdArrowBack } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
 import type { EmpresaResponse } from "../../core/model/dto/response/EmpresaResponse";
 import useEffectOnce from "../../core/util/useEffectOnce";
+import type { UsuarioPerfil } from "../../core/model/dto/types";
 
 function CreateUsuario() {
 
@@ -20,6 +21,7 @@ function CreateUsuario() {
     const [senha2, setSenha2] = useState<string>( '' );
     const [empresaId, setEmpresaId] = useState<number>( -1 );
     const [empresas, setEmpresas] = useState<EmpresaResponse[]>( [] );
+    const [perfil, setPerfil] = useState<UsuarioPerfil>( 'USUARIO' );
     
 
     const {
@@ -59,7 +61,8 @@ function CreateUsuario() {
                 email : email,
                 username : username,
                 senha : senha,
-                empresaId : empresaId
+                empresaId : empresaId,
+                perfil: perfil
             }
 
             await createUsuario( usuario );
@@ -69,6 +72,7 @@ function CreateUsuario() {
             setUsername( '' );
             setSenha( '' );
             setSenha2( '' );
+            setPerfil( 'USUARIO' );
         } catch ( error ) {
             console.error( error );
         }
@@ -130,6 +134,27 @@ function CreateUsuario() {
                                 <Form.Control type="password"
                                     value={senha2}
                                     onChange={ ( e ) => setSenha2( e.target.value ) } />
+                            </Form.Group>
+
+                            <Form.Group className="mb-3" controlId="perfil">
+                                <Form.Label>Perfil do usuário</Form.Label>
+
+                                <br />
+                                <Form.Check type="radio"                                             
+                                        name="perfil-group" 
+                                        value='ADMIN'
+                                        label="Administrador" 
+                                        checked={perfil==='ADMIN'}
+                                        onChange={() => setPerfil( 'ADMIN' )}
+                                        inline />
+                                        
+                                <Form.Check type="radio" 
+                                        name='perfil-group'
+                                        value='USUARIO'
+                                        label="Usuário"
+                                        checked={perfil==='USUARIO'}
+                                        onChange={ () => setPerfil( 'USUARIO' )}
+                                        inline />
                             </Form.Group>
 
                             <Form.Group controlId="empresa">

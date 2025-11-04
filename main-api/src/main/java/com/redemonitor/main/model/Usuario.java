@@ -2,8 +2,12 @@ package com.redemonitor.main.model;
 
 import java.util.List;
 
+import com.redemonitor.main.enums.UsuarioPerfil;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -38,6 +42,9 @@ public class Usuario {
     private String username;
 
     private String senha;
+    
+    @Enumerated(EnumType.STRING)
+    private UsuarioPerfil perfil;
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "usuario", cascade=CascadeType.ALL)
     private List<UsuarioGrupoMap> grupos;

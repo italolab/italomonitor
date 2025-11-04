@@ -1,9 +1,10 @@
 import { useContext, useState } from "react";
 import { AuthModel } from "../model/AuthModel";
-import type { LoginResponse } from "../model/dto/response/LoginResponse";
 import type { LoginRequest } from "../model/dto/request/LoginRequest";
 import { extractErrorMessage } from "../util/sistema-util";
 import { AuthContext } from "../../context/AuthProvider";
+import type { AxiosResponse } from "axios";
+import type { LoginResponse } from "../model/dto/response/LoginResponse";
 
 export function useLoginViewModel() {
 
@@ -11,9 +12,7 @@ export function useLoginViewModel() {
     const [infoMessage, setInfoMessage] = useState<string|null>( null );
     const [loading, setLoading] = useState<boolean>( false );
 
-    const [loginData, setLoginData] = useState<LoginResponse|null>( null );
-
-    const {setNome, setUsername, setAccessToken} = useContext(AuthContext);
+    const {setAccessToken} = useContext(AuthContext);
 
     const authModel = new AuthModel();
 
@@ -23,13 +22,15 @@ export function useLoginViewModel() {
         setLoading( true );
 
         try {
-            const response = await authModel.login( loginReq );
+            const response : AxiosResponse<LoginResponse> = await authModel.login( loginReq );
 
-            setNome( response.data.nome );
-            setUsername( response.data.username );
             setAccessToken( response.data.accessToken );
 
-            setLoginData( response.data );
+            localStorage.setItem( 'username', response.data.username );
+            localStorage.setItem( 'nome', response.data.nome );
+            localStorage.setItem( 'empresaId', ''+response.data.empresaId );
+            localStorage.setItem( 'isAdmin', ''+response.data.isAdmin );
+
             setLoading( false );
         } catch ( error ) {
             setErrorMessage( extractErrorMessage( error ) );
@@ -38,6 +39,6 @@ export function useLoginViewModel() {
         }
     };
 
-    return { logon, loginData, errorMessage, infoMessage, loading }
+    return { logon, errorMessage, infoMessage, loading }
 }
 

@@ -1,6 +1,5 @@
+import type { DispositivoStatus } from "../types";
 import type { EmpresaResponse } from "./EmpresaResponse";
-
-export type DispositivoStatus = "ATIVO" | "INATIVO";
 
 export interface DispositivoResponse {
     id : number;
@@ -9,7 +8,6 @@ export interface DispositivoResponse {
     descricao : string;
     localizacao : string;
     sendoMonitorado : boolean;
-
     status : DispositivoStatus;
     empresa : EmpresaResponse;
 }

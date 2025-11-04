@@ -42,7 +42,11 @@ public class DispositivoMonitorEscalonador {
 	@Autowired
 	private DispositivoWebSocket dispositivoWebSocket;
 	
-	public void startAllMonitoramentos( Long empresaId, String accessToken ) {
+	public void startAllMonitoramentosDeDispositivosNaoMonitorados( String accessToken ) {
+		
+	}
+	
+	public void startAllMonitoramentos( Long empresaId, String username ) {
 		Config config = configRepository.findFirstByOrderByIdAsc();
 		List<MonitorServer> monitorServers = monitorServerRepository.findAll();
 		
@@ -50,7 +54,7 @@ public class DispositivoMonitorEscalonador {
 		int dispsQuant = dispsIDs.size();
 		int dispsMonitQuant = 0;
 		for( Long dispositivoId : dispsIDs ) {
-			MonitoramentoOperResult result = this.startMonitoramento( dispositivoId, accessToken, config, monitorServers );
+			MonitoramentoOperResult result = this.startMonitoramento( dispositivoId, username, config, monitorServers );
 			switch( result ) {
 				case INICIADO:
 					dispsMonitQuant++;
@@ -64,19 +68,19 @@ public class DispositivoMonitorEscalonador {
 		}
 	}
 	
-	public void stopAllMonitoramentos( Long empresaId, String accessToken ) {
+	public void stopAllMonitoramentos( Long empresaId, String username ) {
 		List<MonitorServer> monitorServers = monitorServerRepository.findAll();
 		
 		List<Long> dispIDs = dispositivoRepository.findIDsByEmpresaId( empresaId );
 		for( Long dispositivoId : dispIDs )
-			this.stopMonitoramento( dispositivoId, accessToken, monitorServers );		
+			this.stopMonitoramento( dispositivoId, username, monitorServers );		
 	}
 	
-	public void startMonitoramento( Long dispositivoId, String accessToken ) {
+	public void startMonitoramento( Long dispositivoId, String username ) {
 		Config config = configRepository.findFirstByOrderByIdAsc();
 		List<MonitorServer> monitorServers = monitorServerRepository.findAll();
 		
-		MonitoramentoOperResult result = this.startMonitoramento( dispositivoId, accessToken, config, monitorServers );
+		MonitoramentoOperResult result = this.startMonitoramento( dispositivoId, username, config, monitorServers );
 		switch( result ) {
 			case JA_INICIADO:
 	            throw new BusinessException( Errors.DISPOSITIVO_ALREADY_MONITORED );
@@ -87,10 +91,10 @@ public class DispositivoMonitorEscalonador {
 		}
 	}
 	
-	public void stopMonitoramento( Long dispositivoId, String accessToken ) {
+	public void stopMonitoramento( Long dispositivoId, String username ) {
 		List<MonitorServer> monitorServers = monitorServerRepository.findAll();
 
-		MonitoramentoOperResult result = this.stopMonitoramento( dispositivoId, accessToken, monitorServers );
+		MonitoramentoOperResult result = this.stopMonitoramento( dispositivoId, username, monitorServers );
 		switch( result ) {
 			case NAO_ENCONTRADO:
 		        throw new BusinessException( Errors.DISPOSITIVO_NOT_MONITORED );		       

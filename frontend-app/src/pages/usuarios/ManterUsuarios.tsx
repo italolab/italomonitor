@@ -112,6 +112,7 @@ function ManterUsuarios() {
                             <tr className="blue">
                                 <th>ID</th>
                                 <th>Nome</th>
+                                <th>Perfil</th>
                                 <th>Empresa</th>
                                 <th>Operações</th>
                             </tr>
@@ -121,6 +122,7 @@ function ManterUsuarios() {
                                 <tr key={index}>
                                     <td>{usuario.id}</td>
                                     <td>{usuario.nome}</td>
+                                    <td>{usuario.perfil === 'ADMIN' ? 'Administrador' : 'Usuário'}</td>
                                     <td>{usuario.empresa != null ? usuario.empresa.nome : 'Nenhuma empresa'}</td>
                                     <td>
                                         <AppOperations 

@@ -23,11 +23,12 @@ import com.redemonitor.main.apidoc.dispositivo.FilterDispositivosDoc;
 import com.redemonitor.main.apidoc.dispositivo.GetDispositivoDoc;
 import com.redemonitor.main.apidoc.dispositivo.UpdateDispositivoDoc;
 import com.redemonitor.main.apidoc.dispositivo.UpdateDispositivoStatusDoc;
+import com.redemonitor.main.components.util.JwtTokenUtil;
 import com.redemonitor.main.dto.request.SaveDispositivoRequest;
 import com.redemonitor.main.dto.request.SaveDispositivoStatusRequest;
 import com.redemonitor.main.dto.response.DispositivoResponse;
+import com.redemonitor.main.service.AuthorizationService;
 import com.redemonitor.main.service.DispositivoService;
-import com.redemonitor.main.service.TokenService;
 
 @RestController
 @RequestMapping("/api/v1/dispositivos")
@@ -37,29 +38,42 @@ public class DispositivoController {
     private DispositivoService dispositivoService;
     
     @Autowired
-    private TokenService tokenService;
+    private JwtTokenUtil jwtTokenUtil;
+    
+    @Autowired
+    private AuthorizationService authorizationService;
             
     @CreateDispositivoDoc
-    @PreAuthorize("hasAuthority('dispositivo-write')")
+    @PreAuthorize("hasAuthority('dispositivo-all')")
     @PostMapping
-    public ResponseEntity<String> createDispositivo( @RequestBody SaveDispositivoRequest request ) {
+    public ResponseEntity<String> createDispositivo( 
+    		@RequestBody SaveDispositivoRequest request, 
+    		@RequestHeader("Authorization") String authorizationHeader ) {
+    	
+    	Long empresaId = request.getEmpresaId();
+    	authorizationService.authorizeByEmpresa( empresaId, authorizationHeader );
+    	
         dispositivoService.createDispositivo( request );
         return ResponseEntity.ok( "Dispositivo registrado com sucesso." );
     }
 
     @UpdateDispositivoDoc
-    @PreAuthorize("hasAuthority('dispositivo-write')")
+    @PreAuthorize("hasAuthority('dispositivo-all')")
     @PutMapping("/{dispositivoId}")
     public ResponseEntity<String> updateDispositivo( 
     		@PathVariable Long dispositivoId, 
-    		@RequestBody SaveDispositivoRequest request ) {
+    		@RequestBody SaveDispositivoRequest request, 
+    		@RequestHeader("Authorization") String authorizationHeader ) {
+    	
+    	Long empresaId = request.getEmpresaId();
+    	authorizationService.authorizeByEmpresa( empresaId, authorizationHeader );
     	
         dispositivoService.updateDispositivo( dispositivoId, request );
         return ResponseEntity.ok( "Dispositivo alterado com sucesso." );
     }
     
     @UpdateDispositivoStatusDoc
-    @PreAuthorize("hasAnyAuthority('dispositivo-write', 'microservice')") 
+    @PreAuthorize("hasAnyAuthority('microservice')") 
     @PatchMapping("/{dispositivoId}/update-status")
     public ResponseEntity<String> updateDispositivoStatus( 
     		@PathVariable Long dispositivoId, 
@@ -69,38 +83,48 @@ public class DispositivoController {
     }
 
     @FilterDispositivosDoc
-    @PreAuthorize("hasAuthority('dispositivo-read')")
+    @PreAuthorize("hasAuthority('dispositivo-all')")
     @GetMapping("/empresa/{empresaId}")
     public ResponseEntity<List<DispositivoResponse>> filterDispositivos(
     		@PathVariable Long empresaId,
             @RequestParam("hostpart") String hostPart,
             @RequestParam("nomepart") String nomePart,
-            @RequestParam("localpart") String localPart ) {
+            @RequestParam("localpart") String localPart, 
+    		@RequestHeader("Authorization") String authorizationHeader ) {
+    	
+    	authorizationService.authorizeByEmpresa( empresaId, authorizationHeader );
 
         List<DispositivoResponse> responses =
                 dispositivoService.filterDispositivos( empresaId, hostPart, nomePart, localPart );
 
         return ResponseEntity.ok( responses );
     }
-
+    
     @GetDispositivoDoc
-    @PreAuthorize("hasAnyAuthority('dispositivo-read', 'microservice')")
+    @PreAuthorize("hasAnyAuthority('dispositivo-all', 'microservice')")
     @GetMapping("/{dispositivoId}/get")
-    public ResponseEntity<DispositivoResponse> getDispositivo( @PathVariable Long dispositivoId ) {
+    public ResponseEntity<DispositivoResponse> getDispositivo( 
+    		@PathVariable Long dispositivoId,
+    		@RequestHeader("Authorization") String authorizationHeader ) {
+    	
+    	authorizationService.authorizeDispositivoOperByEmpresa( dispositivoId, authorizationHeader );
+    	
         DispositivoResponse resp = dispositivoService.getDispositivo( dispositivoId );
         return ResponseEntity.ok( resp );
     }
 
     @DeleteDispositivoDoc
-    @PreAuthorize("hasAuthority('dispositivo-delete')")
+    @PreAuthorize("hasAuthority('dispositivo-all')")
     @DeleteMapping("/{dispositivoId}")
     public ResponseEntity<String> deleteDispositivo( 
-    		@PathVariable Long dispositivoId, 
+    		@PathVariable Long dispositivoId,
     		@RequestHeader("Authorization") String authorizationHeader ) {
     	    	    	
-    	String username = tokenService.getUsernameByAuthorizationHeader( authorizationHeader );
+    	authorizationService.authorizeDispositivoOperByEmpresa( dispositivoId, authorizationHeader );
     	
-        dispositivoService.deleteDispositivo( dispositivoId, username );
+    	String username = jwtTokenUtil.extractInfos( authorizationHeader ).getUsername();
+    	
+    	dispositivoService.deleteDispositivo( dispositivoId, username );
         return ResponseEntity.ok( "Dispositivo deletado com sucesso." );
     }
 

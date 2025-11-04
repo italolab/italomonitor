@@ -32,7 +32,7 @@ public class MonitorServerController {
     private MonitorServerService monitorServerService;
         
     @CreateMonitorServerDoc
-    @PreAuthorize("hasAuthority('config-write')")
+    @PreAuthorize("hasAuthority('config-all')")
     @PostMapping
     public ResponseEntity<String> createMonitorServer(@RequestBody SaveMonitorServerRequest request ) {
         monitorServerService.createMonitorServer( request );
@@ -40,7 +40,7 @@ public class MonitorServerController {
     }
 
     @UpdateMonitorServerDoc
-    @PreAuthorize("hasAuthority('config-write')")
+    @PreAuthorize("hasAuthority('config-all')")
     @PutMapping("/{monitorServerId}")
     public ResponseEntity<String> updateMonitorServer( @PathVariable Long monitorServerId, @RequestBody SaveMonitorServerRequest request ) {
         monitorServerService.updateMonitorServer( monitorServerId, request );
@@ -48,7 +48,7 @@ public class MonitorServerController {
     }
 
     @FilterMonitorServersDoc
-    @PreAuthorize("hasAuthority('config-read')")
+    @PreAuthorize("hasAuthority('config-all')")
     @GetMapping
     public ResponseEntity<List<MonitorServerResponse>> filterMonitorServers( @RequestParam("hostpart") String hostPart ) {    	
         List<MonitorServerResponse> responses = monitorServerService.filterMonitorServers( hostPart );
@@ -56,7 +56,7 @@ public class MonitorServerController {
     }
 
     @GetMonitorServerDoc
-    @PreAuthorize("hasAuthority('config-read')")
+    @PreAuthorize("hasAuthority('config-all')")
     @GetMapping("/{monitorServerId}/get")
     public ResponseEntity<MonitorServerResponse> getMonitorServer( @PathVariable Long monitorServerId ) {    	
         MonitorServerResponse resp = monitorServerService.getMonitorServer( monitorServerId );
@@ -64,7 +64,7 @@ public class MonitorServerController {
     }
 
     @DeleteMonitorServerDoc
-    @PreAuthorize("hasAuthority('config-write')")
+    @PreAuthorize("hasAuthority('config-all')")
     @DeleteMapping("/{monitorServerId}")
     public ResponseEntity<String> deleteMonitorServer( @PathVariable Long monitorServerId ) {
         monitorServerService.deleteMonitorServer( monitorServerId );

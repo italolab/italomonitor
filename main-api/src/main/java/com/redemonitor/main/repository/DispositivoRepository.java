@@ -15,9 +15,12 @@ public interface DispositivoRepository extends JpaRepository<Dispositivo, Long> 
     		+ "lower(d.nome) like lower(?3) and "
     		+ "lower(d.localizacao) like lower(?4)" )
     List<Dispositivo> filter( Long empresaId, String hostPart, String nomePart, String localPart );
-
+    
     @Query( "select d.id from Dispositivo d where d.empresa.id=?1")
     List<Long> findIDsByEmpresaId( Long empresaId );
+    
+    @Query( "select d.empresa.id from Dispositivo d where d.id=?1")
+    Optional<Long> getEmpresaId( Long dispositivoId );
     
     Optional<Dispositivo> findByNome( String nome );
 

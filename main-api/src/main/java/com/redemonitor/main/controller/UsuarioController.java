@@ -1,18 +1,33 @@
 package com.redemonitor.main.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
-import com.redemonitor.main.apidoc.usuario.*;
+import com.redemonitor.main.apidoc.usuario.CreateUsuarioDoc;
+import com.redemonitor.main.apidoc.usuario.DeleteUsuarioDoc;
+import com.redemonitor.main.apidoc.usuario.DeleteVinculoUsuarioGrupoDoc;
+import com.redemonitor.main.apidoc.usuario.FilterUsuariosDoc;
+import com.redemonitor.main.apidoc.usuario.GetUsuarioDoc;
+import com.redemonitor.main.apidoc.usuario.GetUsuarioGruposByUsuarioIDDoc;
+import com.redemonitor.main.apidoc.usuario.UpdateUsuarioDoc;
+import com.redemonitor.main.apidoc.usuario.VinculaUsuarioGrupoDoc;
 import com.redemonitor.main.dto.request.CreateUsuarioRequest;
 import com.redemonitor.main.dto.request.UpdateUsuarioRequest;
 import com.redemonitor.main.dto.response.UsuarioGrupoResponse;
 import com.redemonitor.main.dto.response.UsuarioResponse;
 import com.redemonitor.main.service.UsuarioService;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/usuarios")
@@ -21,14 +36,8 @@ public class UsuarioController {
     @Autowired
     private UsuarioService usuarioService;
 
-    @PreAuthorize("hasAuthority('usuario-read')")
-    @GetMapping("/teste")
-    public String teste() {
-        return "Funcionou...";
-    }
-
     @CreateUsuarioDoc
-    @PreAuthorize("hasAuthority('usuario-write')")
+    @PreAuthorize("hasAuthority('usuario-all')")
     @PostMapping
     public ResponseEntity<String> createUsuario( @RequestBody CreateUsuarioRequest request ) {
         usuarioService.createUsuario( request );
@@ -36,7 +45,7 @@ public class UsuarioController {
     }
 
     @UpdateUsuarioDoc
-    @PreAuthorize("hasAuthority('usuario-write')")
+    @PreAuthorize("hasAuthority('usuario-all')")
     @PutMapping("/{usuarioId}")
     public ResponseEntity<String> updateUsuario(@PathVariable Long usuarioId, @RequestBody UpdateUsuarioRequest request ) {
         usuarioService.updateUsuario( usuarioId, request );
@@ -44,7 +53,7 @@ public class UsuarioController {
     }
 
     @FilterUsuariosDoc
-    @PreAuthorize("hasAuthority('usuario-read')")
+    @PreAuthorize("hasAuthority('usuario-all')")
     @GetMapping
     public ResponseEntity<List<UsuarioResponse>> filterUsuarios( @RequestParam("nomepart") String nomePart ) {
         List<UsuarioResponse> responses = usuarioService.filterUsuarios( nomePart );
@@ -52,7 +61,7 @@ public class UsuarioController {
     }
 
     @GetUsuarioDoc
-    @PreAuthorize("hasAuthority('usuario-read')")
+    @PreAuthorize("hasAnyAuthority('usuario-all', 'usuario-get')")
     @GetMapping("/{usuarioId}/get")
     public ResponseEntity<UsuarioResponse> getUsuario( @PathVariable Long usuarioId ) {
         UsuarioResponse resp = usuarioService.getUsuario( usuarioId );
@@ -60,7 +69,7 @@ public class UsuarioController {
     }
 
     @GetUsuarioGruposByUsuarioIDDoc
-    @PreAuthorize("hasAuthority('usuario-grupo-read')")
+    @PreAuthorize("hasAuthority('usuario-grupo-all')")
     @GetMapping("/{usuarioId}/grupos")
     public ResponseEntity<List<UsuarioGrupoResponse>> getGruposByUsuarioId( @PathVariable Long usuarioId ) {
         List<UsuarioGrupoResponse> grupos = usuarioService.getGruposByUsuarioId( usuarioId );
@@ -68,7 +77,7 @@ public class UsuarioController {
     }
 
     @VinculaUsuarioGrupoDoc
-    @PreAuthorize("hasAuthority('usuario-write')")
+    @PreAuthorize("hasAuthority('usuario-all')")
     @PostMapping("/{usuarioId}/grupos/{usuarioGrupoId}")
     public ResponseEntity<String> vinculaGrupo( @PathVariable Long usuarioId, @PathVariable Long usuarioGrupoId ) {
         usuarioService.vinculaGrupo( usuarioId, usuarioGrupoId );
@@ -76,7 +85,7 @@ public class UsuarioController {
     }
 
     @DeleteVinculoUsuarioGrupoDoc
-    @PreAuthorize("hasAuthority('usuario-write')")
+    @PreAuthorize("hasAuthority('usuario-all')")
     @DeleteMapping("/{usuarioId}/grupos/{usuarioGrupoId}")
     public ResponseEntity<String> removeGrupoVinculado( @PathVariable Long usuarioId, @PathVariable Long usuarioGrupoId ) {
         usuarioService.removeGrupoVinculado( usuarioId, usuarioGrupoId );
@@ -84,7 +93,7 @@ public class UsuarioController {
     }
 
     @DeleteUsuarioDoc
-    @PreAuthorize("hasAuthority('usuario-delete')")
+    @PreAuthorize("hasAuthority('usuario-all')")
     @DeleteMapping("/{usuarioId}")
     public ResponseEntity<String> deleteUsuario( @PathVariable Long usuarioId ) {
         usuarioService.deleteUsuario( usuarioId );

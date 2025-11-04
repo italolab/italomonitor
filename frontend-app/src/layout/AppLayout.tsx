@@ -41,30 +41,40 @@ function AppLayout( {children, className} : AppLayoutProps ) {
                         <FaArrowLeftLong />
                     </button>
                 </Offcanvas.Header>
-                <Offcanvas.Body className="p-0 bg-light">
-                    
-                    <Link to="/empresas" className="sidebar-item">
-                        🏢 Empresas
-                    </Link>
+                <Offcanvas.Body className="p-0 bg-light">                                        
+                    { localStorage.getItem( 'isAdmin' ) === 'false' &&
+                        <span>
+                            <Link to={`/dispositivos/${localStorage.getItem( 'empresaId' )}`} className="sidebar-item">
+                                📥 Dispositivos
+                            </Link>
+                        </span>
+                    }
 
-                    <div className="sidebar-item" onClick={ () => setUsuariosOptionsVisible( !usuariosOptionsVisible ) }>
-                        👤 Usuários
-                    </div>
-                    <Container fluid hidden={!usuariosOptionsVisible} className="m-0 p-0">
-                        <Link to="/usuarios" className="sidebar-item px-5">
-                            👤 Usuarios
-                        </Link>
-                        <Link to="/usuario-grupos" className="sidebar-item px-5">
-                            👥 Grupos
-                        </Link>
-                        <Link to="/roles" className="sidebar-item px-5">
-                            📄 Roles
-                        </Link>
-                    </Container>
+                    { localStorage.getItem( 'isAdmin' ) === 'true' &&
+                        <span>
+                            <Link to="/empresas" className="sidebar-item">
+                                🏢 Empresas
+                            </Link>
+                            <div className="sidebar-item" onClick={ () => setUsuariosOptionsVisible( !usuariosOptionsVisible ) }>
+                                👤 Usuários
+                            </div>
+                            <Container fluid hidden={!usuariosOptionsVisible} className="m-0 p-0">
+                                <Link to="/usuarios" className="sidebar-item px-5">
+                                    👤 Usuarios
+                                </Link>
+                                <Link to="/usuario-grupos" className="sidebar-item px-5">
+                                    👥 Grupos
+                                </Link>
+                                <Link to="/roles" className="sidebar-item px-5">
+                                    📄 Roles
+                                </Link>
+                            </Container>
 
-                    <Link to="/detalhes-config" className="sidebar-item">
-                        ⚙️ Configurações
-                    </Link>
+                            <Link to="/detalhes-config" className="sidebar-item">
+                                ⚙️ Configurações
+                            </Link>
+                        </span>
+                    }
 
                     <div onClick={appLogout} className="sidebar-item">
                         ↙️ Sair

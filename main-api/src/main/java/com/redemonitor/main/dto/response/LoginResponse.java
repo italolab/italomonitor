@@ -14,5 +14,9 @@ public class LoginResponse {
     private String username;
 
     private String accessToken;
+        
+    public Long empresaId;
+
+    public String perfil;
 
 }
