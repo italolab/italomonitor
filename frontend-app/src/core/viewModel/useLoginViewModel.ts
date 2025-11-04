@@ -29,7 +29,7 @@ export function useLoginViewModel() {
             localStorage.setItem( 'username', response.data.username );
             localStorage.setItem( 'nome', response.data.nome );
             localStorage.setItem( 'empresaId', ''+response.data.empresaId );
-            localStorage.setItem( 'isAdmin', ''+response.data.isAdmin );
+            localStorage.setItem( 'perfil', response.data.perfil );
 
             setLoading( false );
         } catch ( error ) {

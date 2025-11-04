@@ -14,7 +14,7 @@ export function useLogoutViewModel() {
         localStorage.removeItem( 'username' );
         localStorage.removeItem( 'nome' );
         localStorage.removeItem( 'empresaId' );
-        localStorage.removeItem( 'isAdmin' );
+        localStorage.removeItem( 'perfil' );
     };
 
     return { logout };
