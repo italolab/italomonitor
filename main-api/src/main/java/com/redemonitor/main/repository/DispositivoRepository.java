@@ -19,6 +19,9 @@ public interface DispositivoRepository extends JpaRepository<Dispositivo, Long> 
     @Query( "select d.id from Dispositivo d where d.empresa.id=?1")
     List<Long> findIDsByEmpresaId( Long empresaId );
     
+    @Query( "select count(*) from Dispositivo d where d.empresa.id=?1")
+    int countDispositivosByEmpresa( Long empresaId );
+    
     @Query( "select d.empresa.id from Dispositivo d where d.id=?1")
     Optional<Long> getEmpresaId( Long dispositivoId );
     

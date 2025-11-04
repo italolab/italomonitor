@@ -15,11 +15,13 @@ function useDetalhesUsuarioViewModel() {
         nome: '',
         email: '',
         username: '',
+        perfil: 'USUARIO',
         empresa: {
             id: 0,
             nome: '',
             emailNotif: '',
-            porcentagemMaxFalhasPorLote: 0
+            porcentagemMaxFalhasPorLote: 0,
+            maxDispositivosQuant: 0
         },
         grupos: []
     } );

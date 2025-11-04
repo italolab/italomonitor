@@ -14,6 +14,7 @@ public class EmpresaMapper {
                 .nome( request.getNome() )
                 .emailNotif( request.getEmailNotif() )
                 .porcentagemMaxFalhasPorLote( request.getPorcentagemMaxFalhasPorLote() )
+                .maxDispositivosQuant( request.getMaxDispositivosQuant() )
                 .build();
     }
 
@@ -23,6 +24,7 @@ public class EmpresaMapper {
                 .nome( empresa.getNome() )
                 .emailNotif( empresa.getEmailNotif() )
                 .porcentagemMaxFalhasPorLote( empresa.getPorcentagemMaxFalhasPorLote() )
+                .maxDispositivosQuant( empresa.getMaxDispositivosQuant() )
                 .build();
     }
 
@@ -30,6 +32,7 @@ public class EmpresaMapper {
         empresa.setNome( request.getNome() );
         empresa.setEmailNotif( request.getEmailNotif() );
         empresa.setPorcentagemMaxFalhasPorLote( request.getPorcentagemMaxFalhasPorLote() );
+        empresa.setMaxDispositivosQuant( request.getMaxDispositivosQuant() ); 
     }
 
 }

@@ -77,6 +77,9 @@ function DetalhesEmpresa() {
                         <AppField name="max falhas por lote (%)">
                             {empresa.porcentagemMaxFalhasPorLote * 100} {"%"}
                         </AppField>
+                        <AppField name="quantidade máxima de dispositivos">
+                            {empresa.maxDispositivosQuant}
+                        </AppField>
                     </Card.Body>
                 </Card>
             </div>

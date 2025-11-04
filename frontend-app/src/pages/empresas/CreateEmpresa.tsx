@@ -14,6 +14,7 @@ function CreateEmpresa() {
     const [nome, setNome] = useState<string>( '' );
     const [emailNotif, setEmailNotif] = useState<string>( '' );
     const [porcentagemMaxFalhasPorLote, setPorcentagemMaxFalhasPorLote] = useState<string>( '33.3333' );
+    const [maxDispositivosQuant, setMaxDispositivosQuant] = useState<string>( '' );
 
     const {
         createEmpresa,
@@ -34,7 +35,8 @@ function CreateEmpresa() {
             const empresa : SaveEmpresaRequest = {
                 nome : nome,
                 emailNotif : emailNotif,
-                porcentagemMaxFalhasPorLote: ( parseFloat( porcentagemMaxFalhasPorLote ) / 100.0 )
+                porcentagemMaxFalhasPorLote: ( parseFloat( porcentagemMaxFalhasPorLote ) / 100.0 ),
+                maxDispositivosQuant: parseInt( maxDispositivosQuant )
             }
 
             await createEmpresa( empresa );
@@ -49,6 +51,11 @@ function CreateEmpresa() {
     const validateForm = async () => {
         if ( Number.isNaN( porcentagemMaxFalhasPorLote ) === true ) {
             setErrorMessage( 'Porcentagem máxima de falhas por lote está em formato não numérico.' );
+            return false;
+        }
+
+        if ( Number.isNaN( maxDispositivosQuant ) === true ) {
+            setErrorMessage( 'Quantidade máxima de dispositivos está em formato não numérico.' );
             return false;
         }
 
@@ -92,6 +99,13 @@ function CreateEmpresa() {
                                 <Form.Text>
                                     Valor atual: {porcentagemMaxFalhasPorLote}%
                                 </Form.Text>
+                            </Form.Group>
+
+                            <Form.Group className="mb-3" controlId="maxDispositivosQuant">
+                                <Form.Label>Quant. máxima de dispositivos</Form.Label>
+                                <Form.Control type="number"
+                                        value={maxDispositivosQuant}
+                                        onChange={( e ) => setMaxDispositivosQuant( e.target.value ) } />
                             </Form.Group>
 
                             <AppMessage message={errorMessage} type="error" />

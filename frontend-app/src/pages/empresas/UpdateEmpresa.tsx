@@ -14,15 +14,16 @@ function UpdateEmpresa() {
 
     const [nome, setNome] = useState<string>( '' );
     const [emailNotif, setEmailNotif] = useState<string>( '' );
-    const [porcentagemMaxFalhasPorLote, setPorcentagemMaxFalhasPorLote] = useState<number>( 33.3333 );
-    
+    const [porcentagemMaxFalhasPorLote, setPorcentagemMaxFalhasPorLote] = useState<string>( '33.3333' );
+    const [maxDispositivosQuant, setMaxDispositivosQuant] = useState<string>( '' );    
 
     const {
         updateEmpresa,
         getEmpresa,
         loading,
         errorMessage,
-        infoMessage
+        infoMessage,
+        setErrorMessage
     } = useSaveEmpresaViewModel();
 
     const { empresaId } = useParams();
@@ -39,28 +40,46 @@ function UpdateEmpresa() {
             const empresa = await getEmpresa( eid );
             setNome( empresa.nome );
             setEmailNotif( empresa.emailNotif );
-            setPorcentagemMaxFalhasPorLote( empresa.porcentagemMaxFalhasPorLote * 100 );
-
+            setPorcentagemMaxFalhasPorLote( ''+(empresa.porcentagemMaxFalhasPorLote * 100) );
+            setMaxDispositivosQuant( ''+empresa.maxDispositivosQuant );
         } catch ( error ) {
             console.error( error );
         }
     };
 
     const onSave = async () => {
+        const valid = await validateForm();
+        if ( valid === false )
+            return;
+
         try {
             const empresa : SaveEmpresaRequest = {
                 nome : nome,
                 emailNotif : emailNotif,
-                porcentagemMaxFalhasPorLote: ( porcentagemMaxFalhasPorLote / 100.0 )
+                porcentagemMaxFalhasPorLote: ( parseFloat( porcentagemMaxFalhasPorLote ) / 100.0 ),
+                maxDispositivosQuant: parseInt( maxDispositivosQuant )
             };
            
             const eid : number = parseInt( empresaId! );
-            await updateEmpresa( eid, empresa );            
+            await updateEmpresa( eid, empresa );                        
         } catch ( error ) {
             console.error( error );
         }
     };
 
+    const validateForm = async () => {
+        if ( Number.isNaN( porcentagemMaxFalhasPorLote ) === true ) {
+            setErrorMessage( 'Porcentagem máxima de falhas por lote está em formato não numérico.' );
+            return false;
+        }
+
+        if ( Number.isNaN( maxDispositivosQuant ) === true ) {
+            setErrorMessage( 'Quantidade máxima de dispositivos está em formato não numérico.' );
+            return false;
+        }
+
+        return true;
+    }
 
     return (
         <AppLayout>
@@ -100,10 +119,17 @@ function UpdateEmpresa() {
                                 <Form.Label>Max falhas por lote (%)</Form.Label>
                                 <Form.Range min={1} max={100} step={1}
                                     value={porcentagemMaxFalhasPorLote}
-                                    onChange={ ( e ) => setPorcentagemMaxFalhasPorLote( parseFloat(e.target.value ) ) } />
+                                    onChange={ ( e ) => setPorcentagemMaxFalhasPorLote( e.target.value ) } />
                                 <Form.Text>
                                     Valor atual: {porcentagemMaxFalhasPorLote}%
                                 </Form.Text>
+                            </Form.Group>
+
+                            <Form.Group className="mb-3" controlId="maxDispositivosQuant">
+                                <Form.Label>Quant. máxima de dispositivos</Form.Label>
+                                <Form.Control type="number"
+                                        value={maxDispositivosQuant}
+                                        onChange={( e ) => setMaxDispositivosQuant( e.target.value ) } />
                             </Form.Group>
 
                             <AppMessage message={errorMessage} type="error" />

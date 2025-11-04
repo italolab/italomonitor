@@ -25,7 +25,8 @@ public interface Errors {
     public final static String DISPOSITIVO_ALREADY_MONITORED = "O dispositivo já está sendo monitorado.";
     public final static String DISPOSITIVO_NOT_MONITORED = "O dispositivo não está sendo monitorado.";
     public final static String DISPOSITIVO_START_EXCEDE_LIMITE = "Dispositivo não monitorado.\nNão há mais vaga para monitorar mais um dispositivo.\n$1 de $2 dispositivos monitorados";
-
+    public final static String DISPOSITIVO_CREATE_EXCEDE_LIMITE = "Dispositivo não registrado porque o seu limite de criação de dispositivos foi atingido.\nVocê já tem $1 dispositivos registrados!";
+    
     public final static String EVENT_NOT_FOUND = "Evento não encontrado.";
 
     public final static String LINK_USER_GROUP_NOT_FOUND = "Vínculo entre usuário e grupo não encontrado.";

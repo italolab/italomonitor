@@ -43,17 +43,24 @@ public class DispositivoService {
 
         Dispositivo dispositivo = dispositivoMapper.map( request );
         String nome = dispositivo.getNome();
+        
+        Long empresaId = request.getEmpresaId();
 
         Optional<Dispositivo> dispositivoOp = dispositivoRepository.findByNome( nome );
         if ( dispositivoOp.isPresent() )
             throw new BusinessException( Errors.DISPOSITIVO_ALREADY_EXISTS );
 
-        Optional<Empresa> empresaOp = empresaRepository.findById( request.getEmpresaId() );
+        Optional<Empresa> empresaOp = empresaRepository.findById( empresaId );
         if ( empresaOp.isEmpty() )
             throw new BusinessException( Errors.EMPRESA_NOT_FOUND );
 
-        dispositivo.setEmpresa( empresaOp.get() );
-
+        Empresa empresa = empresaOp.get();
+        
+        int dispositivosQuantByEmpresa = dispositivoRepository.countDispositivosByEmpresa( empresaId );
+        if ( dispositivosQuantByEmpresa >= empresa.getMaxDispositivosQuant() )
+        	throw new BusinessException( Errors.DISPOSITIVO_CREATE_EXCEDE_LIMITE, ""+dispositivosQuantByEmpresa ); 
+        
+        dispositivo.setEmpresa( empresa );
 
         dispositivoRepository.save( dispositivo );
     }

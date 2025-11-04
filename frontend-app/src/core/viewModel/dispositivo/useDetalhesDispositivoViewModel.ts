@@ -25,7 +25,8 @@ function useDetalhesDispositivoViewModel() {
             id: 0,
             nome: '',
             emailNotif: '',
-            porcentagemMaxFalhasPorLote: 0
+            porcentagemMaxFalhasPorLote: 0,
+            maxDispositivosQuant: 0
         }
     } );
 

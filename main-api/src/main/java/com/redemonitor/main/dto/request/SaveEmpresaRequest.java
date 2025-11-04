@@ -18,28 +18,36 @@ public class SaveEmpresaRequest {
     private String nome;
     private String emailNotif;
     private double porcentagemMaxFalhasPorLote;
+    private int maxDispositivosQuant;
 
     public void validate() {
         List<Validator> validators = new ArrayList<>();
 
         validators.addAll(
                 ValidationBuilder.of( "nome", nome )
-                        .required()
-                        .build()
+                    .required()
+                    .build()
         );
 
         validators.addAll(
                 ValidationBuilder.of( "email de notificação", emailNotif )
-                        .email()
-                        .build()
+                    .email()
+                    .build()
         );
 
         validators.addAll(
                 ValidationBuilder.of( "porcentagem máxima de falhas por lote", String.valueOf( porcentagemMaxFalhasPorLote ) )
-                        .required()
-                        .deveSerMaiorQueZero()
-                        .build()
+                    .required()
+                    .deveSerMaiorQueZero()
+                    .build()
         );
+        
+        validators.addAll(
+        		ValidationBuilder.of( "Quantidade máxima de dispositivos", String.valueOf( maxDispositivosQuant ) )
+        			.required()
+        			.deveSerMaiorQueZero() 
+        			.build()
+        ); 
 
         validators.forEach( Validator::validate );
     }

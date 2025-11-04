@@ -4,4 +4,5 @@ export interface EmpresaResponse {
     nome : string;
     emailNotif : string;
     porcentagemMaxFalhasPorLote : number;
+    maxDispositivosQuant : number;
 }
