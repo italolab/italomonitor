@@ -81,14 +81,6 @@ A configuração de cors está no backend da seguinte forma:
 
 Os microserviços se comunicam via REST ou messageria. Na comunicação via REST, é utilizado o RestClient para consumo da API do microserviço alvo. Cada microserviço integrado possui componentes de integração com os controllers e endpoints dos microserviços alvo. Os endpoints são configurados no application.properties, bem como o token utilizado para acesso a API do microserviço alvo. Um único token é compartilhado pelos microserviços para comunicação entre eles. Esse token não é gerado pela aplicação e é armazenado em local seguro. Isto é, como variável de ambiente dos containers dos microserviços. Esse token de microserviços tem o username: "microservice" e o role "microservice", necessário para acessar a API compartilhada. O token de microserviço também, teoricamente, não tem tempo de expiração. É vitalício. Dado que seu tempo de expiração em segundos corresponde ao valor inteiro máximo de 32 bits que deve corresponder a mais de um século.
 
-## 🕸️ A atualização dos detalhes de dispositivo via Websocket
-
-Na página de detalhes do dispositivo são mostradas as informações do dispositivo. Inclusive se ele está sendo monitorado e seu status. Essas informações são atualizadas no backend com o monitoramento do dispositivo e mensagens enviadas via websocket são recebidas na página e, assim, as informações do dispositivo são atualizadas na tela.
-
-Um detalhe técnico importante é o que acontece se o servidor parar de funcionar. Se isso acontecer, o websocket para de funcionar também e, então, inicia a execução periódica do teste de conexão com o servidor. Isto é, periodicamente, a cada 10 segundos, são enviadas requisições ao servidor para refresh do token de acesso. Isso porque o token pode expirar durante o período de inatividade do sistema. As requisições param de ser enviadas quando o servidor voltar a operar, o que significa que o refresh do token teve sucesso e retornou o novo token de acesso. O websocket tem em suas configurações o token de acesso atualizado com o novo token e, então, novas requisições ao servidor podem ser feitas com o novo token.
-
-Inclusive, quando a conexão cai, o websocket fica tentando a conexão a cada 10 segundos para restabelecê-la quando o servidor voltar a funcionar e, como um novo token é gerado, caso o anterior tenha expirado no meio tempo, não há problema, pois agora será utilizado o novo token.
-
 ## 🤖 O escalonador de réplicas do microserviço de monitoramento
 
 O escalonador de réplicas gerencia as requisições de start de monitoramento de um dispositivo ou todos os
@@ -117,6 +109,20 @@ Essa atualização pode ser feita via sistema que consome o endpoint de alteraç
 ### 🧑‍💻 O Get de informações de um monitor_server
 
 O acesso a informações de um monitor_server retorna, principalmente, o número de threads em execução nele. Sendo utilizado para carregar os dados dos monitor_servers do DTO de MonitorServerResponse, retornado quando são requisitados dados de um monitor_server ou dados da tabela config. O número de threads não está armazenado na tabela "monitor_server" do banco de dados, logo, deve ser buscado no monitor_server em execução.
+
+## 🔄 A atualização de status do dispositivo via messageria RabbitMQ e WebSocket
+
+A thread de monitoramento faz o monitoramento do dispositivo e altera o status dele conforme ele muda de ATIVO para INATIVO e vice versa. Quando o status muda, os dados do novo status são salvos no banco de dados, através do consumo da API do endpointo de update-status de dispositivo do microserviço principal. Após o status mudar, é também enviada uma mensagem com os dados do dispositivo via messageria (RabbitMQ) para o microserviço principal que, por sua vez, recebe a mensagem e a envia para o frontend via WebSocket para que o status do dispositivo seja atualizado na página de detalhes do dispositivo ou (futuramente) na página de acompanhamento de dispositivos da empresa.
+
+O escalonador de monitores de dispositivo também envia mensagens via websocket com atualizações de dados do dispositivo quando ele muda de monitorado para não monitorado, e vice versa.
+
+## 🕸️ A atualização dos detalhes de dispositivo via Websocket
+
+Na página de detalhes do dispositivo são mostradas as informações do dispositivo. Inclusive se ele está sendo monitorado e seu status. Essas informações são atualizadas no backend com o monitoramento do dispositivo e mensagens enviadas via websocket são recebidas na página e, assim, as informações do dispositivo são atualizadas na tela.
+
+Um detalhe técnico importante é o que acontece se o servidor parar de funcionar. Se isso acontecer, o websocket para de funcionar também e, então, inicia a execução periódica do teste de conexão com o servidor. Isto é, periodicamente, a cada 10 segundos, são enviadas requisições ao servidor para refresh do token de acesso. Isso porque o token pode expirar durante o período de inatividade do sistema. As requisições param de ser enviadas quando o servidor voltar a operar, o que significa que o refresh do token teve sucesso e retornou o novo token de acesso. O websocket tem em suas configurações o token de acesso atualizado com o novo token e, então, novas requisições ao servidor podem ser feitas com o novo token.
+
+Inclusive, quando a conexão cai, o websocket fica tentando a conexão a cada 10 segundos para restabelecê-la quando o servidor voltar a funcionar e, como um novo token é gerado, caso o anterior tenha expirado no meio tempo, não há problema, pois agora será utilizado o novo token.
 
 ## 🌍 Teste de Conexão via ICMP
 
