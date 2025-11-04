@@ -31,7 +31,7 @@ O refresh token é armazenado em um cookie httponly e tem tempo de expiração d
 
 - <ins>**username**</ins>: como subject
 
-### 🛡️ O Filtro de Authorização
+### 🛡️ O Filtro de Autorização
 
 O filtro de autorização funciona da seguinte forma: Se for feita a requisição para o endpoint de login, então o cookie que é responsável por armazenar o token de acesso é removido e o fluxo segue para o controller e service de login. Caso contrário, o filtro de autorização extrai o token do cookie, valida, extrai o username como subject e os roles embutidos e carrega o objeto Authentication com username e os roles para a autorização do spring security funcionar. Caso o token seja inválido ou esteja expirado, o backend retorna uma mensagem de erro.
 
