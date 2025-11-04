@@ -189,9 +189,7 @@ public class DispositivoMonitorEscalonador {
 			String host = server.getHost();
 			
 			try {
-				MonitoramentoOperResponse resp = dispositivoMonitorIntegration.updateConfigInMonitores( host );							
-				if ( resp.getResult() == MonitoramentoOperResult.ATUALIZADO )
-					return;
+				dispositivoMonitorIntegration.updateConfigInMonitores( host );											
 			} catch ( RestClientException e ) {
 				Logger.getLogger( DispositivoMonitorEscalonador.class ).error( "Servidor inacessível = "+host );					
 			}
