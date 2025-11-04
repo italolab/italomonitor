@@ -42,7 +42,7 @@ function AppLayout( {children, className} : AppLayoutProps ) {
                     </button>
                 </Offcanvas.Header>
                 <Offcanvas.Body className="p-0 bg-light">                                        
-                    { localStorage.getItem( 'PERFIL' ) === 'USUARIO' &&
+                    { localStorage.getItem( 'perfil' ) === 'USUARIO' &&
                         <span>
                             <Link to={`/dispositivos/${localStorage.getItem( 'empresaId' )}`} className="sidebar-item">
                                 📥 Dispositivos
@@ -50,7 +50,7 @@ function AppLayout( {children, className} : AppLayoutProps ) {
                         </span>
                     }
 
-                    { localStorage.getItem( 'PERFIL' ) === 'ADMIN' &&
+                    { localStorage.getItem( 'perfil' ) === 'ADMIN' &&
                         <span>
                             <Link to="/empresas" className="sidebar-item">
                                 🏢 Empresas
