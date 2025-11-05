@@ -16,6 +16,9 @@ public interface DispositivoRepository extends JpaRepository<Dispositivo, Long> 
     		+ "lower(d.localizacao) like lower(?4)" )
     List<Dispositivo> filter( Long empresaId, String hostPart, String nomePart, String localPart );
     
+    @Query( "select d.id from Dispositivo d where d.sendoMonitorado=?1") 
+    List<Long> findIDsBySendoMonitorado( boolean sendoMonitorado );
+    
     @Query( "select d.id from Dispositivo d where d.empresa.id=?1")
     List<Long> findIDsByEmpresaId( Long empresaId );
     

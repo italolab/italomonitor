@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.redemonitor.main.apidoc.dispositivo.monitor.StartAllMonitoramentosDoc;
 import com.redemonitor.main.apidoc.dispositivo.monitor.StartMonitoramentoDoc;
+import com.redemonitor.main.apidoc.dispositivo.monitor.StartOrRestartMonitoramentosDoc;
 import com.redemonitor.main.apidoc.dispositivo.monitor.StopAllMonitoramentosDoc;
 import com.redemonitor.main.apidoc.dispositivo.monitor.StopMonitoramentoDoc;
 import com.redemonitor.main.components.DispositivoMonitorEscalonador;
@@ -21,6 +22,14 @@ public class DispositivoMonitorController {
 
     @Autowired
     private DispositivoMonitorEscalonador dispositivoMonitorEscalonador;
+    
+    @StartOrRestartMonitoramentosDoc
+    @PreAuthorize("hasAuthority('start-or-restart-monitoramentos')") 
+    @PostMapping("/start-or-restart-monitoramentos")
+    public ResponseEntity<String> startOrRestartMonitoramentos() {
+    	String resp = dispositivoMonitorEscalonador.startMonitoramentoParaDispositivosMonitoradosFlagTrue();
+    	return ResponseEntity.ok( resp ); 
+    }
     
     @StartAllMonitoramentosDoc
     @PreAuthorize("hasAuthority('dispositivo-monitoramento-all')")

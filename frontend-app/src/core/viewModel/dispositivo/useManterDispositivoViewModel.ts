@@ -13,6 +13,7 @@ function useManterDispositivoViewModel() {
     const [errorMessage, setErrorMessage] = useState<string|null>( null );
     const [infoMessage, setInfoMessage] = useState<string|null>( null );
     const [loading, setLoading] = useState<boolean>( false );
+    const [filterLoading, setFilterLoading] = useState<boolean>( false );
 
     const [dispositivos, setDispositivos] = useState<DispositivoResponse[]>( [] );
 
@@ -77,7 +78,7 @@ function useManterDispositivoViewModel() {
     const filterDispositivos = async ( empresaId : number ) => {
         setErrorMessage( null );
         setInfoMessage( null );
-        setLoading( true );
+        setFilterLoading( true );
 
         try {
             const response = await dispositivoModel.filterDispositivos( empresaId, hostPart, nomePart, localPart );
@@ -88,10 +89,10 @@ function useManterDispositivoViewModel() {
             dispositivosRef.current = response.data;
 
             setDispositivos( response.data );
-            setLoading( false );
+            setFilterLoading( false );
         } catch ( error ) {            
             setErrorMessage( extractErrorMessage( error ) );
-            setLoading( false );
+            setFilterLoading( false );
             throw error;
         }
     };
@@ -169,6 +170,7 @@ function useManterDispositivoViewModel() {
         nomePart,    
         localPart,    
         loading, 
+        filterLoading,
         errorMessage,
         infoMessage,
         setHostPart,

@@ -42,8 +42,35 @@ public class DispositivoMonitorEscalonador {
 	@Autowired
 	private DispositivoWebSocket dispositivoWebSocket;
 	
-	public void startAllMonitoramentosDeDispositivosNaoMonitorados( String accessToken ) {
+	public String startMonitoramentoParaDispositivosMonitoradosFlagTrue() {
+		Config config = configRepository.findFirstByOrderByIdAsc();
+		List<MonitorServer> monitorServers = monitorServerRepository.findAll();
 		
+    	boolean sendoMonitorado = true;
+    	List<Long> dispsIDs = dispositivoRepository.findIDsBySendoMonitorado( sendoMonitorado );
+    	
+    	int dispsQuant = dispsIDs.size();
+    	
+		Logger.getLogger( DispositivoMonitorEscalonador.class ).info( dispsQuant + " dispositivos para startar o monitoramento." ); 
+    	
+		int dispsMonitQuant = 0;
+    	for( Long dispositivoId : dispsIDs ) {
+    		MonitoramentoOperResult result = this.startMonitoramento( dispositivoId, config, monitorServers );
+			switch( result ) {
+				case INICIADO:
+					dispsMonitQuant++;
+					break;		            
+				case EXCEDE_LIMITE: // excede o limite em todos os monitor_servers
+					BusinessException ex = new BusinessException( Errors.DISPOSITIVO_START_EXCEDE_LIMITE, ""+dispsMonitQuant, ""+dispsQuant ); 
+					Logger.getLogger( DispositivoMonitorEscalonador.class ).error( ex.response().getMessage() );
+					
+					throw ex;
+				default:
+					break;					
+			}
+    	}
+    	
+    	return dispsMonitQuant + " dispositivo(s) startado(s) com sucesso.";
 	}
 	
 	public void startAllMonitoramentos( Long empresaId ) {
@@ -59,8 +86,11 @@ public class DispositivoMonitorEscalonador {
 				case INICIADO:
 					dispsMonitQuant++;
 					break;		            
-				case EXCEDE_LIMITE:
-					throw new BusinessException( Errors.DISPOSITIVO_START_EXCEDE_LIMITE, ""+dispsMonitQuant, ""+dispsQuant );
+				case EXCEDE_LIMITE: // excede o limite em todos os monitor_servers
+					BusinessException ex = new BusinessException( Errors.DISPOSITIVO_START_EXCEDE_LIMITE, ""+dispsMonitQuant, ""+dispsQuant ); 
+					Logger.getLogger( DispositivoMonitorEscalonador.class ).error( ex.getMessage() );
+					
+					throw ex;
 				default:
 					break;		
 			}
@@ -84,8 +114,11 @@ public class DispositivoMonitorEscalonador {
 		switch( result ) {
 			case JA_INICIADO:
 	            throw new BusinessException( Errors.DISPOSITIVO_ALREADY_MONITORED );
-			case EXCEDE_LIMITE:
-				throw new BusinessException( Errors.DISPOSITIVO_START_EXCEDE_LIMITE, "0", "1" );
+			case EXCEDE_LIMITE: // excede o limite em todos os monitor_servers
+				BusinessException ex = new BusinessException( Errors.DISPOSITIVO_START_EXCEDE_LIMITE, "0", "1" ); 
+				Logger.getLogger( DispositivoMonitorEscalonador.class ).error( ex.getMessage() );
+				
+				throw ex;
 			default:
 				break;		
 		}
@@ -103,7 +136,7 @@ public class DispositivoMonitorEscalonador {
 		}
 	}
 	
-	public MonitoramentoOperResult startMonitoramento( 
+	public synchronized MonitoramentoOperResult startMonitoramento( 
 			Long dispositivoId, 
 			Config config, 
 			List<MonitorServer> monitorServers ) {
@@ -154,7 +187,7 @@ public class DispositivoMonitorEscalonador {
 						this.updateDispositivo( dispositivoId, true );  
 		
 						return MonitoramentoOperResult.JA_INICIADO;	
-					case EXCEDE_LIMITE:
+					case EXCEDE_LIMITE: // excede o limite apenas no monitor_server atual
 						break;
 					default:
 						throw new ErrorException( "Status de start monitoramento inválido. Status="+resp.getResult() );
@@ -169,7 +202,7 @@ public class DispositivoMonitorEscalonador {
 		return MonitoramentoOperResult.INICIADO;
 	}
 	
-	public MonitoramentoOperResult stopMonitoramento( Long dispositivoId, List<MonitorServer> monitorServers ) {		
+	public synchronized MonitoramentoOperResult stopMonitoramento( Long dispositivoId, List<MonitorServer> monitorServers ) {		
 		for( MonitorServer server : monitorServers ) {
 			String host = server.getHost();
 			

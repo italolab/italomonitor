@@ -36,11 +36,8 @@ public class DispositivoWebSocket {
         Long empresaId = empresa.getId();
         
         List<String> usernames = usuarioRepository.getUsernamesByEmpresa( empresaId );
-        System.out.println( "SIZE= "+usernames.size() );
-        for( String username : usernames ) {
-        	System.out.println( "USERNAME= "+username );
-        	simpMessagingTemplate.convertAndSendToUser( username, dispositivosTopic, wsMessage );
-        }
+        for( String username : usernames )
+        	simpMessagingTemplate.convertAndSendToUser( username, dispositivosTopic, wsMessage );        
 	}
 	
 }

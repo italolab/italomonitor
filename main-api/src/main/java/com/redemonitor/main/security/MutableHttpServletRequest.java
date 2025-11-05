@@ -21,8 +21,9 @@ public class MutableHttpServletRequest extends HttpServletRequestWrapper {
 		String value = super.getHeader( name );
 		if ( value != null )
 			return value;
-		if ( name.equals( "Authorization" ) )
-			return authorizationHeader;		
+		if ( name != null )
+			if ( name.equals( "Authorization" ) )
+				return authorizationHeader;		
 		return null;
 	}
 

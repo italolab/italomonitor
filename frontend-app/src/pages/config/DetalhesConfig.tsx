@@ -5,7 +5,7 @@ import { Badge, Button, Card } from "react-bootstrap";
 import AppField from "../../components/AppField";
 import AppMessage from "../../components/AppMessage";
 import AppSpinner from "../../components/AppSpinner";
-import { MdArrowBack, MdOutlineEdit } from "react-icons/md";
+import { MdArrowBack, MdOutlineEdit, MdRestartAlt } from "react-icons/md";
 import useEffectOnce from "../../core/util/useEffectOnce";
 import { FaServer } from "react-icons/fa";
 
@@ -13,6 +13,7 @@ function DetalhesConfig() {
 
     const {
         loadConfig,
+        startOrRestartMonitoramentos,
         config,
         loading,
         errorMessage,
@@ -33,6 +34,14 @@ function DetalhesConfig() {
         }
     };
 
+    const onStartOrRestartMonitoramentos = async () => {
+        try {
+            await startOrRestartMonitoramentos();
+        } catch ( error ) {
+            console.error( error );
+        }
+    };
+
     return (
         <AppLayout>
             <div>
@@ -41,6 +50,9 @@ function DetalhesConfig() {
                 </Button>
                 <Button type="button" onClick={() => navigate( '/update-config' )} className="func">
                     <MdOutlineEdit size={25}/> Editar configurações
+                </Button>
+                <Button type="button" onClick={onStartOrRestartMonitoramentos} className="func">
+                    <MdRestartAlt size={25}/> Startar ou restartar monitoramentos
                 </Button>
             </div>
 

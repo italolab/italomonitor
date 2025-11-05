@@ -35,7 +35,8 @@ function ManterDispositivos() {
         hostPart,
         nomePart,
         localPart,
-        loading, 
+        loading,
+        filterLoading, 
         errorMessage, 
         infoMessage,
         setHostPart,
@@ -157,6 +158,10 @@ function ManterDispositivos() {
 
             <h3 className="title">Dispositivos de {empresa.nome}</h3>
 
+            <div className="d-flex">
+                <AppSpinner className="mx-auto" visible={loading} />
+            </div>
+
             <div className="d-block w-100 mt-3 d-flex justify-content-center">
                 <Card>
                     <Card.Header>
@@ -198,14 +203,14 @@ function ManterDispositivos() {
 
                             <Button type="button" onClick={onFilter}>
                                 Filtrar                        
-                                <AppSpinner visible={loading} />
+                                <AppSpinner visible={filterLoading} />
                             </Button>
                         </Form>
                     </Card.Body>
                 </Card>
             </div>
                                 
-            <div className="d-flex justify-content-center mt-3">
+            <div className="d-flex justify-content-center mt-3">                
                 <Row className="disp-row w-100">
                     { dispositivos.map( (dispositivo, index) =>                 
                         <Col key={index} sm={4} className="disp-col">

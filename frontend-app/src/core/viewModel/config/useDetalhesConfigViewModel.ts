@@ -3,6 +3,7 @@ import { AuthContext } from "../../../context/AuthProvider";
 import { ConfigModel } from "../../model/ConfigModel";
 import { extractErrorMessage } from "../../util/sistema-util";
 import type { ConfigResponse } from "../../model/dto/response/ConfigResponse";
+import { DispositivoMonitorModel } from "../../model/DispositivoMonitorModel";
 
 function useDetalhesConfigViewModel() {
 
@@ -22,6 +23,7 @@ function useDetalhesConfigViewModel() {
     const { setAccessToken } = useContext(AuthContext);
 
     const configModel = new ConfigModel( setAccessToken );
+    const dispositivoMonitorModel = new DispositivoMonitorModel( setAccessToken );
 
     const loadConfig = async () => {
         setErrorMessage( null );
@@ -40,7 +42,34 @@ function useDetalhesConfigViewModel() {
         }
     }
 
-    return { loadConfig, config, errorMessage, infoMessage, loading };
+    const startOrRestartMonitoramentos = async () => {
+        setErrorMessage( null );
+        setInfoMessage( null );
+        setLoading( true );
+
+        try{
+            const response = await dispositivoMonitorModel.startOrRestartMonitoramentos();
+            const configResp = await configModel.getConfig();
+
+            setConfig( configResp.data );
+
+            setInfoMessage( response.data );
+            setLoading( false );
+        } catch ( error ) {
+            setErrorMessage( extractErrorMessage( error ) );
+            setLoading( false );
+            throw error;
+        }
+    }
+
+    return { 
+        loadConfig, 
+        startOrRestartMonitoramentos, 
+        config, 
+        errorMessage, 
+        infoMessage, 
+        loading 
+    };
 }
 
 export default useDetalhesConfigViewModel;

@@ -121,7 +121,8 @@ insert into role ( nome ) values
 
     ( 'usuario-get' ),
     ( 'empresa-get' ),
-    ( 'dispositivo-get' );
+    ( 'dispositivo-get' ),
+    ( 'start-or-restart-monitoramentos' );
 
 insert into usuario_grupo_map( usuario_id, usuario_grupo_id ) values
     ( (select id from usuario where username='italo'), (select id from usuario_grupo where nome='admin') );
@@ -134,6 +135,7 @@ insert into role_grupo_map( role_id, usuario_grupo_id ) values
     ( (select id from role where nome='dispositivo-all'), (select id from usuario_grupo where nome='admin') ),
     ( (select id from role where nome='dispositivo-monitoramento-all'), (select id from usuario_grupo where nome='admin') ),
     ( (select id from role where nome='config-all'), (select id from usuario_grupo where nome='admin') ),
+    ( (select id from role where nome='start-or-restart-monitoramentos'), (select id from usuario_grupo where nome='admin') ),
 
     ( (select id from role where nome='usuario-get'), (select id from usuario_grupo where nome='suporte') ),
     ( (select id from role where nome='empresa-get'), (select id from usuario_grupo where nome='suporte') ),
