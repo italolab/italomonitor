@@ -4,7 +4,7 @@ import { EventoModel } from "../../model/EventoModel";
 import type { EventoResponse } from "../../model/dto/response/EventoResponse";
 import { extractErrorMessage } from "../../util/sistema-util";
 
-function useListEventosByDiaViewModel() {
+function useListEventosViewModel() {
 
     const [errorMessage, setErrorMessage] = useState<string|null>( null );
     const [infoMessage, setInfoMessage] = useState<string|null>( null );
@@ -33,17 +33,17 @@ function useListEventosByDiaViewModel() {
         }
     }
 
-    const loadEventosByIntervalo = async ( dispositivoId : number, dataDiaIni : string, dataDiaFim : string ) => {
-        setEventos( await listEventosByIntervalo( dispositivoId, dataDiaIni, dataDiaFim ) );
+    const loadEventosByIntervalo = async ( dispositivoId : number, dataDiaIni : string, dataDiaFim : string, ascendente : boolean ) => {
+        setEventos( await listEventosByIntervalo( dispositivoId, dataDiaIni, dataDiaFim, ascendente ) );
     }
 
-    const listEventosByIntervalo = async ( dispositivoId : number, dataDiaIni : string, dataDiaFim : string ) => {
+    const listEventosByIntervalo = async ( dispositivoId : number, dataDiaIni : string, dataDiaFim : string, ascendente : boolean ) => {
         setErrorMessage( null );
         setInfoMessage( null );
         setLoading( true );
 
         try {
-            const response = await eventoModel.listByIntervalo( dispositivoId, dataDiaIni, dataDiaFim );
+            const response = await eventoModel.listByIntervalo( dispositivoId, dataDiaIni, dataDiaFim, ascendente );
 
             setLoading( false );
             if ( response.data.length === 0 )
@@ -69,4 +69,4 @@ function useListEventosByDiaViewModel() {
 
 }
 
-export default useListEventosByDiaViewModel;
+export default useListEventosViewModel;

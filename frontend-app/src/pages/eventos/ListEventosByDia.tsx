@@ -1,7 +1,7 @@
 import { Button, Card, Form, Table } from "react-bootstrap";
 import AppMessage from "../../components/AppMessage";
 import AppSpinner from "../../components/AppSpinner";
-import useListEventosByDiaViewModel from "../../core/viewModel/evento/useListEventosByDiaViewModel";
+import useListEventosViewModel from "../../core/viewModel/evento/useListEventosViewModel";
 import { useState } from "react";
 import type { EventoResponse } from "../../core/model/dto/response/EventoResponse";
 import AppPagination from "../../components/AppPagination";
@@ -19,7 +19,7 @@ function ListEventosByDia() {
         loading,
         errorMessage,
         infoMessage
-    } = useListEventosByDiaViewModel();
+    } = useListEventosViewModel();
 
     const { dispositivoId } = useParams();
 

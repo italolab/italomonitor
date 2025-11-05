@@ -1,7 +1,7 @@
 import { Button, Card, Col, Form, Row, Table } from "react-bootstrap";
 import AppMessage from "../../components/AppMessage";
 import AppSpinner from "../../components/AppSpinner";
-import useListEventosByDiaViewModel from "../../core/viewModel/evento/useListEventosByDiaViewModel";
+import useListEventosViewModel from "../../core/viewModel/evento/useListEventosViewModel";
 import { useState } from "react";
 import type { EventoResponse } from "../../core/model/dto/response/EventoResponse";
 import AppPagination from "../../components/AppPagination";
@@ -20,14 +20,15 @@ function ListEventosByIntervalo() {
         loading,
         errorMessage,
         infoMessage
-    } = useListEventosByDiaViewModel();
+    } = useListEventosViewModel();
 
     const { dispositivoId } = useParams();
 
     const onListEventos = async () => {
         try {
             const did : number = parseInt( dispositivoId! );
-            await loadEventosByIntervalo( did, dataDiaIni, dataDiaFim );
+            const ascendente = false;
+            await loadEventosByIntervalo( did, dataDiaIni, dataDiaFim, ascendente );
         } catch ( error ) {
             console.error( error );
         }

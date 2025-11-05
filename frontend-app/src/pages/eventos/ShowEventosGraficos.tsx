@@ -1,7 +1,7 @@
 import { Button, Card, Col, Form, Nav, Row } from "react-bootstrap";
 import AppMessage from "../../components/AppMessage";
 import AppSpinner from "../../components/AppSpinner";
-import useListEventosByDiaViewModel from "../../core/viewModel/evento/useListEventosByDiaViewModel";
+import useListEventosViewModel from "../../core/viewModel/evento/useListEventosViewModel";
 import { useState } from "react";
 import { useParams } from "react-router-dom";
 import { dataToString, formataDataHoraSemSegundos } from "../../core/util/sistema-util";
@@ -31,14 +31,15 @@ function ShowEventosGraficos() {
         loading,
         errorMessage,
         infoMessage
-    } = useListEventosByDiaViewModel();
+    } = useListEventosViewModel();
 
     const { dispositivoId } = useParams();
 
     const onLoadEventos = async () => {
         try {
             const did : number = parseInt( dispositivoId! );
-            const eventos : EventoResponse[] = await listEventosByIntervalo( did, dataDiaIni, dataDiaFim );
+            const ascendente = true;
+            const eventos : EventoResponse[] = await listEventosByIntervalo( did, dataDiaIni, dataDiaFim, ascendente );
            
             const pacotesDadosList = [];
             const quedasDadosList = [];

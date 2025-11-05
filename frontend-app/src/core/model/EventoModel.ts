@@ -10,8 +10,8 @@ export class EventoModel {
         return await api.get( "/eventos/"+dispositivoId+"/dia/"+dataDia );
     }
 
-    async listByIntervalo( dispositivoId : number, dataDiaIni : string, dataDiaFim : string ) {
-        return await api.get( "/eventos/"+dispositivoId+"/diaIni/"+dataDiaIni+"/diaFim/"+dataDiaFim );
+    async listByIntervalo( dispositivoId : number, dataDiaIni : string, dataDiaFim : string, ascendente : boolean ) {
+        return await api.get( "/eventos/"+dispositivoId+"/diaIni/"+dataDiaIni+"/diaFim/"+dataDiaFim+"/ascendente/"+ascendente );
     }
 
 }

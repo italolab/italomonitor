@@ -53,9 +53,9 @@ public class UsuarioGrupoController {
     }
 
     @GetRolesByUsuarioGrupoIDDoc
-    @PreAuthorize("hasAuthority('role-read')")
+    @PreAuthorize("hasAuthority('usuario-grupo-all')")
     @GetMapping("/{usuarioGrupoId}/roles")
-    public ResponseEntity<List<RoleResponse>> getGruposByUsuarioId( @PathVariable Long usuarioGrupoId ) {
+    public ResponseEntity<List<RoleResponse>> getRolesByGrupoId( @PathVariable Long usuarioGrupoId ) {
         List<RoleResponse> roles = usuarioGrupoService.getRolesByGrupoId( usuarioGrupoId );
         return ResponseEntity.ok( roles );
     }
@@ -69,7 +69,7 @@ public class UsuarioGrupoController {
     }
 
     @DeleteVinculoRoleGrupoDoc
-    @PreAuthorize("hasAuthority('usuario-write')")
+    @PreAuthorize("hasAuthority('usuario-grupo-all')")
     @DeleteMapping("/{usuarioGrupoId}/roles/{roleId}")
     public ResponseEntity<String> removeRoleVinculado( @PathVariable Long usuarioGrupoId, @PathVariable Long roleId ) {
         usuarioGrupoService.removeRoleVinculado( usuarioGrupoId, roleId );

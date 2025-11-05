@@ -69,7 +69,7 @@ public class UsuarioController {
     }
 
     @GetUsuarioGruposByUsuarioIDDoc
-    @PreAuthorize("hasAuthority('usuario-grupo-all')")
+    @PreAuthorize("hasAuthority('usuario-all')")
     @GetMapping("/{usuarioId}/grupos")
     public ResponseEntity<List<UsuarioGrupoResponse>> getGruposByUsuarioId( @PathVariable Long usuarioId ) {
         List<UsuarioGrupoResponse> grupos = usuarioService.getGruposByUsuarioId( usuarioId );
