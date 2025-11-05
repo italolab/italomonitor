@@ -1,5 +1,6 @@
 package com.redemonitor.disp_monitor.components;
 
+import org.jboss.logging.Logger;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -9,6 +10,7 @@ import org.springframework.web.client.RestClient;
 
 import com.redemonitor.disp_monitor.dto.ErrorResponse;
 import com.redemonitor.disp_monitor.exception.BusinessException;
+import com.redemonitor.disp_monitor.exception.ErrorException;
 import com.redemonitor.disp_monitor.exception.Errors;
 
 @Component
@@ -29,11 +31,9 @@ public class HttpClientManager {
 			
 			return resp.getBody();
 		} catch ( HttpClientErrorException e ) {
-			ErrorResponse err = e.getResponseBodyAs( ErrorResponse.class );
-			if ( err == null )
-				throw new BusinessException( Errors.ERROR_STATUS, uri, ""+e.getStatusCode().value() );
-			throw new BusinessException( err.getMessage() );
-		}		
+			this.trataHttpClientErrorException( e, uri );
+			return null;
+		}	
 	}
 	
 	public void post( String uri, String microserviceAccessToken ) {
@@ -46,10 +46,7 @@ public class HttpClientManager {
 				.retrieve()
 				.toBodilessEntity();								
 		} catch ( HttpClientErrorException e ) {
-			ErrorResponse err = e.getResponseBodyAs( ErrorResponse.class );
-			if ( err == null )
-				throw new BusinessException( Errors.ERROR_STATUS, uri, ""+e.getStatusCode().value() );
-			throw new BusinessException( err.getMessage() );
+			this.trataHttpClientErrorException( e, uri );
 		}	
 				
 	}
@@ -66,10 +63,7 @@ public class HttpClientManager {
 					.retrieve()
 					.toBodilessEntity();			
 		} catch ( HttpClientErrorException e ) {
-			ErrorResponse err = e.getResponseBodyAs( ErrorResponse.class );
-			if ( err == null )
-				throw new BusinessException( Errors.ERROR_STATUS, uri, ""+e.getStatusCode().value() );			
-			throw new BusinessException( err.getMessage() );
+			this.trataHttpClientErrorException( e, uri );
 		}			
 	}
 	
@@ -85,11 +79,19 @@ public class HttpClientManager {
 				.retrieve()
 				.toBodilessEntity();
 		} catch ( HttpClientErrorException e ) {
-			ErrorResponse err = e.getResponseBodyAs( ErrorResponse.class );
-			if ( err == null )
-				throw new BusinessException( Errors.ERROR_STATUS, uri, ""+e.getStatusCode().value() );
-			throw new BusinessException( err.getMessage() );
+			this.trataHttpClientErrorException( e, uri );			
 		}
+	}
+	
+	private void trataHttpClientErrorException( HttpClientErrorException e, String uri ) {
+		ErrorException ex = new ErrorException( Errors.ERROR_STATUS, uri, ""+e.getStatusCode().value() );
+		
+		Logger.getLogger( HttpClientManager.class ).warn( ex.response().getMessage()+"\nErro= "+e.getMessage() ); 
+
+		ErrorResponse err = e.getResponseBodyAs( ErrorResponse.class );
+		if ( err == null )
+			throw ex;
+		throw new BusinessException( err.getMessage() );
 	}
 	
 }

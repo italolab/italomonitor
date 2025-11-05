@@ -43,7 +43,7 @@ function useDetalhesDispositivoViewModel() {
         return wsRefresh.connect( setDispositivoSeIDCorreto );
     };
 
-    const setDispositivoSeIDCorreto = async ( disp : DispositivoResponse ) => {
+    const setDispositivoSeIDCorreto = ( disp : DispositivoResponse ) => {
         if ( dispositivoIDRef.current == disp.id )
             setDispositivo( disp );
     };

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { Button, Card, Col, Form, Modal, Row } from "react-bootstrap";
 import useManterDispositivoViewModel from "../../core/viewModel/dispositivo/useManterDispositivoViewModel";
 import AppSpinner from "../../components/AppSpinner";
@@ -10,14 +10,20 @@ import AppOperations from "../../components/AppOperations";
 import type { DispositivoResponse } from "../../core/model/dto/response/DispositivoResponse";
 
 import './style/ManterDispositivos.css'
-import useEffectOnce from "../../core/util/useEffectOnce";
+import { AuthContext } from "../../context/AuthProvider";
 
 function ManterDispositivos() {
 
     const [removeModalVisible, setRemoveModalVisible] = useState<boolean>( false );
     const [toRemoveDispositivo, setToRemoveDispositivo] = useState<DispositivoResponse|null>( null );
 
+    const { accessToken } = useContext(AuthContext);
+
+    const effectCalled = useRef( false );
+    const deactivateFunc = useRef( () => {} );
+
     const { 
+        websocketConnect,
         loadInfos,
         filterDispositivos, 
         removeDispositivo,
@@ -34,16 +40,32 @@ function ManterDispositivos() {
         infoMessage,
         setHostPart,
         setNomePart,
-        setLocalPart
+        setLocalPart,
+        setErrorMessage
     } = useManterDispositivoViewModel();
 
     const { empresaId } = useParams();
 
     const navigate = useNavigate();
 
-    useEffectOnce( () => {
-        onLoad();
-    } );
+    useEffect( () => {
+        if ( effectCalled.current === false ) {
+            if ( accessToken === null || accessToken === '' ) {
+                setErrorMessage( 'Página atualizada após o login. Para funcionar a atualização de dados em tempo real, é necessário logar novamente sem atualizar a página.' );
+            } else {
+                deactivateFunc.current = websocketConnect();
+            }
+
+            onLoad();
+
+            effectCalled.current = true;
+        }
+
+        return () => {
+            deactivateFunc.current();                
+        };
+    }, [] );
+
 
     const onLoad = async () => {
         try {

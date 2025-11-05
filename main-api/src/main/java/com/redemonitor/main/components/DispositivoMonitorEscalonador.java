@@ -108,13 +108,13 @@ public class DispositivoMonitorEscalonador {
 			String username, 
 			Config config, 
 			List<MonitorServer> monitorServers ) {
-		
+			
 		if ( this.verificaSeSendoMonitorado( dispositivoId, monitorServers ) ) {
 			this.updateDispositivo( dispositivoId, true, username );  
 		
 			return MonitoramentoOperResult.JA_INICIADO;
 		}
-		
+				
 		int serversQuant = monitorServers.size();
 		
 		int current = config.getMonitorServerCorrente();
@@ -154,7 +154,9 @@ public class DispositivoMonitorEscalonador {
 					case JA_INICIADO:
 						this.updateDispositivo( dispositivoId, true, username );  
 		
-						return MonitoramentoOperResult.JA_INICIADO;					
+						return MonitoramentoOperResult.JA_INICIADO;	
+					case EXCEDE_LIMITE:
+						break;
 					default:
 						throw new ErrorException( "Status de start monitoramento inválido. Status="+resp.getResult() );
 				}
@@ -162,7 +164,7 @@ public class DispositivoMonitorEscalonador {
 			
 			isFirst = false;
 		}
-				
+		
 		if ( naoStartou )
 			return MonitoramentoOperResult.EXCEDE_LIMITE;		
 		return MonitoramentoOperResult.INICIADO;

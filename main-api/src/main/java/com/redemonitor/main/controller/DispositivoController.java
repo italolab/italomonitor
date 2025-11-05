@@ -101,8 +101,8 @@ public class DispositivoController {
     }
     
     @GetDispositivoDoc
-    @PreAuthorize("hasAnyAuthority('dispositivo-all', 'microservice')")
-    @GetMapping("/{dispositivoId}/get")
+    @PreAuthorize("hasAnyAuthority('dispositivo-all')")
+    @GetMapping("/{dispositivoId}/get-of-empresa")
     public ResponseEntity<DispositivoResponse> getDispositivo( 
     		@PathVariable Long dispositivoId,
     		@RequestHeader("Authorization") String authorizationHeader ) {
@@ -112,6 +112,16 @@ public class DispositivoController {
         DispositivoResponse resp = dispositivoService.getDispositivo( dispositivoId );
         return ResponseEntity.ok( resp );
     }
+    
+    @GetDispositivoDoc
+    @PreAuthorize("hasAnyAuthority('microservice')")
+    @GetMapping("/{dispositivoId}/get")
+    public ResponseEntity<DispositivoResponse> getAnyDispositivo( @PathVariable Long dispositivoId ) {    	    	
+        DispositivoResponse resp = dispositivoService.getDispositivo( dispositivoId );
+        return ResponseEntity.ok( resp );
+    }
+    
+    
 
     @DeleteDispositivoDoc
     @PreAuthorize("hasAuthority('dispositivo-all')")

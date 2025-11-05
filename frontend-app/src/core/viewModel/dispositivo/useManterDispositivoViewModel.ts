@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useRef, useState } from "react";
 import { DispositivoModel } from "../../model/DispositivoModel";
 import { extractErrorMessage } from "../../util/sistema-util";
 import { type DispositivoResponse } from "../../model/dto/response/DispositivoResponse";
@@ -6,6 +6,7 @@ import { AuthContext } from "../../../context/AuthProvider";
 import { DispositivoMonitorModel } from "../../model/DispositivoMonitorModel";
 import type { EmpresaResponse } from "../../model/dto/response/EmpresaResponse";
 import { EmpresaModel } from "../../model/EmpresaModel";
+import useWSDispositivoInfoRefresh from "./useWSDispositivoInfoRefresh";
 
 function useManterDispositivoViewModel() {
 
@@ -23,14 +24,38 @@ function useManterDispositivoViewModel() {
         id: 0,
         nome: '',
         emailNotif: '',
-        porcentagemMaxFalhasPorLote: 0
+        porcentagemMaxFalhasPorLote: 0,
+        maxDispositivosQuant: 0
     } );
+
+    const dispositivosRef = useRef<DispositivoResponse[]>( [] );
 
     const {setAccessToken} = useContext(AuthContext);
     
     const dispositivoModel = new DispositivoModel( setAccessToken );
     const dispositivoMonitorModel = new DispositivoMonitorModel( setAccessToken );
     const empresaModel = new EmpresaModel( setAccessToken );
+
+    const wsRefresh = useWSDispositivoInfoRefresh();
+
+    const websocketConnect = () => {
+        return wsRefresh.connect( setDispositivoSeIDCorreto );
+    };
+
+    const setDispositivoSeIDCorreto = ( disp : DispositivoResponse ) => {
+        const dispsRef : DispositivoResponse[] = dispositivosRef.current;
+
+        const disps = [];
+        for( let i = 0; i < dispsRef.length; i++ ) {                        
+            disps[ i ] = dispsRef[ i ];    
+            if ( disps[ i ].id === disp.id )
+                disps[ i ] = disp;                    
+        }
+
+        dispositivosRef.current = disps;
+        setDispositivos( disps );
+        return;                   
+    };
 
     const loadInfos = async ( empresaId : number ) => {
         setErrorMessage( null );
@@ -59,6 +84,8 @@ function useManterDispositivoViewModel() {
 
             if ( response.data.length == 0 )
                 setInfoMessage( 'Nenhum dispositivo encontrado.' );
+
+            dispositivosRef.current = response.data;
 
             setDispositivos( response.data );
             setLoading( false );
@@ -129,6 +156,7 @@ function useManterDispositivoViewModel() {
     };
 
     return { 
+        websocketConnect,
         loadInfos,
         filterDispositivos, 
         removeDispositivo,         
@@ -145,7 +173,8 @@ function useManterDispositivoViewModel() {
         infoMessage,
         setHostPart,
         setNomePart,
-        setLocalPart
+        setLocalPart,
+        setErrorMessage
     };
 }
 
