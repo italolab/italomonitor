@@ -8,6 +8,11 @@ import com.redemonitor.main.model.Usuario;
 import java.util.List;
 import java.util.Optional;
 
+/*
+ * A seleção de usernames por empresa seleciona pelo id da empresa ou o 
+ * perfil do usuário igual a 'ADMIN'
+ */
+
 public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
 
     @Query( "select u from Usuario u where lower(u.nome) like lower(?1)" )
@@ -17,5 +22,8 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
     Optional<Usuario> findByLogin(String username, String senha );
 
     Optional<Usuario> findByUsername( String username );
+    
+    @Query( "select u.username from Usuario u where u.empresa.id=?1 or u.perfil='ADMIN'")
+    List<String> getUsernamesByEmpresa( Long empresaId );
 
 }

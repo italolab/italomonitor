@@ -23,7 +23,6 @@ import com.redemonitor.main.apidoc.dispositivo.FilterDispositivosDoc;
 import com.redemonitor.main.apidoc.dispositivo.GetDispositivoDoc;
 import com.redemonitor.main.apidoc.dispositivo.UpdateDispositivoDoc;
 import com.redemonitor.main.apidoc.dispositivo.UpdateDispositivoStatusDoc;
-import com.redemonitor.main.components.util.JwtTokenUtil;
 import com.redemonitor.main.dto.request.SaveDispositivoRequest;
 import com.redemonitor.main.dto.request.SaveDispositivoStatusRequest;
 import com.redemonitor.main.dto.response.DispositivoResponse;
@@ -36,10 +35,7 @@ public class DispositivoController {
 
     @Autowired
     private DispositivoService dispositivoService;
-    
-    @Autowired
-    private JwtTokenUtil jwtTokenUtil;
-    
+        
     @Autowired
     private AuthorizationService authorizationService;
             
@@ -131,10 +127,8 @@ public class DispositivoController {
     		@RequestHeader("Authorization") String authorizationHeader ) {
     	    	    	
     	authorizationService.authorizeDispositivoOperByEmpresa( dispositivoId, authorizationHeader );
-    	
-    	String username = jwtTokenUtil.extractInfos( authorizationHeader ).getUsername();
-    	
-    	dispositivoService.deleteDispositivo( dispositivoId, username );
+    	    	
+    	dispositivoService.deleteDispositivo( dispositivoId );
         return ResponseEntity.ok( "Dispositivo deletado com sucesso." );
     }
 

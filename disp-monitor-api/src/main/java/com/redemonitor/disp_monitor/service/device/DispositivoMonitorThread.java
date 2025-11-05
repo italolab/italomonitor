@@ -22,9 +22,8 @@ public class DispositivoMonitorThread implements Runnable {
     private Dispositivo dispositivo;
     private Config config;
     private final DispositivoIntegration dispositivoIntegration;
-    private final DispositivoMessageService dispositivoWebSocketIntegration;
+    private final DispositivoMessageService dispositivoMessageService;
     private final EventoIntegration eventoIntegration;
-    private final String username;
 
     private int sucessosQuantTotal = 0;
     private int falhasQuantTotal = 0;
@@ -37,14 +36,12 @@ public class DispositivoMonitorThread implements Runnable {
                                      Config config,
                                      DispositivoIntegration dispositivoIntegration,
                                      EventoIntegration eventoIntegration,
-                                     DispositivoMessageService dispositivoMessageService,
-                                     String username ) {
+                                     DispositivoMessageService dispositivoMessageService ) {
         this.dispositivo = dispositivo;
         this.config = config;
         this.dispositivoIntegration = dispositivoIntegration;
         this.eventoIntegration = eventoIntegration;
-        this.dispositivoWebSocketIntegration = dispositivoMessageService;
-        this.username = username;
+        this.dispositivoMessageService = dispositivoMessageService;
     }
 
     public void run() {
@@ -164,7 +161,7 @@ public class DispositivoMonitorThread implements Runnable {
 
             Duration duration = Duration.between( ultimoRegistroEventoEm, LocalDateTime.now() );
             if ( duration.getSeconds() >= registroEventoPeriodo )
-                this.registraEvento( duration );
+                this.registraEvento( duration );            
         } catch ( IOException e ) {
         	e.printStackTrace();
             String msg = "Falha no monitoramento do dispositivo: " + nome;
@@ -180,7 +177,7 @@ public class DispositivoMonitorThread implements Runnable {
         dispositivo.setStatus( DispositivoStatus.ATIVO );
         dispositivoIntegration.saveDispositivo( dispositivo );
 
-        dispositivoWebSocketIntegration.sendMessage( dispositivo, username );
+        dispositivoMessageService.sendMessage( dispositivo );
     }
 
     private void mudaStatusParaInativo() {
@@ -190,7 +187,7 @@ public class DispositivoMonitorThread implements Runnable {
         dispositivo.setStatus( DispositivoStatus.INATIVO );
         dispositivoIntegration.saveDispositivo( dispositivo );
         
-        dispositivoWebSocketIntegration.sendMessage( dispositivo, username );
+        dispositivoMessageService.sendMessage( dispositivo );
     }
 
     private void registraEvento( Duration duration ) {

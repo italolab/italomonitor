@@ -20,9 +20,8 @@ public class DispositivoMessageService {
 	@Value("${config.rabbitmq.dispositivos.routing-key}") 
 	private String dispositivosRoutingKey;
 	
-	public void sendMessage( Dispositivo dispositivo, String username ) {		
+	public void sendMessage( Dispositivo dispositivo ) {		
 		DispositivoMessage message = DispositivoMessage.builder()
-				.username( username )
 				.id( dispositivo.getId() )
 				.sendoMonitorado( dispositivo.isSendoMonitorado() )
 				.status( dispositivo.getStatus() ) 

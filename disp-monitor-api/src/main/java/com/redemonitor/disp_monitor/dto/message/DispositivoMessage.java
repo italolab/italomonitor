@@ -20,7 +20,5 @@ public class DispositivoMessage {
 	private DispositivoStatus status;
 	
 	private boolean sendoMonitorado;
-	
-	private String username;
-	
+		
 }

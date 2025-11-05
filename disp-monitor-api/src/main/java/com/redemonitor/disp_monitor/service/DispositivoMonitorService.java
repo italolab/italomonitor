@@ -11,8 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 import org.springframework.stereotype.Service;
 
-import com.redemonitor.disp_monitor.dto.InfoResponse;
 import com.redemonitor.disp_monitor.dto.ExisteNoMonitorResponse;
+import com.redemonitor.disp_monitor.dto.InfoResponse;
 import com.redemonitor.disp_monitor.dto.MonitoramentoOperResponse;
 import com.redemonitor.disp_monitor.enums.MonitoramentoOperResult;
 import com.redemonitor.disp_monitor.integration.ConfigIntegration;
@@ -44,7 +44,7 @@ public class DispositivoMonitorService {
 
     private final Map<Long, DispositivoMonitor> dispositivoMonitorMap = new ConcurrentHashMap<>();    
 
-    public MonitoramentoOperResponse startMonitoramento( Long dispositivoId, String username ) {
+    public MonitoramentoOperResponse startMonitoramento( Long dispositivoId ) {
     	if ( dispositivoMonitorMap.containsKey( dispositivoId ) ) {
             return MonitoramentoOperResponse.builder()
             		.result( MonitoramentoOperResult.JA_INICIADO )
@@ -64,7 +64,7 @@ public class DispositivoMonitorService {
         Duration monitorDelay = Duration.ofMillis( config.getMonitoramentoDelay() );
 
         DispositivoMonitorThread thread = new DispositivoMonitorThread(
-                dispositivo, config, dispositivoRepository, eventoRepository, dispositivoMessageService, username );
+                dispositivo, config, dispositivoRepository, eventoRepository, dispositivoMessageService );
 
         ScheduledFuture<?> scheduledFuture = scheduler.scheduleAtFixedRate( thread, Instant.now(), monitorDelay  );
 

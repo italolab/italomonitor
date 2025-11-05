@@ -29,12 +29,11 @@ public class DispositivoMonitorController {
 
     @StartMonitoramentoDoc
     @PreAuthorize("hasAuthority('microservice')")
-    @PostMapping("/{dispositivoId}/username/{username}/start")
+    @PostMapping("/{dispositivoId}/start")
     public ResponseEntity<MonitoramentoOperResponse> startMonitoramento(
-            @PathVariable Long dispositivoId,
-            @PathVariable String username ) {
+            @PathVariable Long dispositivoId ) {
 
-        MonitoramentoOperResponse resp = dispositivoMonitorService.startMonitoramento( dispositivoId, username );
+        MonitoramentoOperResponse resp = dispositivoMonitorService.startMonitoramento( dispositivoId );
         return ResponseEntity.ok( resp );
     }
 

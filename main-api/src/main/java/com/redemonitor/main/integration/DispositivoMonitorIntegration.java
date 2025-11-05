@@ -33,10 +33,9 @@ public class DispositivoMonitorIntegration {
 	@Autowired
 	private HttpClientManager httpClientManager;
 	
-	public MonitoramentoOperResponse startMonitoramento( String serverHost, Long dispositivoId, String username ) {
+	public MonitoramentoOperResponse startMonitoramento( String serverHost, Long dispositivoId ) {
 		String uri = serverHost + 
-				startEndpointPath.replace( "{dispositivoId}", ""+dispositivoId )
-					.replace( "{username}", username ); 
+				startEndpointPath.replace( "{dispositivoId}", ""+dispositivoId ); 
 		
 		return httpClientManager.postWithResponse( uri, MonitoramentoOperResponse.class );
 	}

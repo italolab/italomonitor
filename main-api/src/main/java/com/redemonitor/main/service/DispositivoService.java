@@ -127,12 +127,12 @@ public class DispositivoService {
         return this.buildDispositivoResponse( dispositivo );
     }
 
-    public void deleteDispositivo( Long dispositivoId, String accessToken ) {
+    public void deleteDispositivo( Long dispositivoId ) {
         Optional<Dispositivo> dispositivoOp = dispositivoRepository.findById( dispositivoId );
         if ( dispositivoOp.isEmpty() )
             throw new BusinessException( Errors.DISPOSITIVO_NOT_FOUND );
 
-        dispositivoMonitorEscalonador.stopMonitoramento( dispositivoId, accessToken );
+        dispositivoMonitorEscalonador.stopMonitoramento( dispositivoId );
         
         dispositivoRepository.deleteById( dispositivoId );
     }

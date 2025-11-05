@@ -14,7 +14,6 @@ import com.redemonitor.main.apidoc.dispositivo.monitor.StartMonitoramentoDoc;
 import com.redemonitor.main.apidoc.dispositivo.monitor.StopAllMonitoramentosDoc;
 import com.redemonitor.main.apidoc.dispositivo.monitor.StopMonitoramentoDoc;
 import com.redemonitor.main.components.DispositivoMonitorEscalonador;
-import com.redemonitor.main.components.util.JwtTokenUtil;
 
 @RestController
 @RequestMapping("/api/v1/monitoramento/dispositivos")
@@ -22,9 +21,6 @@ public class DispositivoMonitorController {
 
     @Autowired
     private DispositivoMonitorEscalonador dispositivoMonitorEscalonador;
-
-    @Autowired
-    private JwtTokenUtil jwtTokenUtil;
     
     @StartAllMonitoramentosDoc
     @PreAuthorize("hasAuthority('dispositivo-monitoramento-all')")
@@ -33,9 +29,7 @@ public class DispositivoMonitorController {
             @PathVariable Long empresaId,
             @RequestHeader("Authorization") String authorizationHeader ) {
 
-    	String username = jwtTokenUtil.extractInfos( authorizationHeader ).getUsername();
-
-        dispositivoMonitorEscalonador.startAllMonitoramentos( empresaId, username );
+        dispositivoMonitorEscalonador.startAllMonitoramentos( empresaId );
         return ResponseEntity.ok( "Todos os monitoramento iniciados." );
     }
     	
@@ -46,9 +40,7 @@ public class DispositivoMonitorController {
             @PathVariable Long empresaId,
             @RequestHeader("Authorization") String authorizationHeader ) {
 
-    	String username = jwtTokenUtil.extractInfos( authorizationHeader ).getUsername();
-
-    	dispositivoMonitorEscalonador.stopAllMonitoramentos( empresaId, username );
+    	dispositivoMonitorEscalonador.stopAllMonitoramentos( empresaId );
         return ResponseEntity.ok( "Todos os monitoramento finalizados." );
     }
     
@@ -59,9 +51,7 @@ public class DispositivoMonitorController {
             @PathVariable Long dispositivoId,
             @RequestHeader("Authorization") String authorizationHeader ) {
 
-    	String username = jwtTokenUtil.extractInfos( authorizationHeader ).getUsername();
-
-        dispositivoMonitorEscalonador.startMonitoramento( dispositivoId, username );
+        dispositivoMonitorEscalonador.startMonitoramento( dispositivoId );
         return ResponseEntity.ok( "Monitoramento iniciado." );
     }
 
@@ -72,9 +62,7 @@ public class DispositivoMonitorController {
             @PathVariable Long dispositivoId,
             @RequestHeader("Authorization") String authorizationHeader ) {
 
-    	String username = jwtTokenUtil.extractInfos( authorizationHeader ).getUsername();
-
-        dispositivoMonitorEscalonador.stopMonitoramento( dispositivoId, username );
+        dispositivoMonitorEscalonador.stopMonitoramento( dispositivoId );
         return ResponseEntity.ok( "Monitoramento parado." );
     }
 
