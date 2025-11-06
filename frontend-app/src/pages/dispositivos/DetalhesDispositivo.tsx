@@ -1,6 +1,6 @@
 import { useNavigate, useParams } from "react-router-dom";
 import useDetalhesDispositivoViewModel from "../../core/viewModel/dispositivo/useDetalhesDispositivoViewModel";
-import { useContext, useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 import AppLayout from "../../layout/AppLayout";
 import { Button, Card } from "react-bootstrap";
 import AppField from "../../components/AppField";
@@ -9,14 +9,10 @@ import AppSpinner from "../../components/AppSpinner";
 import { MdArrowBack, MdEvent, MdOutlineEdit, MdPlayCircle, MdStopCircle } from "react-icons/md";
 import AppBoxInfo from "../../components/AppBoxInfo";
 
-import { AuthContext } from "../../context/AuthProvider";
-
 function DetalhesDispositivo() {
 
     const effectCalled = useRef( false );
     const deactivateFunc = useRef( () => {} );
-
-    const {accessToken} = useContext(AuthContext);
 
     const {
         loadDispositivo,
@@ -27,7 +23,6 @@ function DetalhesDispositivo() {
         loading,
         errorMessage,
         infoMessage,
-        setErrorMessage
     } = useDetalhesDispositivoViewModel();
 
     const { dispositivoId } = useParams();
@@ -36,11 +31,9 @@ function DetalhesDispositivo() {
 
     useEffect( () => {
         if ( effectCalled.current === false ) {
-            if ( accessToken === null || accessToken === '' ) {
-                setErrorMessage( 'Página atualizada após o login. Para funcionar a atualização de dados em tempo real, é necessário logar novamente sem atualizar a página.' );
-            } else {
-                deactivateFunc.current = websocketConnect();
-            }
+            ( async () => {
+                deactivateFunc.current = await websocketConnect();
+            } )();
 
             onLoad();
 

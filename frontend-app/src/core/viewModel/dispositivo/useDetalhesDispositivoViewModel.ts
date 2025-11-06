@@ -39,7 +39,7 @@ function useDetalhesDispositivoViewModel() {
 
     const wsRefresh = useWSDispositivoInfoRefresh();
 
-    const websocketConnect = () => {
+    const websocketConnect = async () => {
         return wsRefresh.connect( setDispositivoSeIDCorreto );
     };
 
@@ -117,8 +117,7 @@ function useDetalhesDispositivoViewModel() {
         dispositivo, 
         loading, 
         errorMessage, 
-        infoMessage, 
-        setErrorMessage
+        infoMessage
     };
 }
 

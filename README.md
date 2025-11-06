@@ -117,9 +117,11 @@ A thread de monitoramento faz o monitoramento do dispositivo e altera o status d
 
 O escalonador de monitores de dispositivo também envia mensagens via websocket com atualizações de dados do dispositivo quando ele muda de monitorado para não monitorado, e vice versa.
 
-## 🕸️ A atualização dos detalhes de dispositivo via Websocket
+## 🕸️ A atualização dos informações de dispositivo via Websocket
 
-Na página de detalhes do dispositivo são mostradas as informações do dispositivo. Inclusive se ele está sendo monitorado e seu status. Essas informações são atualizadas no backend com o monitoramento do dispositivo e mensagens enviadas via websocket são recebidas na página e, assim, as informações do dispositivo são atualizadas na tela.
+Nas páginas de detalhes do dispositivo e lista de dispositivos são mostradas as informações do dispositivo. Inclusive se ele está sendo monitorado e seu status. Essas informações são atualizadas no backend com o monitoramento do dispositivo e mensagens enviadas via websocket são recebidas na página e, assim, as informações do dispositivo são atualizadas na tela.
+
+Antes da conexão via websocket com o servidor, o access token é atualizado no servidor, gerando um novo cookie httponly para o access token e retornando ao frontend o access token para ser utilizado na conexão via websocket com o servidor.
 
 Um detalhe técnico importante é o que acontece se o servidor parar de funcionar. Se isso acontecer, o websocket para de funcionar também e, então, inicia a execução periódica do teste de conexão com o servidor. Isto é, periodicamente, a cada 10 segundos, são enviadas requisições ao servidor para refresh do token de acesso. Isso porque o token pode expirar durante o período de inatividade do sistema. As requisições param de ser enviadas quando o servidor voltar a operar, o que significa que o refresh do token teve sucesso e retornou o novo token de acesso. O websocket tem em suas configurações o token de acesso atualizado com o novo token e, então, novas requisições ao servidor podem ser feitas com o novo token.
 
