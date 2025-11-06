@@ -1,21 +1,24 @@
 import { useNavigate, useParams } from "react-router-dom";
 import useDetalhesDispositivoViewModel from "../../core/viewModel/dispositivo/useDetalhesDispositivoViewModel";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import AppLayout from "../../layout/AppLayout";
-import { Button, Card } from "react-bootstrap";
+import { Button, Card, Modal } from "react-bootstrap";
 import AppField from "../../components/AppField";
 import AppMessage from "../../components/AppMessage";
 import AppSpinner from "../../components/AppSpinner";
-import { MdArrowBack, MdEvent, MdOutlineEdit, MdPlayCircle, MdStopCircle } from "react-icons/md";
+import { MdArrowBack, MdDeleteForever, MdEvent, MdOutlineEdit, MdPlayCircle, MdStopCircle } from "react-icons/md";
 import AppBoxInfo from "../../components/AppBoxInfo";
 
 function DetalhesDispositivo() {
+
+    const [removeModalVisible, setRemoveModalVisible] = useState<boolean>( false );
 
     const effectCalled = useRef( false );
     const deactivateFunc = useRef( () => {} );
 
     const {
         loadDispositivo,
+        removeDispositivo,
         startMonitoramento,
         stopMonitoramento,
         websocketConnect,
@@ -53,6 +56,20 @@ function DetalhesDispositivo() {
             console.error( error );
         }
     };
+    
+    const onConfirmRemover = async () => {
+        setRemoveModalVisible( true );
+    };
+
+    const onRemover = async () => {
+        setRemoveModalVisible( false );
+        try {
+            const did : number = parseInt( dispositivoId! );
+            await removeDispositivo( did );
+        } catch ( error ) {
+            console.error( error );
+        }
+    };
 
     const onStartMonitoramento = async () => {
         try {
@@ -73,13 +90,36 @@ function DetalhesDispositivo() {
     };
 
     return (
-        <AppLayout>
+        <AppLayout>   
+            <Modal show={removeModalVisible} onHide={() => setRemoveModalVisible( false ) }>
+                <Modal.Header closeButton>
+                    <Modal.Title>
+                        <h3 className="m-0">Remoção de dispositivos</h3>
+                    </Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    Tem certeza que deseja remover o dispositivo: <br />
+                    {dispositivo.host} - {dispositivo.nome} ?
+                </Modal.Body>
+                <Modal.Footer className="d-flex justify-content-end">
+                    <Button type="button" className="mx-2" onClick={ () => setRemoveModalVisible( false ) }>
+                        Cancelar
+                    </Button>
+                    <Button variant="danger" type="button" onClick={onRemover}>
+                        Remover
+                    </Button>
+                </Modal.Footer>
+            </Modal>
+
             <div>
                 <Button type="button" onClick={() => navigate( -1 )} className="func">
                     <MdArrowBack size={25} /> Voltar
                 </Button>
-                <Button type="button" onClick={() => navigate( `/update-dispositivo/${dispositivoId}/${dispositivo.empresa.id}`)} className="func">
+                <Button type="button" onClick={() => navigate( `/update-dispositivo/${dispositivoId}`)} className="func">
                     <MdOutlineEdit size={25} /> Editar dispositivo
+                </Button>
+                <Button type="button" variant="danger" onClick={onConfirmRemover} className="func text-white">
+                    <MdDeleteForever size={25} /> Remover dispositivo
                 </Button>
                 <Button type="button" onClick={() => navigate( `/infos-eventos/${dispositivoId}`)} className="func">
                     <MdEvent size={25} /> Eventos

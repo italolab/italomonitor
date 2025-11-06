@@ -67,9 +67,10 @@ function UpdateDispositivo() {
         }
     };
 
+    
 
     return (
-        <AppLayout>
+        <AppLayout>            
             <div>
                 <Button type="button" onClick={() => navigate( -1 )} className="d-inline-flex align-items-center">
                     <MdArrowBack size={25}/> Voltar
@@ -125,7 +126,7 @@ function UpdateDispositivo() {
                             <Button type="button" onClick={onSave}>
                                 Salvar 
                                 <AppSpinner visible={loading} />
-                            </Button>
+                            </Button>                            
                         </Form>
                     </Card.Body>
                 </Card>

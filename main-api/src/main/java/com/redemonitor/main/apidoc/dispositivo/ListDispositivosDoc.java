@@ -18,12 +18,12 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 @Operation(
-        summary = "Responsável filtrar e retornar dados completos dos dispositivos."
+        summary = "Responsável por listar dispositivos registrados para uma empresa."
 )
 @ApiResponses(value= {
         @ApiResponse(
                 responseCode = "200",
-                description = "Retorno de lista de dados completos dos dispositivos conforme os campos do filtro.",
+                description = "Retorno de lista de dados completos dos dispositivos da empresa.",
                 content = {@Content(
                         mediaType = MediaType.APPLICATION_JSON_VALUE,
                         array = @ArraySchema(
@@ -43,6 +43,6 @@ import java.lang.annotation.Target;
 })
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
-public @interface FilterDispositivosDoc {
+public @interface ListDispositivosDoc {
 
 }

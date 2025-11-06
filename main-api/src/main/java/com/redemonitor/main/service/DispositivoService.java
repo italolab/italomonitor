@@ -103,14 +103,8 @@ public class DispositivoService {
          dispositivoRepository.save( dispositivo );
     }
 
-    public List<DispositivoResponse> filterDispositivos( 
-    		Long empresaId, String hostPart, String nomePart, String localPart ) {
-    	
-        List<Dispositivo> dispositivos = dispositivoRepository.filter( 
-        		empresaId,
-        		"%"+hostPart+"%", 
-        		"%"+nomePart+"%", 
-        		"%"+localPart+"%" );
+    public List<DispositivoResponse> listDispositivos( Long empresaId ) {    	
+        List<Dispositivo> dispositivos = dispositivoRepository.list( empresaId );
         
         List<DispositivoResponse> responses = new ArrayList<>();
         for( Dispositivo dispositivo : dispositivos )

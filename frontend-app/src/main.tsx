@@ -25,7 +25,7 @@ import ManterEmpresas from './pages/empresas/ManterEmpresas.tsx';
 import CreateEmpresa from './pages/empresas/CreateEmpresa.tsx';
 import UpdateEmpresa from './pages/empresas/UpdateEmpresa.tsx';
 import DetalhesEmpresa from './pages/empresas/DetalhesEmpresa.tsx';
-import ManterDispositivos from './pages/dispositivos/ManterDispositivos.tsx';
+import ShowDispositivos from './pages/dispositivos/ShowDispositivos.tsx';
 import CreateDispositivo from './pages/dispositivos/CreateDispositivo.tsx';
 import UpdateDispositivo from './pages/dispositivos/UpdateDispositivo.tsx';
 import DetalhesDispositivo from './pages/dispositivos/DetalhesDispositivo.tsx';
@@ -65,7 +65,7 @@ createRoot(document.getElementById('root')!).render(
             <Route path='/update-empresa/:empresaId' element={<UpdateEmpresa />} />
             <Route path='/detalhes-empresa/:empresaId' element={<DetalhesEmpresa />} />
 
-            <Route path='/dispositivos/:empresaId' element={<ManterDispositivos />} />
+            <Route path='/dispositivos/:empresaId' element={<ShowDispositivos />} />
             <Route path='/create-dispositivo/:empresaId' element={<CreateDispositivo />} />
             <Route path='/update-dispositivo/:dispositivoId' element={<UpdateDispositivo />} />
             <Route path='/detalhes-dispositivo/:dispositivoId' element={<DetalhesDispositivo />} />

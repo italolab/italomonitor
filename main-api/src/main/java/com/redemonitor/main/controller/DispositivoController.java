@@ -14,13 +14,12 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.redemonitor.main.apidoc.dispositivo.CreateDispositivoDoc;
 import com.redemonitor.main.apidoc.dispositivo.DeleteDispositivoDoc;
-import com.redemonitor.main.apidoc.dispositivo.FilterDispositivosDoc;
 import com.redemonitor.main.apidoc.dispositivo.GetDispositivoDoc;
+import com.redemonitor.main.apidoc.dispositivo.ListDispositivosDoc;
 import com.redemonitor.main.apidoc.dispositivo.UpdateDispositivoDoc;
 import com.redemonitor.main.apidoc.dispositivo.UpdateDispositivoStatusDoc;
 import com.redemonitor.main.dto.request.SaveDispositivoRequest;
@@ -78,20 +77,17 @@ public class DispositivoController {
     	return ResponseEntity.ok( "Status do dispositivo alterado com sucesso." );
     }
 
-    @FilterDispositivosDoc
+    @ListDispositivosDoc
     @PreAuthorize("hasAuthority('dispositivo-all')")
     @GetMapping("/empresa/{empresaId}")
     public ResponseEntity<List<DispositivoResponse>> filterDispositivos(
     		@PathVariable Long empresaId,
-            @RequestParam("hostpart") String hostPart,
-            @RequestParam("nomepart") String nomePart,
-            @RequestParam("localpart") String localPart, 
     		@RequestHeader("Authorization") String authorizationHeader ) {
     	
     	authorizationService.authorizeByEmpresa( empresaId, authorizationHeader );
 
         List<DispositivoResponse> responses =
-                dispositivoService.filterDispositivos( empresaId, hostPart, nomePart, localPart );
+                dispositivoService.listDispositivos( empresaId );
 
         return ResponseEntity.ok( responses );
     }

@@ -64,7 +64,7 @@ function useSaveDispositivoViewModel() {
             setLoading( false );
             throw error;
         }
-    }
+    };
 
     return { 
         createDispositivo, 

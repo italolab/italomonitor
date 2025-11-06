@@ -67,6 +67,22 @@ function useDetalhesDispositivoViewModel() {
         }
     };
 
+    const removeDispositivo = async ( dispositivoId : number ) => {
+        setErrorMessage( null );
+        setInfoMessage( null );
+        setLoading( true );
+        try {
+            await dispositivoModel.deleteDispositivo( dispositivoId );
+            
+            setInfoMessage( 'Dispositivo deletado com sucesso.' );            
+            setLoading( false );
+        } catch ( error ) {            
+            setErrorMessage( extractErrorMessage( error ) );
+            setLoading( false );
+            throw error;
+        }
+    };
+    
     const startMonitoramento = async ( dispositivoId : number ) => {
         setErrorMessage( null );
         setInfoMessage( null );
@@ -111,6 +127,7 @@ function useDetalhesDispositivoViewModel() {
 
     return { 
         loadDispositivo, 
+        removeDispositivo,
         startMonitoramento, 
         stopMonitoramento, 
         websocketConnect,
