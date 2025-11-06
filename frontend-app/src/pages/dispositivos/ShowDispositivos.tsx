@@ -9,7 +9,7 @@ import { MdAdd, MdArrowBack, MdNotifications, MdNotificationsOff, MdPlayCircle, 
 
 import './style/ShowDispositivos.css'
 import { LuInfo } from "react-icons/lu";
-import { TbNetwork, TbNetworkOff } from "react-icons/tb";
+import { TbRouter, TbRouterOff } from "react-icons/tb";
 import { formataDataHora } from "../../core/util/sistema-util";
 
 function ShowDispositivos() {
@@ -146,8 +146,8 @@ function ShowDispositivos() {
                         <div className="d-flex align-items-center justify-content-between">
                             <div>                                        
                                 { dispositivo.status === 'ATIVO' 
-                                    ? <TbNetwork size={20} /> 
-                                    : <TbNetworkOff size={20} color="yellow" />
+                                    ? <TbRouter size={20} /> 
+                                    : <TbRouterOff size={20} color="yellow" />
                                 }
                                 <span className="mx-2"></span>
                                 { dispositivo.sendoMonitorado === true 
@@ -155,8 +155,8 @@ function ShowDispositivos() {
                                     : <MdNotificationsOff size={20} />
                                 }
                             </div>
-                            <Link to={`/detalhes-dispositivo/${dispositivo.id}`}>
-                                <LuInfo color="white" size={20}/>
+                            <Link to={`/detalhes-dispositivo/${dispositivo.id}`} >
+                                <LuInfo color="white" size={20} className="detalhes-over"/>
                             </Link>                                        
                         </div>                          
                         <div>

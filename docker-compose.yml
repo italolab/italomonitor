@@ -50,6 +50,9 @@ services:
     depends_on:
       - main-db-server
       - rabbitmq-server
+      - disp-monitor-api-1
+      - disp-monitor-api-2
+      - disp-monitor-api-3
 
   disp-monitor-api-1:
     build: ./disp-monitor-api/

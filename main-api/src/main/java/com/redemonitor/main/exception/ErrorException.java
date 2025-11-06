@@ -14,7 +14,12 @@ public class ErrorException extends RuntimeException {
         this.params = params;
     }
 
-    public ErrorResponse response() {
+    @Override
+	public String getMessage() {
+		return this.response().getMessage();
+	}
+
+	public ErrorResponse response() {
         String msg = error;
         for( int i = 0; i < params.length; i++ )
             msg = msg.replace( "$"+(i+1), params[ i ] );

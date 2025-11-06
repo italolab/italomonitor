@@ -44,7 +44,7 @@ function UpdateDispositivo() {
             setDescricao( dispositivo.descricao );
             setLocalizacao( dispositivo.localizacao );
 
-            empresaId.current = dispositivo.id;
+            empresaId.current = dispositivo.empresa.id;
         } catch ( error ) {
             console.error( error );
         }
