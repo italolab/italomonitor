@@ -135,10 +135,10 @@ function ShowDispositivos() {
                 </Card>
             </div>
                                 
-            <div className="mt-3 title">
+            <h6 className="mt-3 title disp-info">
                 {dispositivosInfos.quantTotal} dispositivos no total, &nbsp;
                 {dispositivosInfos.sendoMonitoradosQuant} sendo monitorados.                
-            </div>
+            </h6>
 
             <div className="mt-3">                
                 { dispositivosFiltrados.map( (dispositivo, index) =>                 
@@ -146,27 +146,27 @@ function ShowDispositivos() {
                         <div className="d-flex align-items-center justify-content-between">
                             <div>                                        
                                 { dispositivo.status === 'ATIVO' 
-                                    ? <TbRouter size={20} /> 
-                                    : <TbRouterOff size={20} color="yellow" />
+                                    ? <TbRouter size={15} /> 
+                                    : <TbRouterOff size={15} color="yellow" />
                                 }
                                 <span className="mx-2"></span>
                                 { dispositivo.sendoMonitorado === true 
-                                    ? <MdNotifications size={20} />
-                                    : <MdNotificationsOff size={20} />
+                                    ? <MdNotifications size={15} />
+                                    : <MdNotificationsOff size={15} />
                                 }
                             </div>
                             <Link to={`/detalhes-dispositivo/${dispositivo.id}`} >
-                                <LuInfo color="white" size={20} className="detalhes-over"/>
+                                <LuInfo color="white" size={15} className="disp-detalhes-over"/>
                             </Link>                                        
                         </div>                          
-                        <div>
-                            <h1 className="m-0 d-inline-block text-complementar">{dispositivo.latenciaMedia}</h1> 
+                        <div className="text-center">
+                            <span className="disp-card-text-lg text-complementar">{dispositivo.latenciaMedia}</span> 
                             <small> ms</small>
                         </div>
-                        <small>{dispositivo.nome}</small>
-                        <small className="d-flex justify-content-end">
+                        <span className="disp-card-text text-center">{dispositivo.nome}</span>
+                        <span className="disp-card-text text-center">
                             {formataDataHora( dispositivo.stateAtualizadoEm )}
-                        </small>
+                        </span>
                     </div>
                 )}                                
             </div>                   

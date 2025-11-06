@@ -1,7 +1,7 @@
 
 .disp-card {
     display: inline-block;
-    width: 11em;
+    width: 10em;
     margin: 0 0.35em 0.35em 0;
     padding: 0.5em 1em;
     border-radius: 0.4em;
@@ -10,7 +10,23 @@
     color: #EFEFEF;
 }
 
-.detalhes-over:hover {
+.disp-info {
+    font-family: 'Arial', sans-serif;
+}
+
+.disp-detalhes-over:hover {
     background-color: rgba( 50, 50, 50, 0.8 );
     border-radius: 5em;
+}
+
+.disp-card-text-lg {
+    display: inline-block;
+    line-height: 1em;   
+    font-size: 2em;
+    font-weight: bold;
+}
+
+.disp-card-text { 
+    display: block;
+    font-size: 0.7em;
 }
