@@ -19,12 +19,14 @@ import org.springframework.web.bind.annotation.RestController;
 import com.redemonitor.main.apidoc.dispositivo.CreateDispositivoDoc;
 import com.redemonitor.main.apidoc.dispositivo.DeleteDispositivoDoc;
 import com.redemonitor.main.apidoc.dispositivo.GetDispositivoDoc;
+import com.redemonitor.main.apidoc.dispositivo.GetDispositivosInfosDoc;
 import com.redemonitor.main.apidoc.dispositivo.ListDispositivosDoc;
 import com.redemonitor.main.apidoc.dispositivo.UpdateDispositivoDoc;
 import com.redemonitor.main.apidoc.dispositivo.UpdateDispositivoStatusDoc;
 import com.redemonitor.main.dto.request.SaveDispositivoRequest;
-import com.redemonitor.main.dto.request.SaveDispositivoStatusRequest;
+import com.redemonitor.main.dto.request.SaveDispositivoStateRequest;
 import com.redemonitor.main.dto.response.DispositivoResponse;
+import com.redemonitor.main.dto.response.DispositivosInfosResponse;
 import com.redemonitor.main.service.AuthorizationService;
 import com.redemonitor.main.service.DispositivoService;
 
@@ -38,6 +40,19 @@ public class DispositivoController {
     @Autowired
     private AuthorizationService authorizationService;
             
+    @GetDispositivosInfosDoc
+    @PreAuthorize("hasAuthority('dispositivo-all')")
+    @GetMapping("/empresa/{empresaId}/infos")
+    public ResponseEntity<DispositivosInfosResponse> getDispositivosInfo( 
+    		@PathVariable Long empresaId, 
+    		@RequestHeader( "Authorization" ) String authorizationHeader ) {
+    	
+    	authorizationService.authorizeByEmpresa( empresaId, authorizationHeader );
+    	
+    	DispositivosInfosResponse resp = dispositivoService.getDispositivosInfos( empresaId );
+    	return ResponseEntity.ok( resp );
+    }
+    
     @CreateDispositivoDoc
     @PreAuthorize("hasAuthority('dispositivo-all')")
     @PostMapping
@@ -69,11 +84,11 @@ public class DispositivoController {
     
     @UpdateDispositivoStatusDoc
     @PreAuthorize("hasAnyAuthority('microservice')") 
-    @PatchMapping("/{dispositivoId}/update-status")
-    public ResponseEntity<String> updateDispositivoStatus( 
+    @PatchMapping("/{dispositivoId}/update-state")
+    public ResponseEntity<String> updateDispositivoState( 
     		@PathVariable Long dispositivoId, 
-    		@RequestBody SaveDispositivoStatusRequest request ) {
-    	dispositivoService.updateStatus( dispositivoId, request );
+    		@RequestBody SaveDispositivoStateRequest request ) {
+    	dispositivoService.updateState( dispositivoId, request );
     	return ResponseEntity.ok( "Status do dispositivo alterado com sucesso." );
     }
 

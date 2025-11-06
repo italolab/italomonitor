@@ -1,6 +1,6 @@
-package com.redemonitor.main.dto.request;
+package com.redemonitor.disp_monitor.dto.request.integration;
 
-import com.redemonitor.main.enums.DispositivoStatus;
+import com.redemonitor.disp_monitor.enums.DispositivoStatus;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -13,10 +13,12 @@ import lombok.Setter;
 @Getter
 @Setter
 @Builder
-public class SaveDispositivoStatusRequest {
-
-	private boolean sendoMonitorado;
+public class SaveDispositivoStateRequest {
 	
     private DispositivoStatus status;
+
+    private boolean sendoMonitorado;
+    
+    private int latenciaMedia;
 
 }

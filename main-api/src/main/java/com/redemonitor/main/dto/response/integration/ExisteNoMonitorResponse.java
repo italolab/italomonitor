@@ -1,6 +1,4 @@
-package com.redemonitor.disp_monitor.dto;
-
-import com.redemonitor.disp_monitor.enums.MonitoramentoOperResult;
+package com.redemonitor.main.dto.response.integration;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -13,8 +11,8 @@ import lombok.Setter;
 @Getter
 @Setter
 @Builder
-public class MonitoramentoOperResponse {
+public class ExisteNoMonitorResponse {
 
-	private MonitoramentoOperResult result;
-		
+	private boolean existe;
+	
 }

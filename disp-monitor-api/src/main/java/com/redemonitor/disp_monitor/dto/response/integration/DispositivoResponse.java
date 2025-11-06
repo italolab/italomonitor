@@ -1,4 +1,6 @@
-package com.redemonitor.disp_monitor.integration.dto.response;
+package com.redemonitor.disp_monitor.dto.response.integration;
+
+import java.util.Date;
 
 import com.redemonitor.disp_monitor.enums.DispositivoStatus;
 
@@ -28,6 +30,10 @@ public class DispositivoResponse {
     private boolean sendoMonitorado;
     
     private DispositivoStatus status;
+    
+    private int latenciaMedia;
+    
+    private Date stateAtualizadoEm;
     
     private EmpresaResponse empresa;
 

@@ -24,32 +24,32 @@ public class DispositivoMonitorController {
     private DispositivoMonitorEscalonador dispositivoMonitorEscalonador;
     
     @StartOrRestartMonitoramentosDoc
-    @PreAuthorize("hasAuthority('start-or-restart-monitoramentos')") 
-    @PostMapping("/start-or-restart-monitoramentos")
-    public ResponseEntity<String> startOrRestartMonitoramentos() {
-    	String resp = dispositivoMonitorEscalonador.startMonitoramentoParaDispositivosMonitoradosFlagTrue();
+    @PreAuthorize("hasAuthority('start-all-monitoramentos')") 
+    @PostMapping("/start-all-monitoramentos")
+    public ResponseEntity<String> startAllMonitoramentos() {
+    	String resp = dispositivoMonitorEscalonador.startAllMonitoramentos();
     	return ResponseEntity.ok( resp ); 
     }
     
     @StartAllMonitoramentosDoc
     @PreAuthorize("hasAuthority('dispositivo-monitoramento-all')")
     @PostMapping("/empresa/{empresaId}/start-all")
-    public ResponseEntity<String> startAllMonitoramentos(
+    public ResponseEntity<String> startEmpresaMonitoramentos(
             @PathVariable Long empresaId,
             @RequestHeader("Authorization") String authorizationHeader ) {
 
-        dispositivoMonitorEscalonador.startAllMonitoramentos( empresaId );
+        dispositivoMonitorEscalonador.startEmpresaMonitoramentos( empresaId );
         return ResponseEntity.ok( "Todos os monitoramento iniciados." );
     }
     	
     @StopAllMonitoramentosDoc
     @PreAuthorize("hasAuthority('dispositivo-monitoramento-all')")
     @PostMapping("/empresa/{empresaId}/stop-all")
-    public ResponseEntity<String> stopAllMonitoramentos(
+    public ResponseEntity<String> stopEmpresaMonitoramentos(
             @PathVariable Long empresaId,
             @RequestHeader("Authorization") String authorizationHeader ) {
 
-    	dispositivoMonitorEscalonador.stopAllMonitoramentos( empresaId );
+    	dispositivoMonitorEscalonador.stopEmpresaMonitoramentos( empresaId );
         return ResponseEntity.ok( "Todos os monitoramento finalizados." );
     }
     

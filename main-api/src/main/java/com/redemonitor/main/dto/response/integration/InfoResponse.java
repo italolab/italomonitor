@@ -1,4 +1,4 @@
-package com.redemonitor.main.integration.dto;
+package com.redemonitor.main.dto.response.integration;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

@@ -1,4 +1,4 @@
-package com.redemonitor.disp_monitor.integration.dto.request;
+package com.redemonitor.disp_monitor.dto.request.integration;
 
 import java.util.Date;
 

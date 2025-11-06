@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestClient;
 
-import com.redemonitor.disp_monitor.dto.ErrorResponse;
+import com.redemonitor.disp_monitor.dto.response.ErrorResponse;
 import com.redemonitor.disp_monitor.exception.BusinessException;
 import com.redemonitor.disp_monitor.exception.ErrorException;
 import com.redemonitor.disp_monitor.exception.Errors;

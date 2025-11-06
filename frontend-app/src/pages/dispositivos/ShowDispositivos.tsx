@@ -1,14 +1,16 @@
 import { useEffect, useRef, useState } from "react";
-import { Button, Card, Col, Form, Row } from "react-bootstrap";
+import { Button, Card, Form } from "react-bootstrap";
 import useShowDispositivosViewModel from "../../core/viewModel/dispositivo/useShowDispositivosViewModel";
 import AppSpinner from "../../components/AppSpinner";
 import AppMessage from "../../components/AppMessage";
 import AppLayout from "../../layout/AppLayout";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { MdAdd, MdArrowBack, MdPlayCircle, MdStopCircle } from "react-icons/md";
+import { MdAdd, MdArrowBack, MdNotifications, MdNotificationsOff, MdPlayCircle, MdStopCircle } from "react-icons/md";
 
-import './style/ManterDispositivos.css'
+import './style/ShowDispositivos.css'
 import { LuInfo } from "react-icons/lu";
+import { TbNetwork, TbNetworkOff } from "react-icons/tb";
+import { formataDataHora } from "../../core/util/sistema-util";
 
 function ShowDispositivos() {
 
@@ -19,11 +21,11 @@ function ShowDispositivos() {
 
     const { 
         websocketConnect,
-        loadInfos,
-        loadDispositivos,
+        loadDados,
         filterDispositivos, 
-        startAllMonitoramentos,
-        stopAllMonitoramentos,
+        startEmpresaMonitoramentos,
+        stopEmpresaMonitoramentos,
+        dispositivosInfos,
         dispositivosFiltrados,
         empresa,
         loading,
@@ -55,8 +57,7 @@ function ShowDispositivos() {
     const onLoad = async () => {
         try {
             const eid : number = parseInt( empresaId! );
-            await loadInfos( eid );
-            await loadDispositivos( eid ); 
+            await loadDados( eid );
         } catch ( error ) {
             console.error( error );
         }
@@ -73,7 +74,7 @@ function ShowDispositivos() {
     const onStartAllMonitoramentos = async () => {
         try {
             const eid : number = parseInt( empresaId! );
-            await startAllMonitoramentos( eid );
+            await startEmpresaMonitoramentos( eid );
         } catch ( error ) {
             console.error( error );
         }
@@ -82,7 +83,7 @@ function ShowDispositivos() {
     const onStopAllMonitoramentos = async () => {
         try {
             const eid : number = parseInt( empresaId! );
-            await stopAllMonitoramentos( eid );
+            await stopEmpresaMonitoramentos( eid );
         } catch ( error ) {
             console.error( error );
         }
@@ -127,41 +128,47 @@ function ShowDispositivos() {
                                     placeholder="Informe o termo para busca"
                                     value={searchTermo}
                                     onChange={ (e) => setSearchTermo( e.target.value ) }
-                                    onKeyDown={ onFilter } />
+                                    onKeyUp={ onFilter } />
                             </Form.Group>                            
                         </Form>
                     </Card.Body>
                 </Card>
             </div>
                                 
-            <div className="d-flex justify-content-center mt-3">                
-                <Row className="disp-row w-100">
-                    { dispositivosFiltrados.map( (dispositivo, index) =>                 
-                        <Col key={index} sm={4} className="disp-col">
-                            <div className="disp-card">
-                                <div className="d-flex align-items-center justify-content-between">
-                                    <div>
-                                        <h3 className="d-inline-block fw-bold rounded-2 bg-dark px-2 py-1">
-                                            {dispositivo.id}
-                                        </h3>
-                                        <span className="mx-2"></span>
-                                        {dispositivo.status === 'ATIVO' 
-                                            ? <h3 className="d-inline-block text-light"><span>Ativo</span></h3> 
-                                            : <h3 className="d-inline-block text-warning"><span>Inativo</span></h3>
-                                        }
-                                    </div>
-                                    <span className="p-2 rounded-3 bg-white text-dark">
-                                        <Link to={`/detalhes-dispositivo/${dispositivo.id}`}>
-                                            <LuInfo color="green" size={20}/>
-                                        </Link>                                        
-                                    </span>
-                                </div>                                
-                                <h3 className="mb-3">{dispositivo.nome}</h3>
-                                <div>{dispositivo.localizacao}</div>                            
+            <div className="mt-3 title">
+                {dispositivosInfos.quantTotal} dispositivos no total, &nbsp;
+                {dispositivosInfos.sendoMonitoradosQuant} sendo monitorados.                
+            </div>
+
+            <div className="mt-3">                
+                { dispositivosFiltrados.map( (dispositivo, index) =>                 
+                    <div key={index} className="disp-card">
+                        <div className="d-flex align-items-center justify-content-between">
+                            <div>                                        
+                                { dispositivo.status === 'ATIVO' 
+                                    ? <TbNetwork size={20} /> 
+                                    : <TbNetworkOff size={20} color="yellow" />
+                                }
+                                <span className="mx-2"></span>
+                                { dispositivo.sendoMonitorado === true 
+                                    ? <MdNotifications size={20} />
+                                    : <MdNotificationsOff size={20} />
+                                }
                             </div>
-                        </Col> 
-                    )}
-                </Row>
+                            <Link to={`/detalhes-dispositivo/${dispositivo.id}`}>
+                                <LuInfo color="white" size={20}/>
+                            </Link>                                        
+                        </div>                          
+                        <div>
+                            <h1 className="m-0 d-inline-block text-complementar">{dispositivo.latenciaMedia}</h1> 
+                            <small> ms</small>
+                        </div>
+                        <small>{dispositivo.nome}</small>
+                        <small className="d-flex justify-content-end">
+                            {formataDataHora( dispositivo.stateAtualizadoEm )}
+                        </small>
+                    </div>
+                )}                                
             </div>                   
         </AppLayout>
     );

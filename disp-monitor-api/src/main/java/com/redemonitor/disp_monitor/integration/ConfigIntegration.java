@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import com.redemonitor.disp_monitor.components.HttpClientManager;
-import com.redemonitor.disp_monitor.integration.dto.response.ConfigResponse;
+import com.redemonitor.disp_monitor.dto.response.integration.ConfigResponse;
 import com.redemonitor.disp_monitor.mapper.ConfigMapper;
 import com.redemonitor.disp_monitor.model.Config;
 

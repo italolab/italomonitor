@@ -42,13 +42,13 @@ function useDetalhesConfigViewModel() {
         }
     }
 
-    const startOrRestartMonitoramentos = async () => {
+    const startAllMonitoramentos = async () => {
         setErrorMessage( null );
         setInfoMessage( null );
         setLoading( true );
 
         try{
-            const response = await dispositivoMonitorModel.startOrRestartMonitoramentos();
+            const response = await dispositivoMonitorModel.startAllMonitoramentos();
             const configResp = await configModel.getConfig();
 
             setConfig( configResp.data );
@@ -64,7 +64,7 @@ function useDetalhesConfigViewModel() {
 
     return { 
         loadConfig, 
-        startOrRestartMonitoramentos, 
+        startAllMonitoramentos, 
         config, 
         errorMessage, 
         infoMessage, 

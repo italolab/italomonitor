@@ -23,8 +23,8 @@ public class DispositivoMessageService {
 	public void sendMessage( Dispositivo dispositivo ) {		
 		DispositivoMessage message = DispositivoMessage.builder()
 				.id( dispositivo.getId() )
-				.sendoMonitorado( dispositivo.isSendoMonitorado() )
 				.status( dispositivo.getStatus() ) 
+				.latenciaMedia( dispositivo.getLatenciaMedia() ) 
 				.build();
 		
 		rabbitTemplate.convertAndSend( dispositivosExchange, dispositivosRoutingKey, message ); 

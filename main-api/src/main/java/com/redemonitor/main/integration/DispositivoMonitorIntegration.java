@@ -5,9 +5,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import com.redemonitor.main.components.HttpClientManager;
-import com.redemonitor.main.integration.dto.ExisteNoMonitorResponse;
-import com.redemonitor.main.integration.dto.InfoResponse;
-import com.redemonitor.main.integration.dto.MonitoramentoOperResponse;
+import com.redemonitor.main.dto.response.integration.ExisteNoMonitorResponse;
+import com.redemonitor.main.dto.response.integration.InfoResponse;
+import com.redemonitor.main.dto.response.integration.MonitoramentoOperResponse;
 
 @Component
 public class DispositivoMonitorIntegration {

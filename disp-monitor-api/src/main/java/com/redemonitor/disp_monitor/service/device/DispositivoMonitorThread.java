@@ -21,7 +21,6 @@ public class DispositivoMonitorThread implements Runnable {
 	
     private Dispositivo dispositivo;
     private Config config;
-    private final DispositivoIntegration dispositivoIntegration;
     private final DispositivoMessageService dispositivoMessageService;
     private final EventoIntegration eventoIntegration;
 
@@ -39,7 +38,6 @@ public class DispositivoMonitorThread implements Runnable {
                                      DispositivoMessageService dispositivoMessageService ) {
         this.dispositivo = dispositivo;
         this.config = config;
-        this.dispositivoIntegration = dispositivoIntegration;
         this.eventoIntegration = eventoIntegration;
         this.dispositivoMessageService = dispositivoMessageService;
     }
@@ -78,6 +76,8 @@ public class DispositivoMonitorThread implements Runnable {
             int maxSucessos = numPacotesPorLote - maxFalhas;
             int quantFalhas = 0;
             int quantSucessos = 0;
+            int latenciaMedia = 0;
+            int comLatenciaQuant = 0;
 
             Scanner scanner = new Scanner( proc.getInputStream() );
             while ( quantFalhas < maxFalhas && scanner.hasNextLine() ) {
@@ -113,10 +113,13 @@ public class DispositivoMonitorThread implements Runnable {
                 	
                 	double time = 0;
                 	try {
-                		time = Double.parseDouble( timeStr );
+                		time = Double.parseDouble( timeStr );                		
                 	} catch ( NumberFormatException e ) {
                 		
                 	}
+                	
+                	latenciaMedia += time;
+                	comLatenciaQuant++;
                 	
                 	// DEVE SER CONFIGURADO NA TELA DE CONFIGURAÇÕES
                 	if ( time < 1000 ) { 
@@ -155,6 +158,11 @@ public class DispositivoMonitorThread implements Runnable {
                 if ( dispositivo.getStatus() == DispositivoStatus.ATIVO )
                     this.mudaStatusParaInativo();                
             }
+            
+            latenciaMedia /= comLatenciaQuant;            
+            dispositivo.setLatenciaMedia( latenciaMedia );
+            System.out.println( "SENDO MONITORADO= "+ dispositivo.isSendoMonitorado() );
+            dispositivoMessageService.sendMessage( dispositivo ); 
 
             sucessosQuantTotal += quantSucessos;
             falhasQuantTotal += quantFalhas;
@@ -175,19 +183,13 @@ public class DispositivoMonitorThread implements Runnable {
         tempoInatividadeTotal += (int) duration.getSeconds();
 
         dispositivo.setStatus( DispositivoStatus.ATIVO );
-        dispositivoIntegration.saveDispositivo( dispositivo );
-
-        dispositivoMessageService.sendMessage( dispositivo );
     }
 
     private void mudaStatusParaInativo() {
         ultimoTempoInatividadeIni = LocalDateTime.now();
         quedasQuantTotal++;
 
-        dispositivo.setStatus( DispositivoStatus.INATIVO );
-        dispositivoIntegration.saveDispositivo( dispositivo );
-        
-        dispositivoMessageService.sendMessage( dispositivo );
+        dispositivo.setStatus( DispositivoStatus.INATIVO );        
     }
 
     private void registraEvento( Duration duration ) {

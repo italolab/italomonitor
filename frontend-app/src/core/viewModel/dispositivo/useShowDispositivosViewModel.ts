@@ -7,6 +7,7 @@ import { DispositivoMonitorModel } from "../../model/DispositivoMonitorModel";
 import type { EmpresaResponse } from "../../model/dto/response/EmpresaResponse";
 import { EmpresaModel } from "../../model/EmpresaModel";
 import useWSDispositivoInfoRefresh from "./useWSDispositivoInfoRefresh";
+import type { DispositivosInfosResponse } from "../../model/dto/response/DispositivosInfosResponse";
 
 function useShowDispositivosViewModel() {
 
@@ -25,7 +26,12 @@ function useShowDispositivosViewModel() {
         maxDispositivosQuant: 0
     } );
 
-    const dispositivosRef = useRef<DispositivoResponse[]>( [] );
+    const [dispositivosInfos, setDispositivosInfos] = useState<DispositivosInfosResponse>( {
+        sendoMonitoradosQuant: 0,
+        quantTotal: 0
+    } );
+
+    const dispositivosFiltradosRef = useRef<DispositivoResponse[]>( [] );
 
     const {setAccessToken} = useContext(AuthContext);
     
@@ -40,55 +46,41 @@ function useShowDispositivosViewModel() {
     };
 
     const setDispositivoSeIDCorreto = ( disp : DispositivoResponse ) => {
-        const dispsRef : DispositivoResponse[] = dispositivosRef.current;
-
-        alert( 'XXX' );
+        const dispsRef : DispositivoResponse[] = dispositivosFiltradosRef.current;
 
         const disps = [];
         for( let i = 0; i < dispsRef.length; i++ ) {                        
             disps[ i ] = dispsRef[ i ];    
             if ( disps[ i ].id === disp.id ) {
                 disps[ i ] = disp;            
-                alert( JSON.stringify( disp ) );
             }        
         }
 
-        dispositivosRef.current = disps;
-        setDispositivos( disps );
+        dispositivosFiltradosRef.current = disps;
+        setDispositivosFiltrados( disps );
     };
 
-    const loadInfos = async ( empresaId : number ) => {
+    const loadDados = async ( empresaId : number ) => {
         setErrorMessage( null );
         setInfoMessage( null );
         setLoading( true );
 
         try {
-            const response = await empresaModel.getEmpresa( empresaId );
+            const infosResponse = await dispositivoModel.getDispositivosInfos( empresaId );
+            const dispsResponse = await dispositivoModel.listDispositivos( empresaId );
+            const empResponse = await empresaModel.getEmpresa( empresaId );            
 
-            setEmpresa( response.data );
-            setLoading( false );
-        } catch ( error ) {            
-            setErrorMessage( extractErrorMessage( error ) );
-            setLoading( false );
-            throw error;
-        }
-    };
+            filterDispositivos2( dispsResponse.data, '' );
 
-    const loadDispositivos = async ( empresaId : number ) => {
-        setErrorMessage( null );
-        setInfoMessage( null );
-        setLoading( true );
+            dispositivosFiltradosRef.current = dispsResponse.data;
 
-        try {
-            const response = await dispositivoModel.listDispositivos( empresaId );
-            filterDispositivos2( response.data, '' );
-
-            if ( response.data.length == 0 )
+            if ( dispsResponse.data.length == 0 )
                 setInfoMessage( 'Nenhum dispositivo encontrado.' );
 
-            dispositivosRef.current = response.data;
+            setDispositivosInfos( infosResponse.data );
+            setDispositivos( dispsResponse.data );
+            setEmpresa( empResponse.data );
 
-            setDispositivos( response.data );
             setLoading( false );
         } catch ( error ) {            
             setErrorMessage( extractErrorMessage( error ) );
@@ -103,33 +95,35 @@ function useShowDispositivosViewModel() {
 
 
     const filterDispositivos2 = async ( disps : DispositivoResponse[], searchTermo : string ) => {
+        const lowerSearchTermo = searchTermo.toLowerCase();
+
         const dispsFiltrados : DispositivoResponse[] = [];
         for( let i = 0; i < disps.length; i++ ) {
             if ( disps[ i ].host.includes( searchTermo ) || 
-                    disps[ i ].nome.includes( searchTermo ) || 
-                    disps[ i ].localizacao.includes( searchTermo ) ) {
+                    disps[ i ].nome.toLowerCase().includes( lowerSearchTermo ) || 
+                    disps[ i ].localizacao.toLowerCase().includes( lowerSearchTermo ) ) {
                 dispsFiltrados.push( disps[ i ] );
             }
-        }
+        }        
+        dispositivosFiltradosRef.current = dispsFiltrados;
+
         setDispositivosFiltrados( dispsFiltrados );
     };
 
-    const getDispositivoById = ( dispositivoId : number ) : DispositivoResponse | null => {
-        for( let i = 0; i < dispositivos.length; i++ )
-            if ( dispositivos[ i ].id === dispositivoId )
-                return dispositivos[ i ];
-        return null;
-    };
-
-    const startAllMonitoramentos = async ( empresaId : number ) => {
+    const startEmpresaMonitoramentos = async ( empresaId : number ) => {
         setErrorMessage( null );
         setInfoMessage( null );
         setLoading( true );
 
         try {
-            await dispositivoMonitorModel.startAllMonitoramentos( empresaId );
-            setInfoMessage( 'Todos os dispositivos estão sendo monitorados.' );
+            await dispositivoMonitorModel.startEmpresaMonitoramentos( empresaId );
 
+            const response = await dispositivoModel.listDispositivos( empresaId );
+            filterDispositivos2( response.data, '' );
+
+            setDispositivos( response.data );
+
+            setInfoMessage( 'Todos os dispositivos estão sendo monitorados.' );
             setLoading( false );
         } catch ( error ) {
             setErrorMessage( extractErrorMessage( error ) );
@@ -138,15 +132,20 @@ function useShowDispositivosViewModel() {
         }
     };
 
-    const stopAllMonitoramentos = async ( empresaId : number ) => {
+    const stopEmpresaMonitoramentos = async ( empresaId : number ) => {
         setErrorMessage( null );
         setInfoMessage( null );
         setLoading( true );
 
         try {
-            await dispositivoMonitorModel.stopAllMonitoramentos( empresaId );
-            setInfoMessage( 'Todos os monitoramentos foram finalizados.' );
+            await dispositivoMonitorModel.stopEmpresaMonitoramentos( empresaId );
 
+            const response = await dispositivoModel.listDispositivos( empresaId );
+            filterDispositivos2( response.data, '' );
+
+            setDispositivos( response.data );
+
+            setInfoMessage( 'Todos os monitoramentos foram finalizados.' );
             setLoading( false );
         } catch ( error ) {
             setErrorMessage( extractErrorMessage( error ) );
@@ -157,12 +156,11 @@ function useShowDispositivosViewModel() {
 
     return { 
         websocketConnect,
-        loadInfos,
-        loadDispositivos,
+        loadDados,        
         filterDispositivos, 
-        getDispositivoById,
-        startAllMonitoramentos,
-        stopAllMonitoramentos,
+        startEmpresaMonitoramentos,
+        stopEmpresaMonitoramentos,
+        dispositivosInfos,
         empresa,
         dispositivosFiltrados,
         loading, 

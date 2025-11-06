@@ -11,9 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 import org.springframework.stereotype.Service;
 
-import com.redemonitor.disp_monitor.dto.ExisteNoMonitorResponse;
-import com.redemonitor.disp_monitor.dto.InfoResponse;
-import com.redemonitor.disp_monitor.dto.MonitoramentoOperResponse;
+import com.redemonitor.disp_monitor.dto.response.ExisteNoMonitorResponse;
+import com.redemonitor.disp_monitor.dto.response.InfoResponse;
+import com.redemonitor.disp_monitor.dto.response.MonitoramentoOperResponse;
 import com.redemonitor.disp_monitor.enums.MonitoramentoOperResult;
 import com.redemonitor.disp_monitor.integration.ConfigIntegration;
 import com.redemonitor.disp_monitor.integration.DispositivoIntegration;
@@ -70,18 +70,13 @@ public class DispositivoMonitorService {
 
         DispositivoMonitor dispositivoMonitor = new DispositivoMonitor( thread, scheduledFuture );
         dispositivoMonitorMap.put( dispositivoId, dispositivoMonitor );
-
-        dispositivo.setSendoMonitorado( true );
-        dispositivoRepository.saveDispositivo( dispositivo );
         
         return MonitoramentoOperResponse.builder()
     			.result( MonitoramentoOperResult.INICIADO ) 
     			.build();
     }
 
-    public MonitoramentoOperResponse stopMonitoramento( Long dispositivoId ) {    	    	
-        Dispositivo dispositivo = dispositivoRepository.getDispositivo( dispositivoId );
-        
+    public MonitoramentoOperResponse stopMonitoramento( Long dispositivoId ) {    	    	        
         if ( !dispositivoMonitorMap.containsKey( dispositivoId ) ) {
             return MonitoramentoOperResponse.builder()
             		.result( MonitoramentoOperResult.NAO_ENCONTRADO )
@@ -92,9 +87,6 @@ public class DispositivoMonitorService {
         dispositivoMonitor.getScheduledFuture().cancel( true );
 
         dispositivoMonitorMap.remove( dispositivoId );
-
-        dispositivo.setSendoMonitorado( false );
-        dispositivoRepository.saveDispositivo( dispositivo );
         
         return MonitoramentoOperResponse.builder()
         		.result( MonitoramentoOperResult.FINALIZADO )

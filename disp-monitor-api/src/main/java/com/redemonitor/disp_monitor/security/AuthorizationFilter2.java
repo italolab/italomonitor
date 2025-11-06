@@ -18,7 +18,7 @@ import com.auth0.jwt.interfaces.DecodedJWT;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.redemonitor.disp_monitor.components.util.BearerTokenUtil;
 import com.redemonitor.disp_monitor.components.util.JwtTokenUtil;
-import com.redemonitor.disp_monitor.dto.ErrorResponse;
+import com.redemonitor.disp_monitor.dto.response.ErrorResponse;
 import com.redemonitor.disp_monitor.exception.Errors;
 
 import jakarta.servlet.FilterChain;

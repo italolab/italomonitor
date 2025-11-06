@@ -1,4 +1,4 @@
-package com.redemonitor.disp_monitor.apidoc.dispositivo.monitor;
+package com.redemonitor.main.apidoc.dispositivo;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -7,8 +7,9 @@ import java.lang.annotation.Target;
 
 import org.springframework.http.MediaType;
 
-import com.redemonitor.disp_monitor.apidoc.APIDocConstants;
-import com.redemonitor.disp_monitor.dto.response.ErrorResponse;
+import com.redemonitor.main.apidoc.APIDocConstants;
+import com.redemonitor.main.dto.response.DispositivosInfosResponse;
+import com.redemonitor.main.dto.response.ErrorResponse;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -17,13 +18,15 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 
 @Operation(
-        summary = "Responsável por finalizar o monitoramento de um dispositivo pelo ID."
+        summary = "Responsável por retornar dados sobre dispositivos da empresa."
 )
 @ApiResponses(value= {
         @ApiResponse(
                 responseCode = "200",
-                description = "Monitoramento de dispositivo finalizado pelo ID.",
-                content = @Content),
+                description = "Dados sobre dispositivos da empresa retornados.",
+                content = {@Content(
+                        mediaType = MediaType.APPLICATION_JSON_VALUE,
+                        schema = @Schema(implementation =  DispositivosInfosResponse.class))}),
         @ApiResponse(
                 responseCode = "403",
                 description = APIDocConstants.MSG_403,
@@ -39,5 +42,6 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 })
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
-public @interface StopMonitoramentoDoc {
+public @interface GetDispositivosInfosDoc {
+
 }

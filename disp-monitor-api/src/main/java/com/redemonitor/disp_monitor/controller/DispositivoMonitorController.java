@@ -15,9 +15,9 @@ import com.redemonitor.disp_monitor.apidoc.dispositivo.monitor.StartMonitorament
 import com.redemonitor.disp_monitor.apidoc.dispositivo.monitor.StopMonitoramentoDoc;
 import com.redemonitor.disp_monitor.apidoc.dispositivo.monitor.UpdateConfigInMonitoresDoc;
 import com.redemonitor.disp_monitor.apidoc.dispositivo.monitor.UpdateDispositivoInMonitorDoc;
-import com.redemonitor.disp_monitor.dto.ExisteNoMonitorResponse;
-import com.redemonitor.disp_monitor.dto.InfoResponse;
-import com.redemonitor.disp_monitor.dto.MonitoramentoOperResponse;
+import com.redemonitor.disp_monitor.dto.response.ExisteNoMonitorResponse;
+import com.redemonitor.disp_monitor.dto.response.InfoResponse;
+import com.redemonitor.disp_monitor.dto.response.MonitoramentoOperResponse;
 import com.redemonitor.disp_monitor.service.DispositivoMonitorService;
 
 @RestController

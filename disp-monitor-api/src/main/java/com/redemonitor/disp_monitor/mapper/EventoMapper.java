@@ -2,7 +2,7 @@ package com.redemonitor.disp_monitor.mapper;
 
 import org.springframework.stereotype.Component;
 
-import com.redemonitor.disp_monitor.integration.dto.request.SaveEventoRequest;
+import com.redemonitor.disp_monitor.dto.request.integration.SaveEventoRequest;
 import com.redemonitor.disp_monitor.model.Evento;
 
 @Component

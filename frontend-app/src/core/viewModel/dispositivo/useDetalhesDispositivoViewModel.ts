@@ -21,6 +21,8 @@ function useDetalhesDispositivoViewModel() {
         localizacao: '',
         sendoMonitorado: false,
         status : 'INATIVO',
+        latenciaMedia: 0,
+        stateAtualizadoEm: new Date(),
         empresa: {
             id: 0,
             nome: '',

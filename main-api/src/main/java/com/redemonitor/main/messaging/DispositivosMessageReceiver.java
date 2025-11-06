@@ -49,6 +49,8 @@ public class DispositivosMessageReceiver {
 		Dispositivo dispositivo = dispositivoOp.get();
 		dispositivoMapper.load( dispositivo, message ); 
 		
+		dispositivoRepository.save( dispositivo );
+		
 		DispositivoResponse resp = dispositivoMapper.map( dispositivo );
         String wsMessage = dispositivoMapper.mapToString( resp );
         

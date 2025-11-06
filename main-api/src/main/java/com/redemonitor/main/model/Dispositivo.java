@@ -1,5 +1,6 @@
 package com.redemonitor.main.model;
 
+import java.util.Date;
 import java.util.List;
 
 import com.redemonitor.main.enums.DispositivoStatus;
@@ -16,6 +17,8 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.persistence.Temporal;
+import jakarta.persistence.TemporalType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -44,6 +47,11 @@ public class Dispositivo {
     private String localizacao;
 
     private boolean sendoMonitorado;
+    
+    private int latenciaMedia;
+    
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date stateAtualizadoEm;
 
     @Enumerated(EnumType.STRING)
     private DispositivoStatus status;

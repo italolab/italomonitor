@@ -1,5 +1,6 @@
 package com.redemonitor.main.mapper;
 
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -10,7 +11,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.redemonitor.main.dto.message.DispositivoMessage;
 import com.redemonitor.main.dto.request.SaveDispositivoRequest;
-import com.redemonitor.main.dto.request.SaveDispositivoStatusRequest;
+import com.redemonitor.main.dto.request.SaveDispositivoStateRequest;
 import com.redemonitor.main.dto.response.DispositivoResponse;
 import com.redemonitor.main.dto.response.EmpresaResponse;
 import com.redemonitor.main.enums.DispositivoStatus;
@@ -29,7 +30,7 @@ public class DispositivoMapper {
                 .nome( request.getNome() )
                 .descricao( request.getDescricao() )
                 .localizacao( request.getLocalizacao() )
-                .status( DispositivoStatus.INATIVO )
+                .status( DispositivoStatus.INATIVO )                
                 .build();
     }
 
@@ -48,6 +49,8 @@ public class DispositivoMapper {
                 .localizacao( dispositivo.getLocalizacao() )
                 .sendoMonitorado( dispositivo.isSendoMonitorado() )
                 .status( dispositivo.getStatus() )
+                .latenciaMedia( dispositivo.getLatenciaMedia() )
+                .stateAtualizadoEm( dispositivo.getStateAtualizadoEm() ) 
                 .empresa( empresaResp )
                 .build();
     }
@@ -69,14 +72,17 @@ public class DispositivoMapper {
         disp.setStatus( DispositivoStatus.INATIVO ); 
     }
     
-    public void load( Dispositivo disp, SaveDispositivoStatusRequest request ) {
+    public void load( Dispositivo disp, SaveDispositivoStateRequest request ) {
     	disp.setSendoMonitorado( request.isSendoMonitorado() );
-    	disp.setStatus( request.getStatus() ); 
+    	disp.setStatus( request.getStatus() );
+    	disp.setLatenciaMedia( request.getLatenciaMedia() );
+    	disp.setStateAtualizadoEm( new Date() ); 
     }
     
     public void load( Dispositivo disp, DispositivoMessage message ) {
-    	disp.setSendoMonitorado( message.isSendoMonitorado() );
     	disp.setStatus( message.getStatus() ); 
+    	disp.setLatenciaMedia( message.getLatenciaMedia() ); 
+    	disp.setStateAtualizadoEm( new Date() ); 
     }
 
 }

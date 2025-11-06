@@ -8,7 +8,7 @@ import java.lang.annotation.Target;
 import org.springframework.http.MediaType;
 
 import com.redemonitor.disp_monitor.apidoc.APIDocConstants;
-import com.redemonitor.disp_monitor.dto.ErrorResponse;
+import com.redemonitor.disp_monitor.dto.response.ErrorResponse;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;

@@ -1,6 +1,6 @@
 package com.redemonitor.disp_monitor.exception;
 
-import com.redemonitor.disp_monitor.dto.ErrorResponse;
+import com.redemonitor.disp_monitor.dto.response.ErrorResponse;
 
 public class ErrorException extends RuntimeException {
 

@@ -6,8 +6,8 @@ export class DispositivoMonitorModel {
         configuraInterceptor( setAccessToken );
     }
 
-    async startOrRestartMonitoramentos() {
-        return await api.post( "/monitoramento/dispositivos/start-or-restart-monitoramentos", {} );
+    async startAllMonitoramentos() {
+        return await api.post( "/monitoramento/dispositivos/start-all-monitoramentos", {} );
     }
 
     async startMonitoramento( dispositivoId : number ) {
@@ -18,11 +18,11 @@ export class DispositivoMonitorModel {
         return await api.post( "/monitoramento/dispositivos/"+dispositivoId+"/stop", {} );
     }
 
-    async startAllMonitoramentos( empresaId : number ) {
+    async startEmpresaMonitoramentos( empresaId : number ) {
         return await api.post( "/monitoramento/dispositivos/empresa/"+empresaId+"/start-all", {} );
     }
 
-    async stopAllMonitoramentos( empresaId : number ) {
+    async stopEmpresaMonitoramentos( empresaId : number ) {
         return await api.post( "/monitoramento/dispositivos/empresa/"+empresaId+"/stop-all", {} );
     }
 

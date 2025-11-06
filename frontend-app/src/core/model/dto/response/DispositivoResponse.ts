@@ -9,5 +9,7 @@ export interface DispositivoResponse {
     localizacao : string;
     sendoMonitorado : boolean;
     status : DispositivoStatus;
+    latenciaMedia : number;
+    stateAtualizadoEm : Date;
     empresa : EmpresaResponse;
 }

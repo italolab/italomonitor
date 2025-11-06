@@ -19,6 +19,6 @@ public class DispositivoMessage {
 	
 	private DispositivoStatus status;
 	
-	private boolean sendoMonitorado;
-		
+	private int latenciaMedia;
+	
 }

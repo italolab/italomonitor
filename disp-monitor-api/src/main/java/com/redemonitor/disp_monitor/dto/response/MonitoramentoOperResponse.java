@@ -1,4 +1,6 @@
-package com.redemonitor.disp_monitor.dto;
+package com.redemonitor.disp_monitor.dto.response;
+
+import com.redemonitor.disp_monitor.enums.MonitoramentoOperResult;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,8 +13,8 @@ import lombok.Setter;
 @Getter
 @Setter
 @Builder
-public class InfoResponse {
+public class MonitoramentoOperResponse {
 
-	private int numThreadsAtivas;
+	private MonitoramentoOperResult result;
 		
 }

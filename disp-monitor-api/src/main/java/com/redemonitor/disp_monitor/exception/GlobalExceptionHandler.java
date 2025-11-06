@@ -6,7 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import com.redemonitor.disp_monitor.dto.ErrorResponse;
+import com.redemonitor.disp_monitor.dto.response.ErrorResponse;
 
 
 @RestControllerAdvice

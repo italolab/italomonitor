@@ -6,5 +6,5 @@ export interface EventoResponse {
     quedasQuant: number;
     tempoInatividade: number;
     duracao: number;
-    criadoEm: Date
+    criadoEm: Date;
 }

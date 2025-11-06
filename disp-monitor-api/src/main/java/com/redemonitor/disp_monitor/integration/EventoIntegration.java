@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import com.redemonitor.disp_monitor.components.HttpClientManager;
-import com.redemonitor.disp_monitor.integration.dto.request.SaveEventoRequest;
+import com.redemonitor.disp_monitor.dto.request.integration.SaveEventoRequest;
 import com.redemonitor.disp_monitor.mapper.EventoMapper;
 import com.redemonitor.disp_monitor.model.Evento;
 

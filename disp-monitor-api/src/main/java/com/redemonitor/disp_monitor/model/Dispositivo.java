@@ -1,5 +1,7 @@
 package com.redemonitor.disp_monitor.model;
 
+import java.util.Date;
+
 import com.redemonitor.disp_monitor.enums.DispositivoStatus;
 
 import lombok.AllArgsConstructor;
@@ -28,6 +30,10 @@ public class Dispositivo {
     private boolean sendoMonitorado;
     
     private DispositivoStatus status;
+    
+    private int latenciaMedia;
+    
+    private Date stateAtualizadoEm;
     
     private Empresa empresa;
 	

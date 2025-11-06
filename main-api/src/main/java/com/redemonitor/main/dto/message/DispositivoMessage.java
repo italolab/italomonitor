@@ -16,9 +16,9 @@ import lombok.Setter;
 public class DispositivoMessage {
 
 	private Long id;
-	
-	private boolean sendoMonitorado;
-	
+			
 	private DispositivoStatus status;
 		
+	private int latenciaMedia;
+	
 }

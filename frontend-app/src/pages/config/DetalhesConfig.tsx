@@ -13,7 +13,7 @@ function DetalhesConfig() {
 
     const {
         loadConfig,
-        startOrRestartMonitoramentos,
+        startAllMonitoramentos,
         config,
         loading,
         errorMessage,
@@ -36,7 +36,7 @@ function DetalhesConfig() {
 
     const onStartOrRestartMonitoramentos = async () => {
         try {
-            await startOrRestartMonitoramentos();
+            await startAllMonitoramentos();
         } catch ( error ) {
             console.error( error );
         }

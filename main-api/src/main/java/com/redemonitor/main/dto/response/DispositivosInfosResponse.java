@@ -1,6 +1,4 @@
-package com.redemonitor.main.integration.dto;
-
-import com.redemonitor.main.enums.MonitoramentoOperResult;
+package com.redemonitor.main.dto.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -13,8 +11,10 @@ import lombok.Setter;
 @Getter
 @Setter
 @Builder
-public class MonitoramentoOperResponse {
+public class DispositivosInfosResponse {
 
-	private MonitoramentoOperResult result;
-		
+	private int sendoMonitoradosQuant;
+	
+	private int quantTotal;
+	
 }

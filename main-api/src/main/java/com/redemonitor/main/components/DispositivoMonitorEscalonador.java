@@ -8,14 +8,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClientException;
 
+import com.redemonitor.main.dto.response.integration.ExisteNoMonitorResponse;
+import com.redemonitor.main.dto.response.integration.InfoResponse;
+import com.redemonitor.main.dto.response.integration.MonitoramentoOperResponse;
 import com.redemonitor.main.enums.MonitoramentoOperResult;
 import com.redemonitor.main.exception.BusinessException;
 import com.redemonitor.main.exception.ErrorException;
 import com.redemonitor.main.exception.Errors;
 import com.redemonitor.main.integration.DispositivoMonitorIntegration;
-import com.redemonitor.main.integration.dto.ExisteNoMonitorResponse;
-import com.redemonitor.main.integration.dto.InfoResponse;
-import com.redemonitor.main.integration.dto.MonitoramentoOperResponse;
 import com.redemonitor.main.messaging.DispositivoWebSocket;
 import com.redemonitor.main.model.Config;
 import com.redemonitor.main.model.Dispositivo;
@@ -42,12 +42,11 @@ public class DispositivoMonitorEscalonador {
 	@Autowired
 	private DispositivoWebSocket dispositivoWebSocket;
 	
-	public String startMonitoramentoParaDispositivosMonitoradosFlagTrue() {
+	public String startAllMonitoramentos() {
 		Config config = configRepository.findFirstByOrderByIdAsc();
 		List<MonitorServer> monitorServers = monitorServerRepository.findAll();
 		
-    	boolean sendoMonitorado = true;
-    	List<Long> dispsIDs = dispositivoRepository.findIDsBySendoMonitorado( sendoMonitorado );
+    	List<Long> dispsIDs = dispositivoRepository.findAllIDs();
     	
     	int dispsQuant = dispsIDs.size();
     	
@@ -73,7 +72,7 @@ public class DispositivoMonitorEscalonador {
     	return dispsMonitQuant + " dispositivo(s) startado(s) com sucesso.";
 	}
 	
-	public void startAllMonitoramentos( Long empresaId ) {
+	public void startEmpresaMonitoramentos( Long empresaId ) {
 		Config config = configRepository.findFirstByOrderByIdAsc();
 		List<MonitorServer> monitorServers = monitorServerRepository.findAll();
 		
@@ -98,7 +97,7 @@ public class DispositivoMonitorEscalonador {
 		}
 	}
 	
-	public void stopAllMonitoramentos( Long empresaId ) {
+	public void stopEmpresaMonitoramentos( Long empresaId ) {
 		List<MonitorServer> monitorServers = monitorServerRepository.findAll();
 		
 		List<Long> dispIDs = dispositivoRepository.findIDsByEmpresaId( empresaId );
@@ -178,11 +177,12 @@ public class DispositivoMonitorEscalonador {
 			if ( resp != null ) { 
 				switch( resp.getResult() ) {
 					case INICIADO:
+						this.updateDispositivo( dispositivoId, true );
+						
 						config.setMonitorServerCorrente( current );
 						configRepository.save( config );
 												
-						startou = true;
-						break;
+						return MonitoramentoOperResult.INICIADO;
 					case JA_INICIADO:
 						this.updateDispositivo( dispositivoId, true );  
 		
@@ -197,9 +197,7 @@ public class DispositivoMonitorEscalonador {
 			isFirst = false;
 		}
 		
-		if ( naoStartou )
-			return MonitoramentoOperResult.EXCEDE_LIMITE;		
-		return MonitoramentoOperResult.INICIADO;
+		return MonitoramentoOperResult.EXCEDE_LIMITE;		
 	}
 	
 	public synchronized MonitoramentoOperResult stopMonitoramento( Long dispositivoId, List<MonitorServer> monitorServers ) {		
@@ -208,8 +206,11 @@ public class DispositivoMonitorEscalonador {
 			
 			try {
 				MonitoramentoOperResponse resp = dispositivoMonitorIntegration.stopMonitoramento( host, dispositivoId );				
-				if ( resp.getResult() == MonitoramentoOperResult.FINALIZADO )				
+				if ( resp.getResult() == MonitoramentoOperResult.FINALIZADO ) {
+					this.updateDispositivo( dispositivoId, false );
+					
 					return MonitoramentoOperResult.FINALIZADO;
+				}
 			} catch ( RestClientException e ) {
 				Logger.getLogger( DispositivoMonitorEscalonador.class ).error( "Servidor inacessível = "+host );					
 			}															
@@ -285,6 +286,8 @@ public class DispositivoMonitorEscalonador {
         dispositivoRepository.save( dispositivo );
 
         dispositivoWebSocket.sendMessage( dispositivo );
+        
+        this.updateDispositivoInMonitor( dispositivoId ); 
 	}
 	
 	public static class MonitorInfo {

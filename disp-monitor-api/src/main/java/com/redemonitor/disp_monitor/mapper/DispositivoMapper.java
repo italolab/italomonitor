@@ -2,8 +2,8 @@ package com.redemonitor.disp_monitor.mapper;
 
 import org.springframework.stereotype.Component;
 
-import com.redemonitor.disp_monitor.integration.dto.request.SaveDispositivoStatusRequest;
-import com.redemonitor.disp_monitor.integration.dto.response.DispositivoResponse;
+import com.redemonitor.disp_monitor.dto.request.integration.SaveDispositivoStateRequest;
+import com.redemonitor.disp_monitor.dto.response.integration.DispositivoResponse;
 import com.redemonitor.disp_monitor.model.Dispositivo;
 import com.redemonitor.disp_monitor.model.Empresa;
 
@@ -19,6 +19,8 @@ public class DispositivoMapper {
                 .localizacao( response.getLocalizacao() )
                 .sendoMonitorado( response.isSendoMonitorado() )
                 .status( response.getStatus() ) 
+                .latenciaMedia( response.getLatenciaMedia() )
+                .stateAtualizadoEm( response.getStateAtualizadoEm() ) 
                 .empresa( 
                 	Empresa.builder()
                 		.porcentagemMaxFalhasPorLote( response.getEmpresa().getPorcentagemMaxFalhasPorLote() )
@@ -26,10 +28,11 @@ public class DispositivoMapper {
                 .build();
     }
     
-    public SaveDispositivoStatusRequest map( Dispositivo dispositivo ) {
-    	return SaveDispositivoStatusRequest.builder()
+    public SaveDispositivoStateRequest map( Dispositivo dispositivo ) {
+    	return SaveDispositivoStateRequest.builder()
     			.sendoMonitorado( dispositivo.isSendoMonitorado() )
     			.status( dispositivo.getStatus() )
+    			.latenciaMedia( dispositivo.getLatenciaMedia() ) 
     			.build();
     }
 

@@ -9,8 +9,9 @@ import org.springframework.stereotype.Service;
 
 import com.redemonitor.main.components.DispositivoMonitorEscalonador;
 import com.redemonitor.main.dto.request.SaveDispositivoRequest;
-import com.redemonitor.main.dto.request.SaveDispositivoStatusRequest;
+import com.redemonitor.main.dto.request.SaveDispositivoStateRequest;
 import com.redemonitor.main.dto.response.DispositivoResponse;
+import com.redemonitor.main.dto.response.DispositivosInfosResponse;
 import com.redemonitor.main.exception.BusinessException;
 import com.redemonitor.main.exception.Errors;
 import com.redemonitor.main.mapper.DispositivoMapper;
@@ -38,6 +39,18 @@ public class DispositivoService {
     @Autowired
     private EmpresaMapper empresaMapper;
     
+    public DispositivosInfosResponse getDispositivosInfos( Long empresaId ) {
+    	boolean sendoMonitorado = true;
+    	
+    	int quantTotal = dispositivoRepository.countByEmpresa( empresaId );
+    	int sendoMonitoradosQuant = dispositivoRepository.countByEmpresaBySendoMonitorado( empresaId, sendoMonitorado );
+    	
+    	return DispositivosInfosResponse.builder()
+    			.quantTotal( quantTotal )
+    			.sendoMonitoradosQuant( sendoMonitoradosQuant )
+    			.build();
+    }
+    
     public void createDispositivo( SaveDispositivoRequest request ) {
         request.validate();
 
@@ -56,7 +69,7 @@ public class DispositivoService {
 
         Empresa empresa = empresaOp.get();
         
-        int dispositivosQuantByEmpresa = dispositivoRepository.countDispositivosByEmpresa( empresaId );
+        int dispositivosQuantByEmpresa = dispositivoRepository.countByEmpresa( empresaId );
         if ( dispositivosQuantByEmpresa >= empresa.getMaxDispositivosQuant() )
         	throw new BusinessException( Errors.DISPOSITIVO_CREATE_EXCEDE_LIMITE, ""+dispositivosQuantByEmpresa ); 
         
@@ -91,7 +104,7 @@ public class DispositivoService {
         dispositivoMonitorEscalonador.updateDispositivoInMonitor( dispositivoId );
     }
     
-    public void updateStatus( Long dispositivoId, SaveDispositivoStatusRequest request ) {
+    public void updateState( Long dispositivoId, SaveDispositivoStateRequest request ) {
     	 Optional<Dispositivo> dispositivoOp = dispositivoRepository.findById( dispositivoId );
          if ( dispositivoOp.isEmpty() )
              throw new BusinessException( Errors.DISPOSITIVO_NOT_FOUND );

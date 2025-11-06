@@ -7,6 +7,10 @@ export class DispositivoModel {
         configuraInterceptor( setAccessToken );
     }
 
+    async getDispositivosInfos( empresaId : number ) {
+        return await api.get( "/dispositivos/empresa/"+empresaId+"/infos")
+    }
+
     async createDispositivo( dispositivoSave : SaveDispositivoRequest ) {
         return await api.post( "/dispositivos", dispositivoSave );
     }
