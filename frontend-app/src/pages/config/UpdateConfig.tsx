@@ -117,12 +117,12 @@ function UpdateConfig() {
                                     onChange={ ( e ) => setMonitoramentoDelay( e.target.value ) } />
                             </Form.Group>
 
-                            <Form.Group className="mb-3" controlId="numPacotesPorLote">
-                                <Form.Label>Número de pacotes por lote</Form.Label>
+                            <Form.Group className="mb-3" controlId="registroEventoPeriodo">
+                                <Form.Label>Período de registro de eventos</Form.Label>
                                 <Form.Control type="number"
-                                    placeholder="Informe o número de pacotes"
-                                    value={numPacotesPorLote}
-                                    onChange={ ( e ) => setNumPacotesPorLote( e.target.value ) } />
+                                    placeholder="Informe o período"
+                                    value={registroEventoPeriodo}
+                                    onChange={ ( e ) => setRegistroEventoPeriodo( e.target.value ) } />
                             </Form.Group>
 
                             <Form.Group className="mb-3" controlId="numThreadsLimite">

@@ -44,6 +44,8 @@ public class ConfigService {
         Config config = configRepository.findFirstByOrderByIdAsc();                       	
         configMapper.load( config, request );        
         configRepository.save( config );
+        
+        dispositivoMonitorEscalonador.updateConfigInMonitores( config );
     }
 
     public ConfigResponse getConfig( boolean isLoadMonitorServer ) {

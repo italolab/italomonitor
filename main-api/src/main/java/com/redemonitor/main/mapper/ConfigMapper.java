@@ -2,6 +2,7 @@ package com.redemonitor.main.mapper;
 
 import org.springframework.stereotype.Component;
 
+import com.redemonitor.main.dto.integration.DispMonitorConfig;
 import com.redemonitor.main.dto.request.SaveConfigRequest;
 import com.redemonitor.main.dto.response.ConfigResponse;
 import com.redemonitor.main.model.Config;
@@ -28,6 +29,16 @@ public class ConfigMapper {
                 .build();
     }
 
+    public DispMonitorConfig mapToDispMonitorConfig( Config config ) {
+    	return DispMonitorConfig.builder()
+    			.numPacotesPorLote( config.getNumPacotesPorLote() )
+    			.monitoramentoDelay( config.getMonitoramentoDelay() )
+    			.registroEventoPeriodo( config.getRegistroEventoPeriodo() )
+    			.numThreadsLimite( config.getNumThreadsLimite() )
+    			.monitorServerCorrente( config.getMonitorServerCorrente() ) 
+    			.build();
+    }
+    
     public void load( Config config, SaveConfigRequest request ) {
         config.setNumPacotesPorLote( request.getNumPacotesPorLote() );
         config.setMonitoramentoDelay( request.getMonitoramentoDelay() );

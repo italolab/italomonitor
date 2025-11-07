@@ -2,6 +2,7 @@ package com.redemonitor.main.mapper;
 
 import org.springframework.stereotype.Component;
 
+import com.redemonitor.main.dto.integration.DispMonitorEvento;
 import com.redemonitor.main.dto.request.SaveEventoRequest;
 import com.redemonitor.main.dto.response.EventoResponse;
 import com.redemonitor.main.model.Evento;
@@ -17,6 +18,17 @@ public class EventoMapper {
 				.tempoInatividade( request.getTempoInatividade() )
 				.duracao( request.getDuracao() )
 				.criadoEm( request.getCriadoEm() )
+				.build();
+	}
+	
+	public Evento map( DispMonitorEvento message ) {
+		return Evento.builder()
+				.sucessosQuant( message.getSucessosQuant() )
+				.falhasQuant( message.getFalhasQuant() )
+				.quedasQuant( message.getQuedasQuant() )
+				.tempoInatividade( message.getTempoInatividade() )
+				.duracao( message.getDuracao() )
+				.criadoEm( message.getCriadoEm() )				
 				.build();
 	}
 	

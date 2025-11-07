@@ -2,6 +2,7 @@ package com.redemonitor.disp_monitor.config;
 
 import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.BindingBuilder;
+import org.springframework.amqp.core.Declarables;
 import org.springframework.amqp.core.DirectExchange;
 import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
@@ -15,30 +16,47 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class RabbitMQConfig {
 
-	@Value("${config.rabbitmq.dispositivos.queue}")
-	private String dispositivosQueue;
+	@Value("${config.rabbitmq.dispositivos-state.queue}")
+	private String dispositivosStateQueue;
 	
-	@Value("${config.rabbitmq.dispositivos.exchange}")
-	private String dispositivosExchange;
+	@Value("${config.rabbitmq.dispositivos-state.exchange}")
+	private String dispositivosStateExchange;
 	
-	@Value("${config.rabbitmq.dispositivos.routing-key}")
-	private String dispositivosRoutingKey;
+	@Value("${config.rabbitmq.dispositivos-state.routing-key}")
+	private String dispositivosStateRoutingKey;
 	
-	@Bean
-	Queue queue() {
-		return new Queue( dispositivosQueue );
+	@Value("${config.rabbitmq.eventos.queue}")
+	private String eventosQueue;
+	
+	@Value("${config.rabbitmq.eventos.exchange}")
+	private String eventosExchange;
+	
+	@Value("${config.rabbitmq.eventos.routing-key}")
+	private String eventosRoutingKey;
+	
+	@Bean(name="dispositivosStateQueue") 
+	Queue dispositivosQueue() {
+		return new Queue( dispositivosStateQueue );
 	}
 	
 	@Bean
-	DirectExchange exchange() {
-		return new DirectExchange( dispositivosExchange );
+	Declarables dispositivosStateDeclarables() {
+		DirectExchange exchange = new DirectExchange( dispositivosStateExchange );				
+		Queue queue1 = new Queue( dispositivosStateQueue );		
+		Binding binding1 = BindingBuilder.bind( queue1 ).to( exchange ).with( dispositivosStateRoutingKey );
+		
+		return new Declarables( exchange, queue1, binding1 );		
 	}
 	
 	@Bean
-	Binding binding( Queue queue, DirectExchange exchange ) {
-		return BindingBuilder.bind( queue ).to( exchange ).with( dispositivosRoutingKey );
+	Declarables eventosDeclarables() {
+		DirectExchange exchange = new DirectExchange( eventosExchange );				
+		Queue queue1 = new Queue( eventosQueue );		
+		Binding binding1 = BindingBuilder.bind( queue1 ).to( exchange ).with( eventosRoutingKey );
+		
+		return new Declarables( exchange, queue1, binding1 );		
 	}
-	
+		
 	@Bean
 	MessageConverter jsonMessageConverter() {
 		return new Jackson2JsonMessageConverter();

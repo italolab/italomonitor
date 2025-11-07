@@ -15,8 +15,6 @@ import lombok.Setter;
 @Builder
 public class Evento {
 
-	private Long id;
-
     private int sucessosQuant;
 
     private int falhasQuant;

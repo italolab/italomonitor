@@ -1,4 +1,4 @@
-package com.redemonitor.main.messaging;
+package com.redemonitor.main.messaging.receiver;
 
 import java.util.List;
 import java.util.Optional;
@@ -10,7 +10,7 @@ import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Component;
 
-import com.redemonitor.main.dto.message.DispositivoMessage;
+import com.redemonitor.main.dto.integration.DispMonitorDispositivoState;
 import com.redemonitor.main.dto.response.DispositivoResponse;
 import com.redemonitor.main.exception.BusinessException;
 import com.redemonitor.main.exception.Errors;
@@ -21,7 +21,7 @@ import com.redemonitor.main.repository.DispositivoRepository;
 import com.redemonitor.main.repository.UsuarioRepository;
 
 @Component
-public class DispositivosMessageReceiver {
+public class DispositivosStateMessageReceiver {
 
 	@Value("${config.websocket.dispositivos.topic}")
 	private String dispositivosTopic;
@@ -38,8 +38,8 @@ public class DispositivosMessageReceiver {
 	@Autowired
 	private DispositivoMapper dispositivoMapper;
 	
-	@RabbitListener( queues = {"${config.rabbitmq.dispositivos.queue}"} ) 
-	public void receivesMessage( @Payload DispositivoMessage message ) {
+	@RabbitListener( queues = {"${config.rabbitmq.dispositivos-state.queue}"} ) 
+	public void receivesMessage( @Payload DispMonitorDispositivoState message ) {
 		Long dispositivoId = message.getId();
 						
 		Optional<Dispositivo> dispositivoOp = dispositivoRepository.findById( dispositivoId );

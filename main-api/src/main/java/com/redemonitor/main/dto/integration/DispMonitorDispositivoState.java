@@ -1,4 +1,4 @@
-package com.redemonitor.main.dto.message;
+package com.redemonitor.main.dto.integration;
 
 import com.redemonitor.main.enums.DispositivoStatus;
 
@@ -13,7 +13,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Builder
-public class DispositivoMessage {
+public class DispMonitorDispositivoState {
 
 	private Long id;
 			

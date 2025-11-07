@@ -1,27 +1,27 @@
-package com.redemonitor.disp_monitor.messaging;
+package com.redemonitor.disp_monitor.messaging.sender;
 
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import com.redemonitor.disp_monitor.dto.message.DispositivoMessage;
 import com.redemonitor.disp_monitor.model.Dispositivo;
+import com.redemonitor.disp_monitor.model.DispositivoState;
 
 @Service
-public class DispositivoMessageService {
+public class DispositivoStateMessageSender {
 			
 	@Autowired
 	private RabbitTemplate rabbitTemplate;
 	
-	@Value("${config.rabbitmq.dispositivos.exchange}")
+	@Value("${config.rabbitmq.dispositivos-state.exchange}")
 	private String dispositivosExchange;
 	
-	@Value("${config.rabbitmq.dispositivos.routing-key}") 
+	@Value("${config.rabbitmq.dispositivos-state.routing-key}") 
 	private String dispositivosRoutingKey;
 	
 	public void sendMessage( Dispositivo dispositivo ) {		
-		DispositivoMessage message = DispositivoMessage.builder()
+		DispositivoState message = DispositivoState.builder()
 				.id( dispositivo.getId() )
 				.status( dispositivo.getStatus() ) 
 				.latenciaMedia( dispositivo.getLatenciaMedia() ) 

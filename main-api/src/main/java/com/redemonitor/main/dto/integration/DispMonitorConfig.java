@@ -1,4 +1,4 @@
-package com.redemonitor.disp_monitor.dto.response.integration;
+package com.redemonitor.main.dto.integration;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,11 +11,9 @@ import lombok.Setter;
 @Getter
 @Setter
 @Builder
-public class ConfigResponse {
+public class DispMonitorConfig {
 
-    private Long id;
-
-    private int monitoramentoDelay;
+	private int monitoramentoDelay;
 
     private int numPacotesPorLote;
 
@@ -23,4 +21,6 @@ public class ConfigResponse {
     
     private int numThreadsLimite;
         
+    private int monitorServerCorrente;
+	
 }

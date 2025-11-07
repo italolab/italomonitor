@@ -1,4 +1,4 @@
-package com.redemonitor.disp_monitor.dto.request.integration;
+package com.redemonitor.main.dto.integration;
 
 import java.util.Date;
 
@@ -13,7 +13,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Builder
-public class SaveEventoRequest {
+public class DispMonitorEvento {
 
     private int sucessosQuant;
 
@@ -28,5 +28,6 @@ public class SaveEventoRequest {
     private Date criadoEm;
 
     private Long dispositivoId;
-    
+	
 }
+

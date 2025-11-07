@@ -1,4 +1,4 @@
-package com.redemonitor.main.messaging;
+package com.redemonitor.main.messaging.websocket;
 
 import java.util.List;
 

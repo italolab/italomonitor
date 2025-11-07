@@ -101,7 +101,7 @@ public class DispositivoService {
         dispositivoMapper.load( dispositivo, request );
 
         dispositivoRepository.save( dispositivo );
-        dispositivoMonitorEscalonador.updateDispositivoInMonitor( dispositivoId );
+        dispositivoMonitorEscalonador.updateDispositivoInMonitor( dispositivo );
     }
     
     public void updateState( Long dispositivoId, SaveDispositivoStateRequest request ) {

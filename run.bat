@@ -10,7 +10,8 @@ if %1 == upall (
     call :updispmnt
     call :upfront
 ) else if %1 == upmicros (
-    call :upmicros
+    call :updispmnt
+    call :upmain
 ) else if %1 == upbase (
     call :upbase
 ) else if %1 == upmain (
@@ -48,17 +49,6 @@ if %1 == upall (
 )
 
 goto :fim
-
-:upmicros
-    cd main-api/
-    call .\mvnw.cmd clean package -DskipTests
-    cd ..
-    cd disp-monitor-api/
-    call .\mvnw.cmd clean package -DskipTests
-    cd ..
-
-    docker compose up --build main-api disp-monitor-api-1 disp-monitor-api-2 disp-monitor-api-3 -d
-exit /b 0
 
 :upmain
     cd main-api/

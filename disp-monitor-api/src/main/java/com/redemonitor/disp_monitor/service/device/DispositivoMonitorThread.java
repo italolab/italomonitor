@@ -9,9 +9,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.redemonitor.disp_monitor.enums.DispositivoStatus;
-import com.redemonitor.disp_monitor.integration.DispositivoIntegration;
-import com.redemonitor.disp_monitor.integration.EventoIntegration;
-import com.redemonitor.disp_monitor.messaging.DispositivoMessageService;
+import com.redemonitor.disp_monitor.messaging.sender.DispositivoStateMessageSender;
+import com.redemonitor.disp_monitor.messaging.sender.EventoMessageSender;
 import com.redemonitor.disp_monitor.model.Config;
 import com.redemonitor.disp_monitor.model.Dispositivo;
 import com.redemonitor.disp_monitor.model.Empresa;
@@ -21,8 +20,8 @@ public class DispositivoMonitorThread implements Runnable {
 	
     private Dispositivo dispositivo;
     private Config config;
-    private final DispositivoMessageService dispositivoMessageService;
-    private final EventoIntegration eventoIntegration;
+    private final DispositivoStateMessageSender dispositivoMessageService;
+    private final EventoMessageSender eventoMessageService;
 
     private int sucessosQuantTotal = 0;
     private int falhasQuantTotal = 0;
@@ -33,13 +32,12 @@ public class DispositivoMonitorThread implements Runnable {
 
     public DispositivoMonitorThread( Dispositivo dispositivo,
                                      Config config,
-                                     DispositivoIntegration dispositivoIntegration,
-                                     EventoIntegration eventoIntegration,
-                                     DispositivoMessageService dispositivoMessageService ) {
+                                     DispositivoStateMessageSender dispositivoMessageService,
+                                     EventoMessageSender eventoMessageService ) {
         this.dispositivo = dispositivo;
-        this.config = config;
-        this.eventoIntegration = eventoIntegration;
+        this.config = config;       
         this.dispositivoMessageService = dispositivoMessageService;
+        this.eventoMessageService = eventoMessageService;
     }
 
     public void run() {
@@ -161,12 +159,12 @@ public class DispositivoMonitorThread implements Runnable {
             
             latenciaMedia /= comLatenciaQuant;            
             dispositivo.setLatenciaMedia( latenciaMedia );
-            System.out.println( "SENDO MONITORADO= "+ dispositivo.isSendoMonitorado() );
+            
             dispositivoMessageService.sendMessage( dispositivo ); 
 
             sucessosQuantTotal += quantSucessos;
             falhasQuantTotal += quantFalhas;
-
+                        
             Duration duration = Duration.between( ultimoRegistroEventoEm, LocalDateTime.now() );
             if ( duration.getSeconds() >= registroEventoPeriodo )
                 this.registraEvento( duration );            
@@ -200,7 +198,7 @@ public class DispositivoMonitorThread implements Runnable {
             ultimoTempoInatividadeIni = LocalDateTime.now();
         }
 
-        Evento evento = Evento.builder()
+        Evento message = Evento.builder()
                 .sucessosQuant( sucessosQuantTotal )
                 .falhasQuant( falhasQuantTotal )
                 .quedasQuant( quedasQuantTotal )
@@ -209,8 +207,8 @@ public class DispositivoMonitorThread implements Runnable {
                 .criadoEm( new Date() )
                 .dispositivoId( dispositivo.getId() )
                 .build();
-
-        eventoIntegration.saveEvento( evento );
+        
+        eventoMessageService.sendMessage( message );
 
         sucessosQuantTotal = 0;
         falhasQuantTotal = 0;
@@ -229,6 +227,10 @@ public class DispositivoMonitorThread implements Runnable {
         synchronized ( this ) {
             this.config = config;
         }
+    }
+    
+    public Config getConfig() {
+    	return config;
     }
 
 }

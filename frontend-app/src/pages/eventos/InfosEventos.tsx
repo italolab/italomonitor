@@ -1,11 +1,13 @@
 import { useState } from "react";
-import { Nav } from "react-bootstrap";
+import { Button, Nav } from "react-bootstrap";
 import ListEventosByDia from "./ListEventosByDia";
 import ListEventosByIntervalo from "./ListEventosByIntervalo";
 import ShowEventosGraficos from "./ShowEventosGraficos";
 import AppLayout from "../../layout/AppLayout";
 
 import './style/InfosEventos.css'
+import { MdArrowBack } from "react-icons/md";
+import { useNavigate } from "react-router-dom";
 
 function InfosEventos() {
 
@@ -15,8 +17,16 @@ function InfosEventos() {
 
     const [visiblePage, setVisiblePage] = useState<string>( LIST_EVENTOS_BY_DIA );
 
+    const navigate = useNavigate();
+
     return (
         <AppLayout>
+            <div>
+                <Button type="button" onClick={() => navigate( -1 )} className="func">
+                    <MdArrowBack size={25}/> Voltar
+                </Button>
+            </div>
+
             <h3 className="title">Informações de eventos</h3>
 
             <Nav variant="tabs" defaultActiveKey={visiblePage} fill={true}>

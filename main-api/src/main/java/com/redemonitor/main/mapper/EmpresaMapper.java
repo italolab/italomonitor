@@ -2,6 +2,7 @@ package com.redemonitor.main.mapper;
 
 import org.springframework.stereotype.Component;
 
+import com.redemonitor.main.dto.integration.DispMonitorEmpresa;
 import com.redemonitor.main.dto.request.SaveEmpresaRequest;
 import com.redemonitor.main.dto.response.EmpresaResponse;
 import com.redemonitor.main.model.Empresa;
@@ -26,6 +27,16 @@ public class EmpresaMapper {
                 .porcentagemMaxFalhasPorLote( empresa.getPorcentagemMaxFalhasPorLote() )
                 .maxDispositivosQuant( empresa.getMaxDispositivosQuant() )
                 .build();
+    }
+    
+    public DispMonitorEmpresa mapToDispMonitorEmpresa( Empresa empresa ) {
+    	return DispMonitorEmpresa.builder()
+    			 .id( empresa.getId() )
+                 .nome( empresa.getNome() )
+                 .emailNotif( empresa.getEmailNotif() )
+                 .porcentagemMaxFalhasPorLote( empresa.getPorcentagemMaxFalhasPorLote() )
+                 .maxDispositivosQuant( empresa.getMaxDispositivosQuant() )
+    			.build();
     }
 
     public void load( Empresa empresa, SaveEmpresaRequest request ) {

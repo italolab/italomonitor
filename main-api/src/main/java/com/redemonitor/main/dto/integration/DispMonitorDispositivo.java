@@ -1,8 +1,8 @@
-package com.redemonitor.disp_monitor.dto.response.integration;
+package com.redemonitor.main.dto.integration;
 
 import java.util.Date;
 
-import com.redemonitor.disp_monitor.enums.DispositivoStatus;
+import com.redemonitor.main.enums.DispositivoStatus;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -15,10 +15,10 @@ import lombok.Setter;
 @Getter
 @Setter
 @Builder
-public class DispositivoResponse {
+public class DispMonitorDispositivo {
 
-    private Long id;
-    
+	private Long id;
+	
     private String host;
     
     private String nome;
@@ -35,6 +35,6 @@ public class DispositivoResponse {
     
     private Date stateAtualizadoEm;
     
-    private EmpresaResponse empresa;
-
+    private DispMonitorEmpresa empresa;
+	
 }

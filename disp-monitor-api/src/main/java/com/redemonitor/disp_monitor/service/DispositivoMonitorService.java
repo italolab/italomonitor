@@ -11,14 +11,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 import org.springframework.stereotype.Service;
 
+import com.redemonitor.disp_monitor.dto.request.StartMonitoramentoRequest;
 import com.redemonitor.disp_monitor.dto.response.ExisteNoMonitorResponse;
 import com.redemonitor.disp_monitor.dto.response.InfoResponse;
 import com.redemonitor.disp_monitor.dto.response.MonitoramentoOperResponse;
 import com.redemonitor.disp_monitor.enums.MonitoramentoOperResult;
-import com.redemonitor.disp_monitor.integration.ConfigIntegration;
-import com.redemonitor.disp_monitor.integration.DispositivoIntegration;
-import com.redemonitor.disp_monitor.integration.EventoIntegration;
-import com.redemonitor.disp_monitor.messaging.DispositivoMessageService;
+import com.redemonitor.disp_monitor.messaging.sender.DispositivoStateMessageSender;
+import com.redemonitor.disp_monitor.messaging.sender.EventoMessageSender;
 import com.redemonitor.disp_monitor.model.Config;
 import com.redemonitor.disp_monitor.model.Dispositivo;
 import com.redemonitor.disp_monitor.service.device.DispositivoMonitor;
@@ -28,43 +27,38 @@ import com.redemonitor.disp_monitor.service.device.DispositivoMonitorThread;
 public class DispositivoMonitorService {
 	
     @Autowired
-    private ConfigIntegration configRepository;
-
-    @Autowired
-    private DispositivoIntegration dispositivoRepository;
-
-    @Autowired
-    private EventoIntegration eventoRepository;
-
-    @Autowired
     private ThreadPoolTaskScheduler scheduler;
 
     @Autowired
-    private DispositivoMessageService dispositivoMessageService;
-
+    private DispositivoStateMessageSender dispositivoMessageService;
+    
+    @Autowired
+    private EventoMessageSender eventoMessageService;
+    
     private final Map<Long, DispositivoMonitor> dispositivoMonitorMap = new ConcurrentHashMap<>();    
 
-    public MonitoramentoOperResponse startMonitoramento( Long dispositivoId ) {
+    public MonitoramentoOperResponse startMonitoramento( StartMonitoramentoRequest request ) {
+    	Config config = request.getConfig();
+        Dispositivo dispositivo = request.getDispositivo();
+                
+    	Long dispositivoId = dispositivo.getId();
+
     	if ( dispositivoMonitorMap.containsKey( dispositivoId ) ) {
             return MonitoramentoOperResponse.builder()
             		.result( MonitoramentoOperResult.JA_INICIADO )
             		.build();
         }
     	
-        Config config = configRepository.getConfig();
-        
         if ( dispositivoMonitorMap.size() >= config.getNumThreadsLimite() ) {
         	return MonitoramentoOperResponse.builder()
         			.result( MonitoramentoOperResult.EXCEDE_LIMITE ) 
         			.build();
         }
               
-        Dispositivo dispositivo = dispositivoRepository.getDispositivo( dispositivoId );
-
         Duration monitorDelay = Duration.ofMillis( config.getMonitoramentoDelay() );
 
         DispositivoMonitorThread thread = new DispositivoMonitorThread(
-                dispositivo, config, dispositivoRepository, eventoRepository, dispositivoMessageService );
+                dispositivo, config, dispositivoMessageService, eventoMessageService );
 
         ScheduledFuture<?> scheduledFuture = scheduler.scheduleAtFixedRate( thread, Instant.now(), monitorDelay  );
 
@@ -93,45 +87,33 @@ public class DispositivoMonitorService {
         		.build(); 
     }
 
-    public MonitoramentoOperResponse updateConfigInMonitores() {
-        Config config = configRepository.getConfig();
-
+    public void updateConfigInMonitores( Config config ) {    	    
         Set<Long> ids = dispositivoMonitorMap.keySet();
         for( Long dispositivoId : ids ) {
             DispositivoMonitor dispositivoMonitor = dispositivoMonitorMap.get( dispositivoId );
             if ( dispositivoMonitor != null ) {
-                dispositivoMonitor.getDeviceMonitorThread().setConfig(config);
+            	//Config conf = dispositivoMonitor.getDeviceMonitorThread().getConfig();            	
+                dispositivoMonitor.getDeviceMonitorThread().setConfig( config );                
                 dispositivoMonitor.getScheduledFuture().cancel( true );
 
-                Duration monitorDelay = Duration.ofSeconds( config.getMonitoramentoDelay() );
-                scheduler.scheduleWithFixedDelay( dispositivoMonitor.getDeviceMonitorThread(), monitorDelay );
+                Duration monitorDelay = Duration.ofMillis( config.getMonitoramentoDelay() );
+
+                ScheduledFuture<?> scheduledFuture = scheduler.scheduleAtFixedRate( 
+                		dispositivoMonitor.getDeviceMonitorThread(), Instant.now(), monitorDelay  );
                 
-                return MonitoramentoOperResponse.builder()
-                		.result( MonitoramentoOperResult.ATUALIZADO )
-                		.build();
+                dispositivoMonitor.setScheduledFuture( scheduledFuture ); 
+            } else {
+            	System.err.println( "MONITOR OBJ NULL. " );
             }
-        }
-        
-        return MonitoramentoOperResponse.builder()
-        		.result( MonitoramentoOperResult.NAO_ENCONTRADO )
-        		.build();
+        }                
     }
 
-    public MonitoramentoOperResponse updateDispositivoInMonitor( Long dispositivoId ) {
-        Dispositivo dispositivo = dispositivoRepository.getDispositivo( dispositivoId );
-       
+    public void updateDispositivoInMonitor( Dispositivo dispositivo ) {
+    	Long dispositivoId = dispositivo.getId();
+    	    	    	
         DispositivoMonitor dispositivoMonitor = dispositivoMonitorMap.get( dispositivoId );
-        if ( dispositivoMonitor != null ) {
-            dispositivoMonitor.getDeviceMonitorThread().setDispositivo( dispositivo );
-            
-            return MonitoramentoOperResponse.builder()
-            		.result( MonitoramentoOperResult.ATUALIZADO )
-            		.build();
-        }
-        
-        return MonitoramentoOperResponse.builder()
-        		.result( MonitoramentoOperResult.NAO_ENCONTRADO ) 
-        		.build();
+        if ( dispositivoMonitor != null )
+            dispositivoMonitor.getDeviceMonitorThread().setDispositivo( dispositivo );                                               
     }
     
     public InfoResponse getInfo() {

@@ -1,4 +1,4 @@
-package com.redemonitor.disp_monitor.model;
+package com.redemonitor.main.dto.integration;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,7 +11,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Builder
-public class Empresa {
+public class DispMonitorEmpresa {
 
 	private Long id;
     
@@ -20,5 +20,7 @@ public class Empresa {
     private String emailNotif;
     
     private double porcentagemMaxFalhasPorLote;
+    
+    private int maxDispositivosQuant;
 	
 }

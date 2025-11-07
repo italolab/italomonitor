@@ -67,6 +67,25 @@ public class HttpClientManager {
 		}					
 	}
 	
+	public <T extends Object> T postWithResponse( String uri, Object body, Class<T> clazz ) {
+		RestClient client = RestClient.create();
+
+		try {
+			ResponseEntity<T> resp = client.post()		
+				.uri( uri ) 	
+				.header( "Authorization", "Bearer "+microserviceAccessToken )
+				.contentType( MediaType.APPLICATION_JSON ) 
+				.body( body )
+				.retrieve()
+				.toEntity( clazz );
+			
+			return resp.getBody();
+		} catch ( HttpClientErrorException e ) {
+			this.trataHttpClientErrorException( e, uri ); 
+			return null;
+		}					
+	}
+	
 	public void post( String uri, Object body ) {
 		RestClient client = RestClient.create();
 		

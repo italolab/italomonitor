@@ -13,14 +13,14 @@ import lombok.Setter;
 @Builder
 public class Config {
 
-	private Long id;
-	
-    private int monitoramentoDelay;
-    
+	private int monitoramentoDelay;
+
     private int numPacotesPorLote;
-    
+
     private int registroEventoPeriodo;
     
     private int numThreadsLimite;
+        
+    private int monitorServerCorrente;
 	
 }

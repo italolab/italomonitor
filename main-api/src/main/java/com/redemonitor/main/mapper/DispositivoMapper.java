@@ -9,7 +9,9 @@ import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.redemonitor.main.dto.message.DispositivoMessage;
+import com.redemonitor.main.dto.integration.DispMonitorDispositivo;
+import com.redemonitor.main.dto.integration.DispMonitorDispositivoState;
+import com.redemonitor.main.dto.integration.DispMonitorEmpresa;
 import com.redemonitor.main.dto.request.SaveDispositivoRequest;
 import com.redemonitor.main.dto.request.SaveDispositivoStateRequest;
 import com.redemonitor.main.dto.response.DispositivoResponse;
@@ -54,6 +56,27 @@ public class DispositivoMapper {
                 .empresa( empresaResp )
                 .build();
     }
+    
+    public DispMonitorDispositivo mapToDispMonitorDispositivo( Dispositivo dispositivo ) {
+    	DispMonitorEmpresa dmEmpresa = null;
+    	
+    	Empresa empresa = dispositivo.getEmpresa();
+    	if ( empresa != null )
+    		dmEmpresa = empresaMapper.mapToDispMonitorEmpresa( empresa );    	
+    	
+        return DispMonitorDispositivo.builder()
+                .id( dispositivo.getId() )
+                .host( dispositivo.getHost() )
+                .nome( dispositivo.getNome() )
+                .descricao( dispositivo.getDescricao() )
+                .localizacao( dispositivo.getLocalizacao() )
+                .sendoMonitorado( dispositivo.isSendoMonitorado() )
+                .status( dispositivo.getStatus() )
+                .latenciaMedia( dispositivo.getLatenciaMedia() )
+                .stateAtualizadoEm( dispositivo.getStateAtualizadoEm() ) 
+                .empresa( dmEmpresa )
+                .build();
+    }
 
     public String mapToString( DispositivoResponse disp ) {
         try {
@@ -79,7 +102,7 @@ public class DispositivoMapper {
     	disp.setStateAtualizadoEm( new Date() ); 
     }
     
-    public void load( Dispositivo disp, DispositivoMessage message ) {
+    public void load( Dispositivo disp, DispMonitorDispositivoState message ) {
     	disp.setStatus( message.getStatus() ); 
     	disp.setLatenciaMedia( message.getLatenciaMedia() ); 
     	disp.setStateAtualizadoEm( new Date() ); 
