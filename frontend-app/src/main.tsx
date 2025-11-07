@@ -37,6 +37,8 @@ import ManterMonitorServers from './pages/monitorServers/ManterMonitorServers.ts
 import CreateMonitorServer from './pages/monitorServers/CreateMonitorServer.tsx';
 import UpdateMonitorServer from './pages/monitorServers/UpdateMonitorServer.tsx';
 import DetalhesMonitorServer from './pages/monitorServers/DetalhesMonitorServer.tsx';
+import NoAdminUpdateEmpresa from './pages/empresas/NoAdminUpdateEmpresa.tsx';
+import NoAdminDetalhesEmpresa from './pages/empresas/NoAdminDetalhesEmpresa.tsx';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
@@ -45,18 +47,22 @@ createRoot(document.getElementById('root')!).render(
         <Routes>
             <Route path='/' element={<Login />} index />
             <Route path='/dashboard' element={<Dashboard />} />
+            
             <Route path='/usuarios' element={<ManterUsuarios />} />
             <Route path='/create-usuario' element={<CreateUsuario />} />
             <Route path='/update-usuario/:usuarioId' element={<UpdateUsuario />} />
             <Route path='/detalhes-usuario/:usuarioId' element={<DetalhesUsuario />} />
+            
             <Route path='/usuario-grupos' element={<ManterUsuarioGrupos /> } />
             <Route path='/create-usuario-grupo' element={<CreateUsuarioGrupo />} />
             <Route path='/update-usuario-grupo/:usuarioGrupoId' element={<UpdateUsuarioGrupo />} />
             <Route path='/detalhes-usuario-grupo/:usuarioGrupoId' element={<DetalhesUsuarioGrupo />} />
+            
             <Route path='/roles' element={<ManterRoles /> } />
             <Route path='/create-role' element={<CreateRole />} />
             <Route path='/update-role/:roleId' element={<UpdateRole />} />
             <Route path='/detalhes-role/:roleId' element={<DetalhesRole />} />
+
             <Route path='/vincular-usuario-grupo/:usuarioId' element={<VincularUsuarioGrupo />} />
             <Route path='/vincular-role/:usuarioGrupoId' element={<VincularRole />} />
 
@@ -64,6 +70,8 @@ createRoot(document.getElementById('root')!).render(
             <Route path='/create-empresa' element={<CreateEmpresa />} />
             <Route path='/update-empresa/:empresaId' element={<UpdateEmpresa />} />
             <Route path='/detalhes-empresa/:empresaId' element={<DetalhesEmpresa />} />
+            <Route path='/no-admin-update-empresa/:empresaId' element={<NoAdminUpdateEmpresa />} />
+            <Route path='/no-admin-detalhes-empresa/:empresaId' element={<NoAdminDetalhesEmpresa />} />
 
             <Route path='/dispositivos/:empresaId' element={<ShowDispositivos />} />
             <Route path='/create-dispositivo/:empresaId' element={<CreateDispositivo />} />

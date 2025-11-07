@@ -1,5 +1,6 @@
 import { api, configuraInterceptor, type SetAccessTokenFunction } from "./Api";
 import type { SaveEmpresaRequest } from "../model/dto/request/SaveEmpresaRequest";
+import type { NoAdminSaveEmpresaRequest } from "./dto/request/NoAdminSaveEmpresaRequest";
 
 export class EmpresaModel {
 
@@ -14,6 +15,10 @@ export class EmpresaModel {
     async updateEmpresa( empresaId : number, empresaSave : SaveEmpresaRequest ) {
         return await api.put( "/empresas/"+empresaId, empresaSave );
     } 
+
+    async noAdminUpdateEmpresa( empresaId : number, empresaSave : NoAdminSaveEmpresaRequest ) {
+        return await api.put( `/empresas/${empresaId}/no-admin`, empresaSave ); 
+    }
 
     async filterEmpresas( nomepart : string ) {
         return await api.get( "/empresas?nomepart="+nomepart );

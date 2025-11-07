@@ -3,6 +3,7 @@ package com.redemonitor.main.mapper;
 import org.springframework.stereotype.Component;
 
 import com.redemonitor.main.dto.integration.DispMonitorEmpresa;
+import com.redemonitor.main.dto.request.NoAdminSaveEmpresaRequest;
 import com.redemonitor.main.dto.request.SaveEmpresaRequest;
 import com.redemonitor.main.dto.response.EmpresaResponse;
 import com.redemonitor.main.model.Empresa;
@@ -10,7 +11,7 @@ import com.redemonitor.main.model.Empresa;
 @Component
 public class EmpresaMapper {
 
-    public Empresa map(SaveEmpresaRequest request) {
+    public Empresa map( SaveEmpresaRequest request ) {
         return Empresa.builder()
                 .nome( request.getNome() )
                 .emailNotif( request.getEmailNotif() )
@@ -18,7 +19,7 @@ public class EmpresaMapper {
                 .maxDispositivosQuant( request.getMaxDispositivosQuant() )
                 .build();
     }
-
+    
     public EmpresaResponse map( Empresa empresa ) {
         return EmpresaResponse.builder()
                 .id( empresa.getId() )
@@ -44,6 +45,12 @@ public class EmpresaMapper {
         empresa.setEmailNotif( request.getEmailNotif() );
         empresa.setPorcentagemMaxFalhasPorLote( request.getPorcentagemMaxFalhasPorLote() );
         empresa.setMaxDispositivosQuant( request.getMaxDispositivosQuant() ); 
+    }
+    
+    public void load( Empresa empresa, NoAdminSaveEmpresaRequest request ) {
+    	empresa.setNome( request.getNome() );
+        empresa.setEmailNotif( request.getEmailNotif() );
+        empresa.setPorcentagemMaxFalhasPorLote( request.getPorcentagemMaxFalhasPorLote() );
     }
 
 }

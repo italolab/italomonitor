@@ -4,11 +4,11 @@ import AppLayout from "../../layout/AppLayout";
 import { Button, Card } from "react-bootstrap";
 import AppMessage from "../../components/AppMessage";
 import AppSpinner from "../../components/AppSpinner";
-import { MdArrowBack, MdDeviceHub, MdOutlineEdit } from "react-icons/md";
+import { MdArrowBack, MdOutlineEdit } from "react-icons/md";
 import useEffectOnce from "../../core/util/useEffectOnce";
 import EmpresaInfoBox from "./EmpresaInfoBox";
 
-function DetalhesEmpresa() {
+function NoAdminDetalhesEmpresa() {
 
     const {
         loadEmpresa,
@@ -41,18 +41,15 @@ function DetalhesEmpresa() {
                 <Button type="button" onClick={() => navigate( -1 )} className="func">
                     <MdArrowBack size={25}/> Voltar
                 </Button>
-                <Button type="button" onClick={() => navigate( `/update-empresa/${empresaId}` )} className="func">
-                    <MdOutlineEdit size={25}/> Editar empresa
-                </Button>
-                <Button type="button" onClick={() => navigate( `/dispositivos/${empresaId}`)} className="func">
-                    <MdDeviceHub size={25}/> Ver dispositivos
-                </Button>
+                <Button type="button" onClick={() => navigate( `/no-admin-update-empresa/${empresaId}` )} className="func">
+                    <MdOutlineEdit size={25}/> Editar seus dados
+                </Button>                
             </div>
 
             <div className="d-flex justify-content-center mt-3">
                 <Card>
                     <Card.Header>
-                        <h3 className="m-0 text-center">Detalhes do empresa</h3>
+                        <h3 className="m-0 text-center">Dados de {empresa.nome}</h3>
                     </Card.Header>
                     <Card.Body>
                         <AppMessage message={errorMessage} type="error" />
@@ -70,4 +67,4 @@ function DetalhesEmpresa() {
     );
 }
 
-export default DetalhesEmpresa;
+export default NoAdminDetalhesEmpresa;

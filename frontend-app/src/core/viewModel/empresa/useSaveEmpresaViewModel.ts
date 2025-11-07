@@ -4,6 +4,7 @@ import { extractErrorMessage } from "../../util/sistema-util";
 import type { EmpresaResponse } from "../../model/dto/response/EmpresaResponse";
 import type { SaveEmpresaRequest } from "../../model/dto/request/SaveEmpresaRequest";
 import { AuthContext } from "../../../context/AuthProvider";
+import type { NoAdminSaveEmpresaRequest } from "../../model/dto/request/NoAdminSaveEmpresaRequest";
 
 
 function useSaveEmpresaViewModel() {
@@ -49,6 +50,23 @@ function useSaveEmpresaViewModel() {
         }
     };
 
+    const noAdminUpdateEmpresa = async ( empresaId : number, empresa : NoAdminSaveEmpresaRequest ) => {
+        setErrorMessage( null );
+        setInfoMessage( null );
+        setLoading( true );
+        
+        try {
+            await empresaModel.noAdminUpdateEmpresa( empresaId, empresa );
+
+            setInfoMessage( 'Dados alterados com sucesso.' );
+            setLoading( false );
+        } catch ( error ) {
+            setErrorMessage( extractErrorMessage( error ) );
+            setLoading( false );
+            throw error;
+        }
+    };
+
     const getEmpresa = async ( empresaId : number ) : Promise<EmpresaResponse> => {
         setErrorMessage( null );
         setInfoMessage( null );
@@ -69,6 +87,7 @@ function useSaveEmpresaViewModel() {
     return { 
         createEmpresa, 
         updateEmpresa, 
+        noAdminUpdateEmpresa,
         getEmpresa, 
         loading, 
         errorMessage, 

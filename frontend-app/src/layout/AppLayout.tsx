@@ -6,6 +6,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useLogoutViewModel } from "../core/viewModel/useLogoutViewModel";
 
 import "./AppLayout.css"
+import useInfos from "../core/viewModel/useInfos";
 
 interface AppLayoutProps {
     className?: string;
@@ -20,6 +21,7 @@ function AppLayout( {children, className} : AppLayoutProps ) {
     const navigate = useNavigate();
 
     const { logout } = useLogoutViewModel();
+    const { isAdmin } = useInfos();
 
     const appLogout = async () => {
         await logout();
@@ -46,15 +48,18 @@ function AppLayout( {children, className} : AppLayoutProps ) {
                         📈 Dashboard
                     </Link>
 
-                    { localStorage.getItem( 'perfil' ) === 'USUARIO' &&
+                    { isAdmin() === false &&
                         <span>
-                            <Link to={`/dispositivos/${localStorage.getItem( 'empresaId' )}`} className="sidebar-item">
-                                📥 Dispositivos
+                            <Link to={`/no-admin-detalhes-empresa/${localStorage.getItem( 'empresaId' )}`} className="sidebar-item">
+                                📋 Dados da empresa                                
+                            </Link>
+                            <Link to={`/update-empresa/${localStorage.getItem( 'empresaId' )}`} className="sidebar-item">
+                                📝 Alterar dados                                
                             </Link>
                         </span>
                     }
 
-                    { localStorage.getItem( 'perfil' ) === 'ADMIN' &&
+                    { isAdmin() === true &&
                         <span>
                             <Link to="/empresas" className="sidebar-item">
                                 🏢 Empresas
