@@ -7,7 +7,7 @@ export class DispositivoModel {
         configuraInterceptor( setAccessToken );
     }
 
-    async getDispositivosInfos( empresaId : number ) {
+    async getEmpresaDispositivosInfos( empresaId : number ) {
         return await api.get( "/dispositivos/empresa/"+empresaId+"/infos")
     }
 

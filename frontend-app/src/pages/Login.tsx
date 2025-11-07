@@ -27,7 +27,7 @@ function Login() {
                 senha: senha
             } );
 
-            navigate( '/home' );
+            navigate( '/dashboard' );
         } catch ( error ) {
             console.error( error );
         }

@@ -1,13 +1,13 @@
 import { useNavigate } from "react-router-dom";
 import useDetalhesConfigViewModel from "../../core/viewModel/config/useDetalhesConfigViewModel";
 import AppLayout from "../../layout/AppLayout";
-import { Badge, Button, Card } from "react-bootstrap";
-import AppField from "../../components/AppField";
+import { Button, Card } from "react-bootstrap";
 import AppMessage from "../../components/AppMessage";
 import AppSpinner from "../../components/AppSpinner";
 import { MdArrowBack, MdOutlineEdit, MdRestartAlt } from "react-icons/md";
 import useEffectOnce from "../../core/util/useEffectOnce";
 import { FaServer } from "react-icons/fa";
+import ConfigInfoBox from "./ConfigInfoBox";
 
 function DetalhesConfig() {
 
@@ -69,39 +69,8 @@ function DetalhesConfig() {
                             <AppSpinner className="mx-auto" visible={loading} />
                         </div>
                         
-                        <AppField name="número de pacotes por lote">
-                            {config.numPacotesPorLote}
-                        </AppField>                  
-                        <AppField name="delay de monitoramento">
-                            {config.monitoramentoDelay}
-                        </AppField>      
-                        <AppField name="período de registro de evento">
-                            {config.registroEventoPeriodo}
-                        </AppField>
-                        <AppField name="limite de threads">
-                            {config.numThreadsLimite}
-                        </AppField>
-                        <AppField name="servidores de monitoramento">
-                            { config.monitorServers.map( (monitor, index) => 
-                                <div key={index}>
-                                    <Badge bg="primary" className="my-1 d-inline-flex align-items-center">
-                                        <FaServer size={14}/> &nbsp; 
-                                        {monitor.host}
-                                    </Badge>
-                                    &nbsp;
-                                    -
-                                    &nbsp;
-                                    {monitor.ativo === true ? 
-                                        <span className="text-success fw-bold">Ativo</span>: 
-                                        <span className="text-danger fw-bold">Inativo</span>
-                                    }
-                                    &nbsp;
-                                    -
-                                    &nbsp;
-                                    {monitor.numThreadsAtivas} threads ativas
-                                </div>
-                            )}
-                        </AppField>
+                        <ConfigInfoBox config={config} />
+
                         <Button type="button" onClick={() => navigate( '/monitor-servers' )} className="func mt-3">
                             <FaServer size={25}/> &nbsp; Servidores de monitoramento
                         </Button>

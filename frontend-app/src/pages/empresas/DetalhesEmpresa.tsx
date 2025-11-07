@@ -2,11 +2,11 @@ import { useNavigate, useParams } from "react-router-dom";
 import useDetalhesEmpresaViewModel from "../../core/viewModel/empresa/useDetalhesEmpresaViewModel";
 import AppLayout from "../../layout/AppLayout";
 import { Button, Card } from "react-bootstrap";
-import AppField from "../../components/AppField";
 import AppMessage from "../../components/AppMessage";
 import AppSpinner from "../../components/AppSpinner";
 import { MdArrowBack, MdDeviceHub, MdOutlineEdit } from "react-icons/md";
 import useEffectOnce from "../../core/util/useEffectOnce";
+import EmpresaInfoBox from "./EmpresaInfoBox";
 
 function DetalhesEmpresa() {
 
@@ -65,21 +65,7 @@ function DetalhesEmpresa() {
                             <AppSpinner className="mx-auto" visible={loading} />
                         </div>
                         
-                        <AppField name="ID">
-                            {empresa.id}
-                        </AppField>
-                        <AppField name="nome">
-                            {empresa.nome}
-                        </AppField>      
-                        <AppField name="e-mail de notificação">
-                            {empresa.emailNotif}
-                        </AppField>
-                        <AppField name="max falhas por lote (%)">
-                            {empresa.porcentagemMaxFalhasPorLote * 100} {"%"}
-                        </AppField>
-                        <AppField name="quantidade máxima de dispositivos">
-                            {empresa.maxDispositivosQuant}
-                        </AppField>
+                        <EmpresaInfoBox empresa={empresa} />
                     </Card.Body>
                 </Card>
             </div>

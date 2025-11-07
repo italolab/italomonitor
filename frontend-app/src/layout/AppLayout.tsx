@@ -42,6 +42,10 @@ function AppLayout( {children, className} : AppLayoutProps ) {
                     </button>
                 </Offcanvas.Header>
                 <Offcanvas.Body className="p-0 bg-light">                                        
+                    <Link to="/dashboard" className="sidebar-item">
+                        📈 Dashboard
+                    </Link>
+
                     { localStorage.getItem( 'perfil' ) === 'USUARIO' &&
                         <span>
                             <Link to={`/dispositivos/${localStorage.getItem( 'empresaId' )}`} className="sidebar-item">

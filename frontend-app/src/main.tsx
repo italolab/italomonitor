@@ -5,7 +5,7 @@ import './colors.scss'
 
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Login from './pages/Login';
-import App from './pages/App.tsx';
+import Dashboard from './pages/Dashboard.tsx';
 import ManterUsuarios from './pages/usuarios/ManterUsuarios.tsx';
 import { AuthProvider } from './context/AuthProvider.tsx';
 import UpdateUsuario from './pages/usuarios/UpdateUsuario.tsx';
@@ -44,7 +44,7 @@ createRoot(document.getElementById('root')!).render(
       <Router>
         <Routes>
             <Route path='/' element={<Login />} index />
-            <Route path='/home' element={<App />} />
+            <Route path='/dashboard' element={<Dashboard />} />
             <Route path='/usuarios' element={<ManterUsuarios />} />
             <Route path='/create-usuario' element={<CreateUsuario />} />
             <Route path='/update-usuario/:usuarioId' element={<UpdateUsuario />} />

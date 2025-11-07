@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { Button, Card, Form } from "react-bootstrap";
+import { Button, Form } from "react-bootstrap";
 import useShowDispositivosViewModel from "../../core/viewModel/dispositivo/useShowDispositivosViewModel";
 import AppSpinner from "../../components/AppSpinner";
 import AppMessage from "../../components/AppMessage";
@@ -116,31 +116,25 @@ function ShowDispositivos() {
             </div>
 
             <div className="d-block w-100 mt-3 d-flex justify-content-center">
-                <Card>
-                    <Card.Header>
-                        <h5 className="my-2">Campos do filtro</h5>
-                    </Card.Header>
-                    <Card.Body className="p-3">
-                        <Form>
-                            <Form.Group className="mb-3" controlId="searchTermo">
-                                <Form.Label>Termo para busca</Form.Label>
-                                <Form.Control type="text" 
-                                    placeholder="Informe o termo para busca"
-                                    value={searchTermo}
-                                    onChange={ (e) => setSearchTermo( e.target.value ) }
-                                    onKeyUp={ onFilter } />
-                            </Form.Group>                            
-                        </Form>
-                    </Card.Body>
-                </Card>
+                <div className="bg-white p-2" style={{width: '30em'}}>
+                    <Form>
+                        <Form.Group controlId="searchTermo">
+                            <Form.Control type="text" 
+                                placeholder="Informe o termo para busca"
+                                value={searchTermo}
+                                onChange={ (e) => setSearchTermo( e.target.value ) }
+                                onKeyUp={ onFilter } />
+                        </Form.Group>                            
+                    </Form>
+                </div>                   
             </div>
                                 
-            <h6 className="mt-3 title disp-info">
+            <h6 className="disp-info mt-3 bg-light border text-center p-2">
                 {dispositivosInfos.quantTotal} dispositivos no total, &nbsp;
                 
                 { dispositivosInfos.sendoMonitoradosQuant < dispositivosInfos.quantTotal 
                     ? <span className="text-dark">{dispositivosInfos.sendoMonitoradosQuant} </span>
-                    : <span className="text-white">{dispositivosInfos.sendoMonitoradosQuant} </span>
+                    : <span className="text-primary">{dispositivosInfos.sendoMonitoradosQuant} </span>
                 }
                  
                 sendo monitorados.                

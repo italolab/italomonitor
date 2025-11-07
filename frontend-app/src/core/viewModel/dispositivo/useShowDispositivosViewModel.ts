@@ -81,7 +81,7 @@ function useShowDispositivosViewModel() {
         setLoading( true );
 
         try {
-            const infosResponse = await dispositivoModel.getDispositivosInfos( empresaId );
+            const infosResponse = await dispositivoModel.getEmpresaDispositivosInfos( empresaId );
             const dispsResponse = await dispositivoModel.listDispositivos( empresaId );
             const empResponse = await empresaModel.getEmpresa( empresaId );            
 
