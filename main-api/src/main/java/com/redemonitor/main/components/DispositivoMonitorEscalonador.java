@@ -19,6 +19,7 @@ import com.redemonitor.main.integration.DispositivoMonitorIntegration;
 import com.redemonitor.main.messaging.sender.ConfigMessageSender;
 import com.redemonitor.main.messaging.sender.DispositivoMessageSender;
 import com.redemonitor.main.messaging.websocket.DispositivoWebSocket;
+import com.redemonitor.main.messaging.websocket.DispositivosInfosWebSocket;
 import com.redemonitor.main.model.Config;
 import com.redemonitor.main.model.Dispositivo;
 import com.redemonitor.main.model.MonitorServer;
@@ -34,6 +35,9 @@ public class DispositivoMonitorEscalonador {
 	
 	@Autowired
 	private DispositivoMessageSender dispositivoMessageSender;
+	
+	@Autowired
+	private DispositivosInfosWebSocket dispositivosInfosWebSocket;
 	
 	@Autowired
 	private ConfigMessageSender configMessageSender;
@@ -143,7 +147,7 @@ public class DispositivoMonitorEscalonador {
 		}
 	}
 	
-	public synchronized MonitoramentoOperResult startMonitoramento( 
+	public MonitoramentoOperResult startMonitoramento( 
 			Long dispositivoId, 
 			Config config, 
 			List<MonitorServer> monitorServers ) {
@@ -153,7 +157,7 @@ public class DispositivoMonitorEscalonador {
 			throw new BusinessException( Errors.DISPOSITIVO_NOT_FOUND );
 		
 		Dispositivo dispositivo = dispositivoOp.get();
-		
+				
 		if ( this.verificaSeSendoMonitorado( dispositivoId, monitorServers ) ) {
 			this.updateDispositivo( dispositivo, true );  
 		
@@ -196,6 +200,8 @@ public class DispositivoMonitorEscalonador {
 						
 						config.setMonitorServerCorrente( current );
 						configRepository.save( config );
+						
+						dispositivosInfosWebSocket.sendDispositivosInfosMessage( dispositivoId );
 												
 						return MonitoramentoOperResult.INICIADO;
 					case JA_INICIADO:
@@ -215,13 +221,13 @@ public class DispositivoMonitorEscalonador {
 		return MonitoramentoOperResult.EXCEDE_LIMITE;		
 	}
 	
-	public synchronized MonitoramentoOperResult stopMonitoramento( Long dispositivoId, List<MonitorServer> monitorServers ) {
+	public MonitoramentoOperResult stopMonitoramento( Long dispositivoId, List<MonitorServer> monitorServers ) {
 		Optional<Dispositivo> dispositivoOp = dispositivoRepository.findById( dispositivoId );
 		if ( dispositivoOp.isEmpty() )
 			throw new BusinessException( Errors.DISPOSITIVO_NOT_FOUND );
 		
 		Dispositivo dispositivo = dispositivoOp.get();
-		
+				
 		for( MonitorServer server : monitorServers ) {
 			String host = server.getHost();
 			
@@ -230,6 +236,8 @@ public class DispositivoMonitorEscalonador {
 				if ( resp.getResult() == MonitoramentoOperResult.FINALIZADO ) {
 					this.updateDispositivo( dispositivo, false );
 					
+					dispositivosInfosWebSocket.sendDispositivosInfosMessage( dispositivoId );
+
 					return MonitoramentoOperResult.FINALIZADO;
 				}
 			} catch ( RestClientException e ) {

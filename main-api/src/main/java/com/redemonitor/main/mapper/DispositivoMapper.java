@@ -15,6 +15,7 @@ import com.redemonitor.main.dto.integration.DispMonitorEmpresa;
 import com.redemonitor.main.dto.request.SaveDispositivoRequest;
 import com.redemonitor.main.dto.request.SaveDispositivoStateRequest;
 import com.redemonitor.main.dto.response.DispositivoResponse;
+import com.redemonitor.main.dto.response.DispositivosInfosResponse;
 import com.redemonitor.main.dto.response.EmpresaResponse;
 import com.redemonitor.main.enums.DispositivoStatus;
 import com.redemonitor.main.model.Dispositivo;
@@ -79,6 +80,15 @@ public class DispositivoMapper {
     }
 
     public String mapToString( DispositivoResponse disp ) {
+        try {
+            return new ObjectMapper().writeValueAsString( disp );
+        } catch ( JsonProcessingException e ) {
+            Logger.getLogger(DispositivoMapper.class.getName()).log(Level.SEVERE, "Falha no processamento do JSON", e);
+        }
+        return null;
+    }
+    
+    public String mapToString( DispositivosInfosResponse disp ) {
         try {
             return new ObjectMapper().writeValueAsString( disp );
         } catch ( JsonProcessingException e ) {

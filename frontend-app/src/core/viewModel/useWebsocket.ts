@@ -1,24 +1,26 @@
-import { Client } from "@stomp/stompjs";
-import type { DispositivoResponse } from "../../model/dto/response/DispositivoResponse";
-import { AuthModel } from "../../model/AuthModel";
-import { BASE_WS_URL, DISPOSITIVOS_TOPIC } from "../../constants/websocket-constants";
+import { Client, type IMessage } from "@stomp/stompjs";
+import { AuthModel } from "../model/AuthModel";
 
-type SetDispositivoSeIDCorretoFunc = ( d : DispositivoResponse ) => void;
+type ReceivesMessageFunc = ( message : IMessage ) => void;
 
-function useWSDispositivoInfoRefresh() {
+function useWebsocket() {
+    
     const authModel = new AuthModel();    
 
     let deactivateFlag = false;
     let websocketErrorFlag = false;
     let interval = null;
 
-    const connect = async ( setDispositivoSeIDCorreto : SetDispositivoSeIDCorretoFunc ) : Promise<() => void> => {
+    const connect = async ( 
+            brokerURL : string, 
+            topic : string,
+            receivesMessageFunc : ReceivesMessageFunc ) : Promise<() => void> => {
         const response = await authModel.refreshAccessToken();
 
         const accessToken = response.data.accessToken;
 
         const client = new Client( {
-            brokerURL: BASE_WS_URL,
+            brokerURL: brokerURL,
             connectHeaders: {
                 Authorization: `Bearer ${accessToken}`
             },
@@ -32,9 +34,8 @@ function useWSDispositivoInfoRefresh() {
                 interval = null;
             }
 
-            client.subscribe( DISPOSITIVOS_TOPIC, (message) => {
-                const data = JSON.parse( message.body );
-                setDispositivoSeIDCorreto( data );   
+            client.subscribe( topic, (message) => {
+                receivesMessageFunc( message );   
             } );
         } 
         client.onWebSocketError = () => {
@@ -89,4 +90,4 @@ function useWSDispositivoInfoRefresh() {
 
 }
 
-export default useWSDispositivoInfoRefresh;
+export default useWebsocket;

@@ -6,8 +6,10 @@ import { AuthContext } from "../../../context/AuthProvider";
 import { DispositivoMonitorModel } from "../../model/DispositivoMonitorModel";
 import type { EmpresaResponse } from "../../model/dto/response/EmpresaResponse";
 import { EmpresaModel } from "../../model/EmpresaModel";
-import useWSDispositivoInfoRefresh from "./useWSDispositivoInfoRefresh";
+import useWebsocket from "../useWebsocket";
 import type { DispositivosInfosResponse } from "../../model/dto/response/DispositivosInfosResponse";
+import type { IMessage } from "@stomp/stompjs";
+import { BASE_WS_URL, DISPOSITIVOS_INFOS_TOPIC, DISPOSITIVOS_TOPIC } from "../../constants/websocket-constants";
 
 function useShowDispositivosViewModel() {
 
@@ -39,13 +41,26 @@ function useShowDispositivosViewModel() {
     const dispositivoMonitorModel = new DispositivoMonitorModel( setAccessToken );
     const empresaModel = new EmpresaModel( setAccessToken );
 
-    const wsRefresh = useWSDispositivoInfoRefresh();
+    const websocket = useWebsocket();
 
-    const websocketConnect = async () => {
-        return wsRefresh.connect( setDispositivoSeIDCorreto );
+    const webSocketsConnect = async () : Promise<() => void> => {
+        const deactivateDispsWSFunc = await websocket.connect( BASE_WS_URL, DISPOSITIVOS_TOPIC, receivesDispositivoMessage );
+        const deactivateDispsInfosWSFunc = await websocket.connect( BASE_WS_URL, DISPOSITIVOS_INFOS_TOPIC, receivesDispositivosInfosMessage );
+
+        return () => {
+            deactivateDispsWSFunc();
+            deactivateDispsInfosWSFunc();
+        };
     };
 
-    const setDispositivoSeIDCorreto = ( disp : DispositivoResponse ) => {
+    const receivesDispositivosInfosMessage = ( message : IMessage ) => {
+        const dispsInfos = JSON.parse( message.body );
+        setDispositivosInfos( dispsInfos );
+    };
+
+    const receivesDispositivoMessage = ( message : IMessage ) => {
+        const disp : DispositivoResponse = JSON.parse( message.body );
+
         const dispsRef : DispositivoResponse[] = dispositivosFiltradosRef.current;
 
         const disps = [];
@@ -155,7 +170,7 @@ function useShowDispositivosViewModel() {
     };
 
     return { 
-        websocketConnect,
+        webSocketsConnect,
         loadDados,        
         filterDispositivos, 
         startEmpresaMonitoramentos,

@@ -20,7 +20,7 @@ function ShowDispositivos() {
     const deactivateFunc = useRef( () => {} );
 
     const { 
-        websocketConnect,
+        webSocketsConnect,
         loadDados,
         filterDispositivos, 
         startEmpresaMonitoramentos,
@@ -40,7 +40,7 @@ function ShowDispositivos() {
     useEffect( () => {
         if ( effectCalled.current === false ) {
             ( async () => {
-                deactivateFunc.current = await websocketConnect();
+                deactivateFunc.current = await webSocketsConnect();
             } )();
 
             onLoad();
@@ -137,7 +137,13 @@ function ShowDispositivos() {
                                 
             <h6 className="mt-3 title disp-info">
                 {dispositivosInfos.quantTotal} dispositivos no total, &nbsp;
-                {dispositivosInfos.sendoMonitoradosQuant} sendo monitorados.                
+                
+                { dispositivosInfos.sendoMonitoradosQuant < dispositivosInfos.quantTotal 
+                    ? <span className="text-dark">{dispositivosInfos.sendoMonitoradosQuant} </span>
+                    : <span className="text-white">{dispositivosInfos.sendoMonitoradosQuant} </span>
+                }
+                 
+                sendo monitorados.                
             </h6>
 
             <div className="mt-3">                

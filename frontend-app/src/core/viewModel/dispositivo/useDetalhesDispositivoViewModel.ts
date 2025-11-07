@@ -4,8 +4,10 @@ import { extractErrorMessage } from "../../util/sistema-util";
 import { DispositivoModel } from "../../model/DispositivoModel";
 import { DispositivoMonitorModel } from "../../model/DispositivoMonitorModel";
 import { AuthContext } from "../../../context/AuthProvider";
-import useWSDispositivoInfoRefresh from "./useWSDispositivoInfoRefresh";
+import useWebsocket from "../useWebsocket";
 import { MENSAGEM_DELAY } from "../../constants/constants";
+import type { IMessage } from "@stomp/stompjs";
+import { BASE_WS_URL, DISPOSITIVOS_TOPIC } from "../../constants/websocket-constants";
 
 function useDetalhesDispositivoViewModel() {
     
@@ -39,13 +41,14 @@ function useDetalhesDispositivoViewModel() {
     const dispositivoModel = new DispositivoModel( setAccessToken );
     const dispositivoMonitorModel = new DispositivoMonitorModel( setAccessToken );
 
-    const wsRefresh = useWSDispositivoInfoRefresh();
+    const wsRefresh = useWebsocket();
 
     const websocketConnect = async () => {
-        return wsRefresh.connect( setDispositivoSeIDCorreto );
+        return wsRefresh.connect( BASE_WS_URL, DISPOSITIVOS_TOPIC, receivesDispositivoMessage );
     };
 
-    const setDispositivoSeIDCorreto = ( disp : DispositivoResponse ) => {
+   const receivesDispositivoMessage = ( message : IMessage ) => {
+           const disp : DispositivoResponse = JSON.parse( message.body );
         if ( dispositivoIDRef.current == disp.id )
             setDispositivo( disp );
     };
