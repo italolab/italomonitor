@@ -32,7 +32,7 @@ public class ConfigController {
     }
 
     @GetConfigDoc
-    @PreAuthorize("hasAnyAuthority('config-all', 'microservice')")
+    @PreAuthorize("hasAnyAuthority('config-all')")
     @GetMapping("/load-monitor-server/{isLoadMonitorServer}/get")
     public ResponseEntity<ConfigResponse> getConfig( @PathVariable Boolean isLoadMonitorServer ) {    	
         ConfigResponse resp = configService.getConfig( isLoadMonitorServer );

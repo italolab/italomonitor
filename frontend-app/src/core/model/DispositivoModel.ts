@@ -24,7 +24,7 @@ export class DispositivoModel {
     }
 
     async getDispositivo( dispositivoId : number ) {
-        return await api.get( "/dispositivos/"+dispositivoId+"/get-of-empresa" );
+        return await api.get( "/dispositivos/"+dispositivoId+"/get/no-admin" );
     }
 
     async deleteDispositivo( dispositivoId : number ) {

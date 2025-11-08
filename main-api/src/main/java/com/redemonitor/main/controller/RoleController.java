@@ -20,7 +20,7 @@ public class RoleController {
     private RoleService roleService;
     
     @CreateRoleDoc
-    @PreAuthorize("hasAuthority('role-all')")
+    @PreAuthorize("hasAuthority('usuario-all')")
     @PostMapping
     public ResponseEntity<String> createRole(@RequestBody SaveRoleRequest request ) {
         roleService.createRole( request );
@@ -28,7 +28,7 @@ public class RoleController {
     }
 
     @UpdateRoleDoc
-    @PreAuthorize("hasAuthority('role-all')")
+    @PreAuthorize("hasAuthority('usuario-all')")
     @PutMapping("/{roleId}")
     public ResponseEntity<String> updateRole( @PathVariable Long roleId, @RequestBody SaveRoleRequest request ) {
         roleService.updateRole( roleId, request );
@@ -36,7 +36,7 @@ public class RoleController {
     }
 
     @FilterRolesDoc
-    @PreAuthorize("hasAuthority('role-all')")
+    @PreAuthorize("hasAuthority('usuario-all')")
     @GetMapping
     public ResponseEntity<List<RoleResponse>> filterRoles( @RequestParam("nomepart") String nomePart ) {
         List<RoleResponse> responses = roleService.filterRoles( nomePart );
@@ -44,7 +44,7 @@ public class RoleController {
     }
 
     @GetRoleDoc
-    @PreAuthorize("hasAuthority('role-all')")
+    @PreAuthorize("hasAuthority('usuario-all')")
     @GetMapping("/{roleId}/get")
     public ResponseEntity<RoleResponse> getRole( @PathVariable Long roleId ) {
         RoleResponse resp = roleService.getRole( roleId );
@@ -52,7 +52,7 @@ public class RoleController {
     }
 
     @DeleteRoleDoc
-    @PreAuthorize("hasAuthority('role-all')")
+    @PreAuthorize("hasAuthority('usuario-all')")
     @DeleteMapping("/{roleId}")
     public ResponseEntity<String> deleteRole( @PathVariable Long roleId ) {
         roleService.deleteRole( roleId );

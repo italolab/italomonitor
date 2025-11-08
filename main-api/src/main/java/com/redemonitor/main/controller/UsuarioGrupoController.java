@@ -21,7 +21,7 @@ public class UsuarioGrupoController {
     private UsuarioGrupoService usuarioGrupoService;
 
     @CreateUsuarioGrupoDoc
-    @PreAuthorize("hasAuthority('usuario-grupo-all')")
+    @PreAuthorize("hasAuthority('usuario-all')")
     @PostMapping
     public ResponseEntity<String> createUsuarioGrupo(@RequestBody SaveUsuarioGrupoRequest request ) {
         usuarioGrupoService.createUsuarioGrupo( request );
@@ -29,7 +29,7 @@ public class UsuarioGrupoController {
     }
 
     @UpdateUsuarioGrupoDoc
-    @PreAuthorize("hasAuthority('usuario-grupo-all')")
+    @PreAuthorize("hasAuthority('usuario-all')")
     @PutMapping("/{usuarioGrupoId}")
     public ResponseEntity<String> updateUsuarioGrupo(@PathVariable Long usuarioGrupoId, @RequestBody SaveUsuarioGrupoRequest request ) {
         usuarioGrupoService.updateUsuarioGrupo( usuarioGrupoId, request );
@@ -37,7 +37,7 @@ public class UsuarioGrupoController {
     }
 
     @FilterUsuarioGruposDoc
-    @PreAuthorize("hasAuthority('usuario-grupo-all')")
+    @PreAuthorize("hasAuthority('usuario-all')")
     @GetMapping
     public ResponseEntity<List<UsuarioGrupoResponse>> filterUsuarioGrupos( @RequestParam("nomepart") String nomePart ) {
         List<UsuarioGrupoResponse> responses = usuarioGrupoService.filterUsuarioGrupos( nomePart );
@@ -45,7 +45,7 @@ public class UsuarioGrupoController {
     }
 
     @GetUsuarioGrupoDoc
-    @PreAuthorize("hasAuthority('usuario-grupo-all')")
+    @PreAuthorize("hasAuthority('usuario-all')")
     @GetMapping("/{usuarioGrupoId}/get")
     public ResponseEntity<UsuarioGrupoResponse> getUsuarioGrupo( @PathVariable Long usuarioGrupoId ) {
         UsuarioGrupoResponse resp = usuarioGrupoService.getUsuarioGrupo( usuarioGrupoId );
@@ -53,7 +53,7 @@ public class UsuarioGrupoController {
     }
 
     @GetRolesByUsuarioGrupoIDDoc
-    @PreAuthorize("hasAuthority('usuario-grupo-all')")
+    @PreAuthorize("hasAuthority('usuario-all')")
     @GetMapping("/{usuarioGrupoId}/roles")
     public ResponseEntity<List<RoleResponse>> getRolesByGrupoId( @PathVariable Long usuarioGrupoId ) {
         List<RoleResponse> roles = usuarioGrupoService.getRolesByGrupoId( usuarioGrupoId );
@@ -61,7 +61,7 @@ public class UsuarioGrupoController {
     }
 
     @VinculaRoleGrupoDoc
-    @PreAuthorize("hasAuthority('usuario-grupo-all')")
+    @PreAuthorize("hasAuthority('usuario-all')")
     @PostMapping("/{usuarioGrupoId}/roles/{roleId}")
     public ResponseEntity<String> vinculaRole( @PathVariable Long usuarioGrupoId, @PathVariable Long roleId ) {
         usuarioGrupoService.vinculaRole( usuarioGrupoId, roleId );
@@ -69,7 +69,7 @@ public class UsuarioGrupoController {
     }
 
     @DeleteVinculoRoleGrupoDoc
-    @PreAuthorize("hasAuthority('usuario-grupo-all')")
+    @PreAuthorize("hasAuthority('usuario-all')")
     @DeleteMapping("/{usuarioGrupoId}/roles/{roleId}")
     public ResponseEntity<String> removeRoleVinculado( @PathVariable Long usuarioGrupoId, @PathVariable Long roleId ) {
         usuarioGrupoService.removeRoleVinculado( usuarioGrupoId, roleId );
@@ -77,7 +77,7 @@ public class UsuarioGrupoController {
     }
 
     @DeleteUsuarioGrupoDoc
-    @PreAuthorize("hasAuthority('usuario-grupo-all')")
+    @PreAuthorize("hasAuthority('usuario-all')")
     @DeleteMapping("/{usuarioGrupoId}")
     public ResponseEntity<String> deleteUsuarioGrupo( @PathVariable Long usuarioGrupoId ) {
         usuarioGrupoService.deleteUsuarioGrupo( usuarioGrupoId );

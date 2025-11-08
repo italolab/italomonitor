@@ -8,21 +8,16 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.redemonitor.main.apidoc.evento.CreateEventoDoc;
 import com.redemonitor.main.apidoc.evento.GetEventoDoc;
 import com.redemonitor.main.apidoc.evento.ListEventosByDiaDoc;
 import com.redemonitor.main.apidoc.evento.ListEventosByIntervaloDoc;
-import com.redemonitor.main.dto.request.SaveEventoRequest;
 import com.redemonitor.main.dto.response.EventoResponse;
 import com.redemonitor.main.service.AuthorizationService;
 import com.redemonitor.main.service.EventoService;
-
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
 
 @RestController
 @RequestMapping("/api/v1/eventos")
@@ -34,14 +29,6 @@ public class EventoController {
     @Autowired
     private AuthorizationService authorizationService;
     
-    @CreateEventoDoc
-    @PreAuthorize("hasAuthority('microservice')")  
-    @PostMapping
-    public ResponseEntity<String> createEvento( @RequestBody SaveEventoRequest request ) {
-    	eventoService.createEvento( request );
-    	return ResponseEntity.ok( "Evento criado com sucesso." );
-    }
-
     @ListEventosByDiaDoc
     @PreAuthorize("hasAuthority('dispositivo-all')")
     @GetMapping("{dispositivoId}/dia/{dataDia}")

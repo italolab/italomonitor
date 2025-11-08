@@ -7,7 +7,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -22,9 +21,7 @@ import com.redemonitor.main.apidoc.dispositivo.GetDispositivoDoc;
 import com.redemonitor.main.apidoc.dispositivo.GetDispositivosInfosDoc;
 import com.redemonitor.main.apidoc.dispositivo.ListDispositivosDoc;
 import com.redemonitor.main.apidoc.dispositivo.UpdateDispositivoDoc;
-import com.redemonitor.main.apidoc.dispositivo.UpdateDispositivoStatusDoc;
 import com.redemonitor.main.dto.request.SaveDispositivoRequest;
-import com.redemonitor.main.dto.request.SaveDispositivoStateRequest;
 import com.redemonitor.main.dto.response.DispositivoResponse;
 import com.redemonitor.main.dto.response.DispositivosInfosResponse;
 import com.redemonitor.main.service.AuthorizationService;
@@ -82,16 +79,6 @@ public class DispositivoController {
         return ResponseEntity.ok( "Dispositivo alterado com sucesso." );
     }
     
-    @UpdateDispositivoStatusDoc
-    @PreAuthorize("hasAnyAuthority('microservice')") 
-    @PatchMapping("/{dispositivoId}/update-state")
-    public ResponseEntity<String> updateDispositivoState( 
-    		@PathVariable Long dispositivoId, 
-    		@RequestBody SaveDispositivoStateRequest request ) {
-    	dispositivoService.updateState( dispositivoId, request );
-    	return ResponseEntity.ok( "Status do dispositivo alterado com sucesso." );
-    }
-
     @ListDispositivosDoc
     @PreAuthorize("hasAuthority('dispositivo-all')")
     @GetMapping("/empresa/{empresaId}")
@@ -109,7 +96,7 @@ public class DispositivoController {
     
     @GetDispositivoDoc
     @PreAuthorize("hasAnyAuthority('dispositivo-all')")
-    @GetMapping("/{dispositivoId}/get-of-empresa")
+    @GetMapping("/{dispositivoId}/get/no-admin")
     public ResponseEntity<DispositivoResponse> getDispositivo( 
     		@PathVariable Long dispositivoId,
     		@RequestHeader("Authorization") String authorizationHeader ) {
@@ -118,17 +105,7 @@ public class DispositivoController {
     	
         DispositivoResponse resp = dispositivoService.getDispositivo( dispositivoId );
         return ResponseEntity.ok( resp );
-    }
-    
-    @GetDispositivoDoc
-    @PreAuthorize("hasAnyAuthority('microservice')")
-    @GetMapping("/{dispositivoId}/get")
-    public ResponseEntity<DispositivoResponse> getAnyDispositivo( @PathVariable Long dispositivoId ) {    	    	
-        DispositivoResponse resp = dispositivoService.getDispositivo( dispositivoId );
-        return ResponseEntity.ok( resp );
-    }
-    
-    
+    }    
 
     @DeleteDispositivoDoc
     @PreAuthorize("hasAuthority('dispositivo-all')")

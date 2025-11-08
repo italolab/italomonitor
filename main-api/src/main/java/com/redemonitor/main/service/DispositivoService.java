@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 
 import com.redemonitor.main.components.DispositivoMonitorEscalonador;
 import com.redemonitor.main.dto.request.SaveDispositivoRequest;
-import com.redemonitor.main.dto.request.SaveDispositivoStateRequest;
 import com.redemonitor.main.dto.response.DispositivoResponse;
 import com.redemonitor.main.dto.response.DispositivosInfosResponse;
 import com.redemonitor.main.exception.BusinessException;
@@ -59,7 +58,7 @@ public class DispositivoService {
         
         Long empresaId = request.getEmpresaId();
 
-        Optional<Dispositivo> dispositivoOp = dispositivoRepository.findByNome( nome );
+        Optional<Dispositivo> dispositivoOp = dispositivoRepository.findByNomeAndEmpresa( nome, empresaId );
         if ( dispositivoOp.isPresent() )
             throw new BusinessException( Errors.DISPOSITIVO_ALREADY_EXISTS );
 
@@ -82,6 +81,7 @@ public class DispositivoService {
         request.validate();
 
         String nome = request.getNome();
+        Long empresaId = request.getEmpresaId();
 
         Optional<Dispositivo> dispositivoOp = dispositivoRepository.findById( dispositivoId );
         if ( dispositivoOp.isEmpty() )
@@ -89,10 +89,10 @@ public class DispositivoService {
 
         Dispositivo dispositivo = dispositivoOp.get();
         if ( !dispositivo.getNome().equalsIgnoreCase( nome ) )
-            if ( dispositivoRepository.findByNome( nome ).isPresent() )
+            if ( dispositivoRepository.findByNomeAndEmpresa( nome, empresaId ).isPresent() )
                 throw new BusinessException( Errors.DISPOSITIVO_ALREADY_EXISTS );
 
-        Optional<Empresa> empresaOp = empresaRepository.findById( request.getEmpresaId() );
+        Optional<Empresa> empresaOp = empresaRepository.findById( empresaId );
         if ( empresaOp.isEmpty() )
             throw new BusinessException( Errors.EMPRESA_NOT_FOUND );
 
@@ -104,18 +104,6 @@ public class DispositivoService {
         dispositivoMonitorEscalonador.updateDispositivoInMonitor( dispositivo );
     }
     
-    public void updateState( Long dispositivoId, SaveDispositivoStateRequest request ) {
-    	 Optional<Dispositivo> dispositivoOp = dispositivoRepository.findById( dispositivoId );
-         if ( dispositivoOp.isEmpty() )
-             throw new BusinessException( Errors.DISPOSITIVO_NOT_FOUND );
-
-         Dispositivo dispositivo = dispositivoOp.get();
-         
-         dispositivoMapper.load( dispositivo, request );
-         
-         dispositivoRepository.save( dispositivo );
-    }
-
     public List<DispositivoResponse> listDispositivos( Long empresaId ) {    	
         List<Dispositivo> dispositivos = dispositivoRepository.list( empresaId );
         
@@ -138,10 +126,10 @@ public class DispositivoService {
         Optional<Dispositivo> dispositivoOp = dispositivoRepository.findById( dispositivoId );
         if ( dispositivoOp.isEmpty() )
             throw new BusinessException( Errors.DISPOSITIVO_NOT_FOUND );
-
-        dispositivoMonitorEscalonador.stopMonitoramento( dispositivoId );
         
         dispositivoRepository.deleteById( dispositivoId );
+
+        dispositivoMonitorEscalonador.stopMonitoramento( dispositivoId );
     }
 
     private DispositivoResponse buildDispositivoResponse( Dispositivo dispositivo ) {

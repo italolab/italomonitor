@@ -92,18 +92,20 @@ public class DispositivoMonitorService {
         for( Long dispositivoId : ids ) {
             DispositivoMonitor dispositivoMonitor = dispositivoMonitorMap.get( dispositivoId );
             if ( dispositivoMonitor != null ) {
-            	//Config conf = dispositivoMonitor.getDeviceMonitorThread().getConfig();            	
-                dispositivoMonitor.getDeviceMonitorThread().setConfig( config );                
-                dispositivoMonitor.getScheduledFuture().cancel( true );
-
-                Duration monitorDelay = Duration.ofMillis( config.getMonitoramentoDelay() );
-
-                ScheduledFuture<?> scheduledFuture = scheduler.scheduleAtFixedRate( 
-                		dispositivoMonitor.getDeviceMonitorThread(), Instant.now(), monitorDelay  );
+            	Config conf = dispositivoMonitor.getDeviceMonitorThread().getConfig();            	
+             
+            	dispositivoMonitor.getDeviceMonitorThread().setConfig( config );
                 
-                dispositivoMonitor.setScheduledFuture( scheduledFuture ); 
-            } else {
-            	System.err.println( "MONITOR OBJ NULL. " );
+                if ( conf.getMonitoramentoDelay() != config.getMonitoramentoDelay() ) {                	
+	                dispositivoMonitor.getScheduledFuture().cancel( true );
+	
+	                Duration monitorDelay = Duration.ofMillis( config.getMonitoramentoDelay() );
+	
+	                ScheduledFuture<?> scheduledFuture = scheduler.scheduleAtFixedRate( 
+	                		dispositivoMonitor.getDeviceMonitorThread(), Instant.now(), monitorDelay  );
+	                
+	                dispositivoMonitor.setScheduledFuture( scheduledFuture ); 
+                }
             }
         }                
     }
