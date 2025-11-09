@@ -115,6 +115,17 @@ function ShowDispositivos() {
                 <AppSpinner className="mx-auto" visible={loading} showEsp={false}/>
             </div>
 
+            <h6 className="disp-info mt-3 bg-light border text-center p-2">
+                {dispositivosInfos.quantTotal} dispositivos no total, &nbsp;
+                
+                { dispositivosInfos.sendoMonitoradosQuant < dispositivosInfos.quantTotal 
+                    ? <span className="text-dark">{dispositivosInfos.sendoMonitoradosQuant} </span>
+                    : <span className="text-primary">{dispositivosInfos.sendoMonitoradosQuant} </span>
+                }
+                 
+                sendo monitorados.                
+            </h6>
+
             <div className="d-block w-100 mt-3 d-flex justify-content-center">
                 <div className="bg-white p-2" style={{width: '30em'}}>
                     <Form>
@@ -128,18 +139,7 @@ function ShowDispositivos() {
                     </Form>
                 </div>                   
             </div>
-                                
-            <h6 className="disp-info mt-3 bg-light border text-center p-2">
-                {dispositivosInfos.quantTotal} dispositivos no total, &nbsp;
-                
-                { dispositivosInfos.sendoMonitoradosQuant < dispositivosInfos.quantTotal 
-                    ? <span className="text-dark">{dispositivosInfos.sendoMonitoradosQuant} </span>
-                    : <span className="text-primary">{dispositivosInfos.sendoMonitoradosQuant} </span>
-                }
-                 
-                sendo monitorados.                
-            </h6>
-
+                                            
             <div className="mt-3">                
                 { dispositivosFiltrados.map( (dispositivo, index) =>                 
                     <div key={index} className="disp-card">

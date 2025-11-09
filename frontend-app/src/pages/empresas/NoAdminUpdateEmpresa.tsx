@@ -14,7 +14,9 @@ function NoAdminUpdateEmpresa() {
 
     const [nome, setNome] = useState<string>( '' );
     const [emailNotif, setEmailNotif] = useState<string>( '' );
+    const [telegramChatId, setTelegramChatId] = useState<string>( '' );
     const [porcentagemMaxFalhasPorLote, setPorcentagemMaxFalhasPorLote] = useState<string>( '33.3333' );
+    const [minTempoParaProximoEvento, setMinTempoParaProximoEvento] = useState<string>( '' );
 
     const {
         noAdminUpdateEmpresa,
@@ -39,7 +41,9 @@ function NoAdminUpdateEmpresa() {
             const empresa = await getEmpresa( eid );
             setNome( empresa.nome );
             setEmailNotif( empresa.emailNotif );
+            setTelegramChatId( empresa.telegramChatId );
             setPorcentagemMaxFalhasPorLote( ''+(empresa.porcentagemMaxFalhasPorLote * 100) );
+            setMinTempoParaProximoEvento( ''+empresa.minTempoParaProximoEvento );
         } catch ( error ) {
             console.error( error );
         }
@@ -54,7 +58,9 @@ function NoAdminUpdateEmpresa() {
             const empresa : NoAdminSaveEmpresaRequest = {
                 nome : nome,
                 emailNotif : emailNotif,
+                telegramChatId : telegramChatId,
                 porcentagemMaxFalhasPorLote: ( parseFloat( porcentagemMaxFalhasPorLote ) / 100.0 ),
+                minTempoParaProximoEvento: parseInt( minTempoParaProximoEvento )
             };
            
             const eid : number = parseInt( empresaId! );
@@ -67,6 +73,11 @@ function NoAdminUpdateEmpresa() {
     const validateForm = async () => {
         if ( Number.isNaN( porcentagemMaxFalhasPorLote ) === true ) {
             setErrorMessage( 'Porcentagem máxima de falhas por lote está em formato não numérico.' );
+            return false;
+        }
+
+        if ( Number.isNaN( minTempoParaProximoEvento ) === true ) {
+            setErrorMessage( 'O tempo mínimo para próximo evento está em formato não numérico.' );
             return false;
         }
 
@@ -107,6 +118,13 @@ function NoAdminUpdateEmpresa() {
                                     onChange={ ( e ) => setEmailNotif( e.target.value ) } />
                             </Form.Group>
 
+                            <Form.Group className="mb-3" controlId="telegramChatId">
+                                <Form.Label>ID de chat do telegram</Form.Label>
+                                <Form.Control type="text"
+                                    value={telegramChatId}
+                                    onChange={ ( e ) => setTelegramChatId( e.target.value ) } />
+                            </Form.Group>
+
                             <Form.Group className="mb-3" controlId="porcentagemMaxFalhasPorLote">
                                 <Form.Label>Max falhas por lote (%)</Form.Label>
                                 <Form.Range min={1} max={100} step={1}
@@ -115,6 +133,13 @@ function NoAdminUpdateEmpresa() {
                                 <Form.Text>
                                     Valor atual: {porcentagemMaxFalhasPorLote}%
                                 </Form.Text>
+                            </Form.Group>
+
+                            <Form.Group className="mb-3" controlId="minTempoParaProximoEvento">
+                                <Form.Label>Tempo min. para próximo evento</Form.Label>
+                                <Form.Control type="number"
+                                    value={minTempoParaProximoEvento}
+                                    onChange={ ( e ) => setMinTempoParaProximoEvento( e.target.value ) } />
                             </Form.Group>
 
                             <AppMessage message={errorMessage} type="error" />

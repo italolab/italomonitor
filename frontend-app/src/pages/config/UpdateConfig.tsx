@@ -17,6 +17,7 @@ function UpdateConfig() {
     const [monitoramentoDelay, setMonitoramentoDelay] = useState<string>( '' );
     const [registroEventoPeriodo, setRegistroEventoPeriodo] = useState<string>( '' );
     const [numThreadsLimite, setNumThreadsLimite] = useState<string>( '' );
+    const [telegramBotToken, setTelegramBotToken] = useState<string>( '' );
 
     const {
         updateConfig,
@@ -55,7 +56,8 @@ function UpdateConfig() {
                 numPacotesPorLote: parseInt( numPacotesPorLote ),
                 monitoramentoDelay: parseInt( monitoramentoDelay ),
                 registroEventoPeriodo: parseInt( registroEventoPeriodo ),
-                numThreadsLimite: parseInt( numThreadsLimite )
+                numThreadsLimite: parseInt( numThreadsLimite ),
+                telegramBotToken: telegramBotToken
             };
            
             await updateConfig( config );            
@@ -133,12 +135,16 @@ function UpdateConfig() {
                                     onChange={ ( e ) => setNumThreadsLimite( e.target.value ) } />
                             </Form.Group>
 
+                            <Form.Group className="mb-3" controlId="telegramBotToken">
+                                <Form.Label>Token do bot do telegram</Form.Label>
+                                <Form.Control type="text"
+                                    placeholder="Informe o token"
+                                    value={telegramBotToken}
+                                    onChange={ ( e ) => setTelegramBotToken( e.target.value ) } />
+                            </Form.Group>
+
                             <AppMessage message={errorMessage} type="error" />
                             <AppMessage message={infoMessage} type="info" />
-
-                            <div className="d-flex">
-                                <AppSpinner className="mx-auto" visible={loading} />
-                            </div>
 
                             <Button type="button" onClick={onSave}>
                                 Salvar 

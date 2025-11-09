@@ -16,6 +16,7 @@ public class ConfigMapper {
                 .monitoramentoDelay( request.getMonitoramentoDelay() )
                 .registroEventoPeriodo( request.getRegistroEventoPeriodo() )
                 .numThreadsLimite( request.getNumThreadsLimite() )
+                .telegramBotToken( request.getTelegramBotToken() )
                 .build();
     }
 
@@ -26,6 +27,7 @@ public class ConfigMapper {
                 .monitoramentoDelay( config.getMonitoramentoDelay() )
                 .registroEventoPeriodo( config.getRegistroEventoPeriodo() )
                 .numThreadsLimite( config.getNumThreadsLimite() )
+                .telegramBotToken( config.getTelegramBotToken() )
                 .build();
     }
 
@@ -44,6 +46,7 @@ public class ConfigMapper {
         config.setMonitoramentoDelay( request.getMonitoramentoDelay() );
         config.setRegistroEventoPeriodo( request.getRegistroEventoPeriodo() );
         config.setNumThreadsLimite( request.getNumThreadsLimite() ); 
+        config.setTelegramBotToken( request.getTelegramBotToken() ); 
     }
 
 }

@@ -1,6 +1,12 @@
 package com.redemonitor.main.dto.response;
 
-import lombok.*;
+import java.util.Date;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -15,8 +21,20 @@ public class EmpresaResponse {
     
     private String emailNotif;
     
+    private String telegramChatId;
+    
     private double porcentagemMaxFalhasPorLote;
     
     private int maxDispositivosQuant;
+    
+    private int minTempoParaProximoEvento;
+    
+    private int diaPagto;
+    
+    private boolean temporario;
+    
+    private int usoTemporarioPor;
+    
+    private Date criadoEm;
 
 }

@@ -4,4 +4,5 @@ export interface SaveConfigRequest {
     monitoramentoDelay : number;
     registroEventoPeriodo : number;
     numThreadsLimite : number;
+    telegramBotToken : string;
 }

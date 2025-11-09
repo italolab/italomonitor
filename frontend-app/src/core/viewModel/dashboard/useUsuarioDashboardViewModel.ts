@@ -16,8 +16,14 @@ function useUsuarioDashboardViewModel() {
         id: 0,
         nome: '',
         emailNotif: '',
+        telegramChatId: '',
         porcentagemMaxFalhasPorLote: 0,
-        maxDispositivosQuant: 0
+        maxDispositivosQuant: 0,
+        minTempoParaProximoEvento: 0,
+        diaPagto: 0,
+        temporario: false,
+        usoTemporarioPor: 0,
+        criadoEm: new Date()
     } );
 
     const [dispositivosInfos, setDispositivosInfos] = useState<DispositivosInfosResponse>( {

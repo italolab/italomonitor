@@ -23,6 +23,7 @@ public class SaveConfigRequest {
     private int monitoramentoDelay;
     private int registroEventoPeriodo;
     private int numThreadsLimite;
+    private String telegramBotToken;
     
     public void validate() {
         List<Validator> validators = new ArrayList<>();
@@ -52,6 +53,11 @@ public class SaveConfigRequest {
                 ValidationBuilder.of( "Limite de threads", String.valueOf( numThreadsLimite ) )
                         .required()
                         .deveSerMaiorQueZero()
+                        .build()
+        );
+        
+        validators.addAll(
+                ValidationBuilder.of( "token do bot telegram", telegramBotToken )                                                
                         .build()
         );
 

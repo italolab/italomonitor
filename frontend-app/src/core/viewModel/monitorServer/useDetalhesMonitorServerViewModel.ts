@@ -14,6 +14,8 @@ function useDetalhesMonitorServerViewModel() {
     const [monitorServer, setMonitorServer] = useState<MonitorServerResponse>( {
         id: 0,
         host: '',
+        ativo: false,
+        numThreadsAtivas: 0
     } );
     
     const {setAccessToken} = useContext(AuthContext);

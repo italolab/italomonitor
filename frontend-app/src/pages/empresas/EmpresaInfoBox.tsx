@@ -17,11 +17,26 @@ function EmpresaInfoBox( { empresa } : EmpresaInfoBoxProps ) {
             <AppField name="e-mail de notificação">
                 {empresa.emailNotif}
             </AppField>
+            <AppField name="id de chat telegram">
+                {empresa.telegramChatId}
+            </AppField>
             <AppField name="max falhas por lote (%)">
                 {empresa.porcentagemMaxFalhasPorLote * 100} {"%"}
             </AppField>
             <AppField name="quantidade máxima de dispositivos">
                 {empresa.maxDispositivosQuant}
+            </AppField>
+            <AppField name="tempo min. para próximo evento">
+                {empresa.minTempoParaProximoEvento} segundos
+            </AppField>
+            <AppField name="dia de pagamento">
+                {empresa.diaPagto}
+            </AppField>
+            <AppField name="temporário">
+                {empresa.temporario === true ? "Sim" : "Não"}
+            </AppField>
+            <AppField name="uso temporário por">
+                {empresa.usoTemporarioPor} dias
             </AppField>
         </>
     )

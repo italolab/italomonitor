@@ -14,13 +14,16 @@ function ConfigInfoBox( { config } : ConfigInfosBoxProps ) {
                 {config.numPacotesPorLote}
             </AppField>                  
             <AppField name="delay de monitoramento">
-                {config.monitoramentoDelay}
+                {config.monitoramentoDelay} milisegundos
             </AppField>      
             <AppField name="período de registro de evento">
-                {config.registroEventoPeriodo}
+                {config.registroEventoPeriodo} segundos
             </AppField>
             <AppField name="limite de threads">
                 {config.numThreadsLimite}
+            </AppField>
+            <AppField name="token do bot telegram">
+                {config.telegramBotToken}
             </AppField>
             <AppField name="servidores de monitoramento">
                 { config.monitorServers.map( (monitor, index) => 

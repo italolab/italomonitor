@@ -13,8 +13,13 @@ function CreateEmpresa() {
 
     const [nome, setNome] = useState<string>( '' );
     const [emailNotif, setEmailNotif] = useState<string>( '' );
+    const [telegramChatId, setTelegramChatId] = useState<string>( '' );
     const [porcentagemMaxFalhasPorLote, setPorcentagemMaxFalhasPorLote] = useState<string>( '33.3333' );
     const [maxDispositivosQuant, setMaxDispositivosQuant] = useState<string>( '' );
+    const [minTempoParaProximoEvento, setMinTempoParaProximoEvento] = useState<string>( '' ); 
+    const [diaPagto, setDiaPagto] = useState<string>( '' );
+    const [temporario, setTemporario] = useState<boolean>( false );
+    const [usoTemporarioPor, setUsoTemporarioPor] = useState<string>( '' );
 
     const {
         createEmpresa,
@@ -29,14 +34,19 @@ function CreateEmpresa() {
     const onSave = async () => {
         const valid = await validateForm();
         if ( valid === false )
-            return;
+            return;        
 
         try {
             const empresa : SaveEmpresaRequest = {
                 nome : nome,
                 emailNotif : emailNotif,
+                telegramChatId: telegramChatId,
                 porcentagemMaxFalhasPorLote: ( parseFloat( porcentagemMaxFalhasPorLote ) / 100.0 ),
-                maxDispositivosQuant: parseInt( maxDispositivosQuant )
+                maxDispositivosQuant: parseInt( maxDispositivosQuant ),
+                minTempoParaProximoEvento: parseInt( minTempoParaProximoEvento ),
+                diaPagto: parseInt( diaPagto ),
+                temporario: temporario,
+                usoTemporarioPor: ( temporario === true ? parseInt( usoTemporarioPor ) : 0 )
             }
 
             await createEmpresa( empresa );
@@ -56,6 +66,21 @@ function CreateEmpresa() {
 
         if ( Number.isNaN( maxDispositivosQuant ) === true ) {
             setErrorMessage( 'Quantidade máxima de dispositivos está em formato não numérico.' );
+            return false;
+        }
+
+        if ( Number.isNaN( minTempoParaProximoEvento ) === true ) {
+            setErrorMessage( 'O tempo mínimo para próximo evento está em formato não numérico.' );
+            return false;
+        }
+
+        if ( Number.isNaN( diaPagto ) === true ) {
+            setErrorMessage( 'O dia de pagamento está em formato não numérico.' );
+            return false;
+        }
+
+        if ( temporario === true && Number.isNaN( usoTemporarioPor ) === true ) {
+            setErrorMessage( 'Uso temporário em dias está em formato não numérico.' );
             return false;
         }
 
@@ -91,6 +116,13 @@ function CreateEmpresa() {
                                     onChange={ ( e ) => setEmailNotif( e.target.value ) } />
                             </Form.Group>
 
+                            <Form.Group className="mb-3" controlId="telegramChatId">
+                                <Form.Label>ID de chat do telegram</Form.Label>
+                                <Form.Control type="text"
+                                    value={telegramChatId}
+                                    onChange={ ( e ) => setTelegramChatId( e.target.value ) } />
+                            </Form.Group>
+
                             <Form.Group className="mb-3" controlId="porcentagemMaxFalhasPorLote">
                                 <Form.Label>Max falhas por lote (%)</Form.Label>
                                 <Form.Range min={1} max={100} step={1}
@@ -107,6 +139,37 @@ function CreateEmpresa() {
                                         value={maxDispositivosQuant}
                                         onChange={( e ) => setMaxDispositivosQuant( e.target.value ) } />
                             </Form.Group>
+
+                            <Form.Group className="mb-3" controlId="minTempoParaProximoEvento">
+                                <Form.Label>Tempo min. para próximo evento</Form.Label>
+                                <Form.Control type="number"
+                                        value={minTempoParaProximoEvento}
+                                        onChange={( e ) => setMinTempoParaProximoEvento( e.target.value ) } />
+                            </Form.Group>
+
+                            <Form.Group className="mb-3" controlId="diaPagto">
+                                <Form.Label>Dia de pagamento</Form.Label>
+                                <Form.Control type="number"
+                                        value={diaPagto}
+                                        onChange={( e ) => setDiaPagto( e.target.value ) } />
+                            </Form.Group>
+
+                            <Form.Group className="mb-3" controlId="temporario">
+                                <Form.Check type="checkbox" 
+                                        label="Temporário"
+                                        checked={temporario}
+                                        onChange={ () => setTemporario( !temporario )}
+                                        inline />
+                            </Form.Group>
+
+                            { temporario === true && 
+                                <Form.Group className="mb-3" controlId="diaPagto">
+                                    <Form.Label>Uso temporario em dias</Form.Label>
+                                    <Form.Control type="number"
+                                            value={usoTemporarioPor}
+                                            onChange={( e ) => setUsoTemporarioPor( e.target.value ) } />
+                                </Form.Group>
+                            }
 
                             <AppMessage message={errorMessage} type="error" />
                             <AppMessage message={infoMessage} type="info" />

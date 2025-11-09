@@ -17,6 +17,7 @@ function useDetalhesConfigViewModel() {
         monitoramentoDelay: 0,
         registroEventoPeriodo: 0,
         numThreadsLimite: 0,
+        telegramBotToken: '',
         monitorServers: []
     } );
 

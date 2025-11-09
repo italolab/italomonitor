@@ -9,7 +9,7 @@ function AppField( { name, children } : AppFieldProps ) {
     return (
         <div className="mb-3">
             <div className="d-block text-secondary">
-                <h6 className="m-0">{name}</h6>
+                <h6 className="m-0"><small>{name}</small></h6>
             </div>
             <div className="d-block text-dark">
                 {children}

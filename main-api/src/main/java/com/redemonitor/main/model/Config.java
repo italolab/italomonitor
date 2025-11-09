@@ -25,5 +25,7 @@ public class Config {
     private int numThreadsLimite;
         
     private int monitorServerCorrente;
+    
+    private String telegramBotToken;
 
 }

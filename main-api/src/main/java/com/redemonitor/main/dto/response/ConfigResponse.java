@@ -25,6 +25,8 @@ public class ConfigResponse {
     
     private int numThreadsLimite;
     
+    private String telegramBotToken;
+    
     private List<MonitorServerResponse> monitorServers;
 
 }

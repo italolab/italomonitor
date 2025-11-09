@@ -6,5 +6,6 @@ export interface ConfigResponse {
     monitoramentoDelay : number;
     registroEventoPeriodo : number;
     numThreadsLimite : number;
+    telegramBotToken : string;
     monitorServers : MonitorServerResponse[];
 }

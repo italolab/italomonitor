@@ -21,7 +21,9 @@ public class NoAdminSaveEmpresaRequest {
 
     private String nome;
     private String emailNotif;
+    private String telegramChatId;
     private double porcentagemMaxFalhasPorLote;
+    private int minTempoParaProximoEvento;
 
     public void validate() {
         List<Validator> validators = new ArrayList<>();
@@ -37,12 +39,23 @@ public class NoAdminSaveEmpresaRequest {
                     .email()
                     .build()
         );
+        
+        validators.addAll(
+                ValidationBuilder.of( "id de chat do telegram", telegramChatId )                   
+                    .build()
+        );
 
         validators.addAll(
                 ValidationBuilder.of( "porcentagem máxima de falhas por lote", String.valueOf( porcentagemMaxFalhasPorLote ) )
                     .required()
                     .deveSerMaiorQueZero()
                     .build()
+        );
+        
+        validators.addAll(
+        		ValidationBuilder.of( "tempo min. para próximo evento", String.valueOf( minTempoParaProximoEvento ) )
+        			.deveSerMaiorQueZero()
+        			.build()
         );
 
         validators.forEach( Validator::validate );

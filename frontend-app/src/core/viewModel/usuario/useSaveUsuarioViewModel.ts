@@ -7,7 +7,6 @@ import type { UpdateUsuarioRequest } from "../../model/dto/request/UpdateUsuario
 import { EmpresaModel } from "../../model/EmpresaModel";
 import { AuthContext } from "../../../context/AuthProvider";
 
-
 function useSaveUsuarioViewModel() {
 
     const [errorMessage, setErrorMessage] = useState<string|null>( null );
