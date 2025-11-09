@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
+import org.springframework.messaging.simp.user.SimpUserRegistry;
 import org.springframework.stereotype.Component;
 
 import com.redemonitor.main.dto.response.DispositivoResponse;
@@ -21,6 +22,9 @@ public class DispositivoWebSocket {
 	
 	@Autowired
 	private SimpMessagingTemplate simpMessagingTemplate;
+	
+	@Autowired
+	private SimpUserRegistry simpUserRegistry;
 			
 	@Autowired
 	private UsuarioRepository usuarioRepository;
@@ -35,11 +39,12 @@ public class DispositivoWebSocket {
         Empresa empresa = dispositivo.getEmpresa();
         Long empresaId = empresa.getId();
         
+        List<String> users = simpUserRegistry.getUsers().stream().map( u -> u.getName() ).toList();
+        
         List<String> usernames = usuarioRepository.getUsernamesByEmpresa( empresaId );
-        for( String username : usernames ) {
-        	
-        	simpMessagingTemplate.convertAndSendToUser( username, dispositivosTopic, wsMessage );
-        }
+        for( String username : usernames )
+        	if ( users.contains( username ) ) 
+        		simpMessagingTemplate.convertAndSendToUser( username, dispositivosTopic, wsMessage );        
 	}
 	
 }

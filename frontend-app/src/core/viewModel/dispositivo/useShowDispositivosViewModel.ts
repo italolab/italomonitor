@@ -62,8 +62,6 @@ function useShowDispositivosViewModel() {
     const receivesDispositivosInfosMessage = ( message : IMessage ) => {
         const dispsInfos = JSON.parse( message.body );
         setDispositivosInfos( dispsInfos );
-                alert( JSON.stringify( message.body ) );
-
     };
 
     const receivesDispositivoMessage = ( message : IMessage ) => {
