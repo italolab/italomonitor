@@ -22,6 +22,7 @@ public class Config {
 
     private int registroEventoPeriodo;
     
+    /* Número de threads limite para cada monitor_server */
     private int numThreadsLimite;
         
     private int monitorServerCorrente;

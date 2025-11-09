@@ -23,7 +23,7 @@ public class NoAdminSaveEmpresaRequest {
     private String emailNotif;
     private String telegramChatId;
     private double porcentagemMaxFalhasPorLote;
-    private int minTempoParaProximoEvento;
+    private int minTempoParaProximoEnvio;
 
     public void validate() {
         List<Validator> validators = new ArrayList<>();
@@ -53,7 +53,7 @@ public class NoAdminSaveEmpresaRequest {
         );
         
         validators.addAll(
-        		ValidationBuilder.of( "tempo min. para próximo evento", String.valueOf( minTempoParaProximoEvento ) )
+        		ValidationBuilder.of( "tempo min. para prox. envio", String.valueOf( minTempoParaProximoEnvio ) )
         			.deveSerMaiorQueZero()
         			.build()
         );

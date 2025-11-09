@@ -46,12 +46,15 @@ public class Dispositivo {
 
     private String localizacao;
 
-    private boolean sendoMonitorado;
+    private boolean sendoMonitorado;        
     
     private int latenciaMedia;
     
     @Temporal(TemporalType.TIMESTAMP)
     private Date stateAtualizadoEm;
+    
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date ultimaNotifEm;
 
     @Enumerated(EnumType.STRING)
     private DispositivoStatus status;

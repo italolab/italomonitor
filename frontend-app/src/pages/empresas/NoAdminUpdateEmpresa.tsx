@@ -16,7 +16,7 @@ function NoAdminUpdateEmpresa() {
     const [emailNotif, setEmailNotif] = useState<string>( '' );
     const [telegramChatId, setTelegramChatId] = useState<string>( '' );
     const [porcentagemMaxFalhasPorLote, setPorcentagemMaxFalhasPorLote] = useState<string>( '33.3333' );
-    const [minTempoParaProximoEvento, setMinTempoParaProximoEvento] = useState<string>( '' );
+    const [minTempoParaProxNotif, setMinTempoParaProxNotif] = useState<string>( '' );
 
     const {
         noAdminUpdateEmpresa,
@@ -43,7 +43,7 @@ function NoAdminUpdateEmpresa() {
             setEmailNotif( empresa.emailNotif );
             setTelegramChatId( empresa.telegramChatId );
             setPorcentagemMaxFalhasPorLote( ''+(empresa.porcentagemMaxFalhasPorLote * 100) );
-            setMinTempoParaProximoEvento( ''+empresa.minTempoParaProximoEvento );
+            setMinTempoParaProxNotif( ''+empresa.minTempoParaProxNotif );
         } catch ( error ) {
             console.error( error );
         }
@@ -59,8 +59,8 @@ function NoAdminUpdateEmpresa() {
                 nome : nome,
                 emailNotif : emailNotif,
                 telegramChatId : telegramChatId,
-                porcentagemMaxFalhasPorLote: ( parseFloat( porcentagemMaxFalhasPorLote ) / 100.0 ),
-                minTempoParaProximoEvento: parseInt( minTempoParaProximoEvento )
+                porcentagemMaxFalhasPorLote : ( parseFloat( porcentagemMaxFalhasPorLote ) / 100.0 ),
+                minTempoParaProxNotif : parseInt( minTempoParaProxNotif )
             };
            
             const eid : number = parseInt( empresaId! );
@@ -76,8 +76,8 @@ function NoAdminUpdateEmpresa() {
             return false;
         }
 
-        if ( Number.isNaN( minTempoParaProximoEvento ) === true ) {
-            setErrorMessage( 'O tempo mínimo para próximo evento está em formato não numérico.' );
+        if ( Number.isNaN( minTempoParaProxNotif ) === true ) {
+            setErrorMessage( 'O tempo mínimo para próxima notificação está em formato não numérico.' );
             return false;
         }
 
@@ -135,11 +135,11 @@ function NoAdminUpdateEmpresa() {
                                 </Form.Text>
                             </Form.Group>
 
-                            <Form.Group className="mb-3" controlId="minTempoParaProximoEvento">
+                            <Form.Group className="mb-3" controlId="minTempoParaProxNotif">
                                 <Form.Label>Tempo min. para próximo evento</Form.Label>
                                 <Form.Control type="number"
-                                    value={minTempoParaProximoEvento}
-                                    onChange={ ( e ) => setMinTempoParaProximoEvento( e.target.value ) } />
+                                    value={minTempoParaProxNotif}
+                                    onChange={ ( e ) => setMinTempoParaProxNotif( e.target.value ) } />
                             </Form.Group>
 
                             <AppMessage message={errorMessage} type="error" />

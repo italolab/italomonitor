@@ -42,7 +42,7 @@ public class Empresa {
     
     private int maxDispositivosQuant;
     
-    private int minTempoParaProximoEvento;
+    private int minTempoParaProxNotif;
     
     private int diaPagto;
     

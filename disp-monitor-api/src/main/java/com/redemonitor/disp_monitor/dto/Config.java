@@ -1,4 +1,4 @@
-package com.redemonitor.disp_monitor.model;
+package com.redemonitor.disp_monitor.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -20,7 +20,5 @@ public class Config {
     private int registroEventoPeriodo;
     
     private int numThreadsLimite;
-        
-    private int monitorServerCorrente;
 	
 }

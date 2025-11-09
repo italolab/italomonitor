@@ -17,11 +17,19 @@ function useVincularUsuarioGrupoViewModel() {
         nome: '',
         email: '',
         username: '',
+        perfil: 'ADMIN',
         empresa: {
             id: 0,
             nome: '',
             emailNotif: '',
-            porcentagemMaxFalhasPorLote: 0
+            telegramChatId: '',
+            porcentagemMaxFalhasPorLote: 0,
+            maxDispositivosQuant: 0,
+            minTempoParaProxNotif: 0,
+            diaPagto: 0,
+            temporario: false,
+            usoTemporarioPor: 0,
+            criadoEm: new Date()
         },
         grupos: []
     } );

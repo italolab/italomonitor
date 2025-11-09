@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 import org.springframework.stereotype.Service;
 
+import com.redemonitor.disp_monitor.dto.Config;
+import com.redemonitor.disp_monitor.dto.Dispositivo;
 import com.redemonitor.disp_monitor.dto.request.StartMonitoramentoRequest;
 import com.redemonitor.disp_monitor.dto.response.ExisteNoMonitorResponse;
 import com.redemonitor.disp_monitor.dto.response.InfoResponse;
@@ -18,8 +20,6 @@ import com.redemonitor.disp_monitor.dto.response.MonitoramentoOperResponse;
 import com.redemonitor.disp_monitor.enums.MonitoramentoOperResult;
 import com.redemonitor.disp_monitor.messaging.sender.DispositivoStateMessageSender;
 import com.redemonitor.disp_monitor.messaging.sender.EventoMessageSender;
-import com.redemonitor.disp_monitor.model.Config;
-import com.redemonitor.disp_monitor.model.Dispositivo;
 import com.redemonitor.disp_monitor.service.device.DispositivoMonitor;
 import com.redemonitor.disp_monitor.service.device.DispositivoMonitorThread;
 

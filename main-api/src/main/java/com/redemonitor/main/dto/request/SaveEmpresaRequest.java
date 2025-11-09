@@ -20,7 +20,7 @@ public class SaveEmpresaRequest {
     private String telegramChatId;
     private double porcentagemMaxFalhasPorLote;
     private int maxDispositivosQuant;
-    private int minTempoParaProximoEvento;
+    private int minTempoParaProxNotif;
     private int diaPagto;
     private boolean temporario;
     private int usoTemporarioPor;
@@ -60,7 +60,7 @@ public class SaveEmpresaRequest {
         ); 
         
         validators.addAll(
-        		ValidationBuilder.of( "Tempo min. para próximo evento", String.valueOf( minTempoParaProximoEvento ) )        			
+        		ValidationBuilder.of( "Tempo min. para próx. notificação", String.valueOf( minTempoParaProxNotif ) )        			
         			.build()
         ); 
         

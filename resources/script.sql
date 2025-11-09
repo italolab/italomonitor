@@ -34,7 +34,7 @@ create table empresa (
     telegram_chat_id varchar( 50 ) default '',
     max_dispositivos_quant int default 50,
     porcentagem_max_falhas_por_lote double precision default 0.3333,
-    min_tempo_para_proximo_evento int default 3600,
+    min_tempo_para_prox_notif int default 3600,
     diaPagto int default 1,
     temporario boolean default false,
     uso_temporario_por int default 7,
@@ -51,6 +51,7 @@ create table dispositivo (
     status varchar(20) not null,
     letencia_media int default 0,
     status_atualizado_em timestamp default current_timestamp,
+    ultima_notif_em timestamp default current_timestamp,
     empresa_id bigint not null,
     constraint empresa_fk foreign key( empresa_id ) references empresa( id )
 );

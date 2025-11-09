@@ -41,6 +41,7 @@ function UpdateConfig() {
             setMonitoramentoDelay( ""+config.monitoramentoDelay );
             setRegistroEventoPeriodo( ""+config.registroEventoPeriodo );                      
             setNumThreadsLimite( ""+config.numThreadsLimite );
+            setTelegramBotToken( config.telegramBotToken );
         } catch ( error ) {
             console.error( error );
         }

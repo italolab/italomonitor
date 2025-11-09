@@ -6,7 +6,7 @@ export interface EmpresaResponse {
     telegramChatId : string;
     porcentagemMaxFalhasPorLote : number;    
     maxDispositivosQuant : number;
-    minTempoParaProximoEvento : number;
+    minTempoParaProxNotif : number;
     diaPagto : number;
     temporario : boolean;
     usoTemporarioPor : number;

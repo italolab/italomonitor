@@ -36,8 +36,7 @@ public class ConfigMapper {
     			.numPacotesPorLote( config.getNumPacotesPorLote() )
     			.monitoramentoDelay( config.getMonitoramentoDelay() )
     			.registroEventoPeriodo( config.getRegistroEventoPeriodo() )
-    			.numThreadsLimite( config.getNumThreadsLimite() )
-    			.monitorServerCorrente( config.getMonitorServerCorrente() ) 
+    			.numThreadsLimite( config.getNumThreadsLimite() ) 
     			.build();
     }
     

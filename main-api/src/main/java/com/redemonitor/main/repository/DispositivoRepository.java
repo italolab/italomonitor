@@ -28,6 +28,9 @@ public interface DispositivoRepository extends JpaRepository<Dispositivo, Long> 
     @Query( "select d.empresa.id from Dispositivo d where d.id=?1")
     Optional<Long> getEmpresaId( Long dispositivoId );
     
+    @Query( "select d.nome, d.status from Dispositivo d where d.empresa.id=?1")
+    List<Object[]> getNomesAndStatusesByEmpresaId( Long empresaId );
+    
     @Query( "select d from Dispositivo d where d.empresa.id=?2 and d.nome=?1" )
     Optional<Dispositivo> findByNomeAndEmpresa( String nome, Long empresaId );
     

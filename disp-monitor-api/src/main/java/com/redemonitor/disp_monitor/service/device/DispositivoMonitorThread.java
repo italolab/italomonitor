@@ -8,13 +8,13 @@ import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import com.redemonitor.disp_monitor.dto.Config;
+import com.redemonitor.disp_monitor.dto.Dispositivo;
+import com.redemonitor.disp_monitor.dto.Empresa;
+import com.redemonitor.disp_monitor.dto.Evento;
 import com.redemonitor.disp_monitor.enums.DispositivoStatus;
 import com.redemonitor.disp_monitor.messaging.sender.DispositivoStateMessageSender;
 import com.redemonitor.disp_monitor.messaging.sender.EventoMessageSender;
-import com.redemonitor.disp_monitor.model.Config;
-import com.redemonitor.disp_monitor.model.Dispositivo;
-import com.redemonitor.disp_monitor.model.Empresa;
-import com.redemonitor.disp_monitor.model.Evento;
 
 public class DispositivoMonitorThread implements Runnable {
 	
@@ -157,7 +157,10 @@ public class DispositivoMonitorThread implements Runnable {
                     this.mudaStatusParaInativo();                
             }
             
-            latenciaMedia /= comLatenciaQuant;            
+            
+            if ( comLatenciaQuant > 0 )
+            	latenciaMedia /= comLatenciaQuant;
+            
             dispositivo.setLatenciaMedia( latenciaMedia );
             
             dispositivoMessageService.sendMessage( dispositivo ); 
@@ -169,7 +172,6 @@ public class DispositivoMonitorThread implements Runnable {
             if ( duration.getSeconds() >= registroEventoPeriodo )
                 this.registraEvento( duration );            
         } catch ( IOException e ) {
-        	e.printStackTrace();
             String msg = "Falha no monitoramento do dispositivo: " + nome;
             Logger.getLogger(DispositivoMonitorThread.class.getName()).log(Level.SEVERE, msg, e);
         }

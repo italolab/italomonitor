@@ -53,7 +53,7 @@ function AppLayout( {children, className} : AppLayoutProps ) {
                             <Link to={`/no-admin-detalhes-empresa/${localStorage.getItem( 'empresaId' )}`} className="sidebar-item">
                                 📋 Dados da empresa                                
                             </Link>
-                            <Link to={`/update-empresa/${localStorage.getItem( 'empresaId' )}`} className="sidebar-item">
+                            <Link to={`/no-admin-update-empresa/${localStorage.getItem( 'empresaId' )}`} className="sidebar-item">
                                 📝 Alterar dados                                
                             </Link>
                         </span>

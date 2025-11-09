@@ -24,12 +24,12 @@ public class EventosMessageReceiver {
 	
 	@Autowired
 	private DispositivoRepository dispositivoRepository;
-	
+			
 	@Autowired
 	private EventoMapper eventoMapper;
-	
+		
 	@RabbitListener( queues = {"${config.rabbitmq.eventos.queue}"} ) 
-	public void receivesMessage( @Payload DispMonitorEvento message ) {
+	public void receivesMessage( @Payload DispMonitorEvento message ) {				
 		Long dispositivoId = message.getDispositivoId();
 		
 		Optional<Dispositivo> dispositivoOp = dispositivoRepository.findById( dispositivoId );

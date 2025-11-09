@@ -1,5 +1,7 @@
 package com.redemonitor.main.messaging.receiver;
 
+import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -10,13 +12,18 @@ import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Component;
 
+import com.redemonitor.main.components.util.DateUtil;
 import com.redemonitor.main.dto.integration.DispMonitorDispositivoState;
 import com.redemonitor.main.dto.response.DispositivoResponse;
+import com.redemonitor.main.enums.DispositivoStatus;
 import com.redemonitor.main.exception.BusinessException;
 import com.redemonitor.main.exception.Errors;
+import com.redemonitor.main.integration.TelegramIntegration;
 import com.redemonitor.main.mapper.DispositivoMapper;
+import com.redemonitor.main.model.Config;
 import com.redemonitor.main.model.Dispositivo;
 import com.redemonitor.main.model.Empresa;
+import com.redemonitor.main.repository.ConfigRepository;
 import com.redemonitor.main.repository.DispositivoRepository;
 import com.redemonitor.main.repository.UsuarioRepository;
 
@@ -37,6 +44,15 @@ public class DispositivosStateMessageReceiver {
 	
 	@Autowired
 	private DispositivoMapper dispositivoMapper;
+	
+	@Autowired
+	private ConfigRepository configRepository;
+		
+	@Autowired
+	private DateUtil dateUtil;
+	
+	@Autowired
+	private TelegramIntegration telegramIntegration;
 	
 	@RabbitListener( queues = {"${config.rabbitmq.dispositivos-state.queue}"} ) 
 	public void receivesMessage( @Payload DispMonitorDispositivoState message ) {
@@ -59,7 +75,56 @@ public class DispositivosStateMessageReceiver {
         
         List<String> usernames = usuarioRepository.getUsernamesByEmpresa( empresaId );
         for( String username : usernames )
-        	simpMessagingTemplate.convertAndSendToUser( username, dispositivosTopic, wsMessage );        
+        	simpMessagingTemplate.convertAndSendToUser( username, dispositivosTopic, wsMessage );
+        
+        this.sendNotifSeNecessario( dispositivo, empresa ); 
+	}
+	
+	private void sendNotifSeNecessario( Dispositivo dispositivo, Empresa empresa ) {
+		Long empresaId = empresa.getId();
+		
+		int minTempoParaProxNotif = empresa.getMinTempoParaProxNotif();
+						
+		LocalDateTime ultimaNotifEm = dateUtil.dateToLocalDateTime( dispositivo.getUltimaNotifEm() );
+		LocalDateTime ultimaNotifEmAdded = ultimaNotifEm.plusSeconds( minTempoParaProxNotif );
+		
+		if ( LocalDateTime.now().isAfter( ultimaNotifEmAdded ) ) {			
+			Config config = configRepository.findFirstByOrderByIdAsc();
+			String telegramBotToken = config.getTelegramBotToken();
+
+			String chatId = empresa.getTelegramChatId();
+			
+			StringBuilder mensagemBuilder = new StringBuilder();
+			
+			String dataAtual = dateUtil.dateTimeFormat( LocalDateTime.now() );
+			mensagemBuilder.append( "Data de emissão: "+dataAtual+"\n\n" );
+			mensagemBuilder.append( "Dispositivos inativos: \n" );
+			
+			List<Object[]> disps = dispositivoRepository.getNomesAndStatusesByEmpresaId( empresaId );
+			
+			boolean temInativo = false;
+			for( Object[] disp : disps ) {
+				String nome = disp[0].toString();
+				DispositivoStatus status = (DispositivoStatus)disp[1];
+				if ( status == DispositivoStatus.INATIVO ) {
+					mensagemBuilder.append( "\t"+nome+"\n" );
+					temInativo = true;
+				}
+			}															
+				
+			if ( temInativo ) {
+				String mensagem = mensagemBuilder.toString();
+				
+				dispositivo.setUltimaNotifEm( new Date() );
+				dispositivoRepository.save( dispositivo );
+				
+				try {
+					telegramIntegration.sendMessage( telegramBotToken, chatId, mensagem );
+				} catch ( BusinessException e ) {
+					
+				}								
+			}						
+		}
 	}
 	
 }

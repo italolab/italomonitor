@@ -4,5 +4,5 @@ export interface NoAdminSaveEmpresaRequest {
     emailNotif : string;
     telegramChatId : string;
     porcentagemMaxFalhasPorLote : number;
-    minTempoParaProximoEvento : number;
+    minTempoParaProxNotif : number;
 }

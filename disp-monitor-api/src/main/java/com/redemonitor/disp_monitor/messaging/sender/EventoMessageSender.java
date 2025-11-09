@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import com.redemonitor.disp_monitor.model.Evento;
+import com.redemonitor.disp_monitor.dto.Evento;
 
 @Service
 public class EventoMessageSender {

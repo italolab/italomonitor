@@ -35,6 +35,20 @@ public class HttpClientManager {
 			return null;
 		}	
 	}
+		
+	public void getNoResponse( String uri ) {
+		RestClient client = RestClient.create();
+		
+		try {
+			client.get()
+				.uri( uri )
+				.header( "Authorization", "Bearer "+microserviceAccessToken )			
+				.retrieve()
+				.toBodilessEntity();			
+		} catch ( HttpClientErrorException e ) {
+			this.trataHttpClientErrorException( e, uri );
+		}	
+	}
 	
 	public void post( String uri ) {
 		RestClient client = RestClient.create();
@@ -49,7 +63,7 @@ public class HttpClientManager {
 			this.trataHttpClientErrorException( e, uri ); 
 		}					
 	}
-	
+		
 	public <T extends Object> T postWithResponse( String uri, Class<T> clazz ) {
 		RestClient client = RestClient.create();
 

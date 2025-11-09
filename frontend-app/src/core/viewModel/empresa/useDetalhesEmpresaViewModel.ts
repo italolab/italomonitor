@@ -18,7 +18,7 @@ function useDetalhesEmpresaViewModel() {
         telegramChatId: '',
         porcentagemMaxFalhasPorLote: 0,
         maxDispositivosQuant: 0,
-        minTempoParaProximoEvento: 0,
+        minTempoParaProxNotif: 0,
         diaPagto: 0,
         temporario: false,
         usoTemporarioPor: 0,

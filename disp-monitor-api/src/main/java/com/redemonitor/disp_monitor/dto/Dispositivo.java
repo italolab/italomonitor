@@ -1,4 +1,4 @@
-package com.redemonitor.disp_monitor.model;
+package com.redemonitor.disp_monitor.dto;
 
 import java.util.Date;
 

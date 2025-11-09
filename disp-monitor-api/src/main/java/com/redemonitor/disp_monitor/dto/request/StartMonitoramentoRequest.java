@@ -1,7 +1,7 @@
 package com.redemonitor.disp_monitor.dto.request;
 
-import com.redemonitor.disp_monitor.model.Config;
-import com.redemonitor.disp_monitor.model.Dispositivo;
+import com.redemonitor.disp_monitor.dto.Config;
+import com.redemonitor.disp_monitor.dto.Dispositivo;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

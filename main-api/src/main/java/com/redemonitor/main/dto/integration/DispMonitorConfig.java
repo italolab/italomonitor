@@ -20,7 +20,5 @@ public class DispMonitorConfig {
     private int registroEventoPeriodo;
     
     private int numThreadsLimite;
-        
-    private int monitorServerCorrente;
 	
 }

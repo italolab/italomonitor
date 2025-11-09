@@ -1,4 +1,4 @@
-package com.redemonitor.disp_monitor.model;
+package com.redemonitor.main.dto.integration.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,14 +11,9 @@ import lombok.Setter;
 @Getter
 @Setter
 @Builder
-public class Empresa {
+public class TelegramMessageRequest {
 
-	private Long id;
-    
-    private String nome;
-    
-    private String emailNotif;
-    
-    private double porcentagemMaxFalhasPorLote;
+	private String chat_id;
+	private String text;
 	
 }

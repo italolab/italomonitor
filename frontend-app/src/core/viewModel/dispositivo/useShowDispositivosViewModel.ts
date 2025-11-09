@@ -27,7 +27,7 @@ function useShowDispositivosViewModel() {
         telegramChatId: '',
         porcentagemMaxFalhasPorLote: 0,
         maxDispositivosQuant: 0,
-        minTempoParaProximoEvento: 0,
+        minTempoParaProxNotif: 0,
         diaPagto: 0,
         temporario: false,
         usoTemporarioPor: 0,
@@ -62,6 +62,8 @@ function useShowDispositivosViewModel() {
     const receivesDispositivosInfosMessage = ( message : IMessage ) => {
         const dispsInfos = JSON.parse( message.body );
         setDispositivosInfos( dispsInfos );
+                alert( JSON.stringify( message.body ) );
+
     };
 
     const receivesDispositivoMessage = ( message : IMessage ) => {

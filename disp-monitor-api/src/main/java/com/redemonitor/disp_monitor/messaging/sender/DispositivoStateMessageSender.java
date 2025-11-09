@@ -5,8 +5,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import com.redemonitor.disp_monitor.model.Dispositivo;
-import com.redemonitor.disp_monitor.model.DispositivoState;
+import com.redemonitor.disp_monitor.dto.Dispositivo;
+import com.redemonitor.disp_monitor.dto.DispositivoState;
 
 @Service
 public class DispositivoStateMessageSender {

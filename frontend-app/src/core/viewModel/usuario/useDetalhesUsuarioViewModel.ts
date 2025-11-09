@@ -15,7 +15,7 @@ function useDetalhesUsuarioViewModel() {
         nome: '',
         email: '',
         username: '',
-        perfil: 'USUARIO',
+        perfil: 'ADMIN',
         empresa: {
             id: 0,
             nome: '',
@@ -23,7 +23,7 @@ function useDetalhesUsuarioViewModel() {
             telegramChatId: '',
             porcentagemMaxFalhasPorLote: 0,
             maxDispositivosQuant: 0,
-            minTempoParaProximoEvento: 0,
+            minTempoParaProxNotif: 0,
             diaPagto: 0,
             temporario: false,
             usoTemporarioPor: 0,

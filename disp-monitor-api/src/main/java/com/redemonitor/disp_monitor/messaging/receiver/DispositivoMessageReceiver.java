@@ -6,8 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Component;
 
+import com.redemonitor.disp_monitor.dto.Dispositivo;
 import com.redemonitor.disp_monitor.exception.ErrorException;
-import com.redemonitor.disp_monitor.model.Dispositivo;
 import com.redemonitor.disp_monitor.service.DispositivoMonitorService;
 
 @Component
