@@ -127,9 +127,9 @@ public class DispositivoService {
         if ( dispositivoOp.isEmpty() )
             throw new BusinessException( Errors.DISPOSITIVO_NOT_FOUND );
         
-        dispositivoRepository.deleteById( dispositivoId );
-
         dispositivoMonitorEscalonador.stopMonitoramento( dispositivoId );
+
+        dispositivoRepository.deleteById( dispositivoId );
     }
 
     private DispositivoResponse buildDispositivoResponse( Dispositivo dispositivo ) {

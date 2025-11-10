@@ -60,7 +60,9 @@ public class SaveEmpresaRequest {
         ); 
         
         validators.addAll(
-        		ValidationBuilder.of( "Tempo min. para próx. notificação", String.valueOf( minTempoParaProxNotif ) )        			
+        		ValidationBuilder.of( "Tempo min. para próx. notificação", String.valueOf( minTempoParaProxNotif ) )
+        			.required()
+        			.deveSerMaiorOuIgual( 60 ) 
         			.build()
         ); 
         

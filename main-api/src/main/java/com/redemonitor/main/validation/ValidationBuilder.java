@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.redemonitor.main.validation.validator.DeveSerInteiroOuAsterisco;
+import com.redemonitor.main.validation.validator.DeveSerMaiorOuIgual;
 import com.redemonitor.main.validation.validator.DeveSerMaiorQueZero;
 import com.redemonitor.main.validation.validator.EMailValidator;
 import com.redemonitor.main.validation.validator.RequiredValidator;
@@ -36,6 +37,11 @@ public class ValidationBuilder {
     public ValidationBuilder deveSerMaiorQueZero() {
         validators.add( new DeveSerMaiorQueZero( fieldName, fieldValue ) );
         return this;
+    }
+    
+    public ValidationBuilder deveSerMaiorOuIgual( int value ) {
+    	validators.add( new DeveSerMaiorOuIgual( fieldName, fieldValue, value ) );
+    	return this;
     }
 
     public ValidationBuilder deveSerInteiroOuAsterisco() {

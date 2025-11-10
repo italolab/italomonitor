@@ -1,5 +1,6 @@
 package com.redemonitor.main.service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -11,11 +12,13 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
+import com.redemonitor.main.components.util.DateUtil;
 import com.redemonitor.main.components.util.HashUtil;
 import com.redemonitor.main.components.util.JwtTokenUtil;
 import com.redemonitor.main.components.util.JwtTokenUtil.JWTInfos;
 import com.redemonitor.main.dto.request.LoginRequest;
 import com.redemonitor.main.dto.response.LoginResponse;
+import com.redemonitor.main.enums.UsuarioPerfil;
 import com.redemonitor.main.exception.BusinessException;
 import com.redemonitor.main.exception.Errors;
 import com.redemonitor.main.model.Empresa;
@@ -40,6 +43,9 @@ public class LoginService {
 
     @Autowired
     private JwtTokenUtil jwtTokenUtil;
+    
+    @Autowired
+    private DateUtil dateUtil;
 
     @Value("${jwt.access_token.cookie.name}")
     private String accessTokenCookieName;
@@ -54,7 +60,7 @@ public class LoginService {
     private int refreshTokenExpireAt;
     
     @Value("${grupo.admin}")
-    private String grupoAdmin;
+    private String grupoAdmin;       
 
     @Transactional(readOnly=true)
     public LoginResponse login(LoginRequest request, HttpServletResponse httpResponse) {
@@ -69,8 +75,23 @@ public class LoginService {
 
         Usuario usuario = usuarioOp.get();
         String nome = usuario.getNome();
+        
+        Long empresaId = -1L;
+        
+        Empresa empresa = usuario.getEmpresa();
+        if ( empresa != null )
+        	empresaId = empresa.getId();
+        
+        if ( usuario.getPerfil() != UsuarioPerfil.ADMIN && empresa != null ) {
+        	if ( empresa.isTemporario() ) {
+        		LocalDateTime criadoEm = dateUtil.dateToLocalDateTime( empresa.getCriadoEm() );
+        		LocalDateTime criadoEmAdded = criadoEm.plusDays( empresa.getUsoTemporarioPor() );
+        		if ( LocalDateTime.now().isAfter( criadoEmAdded ) ) 
+        			throw new BusinessException( Errors.TIME_OF_TEST_EXPIRED );        	
+        	}
+        }
 
-        String accessToken = this.generateNewAccessToken( usuario, accessTokenExpireAt );
+        String accessToken = this.generateNewAccessToken( usuario, empresaId, accessTokenExpireAt );
         String refreshToken = this.generateNewRefreshToken( usuario, refreshTokenExpireAt );
 
         httpResponse.addCookie( this.buildAccessTokenCookie( accessToken, accessTokenExpireAt ) );
@@ -99,8 +120,14 @@ public class LoginService {
 
             Usuario usuario = usuarioOp.get();
             String nome = usuario.getNome();
+            
+            Long empresaId = -1L;
+            
+            Empresa empresa = usuario.getEmpresa();
+            if ( empresa != null )
+            	empresaId = empresa.getId();            
 
-            String accessToken = this.generateNewAccessToken( usuario, accessTokenExpireAt );
+            String accessToken = this.generateNewAccessToken( usuario, empresaId, accessTokenExpireAt );
 
             httpResponse.addCookie( this.buildAccessTokenCookie( accessToken, accessTokenExpireAt ) );
 
@@ -123,15 +150,10 @@ public class LoginService {
         httpResponse.addCookie( this.buildRefreshTokenCookie( "", 0 ) );
     }
 
-    private String generateNewAccessToken( Usuario usuario, int expireAt ) {
+    private String generateNewAccessToken( Usuario usuario, Long empresaId, int expireAt ) {
         String username = usuario.getUsername();
         String perfil = usuario.getPerfil().name();
-        Long empresaId = -1L;
-        
-        Empresa empresa = usuario.getEmpresa();
-        if ( empresa != null )
-        	empresaId = empresa.getId();
-
+       
         List<String> roles = new ArrayList<>();
 
         for( UsuarioGrupoMap gruposMaps : usuario.getGrupos() ) {

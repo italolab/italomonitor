@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.redemonitor.main.components.DispositivoMonitorEscalonador;
 import com.redemonitor.main.dto.request.NoAdminSaveEmpresaRequest;
 import com.redemonitor.main.dto.request.SaveEmpresaRequest;
 import com.redemonitor.main.dto.response.EmpresaResponse;
@@ -23,6 +24,9 @@ public class EmpresaService {
 
     @Autowired
     private EmpresaMapper empresaMapper;
+    
+    @Autowired
+    private DispositivoMonitorEscalonador dispositivoMonitorEscalonador;
 
     public void createEmpresa( SaveEmpresaRequest request ) {
         request.validate();
@@ -92,8 +96,10 @@ public class EmpresaService {
         Optional<Empresa> empresaOp = empresaRepository.findById( id );
         if ( empresaOp.isEmpty() )
             throw new BusinessException( Errors.EMPRESA_NOT_FOUND );
+        
+        dispositivoMonitorEscalonador.stopEmpresaMonitoramentos( id );
 
-        empresaRepository.deleteById( id );
+        empresaRepository.deleteById( id );      
     }
 
 }
