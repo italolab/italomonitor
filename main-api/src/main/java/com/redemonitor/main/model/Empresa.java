@@ -51,6 +51,9 @@ public class Empresa {
     private int usoTemporarioPor;
     
     @Temporal(TemporalType.TIMESTAMP)
+    private Date ultimaNotifEm;
+    
+    @Temporal(TemporalType.TIMESTAMP)
     private Date criadoEm;
 
     @OneToMany(mappedBy = "empresa", fetch = FetchType.LAZY, cascade = CascadeType.ALL)

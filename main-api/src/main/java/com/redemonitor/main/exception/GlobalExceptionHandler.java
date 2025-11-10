@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.socket.sockjs.SockJsException;
 
 import com.redemonitor.main.dto.response.ErrorResponse;
 
@@ -25,6 +26,11 @@ public class GlobalExceptionHandler {
     
     @ExceptionHandler(ListenerExecutionFailedException.class)
     public ResponseEntity<ErrorResponse> listenerExecutionFailedException(ListenerExecutionFailedException e ) {
+    	Logger.getLogger( GlobalExceptionHandler.class ).error( e.getMessage() );
+    	return ResponseEntity.internalServerError().body( new ErrorResponse( e.getMessage() ) );
+    }
+    
+    public ResponseEntity<ErrorResponse> sockJsException( SockJsException e ) {
     	Logger.getLogger( GlobalExceptionHandler.class ).error( e.getMessage() );
     	return ResponseEntity.internalServerError().body( new ErrorResponse( e.getMessage() ) );
     }

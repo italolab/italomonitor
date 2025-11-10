@@ -5,12 +5,14 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
+import org.jboss.logging.Logger;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Component;
+import org.springframework.web.client.RestClientException;
 
 import com.redemonitor.main.components.util.DateUtil;
 import com.redemonitor.main.dto.integration.DispMonitorDispositivoState;
@@ -20,11 +22,13 @@ import com.redemonitor.main.exception.BusinessException;
 import com.redemonitor.main.exception.Errors;
 import com.redemonitor.main.integration.TelegramIntegration;
 import com.redemonitor.main.mapper.DispositivoMapper;
+import com.redemonitor.main.messaging.email.EMailSender;
 import com.redemonitor.main.model.Config;
 import com.redemonitor.main.model.Dispositivo;
 import com.redemonitor.main.model.Empresa;
 import com.redemonitor.main.repository.ConfigRepository;
 import com.redemonitor.main.repository.DispositivoRepository;
+import com.redemonitor.main.repository.EmpresaRepository;
 import com.redemonitor.main.repository.UsuarioRepository;
 
 @Component
@@ -43,6 +47,9 @@ public class DispositivosStateMessageReceiver {
 	private UsuarioRepository usuarioRepository;
 	
 	@Autowired
+	private EmpresaRepository empresaRepository;
+	
+	@Autowired
 	private DispositivoMapper dispositivoMapper;
 	
 	@Autowired
@@ -53,6 +60,11 @@ public class DispositivosStateMessageReceiver {
 	
 	@Autowired
 	private TelegramIntegration telegramIntegration;
+	
+	@Autowired
+	private EMailSender emailSender;
+	
+	private boolean processingMessage = false;
 	
 	@RabbitListener( queues = {"${config.rabbitmq.dispositivos-state.queue}"} ) 
 	public void receivesMessage( @Payload DispMonitorDispositivoState message ) {
@@ -77,22 +89,27 @@ public class DispositivosStateMessageReceiver {
         for( String username : usernames )
         	simpMessagingTemplate.convertAndSendToUser( username, dispositivosTopic, wsMessage );
         
-        this.sendNotifSeNecessario( dispositivo, empresa ); 
+        this.sendNotifSeNecessario( dispositivo, empresa );                
 	}
 	
 	private void sendNotifSeNecessario( Dispositivo dispositivo, Empresa empresa ) {
 		Long empresaId = empresa.getId();
 		
 		int minTempoParaProxNotif = empresa.getMinTempoParaProxNotif();
-						
-		LocalDateTime ultimaNotifEm = dateUtil.dateToLocalDateTime( dispositivo.getUltimaNotifEm() );
+		
+		Date ultNotifEm = empresa.getUltimaNotifEm();
+		
+		LocalDateTime ultimaNotifEm = dateUtil.dateToLocalDateTime( ultNotifEm );
 		LocalDateTime ultimaNotifEmAdded = ultimaNotifEm.plusSeconds( minTempoParaProxNotif );
 		
-		if ( LocalDateTime.now().isAfter( ultimaNotifEmAdded ) ) {			
+		if ( LocalDateTime.now().isAfter( ultimaNotifEmAdded ) ) {																	
+			empresaRepository.updateUltimaNotifEm( empresaId, new Date() ); 
+			
 			Config config = configRepository.findFirstByOrderByIdAsc();
 			String telegramBotToken = config.getTelegramBotToken();
 
 			String chatId = empresa.getTelegramChatId();
+			String emailNotif = empresa.getEmailNotif();
 			
 			StringBuilder mensagemBuilder = new StringBuilder();
 			
@@ -114,15 +131,19 @@ public class DispositivosStateMessageReceiver {
 				
 			if ( temInativo ) {
 				String mensagem = mensagemBuilder.toString();
-				
-				dispositivo.setUltimaNotifEm( new Date() );
-				dispositivoRepository.save( dispositivo );
-				
+								
 				try {
 					telegramIntegration.sendMessage( telegramBotToken, chatId, mensagem );
 				} catch ( BusinessException e ) {
-					
-				}								
+					String notifSubject = "Chat do telegram inacessível.";
+					String notifMessage = "Não foi possível enviar a mensagem via telegram. Verifique a configuração do seu id de chat";
+					emailSender.sendEMail( emailNotif, notifSubject, notifMessage );
+				} catch ( RestClientException e ) {
+					Logger.getLogger( DispositivosStateMessageReceiver.class ).error( "Não foi possível acessar a api do telegram.\nErro="+e.getMessage() );
+				}
+				
+				String subject = "Notificação de dispositivos inativos";
+				emailSender.sendEMail( emailNotif, subject, mensagem ); 
 			}						
 		}
 	}

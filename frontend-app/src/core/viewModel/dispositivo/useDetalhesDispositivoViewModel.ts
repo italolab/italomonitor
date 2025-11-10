@@ -50,7 +50,8 @@ function useDetalhesDispositivoViewModel() {
     const wsRefresh = useWebsocket();
 
     const websocketConnect = async () => {
-        return wsRefresh.connect( BASE_WS_URL, DISPOSITIVOS_TOPIC, receivesDispositivoMessage );
+        return wsRefresh.connect( 
+            BASE_WS_URL, DISPOSITIVOS_TOPIC, receivesDispositivoMessage, setErrorMessage );
     };
 
    const receivesDispositivoMessage = ( message : IMessage ) => {

@@ -29,6 +29,22 @@ services:
       - rabbitmq_log:/var/log/rabbitmq
       - rabbitmq_conf:/etc/rabbitmq
     
+  mail-server:
+    image: axigen/axigen
+    container_name: mail-server
+    ports:
+      - "80:80"
+      - "443:443"
+      - "993:993"
+      - "995:995"
+      - "25:25"
+      - "465:465"
+      - "7000:7000"
+      - "9000:9000"
+      - "9443:9443"
+    volumes:
+      - mail_server_data:/axigen/var
+
   main-api:
     build: ./main-api/
     container_name: main-api
@@ -152,5 +168,7 @@ volumes:
   rabbitmq_log:
     driver: local
   rabbitmq_conf:
+    driver: local
+  mail_server_data:
     driver: local
    

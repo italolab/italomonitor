@@ -26,8 +26,8 @@ function EmpresaInfoBox( { empresa } : EmpresaInfoBoxProps ) {
             <AppField name="quantidade máxima de dispositivos">
                 {empresa.maxDispositivosQuant}
             </AppField>
-            <AppField name="tempo min. para próximo evento">
-                {empresa.minTempoParaProximoEvento} segundos
+            <AppField name="tempo min. para próx. notificação">
+                {empresa.minTempoParaProxNotif} segundos
             </AppField>
             <AppField name="dia de pagamento">
                 {empresa.diaPagto}

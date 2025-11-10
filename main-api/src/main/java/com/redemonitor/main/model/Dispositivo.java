@@ -53,9 +53,6 @@ public class Dispositivo {
     @Temporal(TemporalType.TIMESTAMP)
     private Date stateAtualizadoEm;
     
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date ultimaNotifEm;
-
     @Enumerated(EnumType.STRING)
     private DispositivoStatus status;
 

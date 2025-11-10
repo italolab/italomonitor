@@ -50,8 +50,11 @@ function useShowDispositivosViewModel() {
     const websocket = useWebsocket();
 
     const webSocketsConnect = async () : Promise<() => void> => {
-        const deactivateDispsWSFunc = await websocket.connect( BASE_WS_URL, DISPOSITIVOS_TOPIC, receivesDispositivoMessage );
-        const deactivateDispsInfosWSFunc = await websocket.connect( BASE_WS_URL, DISPOSITIVOS_INFOS_TOPIC, receivesDispositivosInfosMessage );
+        const deactivateDispsWSFunc = await websocket.connect( 
+            BASE_WS_URL, DISPOSITIVOS_TOPIC, receivesDispositivoMessage, setErrorMessage );
+
+        const deactivateDispsInfosWSFunc = await websocket.connect( 
+            BASE_WS_URL, DISPOSITIVOS_INFOS_TOPIC, receivesDispositivosInfosMessage, setErrorMessage );
 
         return () => {
             deactivateDispsWSFunc();

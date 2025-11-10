@@ -1,7 +1,10 @@
 import { Client, type IMessage } from "@stomp/stompjs";
 import { AuthModel } from "../model/AuthModel";
+import type { AxiosError } from "axios";
+import { extractErrorMessage } from "../util/sistema-util";
 
 type ReceivesMessageFunc = ( message : IMessage ) => void;
+type SetErrorMessageFunc = ( message : string ) => void;
 
 function useWebsocket() {
     
@@ -14,7 +17,8 @@ function useWebsocket() {
     const connect = async ( 
             brokerURL : string, 
             topic : string,
-            receivesMessageFunc : ReceivesMessageFunc ) : Promise<() => void> => {
+            receivesMessageFunc : ReceivesMessageFunc, 
+            setErrorMessageFunc : SetErrorMessageFunc ) : Promise<() => void> => {
         const response = await authModel.refreshAccessToken();
 
         const accessToken = response.data.accessToken;
@@ -57,9 +61,14 @@ function useWebsocket() {
                             
                                 clearInterval( interval! );
                                 interval = null;
-
-                            // eslint-disable-next-line @typescript-eslint/no-unused-vars
                             } catch ( error2 ) {
+                                const err = error2 as AxiosError;
+                                if ( err.status === 401 || err.status === 403 ) {
+                                    setErrorMessageFunc( extractErrorMessage( error2 ) );  
+
+                                    clearInterval( interval! );
+                                    interval = null;
+                                }
                                 console.log( "tentando atualizar o token.")
                             }
                         }, 10000 );

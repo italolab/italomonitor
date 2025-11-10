@@ -66,6 +66,7 @@ public class ConfigService {
 	        
 	        resp.setMonitorServers( monitorServerResps );
         }
+        
         return resp;
     }
 

@@ -24,7 +24,7 @@ public interface DispositivoRepository extends JpaRepository<Dispositivo, Long> 
     
     @Query( "select count(*) from Dispositivo d where d.empresa.id=?1 and d.sendoMonitorado=?2" )
     int countByEmpresaBySendoMonitorado( Long empresaId, boolean sendoMonitorado );
-    
+        
     @Query( "select d.empresa.id from Dispositivo d where d.id=?1")
     Optional<Long> getEmpresaId( Long dispositivoId );
     

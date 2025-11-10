@@ -20,7 +20,8 @@ public class DateUtil {
     }
 
     public String dateTimeFormat( LocalDateTime date ) {
-    	return DateTimeFormatter.ofPattern( "dd/MM/yyyy HH:mm:ss" ).format( date );
+    	return date.atZone( ZoneId.of( "America/Recife" ) ).format( 
+    			DateTimeFormatter.ofPattern( "dd/MM/yyyy HH:mm:ss" ) );
     }
     
 }

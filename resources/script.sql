@@ -38,6 +38,7 @@ create table empresa (
     diaPagto int default 1,
     temporario boolean default false,
     uso_temporario_por int default 7,
+    ultima_notif_em timestamp default current_timestamp,
     criado_em timestamp default current_timestamp
 );
 
@@ -51,7 +52,6 @@ create table dispositivo (
     status varchar(20) not null,
     letencia_media int default 0,
     status_atualizado_em timestamp default current_timestamp,
-    ultima_notif_em timestamp default current_timestamp,
     empresa_id bigint not null,
     constraint empresa_fk foreign key( empresa_id ) references empresa( id )
 );

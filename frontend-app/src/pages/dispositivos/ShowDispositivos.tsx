@@ -115,7 +115,7 @@ function ShowDispositivos() {
                 <AppSpinner className="mx-auto" visible={loading} showEsp={false}/>
             </div>
 
-            <h6 className="disp-info mt-3 bg-light border text-center p-2">
+            <h6 className="disp-info bg-light border text-center p-2">
                 {dispositivosInfos.quantTotal} dispositivos no total, &nbsp;
                 
                 { dispositivosInfos.sendoMonitoradosQuant < dispositivosInfos.quantTotal 
@@ -160,8 +160,16 @@ function ShowDispositivos() {
                             </Link>                                        
                         </div>                          
                         <div className="text-center">
-                            <span className="disp-card-text-lg text-complementar">{dispositivo.latenciaMedia}</span> 
-                            <small> ms</small>
+                            { dispositivo.status === 'ATIVO' ?
+                                <span>
+                                    <span className="disp-card-text-lg text-complementar">{dispositivo.latenciaMedia}</span> 
+                                    <small> ms</small>
+                                </span>
+                            :
+                                <span>
+                                    <span className="disp-card-text-lg text-complementar">inativo</span>
+                                </span>
+                            }
                         </div>
                         <span className="disp-card-text text-center">{dispositivo.nome}</span>
                         <span className="disp-card-text text-center">
