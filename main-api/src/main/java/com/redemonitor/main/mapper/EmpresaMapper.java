@@ -68,7 +68,7 @@ public class EmpresaMapper {
         empresa.setEmailNotif( request.getEmailNotif() );
         empresa.setTelegramChatId( request.getTelegramChatId() );
         empresa.setPorcentagemMaxFalhasPorLote( request.getPorcentagemMaxFalhasPorLote() );
-        empresa.setMinTempoParaProxNotif( request.getMinTempoParaProximoEnvio() ); 
+        empresa.setMinTempoParaProxNotif( request.getMinTempoParaProxNotif() ); 
     }
 
 }

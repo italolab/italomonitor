@@ -136,7 +136,7 @@ function NoAdminUpdateEmpresa() {
                             </Form.Group>
 
                             <Form.Group className="mb-3" controlId="minTempoParaProxNotif">
-                                <Form.Label>Tempo min. para próximo evento</Form.Label>
+                                <Form.Label>Tempo min. para próxima notificação</Form.Label>
                                 <Form.Control type="number"
                                     value={minTempoParaProxNotif}
                                     onChange={ ( e ) => setMinTempoParaProxNotif( e.target.value ) } />
