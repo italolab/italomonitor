@@ -17,12 +17,14 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 
 @Operation(
-        summary = "Responsável por iniciar o monitoramento de todos os dispositivos não iniciados da empresa."
+        summary = "Responsável por iniciar ou reiniciar o monitoramento de todos os dispositivo marcados como sendo monitorado."
+        		+ "Útil para quando os servidores são reiniciados e os monitoramentos perdidos. "
+        		+ "Então, os monitoramentos são reiniciados."
 )
 @ApiResponses(value= {
         @ApiResponse(
                 responseCode = "200",
-                description = "Todos os monitoramentos de dispositivos da empresa iniciados.",
+                description = "Todos os monitoramentos de dispositivos marcados como sendo monitorado iniciados ou reiniciados.",
                 content = @Content),
         @ApiResponse(
                 responseCode = "403",
@@ -39,5 +41,5 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 })
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
-public @interface StartAllMonitoramentosDoc {
+public @interface StartOrRestartMonitoramentosDoc {
 }
