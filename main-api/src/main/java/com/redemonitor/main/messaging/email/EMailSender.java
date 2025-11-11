@@ -17,37 +17,33 @@ import jakarta.mail.internet.MimeMessage;
 
 @Component
 public class EMailSender {
-
-	//@Autowired
-	//private JavaMailSender mailSender;
 		
-	@Value("${spring.mail.username}")
+	@Value("${mail.address.bot}")
 	private String sistemaEMail;
 	
-	@Value("${spring.mail.password}")
+	@Value("${mail.address.bot.password}")
 	private String password;
 	
-	@Value("${spring.mail.host}")
+	@Value("${mail.server.host}")
 	private String host;
 	
-	@Value("${spring.mail.port}")
+	@Value("${mail.server.port}")
 	private String port;
 
-	public void sendEMail( String to, String subject, String text ) {
+	public void sendEMail( String to, String subject, String html ) {
 		Properties props = new Properties();
 		props.put( "mail.smtp.host", host );
 		props.put( "mail.smtp.port", port );
-		props.put( "mail.smtp.username", sistemaEMail );
+		//props.put( "mail.debug", "true" );
 		
-		props.put( "mail.transport.protocol", "smtp" );
 		props.put( "mail.smtp.auth", "true" );
-		props.put( "mail.smtp.starttls.enable", "true" );
-		props.put( "mail.smtp.auth.mechanisms", "XOAUTH2" );
-		
-		props.put( "mail.smtp.auth.login.disable", "true" );
-		props.put( "mail.smtp.auth.plain.disable", "true" );
+		props.put( "mail.smtp.ssl.enable", "true" );
+		props.put( "mail.smtp.ssl.trust", "localhost" );
+		props.put( "mail.smtp.socketFactory.port", "465" );
+		props.put( "mail.smtp.socketFactory.class", "java.net.ssl.SSLSocketFactory" );
+		props.put( "mail.smtp.starttls.enable", "false" );
 				
-		Session session = Session.getDefaultInstance( props, new Authenticator() {
+		Session session = Session.getInstance( props, new Authenticator() {
 
 			@Override
 			protected PasswordAuthentication getPasswordAuthentication() {
@@ -55,40 +51,46 @@ public class EMailSender {
 			}
 			
 		} );
-
+		
 		try {
 			MimeMessage message = new MimeMessage( session );		
 			message.setFrom( new InternetAddress( sistemaEMail ) );
 			message.setRecipients( Message.RecipientType.TO, InternetAddress.parse( to ) );
 			message.setSubject( subject );
-			message.setText( text ); 
+			message.setContent( html, "text/html; charset=UTF-8" ); 
 		
 			Transport.send( message );
 		} catch ( MessagingException e ) {
 			Logger.getLogger( EMailSender.class ).error( "Não foi possível enviar a mensagem de email de "+sistemaEMail+" para "+to+"\nErro= "+e.getMessage() );
 		}
 	}
-	
+		
+}
+
+
+
+/*
 	public static void main( String[] args ) {
-		String sistemaEMail = "italomonitor@outlook.com";
-		String password = "orbrbaivqgtdjkik";
+		String sistemaEMail = "bot@italomonitor.com.br";
+		String password = "22101988";
 		
 		String to = "italoherbert@outlook.com";
 		String subject = "Teste";
 		String text = "Testando...";
 		
 		Properties props = new Properties();
-		props.put( "mail.smtp.host", "smtp.office365.com" );
-		props.put( "mail.smtp.port", 587 );
+		props.put( "mail.smtp.host", "localhost" );
+		props.put( "mail.smtp.port", "465" );
 		props.put( "mail.debug", "true" );
 		
 		props.put( "mail.smtp.auth", "true" );
-		props.put( "mail.smtp.starttls.enable", "true" );
-		props.put( "mail.smtp.auth.mechanisms", "XOAUTH2" );
+		props.put( "mail.smtp.ssl.enable", "true" );
+		props.put( "mail.smtp.ssl.trust", "localhost" );
+		props.put( "mail.smtp.socketFactory.port", "465" );
+		props.put( "mail.smtp.socketFactory.class", "java.net.ssl.SSLSocketFactory" );
+		props.put( "mail.smtp.starttls.enable", "false" );
 		
-		props.put( "mail.smtp.auth.login.disable", "true" );
-		props.put( "mail.smtp.auth.plain.disable", "true" );
-						
+								
 		Session session = Session.getInstance( props, new Authenticator() {
 
 			@Override
@@ -113,5 +115,5 @@ public class EMailSender {
 			e.printStackTrace();
 		}
 	}
-	
-}
+
+ */

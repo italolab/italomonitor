@@ -1,6 +1,10 @@
 package com.redemonitor.main.messaging.receiver;
 
 import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
+import java.time.ZoneId;
+import java.time.ZoneOffset;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -63,9 +67,7 @@ public class DispositivosStateMessageReceiver {
 	
 	@Autowired
 	private EMailSender emailSender;
-	
-	private boolean processingMessage = false;
-	
+		
 	@RabbitListener( queues = {"${config.rabbitmq.dispositivos-state.queue}"} ) 
 	public void receivesMessage( @Payload DispMonitorDispositivoState message ) {
 		Long dispositivoId = message.getId();

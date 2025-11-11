@@ -71,7 +71,7 @@ exit /b 0
 exit /b 0
 
 :upbase
-    docker compose up --build rabbitmq-server main-db-server -d
+    docker compose up --build rabbitmq-server main-db-server mail-server -d
 exit /b 0
 
 :downmain
@@ -87,7 +87,7 @@ exit /b 0
 exit /b 0
 
 :downbase
-    docker compose down rabbitmq-server main-db-server
+    docker compose down rabbitmq-server main-db-server mail-server
 exit /b 0
 
 :fim

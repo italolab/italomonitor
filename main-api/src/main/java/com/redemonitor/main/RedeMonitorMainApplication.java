@@ -10,7 +10,7 @@ public class RedeMonitorMainApplication implements CommandLineRunner {
 	
 	//@Autowired
 	//private DispositivoMonitorEscalonador dispositivoMonitorEscalonador;
-		
+			
 	public static void main(String[] args) {
 		SpringApplication.run(RedeMonitorMainApplication.class, args);
 	}

@@ -53,6 +53,12 @@ function CreateEmpresa() {
 
             setNome( '' );
             setEmailNotif( '' );
+            setTelegramChatId( '' );
+            setMaxDispositivosQuant( '' );
+            setMinTempoParaProxNotif( '' );
+            setDiaPagto( '' );
+            setTemporario( false );
+            setUsoTemporarioPor( '' );
         } catch ( error ) {
             console.error( error );
         }

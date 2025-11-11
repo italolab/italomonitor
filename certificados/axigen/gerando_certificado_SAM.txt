@@ -1,0 +1,2 @@
+openssl req -new -x509 -days 365 -nodes -config axigen_ssl.cnf -out axigen_cert.pem -keyout axigen_cert.pem
+openssl x509 -in cert.pem -noout -text 
