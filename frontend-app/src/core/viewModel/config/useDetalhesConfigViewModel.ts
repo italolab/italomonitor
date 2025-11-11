@@ -63,9 +63,30 @@ function useDetalhesConfigViewModel() {
         }
     }
 
+    const stopAllMonitoramentos = async () => {
+        setErrorMessage( null );
+        setInfoMessage( null );
+        setLoading( true );
+
+        try{
+            const response = await dispositivoMonitorModel.stopAllMonitoramentos();
+            const configResp = await configModel.getConfig();
+
+            setConfig( configResp.data );
+
+            setInfoMessage( response.data );
+            setLoading( false );
+        } catch ( error ) {
+            setErrorMessage( extractErrorMessage( error ) );
+            setLoading( false );
+            throw error;
+        }
+    }
+
     return { 
         loadConfig, 
         startAllMonitoramentos, 
+        stopAllMonitoramentos,
         config, 
         errorMessage, 
         infoMessage, 

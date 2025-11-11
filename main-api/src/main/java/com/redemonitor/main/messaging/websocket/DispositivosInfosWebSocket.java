@@ -35,7 +35,7 @@ public class DispositivosInfosWebSocket {
 	
 	@Autowired
 	private SimpUserRegistry simpUserRegistry;
-				
+					
 	public void sendDispositivosInfosMessage( Long dispositivoId ) {						
 		Optional<Long> empresaIDOp = dispositivoRepository.getEmpresaId( dispositivoId );
 		if ( empresaIDOp.isEmpty() ) {
@@ -55,11 +55,10 @@ public class DispositivosInfosWebSocket {
 				.build();
 		
 		String wsMessage = dispositivoMapper.mapToString( resp ); 
-		
-		
-		List<String> users = simpUserRegistry.getUsers().stream().map( u -> u.getName() ).toList();
-        
+		        		
         List<String> usernames = usuarioRepository.getUsernamesByEmpresa( empresaId );
+
+        List<String> users = simpUserRegistry.getUsers().stream().map( u -> u.getName() ).toList();
         for( String username : usernames )
         	if ( users.contains( username ) ) 
         		simpMessagingTemplate.convertAndSendToUser( username, dispositivosInfosTopic, wsMessage );        				

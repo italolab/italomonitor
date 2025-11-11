@@ -10,6 +10,10 @@ export class DispositivoMonitorModel {
         return await api.post( "/monitoramento/dispositivos/start-all-monitoramentos", {} );
     }
 
+    async stopAllMonitoramentos() {
+        return await api.post( "/monitoramento/dispositivos/stop-all-monitoramentos", {} );
+    }
+
     async startMonitoramento( dispositivoId : number ) {
         return await api.post( "/monitoramento/dispositivos/"+dispositivoId+"/start", {} );
     }

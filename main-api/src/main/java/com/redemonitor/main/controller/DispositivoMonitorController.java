@@ -9,10 +9,11 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.redemonitor.main.apidoc.dispositivo.monitor.StartAllMonitoramentosDoc;
+import com.redemonitor.main.apidoc.dispositivo.monitor.StartEmpresaMonitoramentosDoc;
 import com.redemonitor.main.apidoc.dispositivo.monitor.StartMonitoramentoDoc;
-import com.redemonitor.main.apidoc.dispositivo.monitor.StartOrRestartMonitoramentosDoc;
 import com.redemonitor.main.apidoc.dispositivo.monitor.StopAllMonitoramentosDoc;
+import com.redemonitor.main.apidoc.dispositivo.monitor.StartAllMonitoramentosDoc;
+import com.redemonitor.main.apidoc.dispositivo.monitor.StopEmpresaMonitoramentosDoc;
 import com.redemonitor.main.apidoc.dispositivo.monitor.StopMonitoramentoDoc;
 import com.redemonitor.main.components.DispositivoMonitorEscalonador;
 
@@ -23,15 +24,23 @@ public class DispositivoMonitorController {
     @Autowired
     private DispositivoMonitorEscalonador dispositivoMonitorEscalonador;
     
-    @StartOrRestartMonitoramentosDoc
-    @PreAuthorize("hasAuthority('start-all-monitoramentos')") 
+    @StartAllMonitoramentosDoc
+    @PreAuthorize("hasAuthority('start-or-stop-all-monitoramentos')") 
     @PostMapping("/start-all-monitoramentos")
     public ResponseEntity<String> startAllMonitoramentos() {
     	String resp = dispositivoMonitorEscalonador.startAllMonitoramentos();
     	return ResponseEntity.ok( resp ); 
     }
     
-    @StartAllMonitoramentosDoc
+    @StopAllMonitoramentosDoc
+    @PreAuthorize("hasAuthority('start-or-stop-all-monitoramentos')") 
+    @PostMapping("/stop-all-monitoramentos")
+    public ResponseEntity<String> stopAllMonitoramentos() {
+    	String resp = dispositivoMonitorEscalonador.stopAllMonitoramentos();
+    	return ResponseEntity.ok( resp ); 
+    }
+    
+    @StartEmpresaMonitoramentosDoc
     @PreAuthorize("hasAuthority('dispositivo-monitoramento-all')")
     @PostMapping("/empresa/{empresaId}/start-all")
     public ResponseEntity<String> startEmpresaMonitoramentos(
@@ -42,7 +51,7 @@ public class DispositivoMonitorController {
         return ResponseEntity.ok( "Todos os monitoramento iniciados." );
     }
     	
-    @StopAllMonitoramentosDoc
+    @StopEmpresaMonitoramentosDoc
     @PreAuthorize("hasAuthority('dispositivo-monitoramento-all')")
     @PostMapping("/empresa/{empresaId}/stop-all")
     public ResponseEntity<String> stopEmpresaMonitoramentos(

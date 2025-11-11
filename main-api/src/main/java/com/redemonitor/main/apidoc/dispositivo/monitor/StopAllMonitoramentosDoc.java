@@ -17,12 +17,12 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 
 @Operation(
-        summary = "Responsável por iniciar o monitoramento de todos os dispositivos não iniciados da empresa."
+        summary = "Responsável por finalizar o monitoramento de todos os dispositivos do sistema."
 )
 @ApiResponses(value= {
         @ApiResponse(
                 responseCode = "200",
-                description = "Todos os monitoramentos de dispositivos da empresa iniciados.",
+                description = "Todos os monitoramentos de dispositivos finalizados.",
                 content = @Content),
         @ApiResponse(
                 responseCode = "403",
@@ -39,5 +39,5 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 })
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
-public @interface StartEmpresaMonitoramentosDoc {
+public @interface StopAllMonitoramentosDoc {
 }

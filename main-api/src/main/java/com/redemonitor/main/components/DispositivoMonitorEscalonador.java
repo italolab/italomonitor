@@ -81,7 +81,31 @@ public class DispositivoMonitorEscalonador {
 			}
     	}
     	
-    	return dispsMonitQuant + " dispositivo(s) startado(s) com sucesso.";
+    	return dispsMonitQuant + " monitoramento(s) de dispositivo startado(s) com sucesso.";
+	}
+	
+	public String stopAllMonitoramentos() {
+		List<MonitorServer> monitorServers = monitorServerRepository.findAll();
+		
+    	List<Long> dispsIDs = dispositivoRepository.findAllIDs();
+    	
+    	int dispsQuant = dispsIDs.size();
+    	
+		Logger.getLogger( DispositivoMonitorEscalonador.class ).info( dispsQuant + " dispositivos para parar o monitoramento." ); 
+    	
+		int dispsStoppedQuant = 0;
+    	for( Long dispositivoId : dispsIDs ) {
+    		MonitoramentoOperResult result = this.stopMonitoramento( dispositivoId, monitorServers );
+			switch( result ) {
+				case FINALIZADO:
+					dispsStoppedQuant++;
+					break;
+			    default:
+			    	break;
+			}
+    	}
+    	
+    	return dispsStoppedQuant + " monitoramento(s) de dispositivo parados(s) com sucesso.";
 	}
 	
 	public void startEmpresaMonitoramentos( Long empresaId ) {

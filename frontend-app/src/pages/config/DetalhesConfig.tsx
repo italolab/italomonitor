@@ -4,7 +4,7 @@ import AppLayout from "../../layout/AppLayout";
 import { Button, Card } from "react-bootstrap";
 import AppMessage from "../../components/AppMessage";
 import AppSpinner from "../../components/AppSpinner";
-import { MdArrowBack, MdOutlineEdit, MdRestartAlt } from "react-icons/md";
+import { MdArrowBack, MdOutlineEdit, MdPlayCircle, MdStopCircle } from "react-icons/md";
 import useEffectOnce from "../../core/util/useEffectOnce";
 import { FaServer } from "react-icons/fa";
 import ConfigInfoBox from "./ConfigInfoBox";
@@ -14,6 +14,7 @@ function DetalhesConfig() {
     const {
         loadConfig,
         startAllMonitoramentos,
+        stopAllMonitoramentos,
         config,
         loading,
         errorMessage,
@@ -34,9 +35,17 @@ function DetalhesConfig() {
         }
     };
 
-    const onStartOrRestartMonitoramentos = async () => {
+    const onStartAllMonitoramentos = async () => {
         try {
             await startAllMonitoramentos();
+        } catch ( error ) {
+            console.error( error );
+        }
+    };
+
+    const onStopAllMonitoramentos = async () => {
+        try {
+            await stopAllMonitoramentos();
         } catch ( error ) {
             console.error( error );
         }
@@ -51,8 +60,11 @@ function DetalhesConfig() {
                 <Button type="button" onClick={() => navigate( '/update-config' )} className="func">
                     <MdOutlineEdit size={25}/> Editar configurações
                 </Button>
-                <Button type="button" onClick={onStartOrRestartMonitoramentos} className="func">
-                    <MdRestartAlt size={25}/> Startar ou restartar monitoramentos
+                <Button type="button" onClick={onStartAllMonitoramentos} className="func">
+                    <MdPlayCircle size={25}/> Startar monitoramentos
+                </Button>
+                <Button type="button" onClick={onStopAllMonitoramentos} className="func">
+                    <MdStopCircle size={25}/> Parar monitoramentos
                 </Button>
             </div>
 

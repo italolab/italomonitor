@@ -64,7 +64,7 @@ public class EMailSender {
 			Logger.getLogger( EMailSender.class ).error( "Não foi possível enviar a mensagem de email de "+sistemaEMail+" para "+to+"\nErro= "+e.getMessage() );
 		}
 	}
-		
+			
 }
 
 

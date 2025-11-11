@@ -39,9 +39,9 @@ public class DispositivoWebSocket {
         Empresa empresa = dispositivo.getEmpresa();
         Long empresaId = empresa.getId();
         
-        List<String> users = simpUserRegistry.getUsers().stream().map( u -> u.getName() ).toList();
-        
         List<String> usernames = usuarioRepository.getUsernamesByEmpresa( empresaId );
+
+        List<String> users = simpUserRegistry.getUsers().stream().map( u -> u.getName() ).toList();
         for( String username : usernames )
         	if ( users.contains( username ) ) 
         		simpMessagingTemplate.convertAndSendToUser( username, dispositivosTopic, wsMessage );        
