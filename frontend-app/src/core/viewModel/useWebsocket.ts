@@ -1,24 +1,27 @@
-import { Client, type IMessage } from "@stomp/stompjs";
+import { Client } from "@stomp/stompjs";
 import { AuthModel } from "../model/AuthModel";
 import type { AxiosError } from "axios";
 import { extractErrorMessage } from "../util/sistema-util";
+import { useRef } from "react";
 
-type ReceivesMessageFunc = ( message : IMessage ) => void;
 type SetErrorMessageFunc = ( message : string ) => void;
+
+type OnConnectFunc = ( client : Client ) => void;
 
 function useWebsocket() {
     
     const authModel = new AuthModel();    
 
-    let deactivateFlag = false;
     let websocketErrorFlag = false;
     let interval = null;
 
+    const clientRef = useRef<Client>( null );
+
     const connect = async ( 
             brokerURL : string, 
-            topic : string,
-            receivesMessageFunc : ReceivesMessageFunc, 
+            onConnectFunc : OnConnectFunc, 
             setErrorMessageFunc : SetErrorMessageFunc ) : Promise<() => void> => {
+
         const response = await authModel.refreshAccessToken();
 
         const accessToken = response.data.accessToken;
@@ -38,9 +41,7 @@ function useWebsocket() {
                 interval = null;
             }
 
-            client.subscribe( topic, (message) => {
-                receivesMessageFunc( message );   
-            } );            
+            onConnectFunc( client );                       
         } 
         client.onWebSocketError = () => {
             ( async () => {
@@ -80,12 +81,11 @@ function useWebsocket() {
         };
 
         client.activate();
+        clientRef.current = client;
         
         return () => {
-            if ( deactivateFlag === false ) {
-                deactivateFlag = true;
-            } else {
-                ( async () => await client.deactivate() )();
+            if ( clientRef && clientRef.current?.active ) {             
+                clientRef.current.deactivate();
 
                 if ( interval! !== null ) {
                     clearInterval( interval! );

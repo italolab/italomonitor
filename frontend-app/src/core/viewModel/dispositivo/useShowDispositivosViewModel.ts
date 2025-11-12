@@ -8,7 +8,7 @@ import type { EmpresaResponse } from "../../model/dto/response/EmpresaResponse";
 import { EmpresaModel } from "../../model/EmpresaModel";
 import useWebsocket from "../useWebsocket";
 import type { DispositivosInfosResponse } from "../../model/dto/response/DispositivosInfosResponse";
-import type { IMessage } from "@stomp/stompjs";
+import type { Client } from "@stomp/stompjs";
 import { BASE_WS_URL, DISPOSITIVOS_INFOS_TOPIC, DISPOSITIVOS_TOPIC } from "../../constants/websocket-constants";
 
 function useShowDispositivosViewModel() {
@@ -31,6 +31,7 @@ function useShowDispositivosViewModel() {
         diaPagto: 0,
         temporario: false,
         usoTemporarioPor: 0,
+        bloqueada: false,
         criadoEm: new Date()
     } );
 
@@ -50,38 +51,31 @@ function useShowDispositivosViewModel() {
     const websocket = useWebsocket();
 
     const webSocketsConnect = async () : Promise<() => void> => {
-        const deactivateDispsWSFunc = await websocket.connect( 
-            BASE_WS_URL, DISPOSITIVOS_TOPIC, receivesDispositivoMessage, setErrorMessage );
-
-        const deactivateDispsInfosWSFunc = await websocket.connect( 
-            BASE_WS_URL, DISPOSITIVOS_INFOS_TOPIC, receivesDispositivosInfosMessage, setErrorMessage );
-
-        return () => {
-            deactivateDispsWSFunc();
-            deactivateDispsInfosWSFunc();
-        };
+        return await websocket.connect( BASE_WS_URL, onWSConnect, setErrorMessage );
     };
 
-    const receivesDispositivosInfosMessage = ( message : IMessage ) => {
-        const dispsInfos = JSON.parse( message.body );
-        setDispositivosInfos( dispsInfos );
-    };
+    const onWSConnect = async ( client : Client ) => {
+        client.subscribe( DISPOSITIVOS_TOPIC, ( message ) => {
+            const disp : DispositivoResponse = JSON.parse( message.body );
 
-    const receivesDispositivoMessage = ( message : IMessage ) => {
-        const disp : DispositivoResponse = JSON.parse( message.body );
+            const dispsRef : DispositivoResponse[] = dispositivosFiltradosRef.current;
 
-        const dispsRef : DispositivoResponse[] = dispositivosFiltradosRef.current;
+            const disps = [];
+            for( let i = 0; i < dispsRef.length; i++ ) {                        
+                disps[ i ] = dispsRef[ i ];    
+                if ( disps[ i ].id === disp.id ) {
+                    disps[ i ] = disp;            
+                }        
+            }
 
-        const disps = [];
-        for( let i = 0; i < dispsRef.length; i++ ) {                        
-            disps[ i ] = dispsRef[ i ];    
-            if ( disps[ i ].id === disp.id ) {
-                disps[ i ] = disp;            
-            }        
-        }
+            dispositivosFiltradosRef.current = disps;
+            setDispositivosFiltrados( disps );
+        } );
 
-        dispositivosFiltradosRef.current = disps;
-        setDispositivosFiltrados( disps );
+        client.subscribe( DISPOSITIVOS_INFOS_TOPIC, (message) => {
+            const dispsInfos = JSON.parse( message.body );
+            setDispositivosInfos( dispsInfos );     
+        } );
     };
 
     const loadDados = async ( empresaId : number ) => {

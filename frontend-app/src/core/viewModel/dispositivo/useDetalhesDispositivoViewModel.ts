@@ -6,7 +6,7 @@ import { DispositivoMonitorModel } from "../../model/DispositivoMonitorModel";
 import { AuthContext } from "../../../context/AuthProvider";
 import useWebsocket from "../useWebsocket";
 import { MENSAGEM_DELAY } from "../../constants/constants";
-import type { IMessage } from "@stomp/stompjs";
+import type { Client } from "@stomp/stompjs";
 import { BASE_WS_URL, DISPOSITIVOS_TOPIC } from "../../constants/websocket-constants";
 
 function useDetalhesDispositivoViewModel() {
@@ -51,15 +51,16 @@ function useDetalhesDispositivoViewModel() {
     const wsRefresh = useWebsocket();
 
     const websocketConnect = async () => {
-        return wsRefresh.connect( 
-            BASE_WS_URL, DISPOSITIVOS_TOPIC, receivesDispositivoMessage, setErrorMessage );
+        return wsRefresh.connect( BASE_WS_URL, onWSConnect, setErrorMessage );
     };
 
-   const receivesDispositivoMessage = ( message : IMessage ) => {
-           const disp : DispositivoResponse = JSON.parse( message.body );
-        if ( dispositivoIDRef.current == disp.id )
-            setDispositivo( disp );
-    };
+    const onWSConnect = async ( client : Client ) => {
+        client.subscribe( DISPOSITIVOS_TOPIC, (message) => {
+            const disp : DispositivoResponse = JSON.parse( message.body );
+            if ( dispositivoIDRef.current == disp.id )
+                setDispositivo( disp );
+        } );
+    }
 
     const loadDispositivo = async ( dispositivoId : number ) => {
         setInfoMessage( null );
