@@ -137,8 +137,8 @@ function ManterRoles() {
                     <div className="d-flex justify-content-center">
                         <AppPagination 
                              dataList={roles}
-                             numberOfItemsByPage={3}
-                             numberOfPagesByGroup={2}
+                             numberOfItemsByPage={10}
+                             numberOfPagesByGroup={3}
                              onChangePageDataList={ (pageDataList : RoleResponse[]) => setPaginationRoles( pageDataList )}
                         />
                     </div>

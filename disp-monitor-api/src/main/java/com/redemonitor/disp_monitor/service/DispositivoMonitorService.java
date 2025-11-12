@@ -36,7 +36,7 @@ public class DispositivoMonitorService {
     private EventoMessageSender eventoMessageService;
     
     private final Map<Long, DispositivoMonitor> dispositivoMonitorMap = new ConcurrentHashMap<>();    
-
+       
     public MonitoramentoOperResponse startMonitoramento( StartMonitoramentoRequest request ) {
     	Config config = request.getConfig();
         Dispositivo dispositivo = request.getDispositivo();
@@ -85,6 +85,15 @@ public class DispositivoMonitorService {
         return MonitoramentoOperResponse.builder()
         		.result( MonitoramentoOperResult.FINALIZADO )
         		.build(); 
+    }
+    
+    public void stopAllMonitoramentos() {
+    	Set<Long> dispIDs = dispositivoMonitorMap.keySet();
+    	for( Long dispositivoId : dispIDs ) {
+    		DispositivoMonitor dispositivoMonitor = dispositivoMonitorMap.get( dispositivoId );
+            dispositivoMonitor.getScheduledFuture().cancel( true );
+            dispositivoMonitorMap.remove( dispositivoId );
+    	}
     }
 
     public void updateConfigInMonitores( Config config ) {    	    

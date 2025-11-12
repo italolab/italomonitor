@@ -25,6 +25,9 @@ public class DispositivoMonitorIntegration {
 	@Value("${monitoramento.dispositivo.stop.endpoint.path}")
 	private String stopEndpointPath;
 		
+	@Value("${monitoramento.dispositivo.stop-all.endpoint.path}")
+	private String stopAllEndpointPath;
+	
 	@Value("${monitoramento.dispositivo.info}")
 	private String infoEndpointPath;
 	
@@ -58,6 +61,12 @@ public class DispositivoMonitorIntegration {
 		String uri = serverHost + stopEndpointPath.replace( "{dispositivoId}", ""+dispositivoId );
 				
 		return httpClientManager.postWithResponse( uri, MonitoramentoOperResponse.class );
+	}
+	
+	public void stopAllMonitoramentos( String serverHost ) {
+		String uri = serverHost + stopAllEndpointPath;
+		
+		httpClientManager.post( uri ); 
 	}
 		
 	public InfoResponse getInfo( String serverHost ) {

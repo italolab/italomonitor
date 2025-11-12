@@ -17,12 +17,12 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 
 @Operation(
-        summary = "Responsável por finalizar o monitoramento de um dispositivo pelo ID."
+        summary = "Responsável por finalizar o monitoramento de todos os dispositivos monitorados."
 )
 @ApiResponses(value= {
         @ApiResponse(
                 responseCode = "200",
-                description = "Monitoramento de dispositivo finalizado pelo ID.",
+                description = "Monitoramentos de dispositivo finalizados.",
                 content = @Content),
         @ApiResponse(
                 responseCode = "403",
@@ -39,6 +39,6 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 })
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
-public @interface StopMonitoramentoDoc {
+public @interface StopAllMonitoramentosDoc {
 	
 }

@@ -12,7 +12,7 @@ public class SchedulerConfig {
     @Bean
     ThreadPoolTaskScheduler schedulerExecutorService() {
         ThreadPoolTaskScheduler scheduler = new ThreadPoolTaskScheduler();
-        scheduler.setPoolSize( 16 );
+        scheduler.setPoolSize( 200 );
         scheduler.setThreadNamePrefix( "disp-monitor-" );
         scheduler.setRemoveOnCancelPolicy( true );
         scheduler.setWaitForTasksToCompleteOnShutdown( true );

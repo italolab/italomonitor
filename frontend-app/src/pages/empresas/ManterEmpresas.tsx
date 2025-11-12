@@ -139,8 +139,8 @@ function ManterEmpresas() {
                     <div className="d-flex justify-content-center">
                         <AppPagination 
                              dataList={empresas}
-                             numberOfItemsByPage={3}
-                             numberOfPagesByGroup={2}
+                             numberOfItemsByPage={10}
+                             numberOfPagesByGroup={3}
                              onChangePageDataList={ (pageDataList : EmpresaResponse[]) => setPaginationEmpresas( pageDataList )}
                         />
                     </div>

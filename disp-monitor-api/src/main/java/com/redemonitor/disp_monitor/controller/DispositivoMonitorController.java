@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.redemonitor.disp_monitor.apidoc.dispositivo.monitor.GetExisteNoMonitorDoc;
 import com.redemonitor.disp_monitor.apidoc.dispositivo.monitor.GetInfoDoc;
 import com.redemonitor.disp_monitor.apidoc.dispositivo.monitor.StartMonitoramentoDoc;
+import com.redemonitor.disp_monitor.apidoc.dispositivo.monitor.StopAllMonitoramentosDoc;
 import com.redemonitor.disp_monitor.apidoc.dispositivo.monitor.StopMonitoramentoDoc;
 import com.redemonitor.disp_monitor.dto.request.StartMonitoramentoRequest;
 import com.redemonitor.disp_monitor.dto.response.ExisteNoMonitorResponse;
@@ -43,6 +44,14 @@ public class DispositivoMonitorController {
     public ResponseEntity<MonitoramentoOperResponse> stopMonitoramento( @PathVariable Long dispositivoId ) {
         MonitoramentoOperResponse resp = dispositivoMonitorService.stopMonitoramento( dispositivoId );
         return ResponseEntity.ok( resp );
+    }
+    
+    @StopAllMonitoramentosDoc
+    @PreAuthorize("hasAuthority('microservice')")
+    @PostMapping("/stop-all")
+    public ResponseEntity<String> stopAllMonitoramentos() {
+    	dispositivoMonitorService.stopAllMonitoramentos();
+    	return ResponseEntity.ok( "Monitoramentos finalizados com sucesso." );
     }
     
     @GetInfoDoc

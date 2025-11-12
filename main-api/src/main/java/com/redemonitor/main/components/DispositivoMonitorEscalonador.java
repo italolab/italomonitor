@@ -86,26 +86,15 @@ public class DispositivoMonitorEscalonador {
 	
 	public String stopAllMonitoramentos() {
 		List<MonitorServer> monitorServers = monitorServerRepository.findAll();
-		
-    	List<Long> dispsIDs = dispositivoRepository.findAllIDs();
+		    	
+		Logger.getLogger( DispositivoMonitorEscalonador.class ).info( " Parando todos os monitoramentos de dispositivo." ); 
     	
-    	int dispsQuant = dispsIDs.size();
+		for( MonitorServer server : monitorServers ) {
+			String host = server.getHost();
+			dispositivoMonitorIntegration.stopAllMonitoramentos( host ); 
+		}				
     	
-		Logger.getLogger( DispositivoMonitorEscalonador.class ).info( dispsQuant + " dispositivos para parar o monitoramento." ); 
-    	
-		int dispsStoppedQuant = 0;
-    	for( Long dispositivoId : dispsIDs ) {
-    		MonitoramentoOperResult result = this.stopMonitoramento( dispositivoId, monitorServers );
-			switch( result ) {
-				case FINALIZADO:
-					dispsStoppedQuant++;
-					break;
-			    default:
-			    	break;
-			}
-    	}
-    	
-    	return dispsStoppedQuant + " monitoramento(s) de dispositivo parados(s) com sucesso.";
+    	return "Todos os monitoramentos de dispositivo foram parados com sucesso.";
 	}
 	
 	public void startEmpresaMonitoramentos( Long empresaId ) {
@@ -211,7 +200,6 @@ public class DispositivoMonitorEscalonador {
 			try {
 				resp = dispositivoMonitorIntegration.startMonitoramento( host, dispositivo, config );
 			} catch ( RestClientException e ) {		
-				e.printStackTrace();
 				Logger.getLogger( DispositivoMonitorEscalonador.class ).error( "Servidor inacessível = "+host );					
 			}
 						
