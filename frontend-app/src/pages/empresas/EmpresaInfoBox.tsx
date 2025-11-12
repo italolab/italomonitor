@@ -38,6 +38,9 @@ function EmpresaInfoBox( { empresa } : EmpresaInfoBoxProps ) {
             <AppField name="uso temporário por">
                 {empresa.usoTemporarioPor} dias
             </AppField>
+            <AppField name="bloqueada">
+                {empresa.bloqueada === true ? "Sim" : "Não" } 
+            </AppField>
         </>
     )
 }

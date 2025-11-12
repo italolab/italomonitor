@@ -24,6 +24,7 @@ public class SaveEmpresaRequest {
     private int diaPagto;
     private boolean temporario;
     private int usoTemporarioPor;
+    private boolean bloqueada;
 
     public void validate() {
         List<Validator> validators = new ArrayList<>();

@@ -10,5 +10,6 @@ export interface EmpresaResponse {
     diaPagto : number;
     temporario : boolean;
     usoTemporarioPor : number;
+    bloqueada : boolean;
     criadoEm : Date
 }

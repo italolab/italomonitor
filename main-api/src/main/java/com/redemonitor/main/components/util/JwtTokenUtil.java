@@ -23,13 +23,14 @@ public class JwtTokenUtil {
     @Value("${jwt.issuer}")
     private String issuer;
     
-    public String createAccessToken( String username, String[] roles, Long empresaId, String perfil, int expireAt ) {
+    public String createAccessToken( String username, String[] roles, Long usuarioId, Long empresaId, String perfil, int expireAt ) {
         Algorithm algorithm = Algorithm.HMAC256( secretKey );
 
         return JWT.create()
                 .withIssuer( issuer )
                 .withSubject( username )
                 .withArrayClaim( "roles", roles )
+                .withClaim( "usuarioId", usuarioId )
                 .withClaim( "empresaId", empresaId )
                 .withClaim( "perfil", perfil )
                 .withExpiresAt( Instant.now().plus( Duration.ofSeconds( expireAt ) ) )
@@ -65,10 +66,11 @@ public class JwtTokenUtil {
     	try {        	        	
             DecodedJWT decodedJWT = this.verifyToken( accessToken );
             String username =  decodedJWT.getSubject();
-            Long empresaId = decodedJWT.getClaim( "empresaId" ).asLong();
+            Long usuarioId = decodedJWT.getClaim( "usuarioId" ).asLong();
+            Long empresaId = decodedJWT.getClaim( "empresaId" ).asLong();           
             String perfil = decodedJWT.getClaim( "perfil" ).asString();
      
-            return new JWTInfos( username, empresaId, perfil );
+            return new JWTInfos( username, usuarioId, empresaId, perfil );
         } catch ( JWTVerificationException e ) {
             throw new BusinessException( Errors.NOT_AUTHORIZED );
         }
@@ -84,17 +86,23 @@ public class JwtTokenUtil {
     public class JWTInfos {
     	
     	private String username;
+    	private Long usuarioId;
     	private Long empresaId;
     	private String perfil;
     	
-    	public JWTInfos( String username, Long empresaId, String perfil ) {
+    	public JWTInfos( String username, Long usuarioId, Long empresaId, String perfil ) {
     		this.username = username;
+    		this.usuarioId = usuarioId;
     		this.empresaId = empresaId;
     		this.perfil = perfil;
     	}
 
 		public String getUsername() {
 			return username;
+		}
+		
+		public Long getUsuarioId() {
+			return usuarioId;
 		}
 
 		public Long getEmpresaId() {

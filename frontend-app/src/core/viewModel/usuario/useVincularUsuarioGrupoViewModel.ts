@@ -29,6 +29,7 @@ function useVincularUsuarioGrupoViewModel() {
             diaPagto: 0,
             temporario: false,
             usoTemporarioPor: 0,
+            bloqueada: false,
             criadoEm: new Date()
         },
         grupos: []

@@ -24,6 +24,7 @@ public class EmpresaMapper {
                 .diaPagto( request.getDiaPagto() )
                 .temporario( request.isTemporario() )
                 .usoTemporarioPor( request.getUsoTemporarioPor() )
+                .bloqueada( request.isBloqueada() )
                 .criadoEm( new Date() ) 
                 .build();
     }
@@ -40,6 +41,7 @@ public class EmpresaMapper {
                 .diaPagto( empresa.getDiaPagto() )
                 .temporario( empresa.isTemporario() )
                 .usoTemporarioPor( empresa.getUsoTemporarioPor() )
+                .bloqueada( empresa.isBloqueada() )
                 .criadoEm( empresa.getCriadoEm() )
                 .build();
     }
@@ -61,6 +63,7 @@ public class EmpresaMapper {
         empresa.setDiaPagto( request.getDiaPagto() );
         empresa.setTemporario( request.isTemporario() );
         empresa.setUsoTemporarioPor( request.getUsoTemporarioPor() );
+        empresa.setBloqueada( request.isBloqueada() );
     }
     
     public void load( Empresa empresa, NoAdminSaveEmpresaRequest request ) {
@@ -68,7 +71,7 @@ public class EmpresaMapper {
         empresa.setEmailNotif( request.getEmailNotif() );
         empresa.setTelegramChatId( request.getTelegramChatId() );
         empresa.setPorcentagemMaxFalhasPorLote( request.getPorcentagemMaxFalhasPorLote() );
-        empresa.setMinTempoParaProxNotif( request.getMinTempoParaProxNotif() ); 
+        empresa.setMinTempoParaProxNotif( request.getMinTempoParaProxNotif() );        
     }
 
 }

@@ -21,7 +21,7 @@ function AppLayout( {children, className} : AppLayoutProps ) {
     const navigate = useNavigate();
 
     const { logout } = useLogoutViewModel();
-    const { isAdmin } = useInfos();
+    const { isAdmin, getUsuarioId, getEmpresaId } = useInfos();
 
     const appLogout = async () => {
         await logout();
@@ -50,11 +50,14 @@ function AppLayout( {children, className} : AppLayoutProps ) {
 
                     { isAdmin() === false &&
                         <span>
-                            <Link to={`/no-admin-detalhes-empresa/${localStorage.getItem( 'empresaId' )}`} className="sidebar-item">
+                            <Link to={`/no-admin-detalhes-empresa/${getEmpresaId()}`} className="sidebar-item">
                                 📋 Dados da empresa                                
                             </Link>
-                            <Link to={`/no-admin-update-empresa/${localStorage.getItem( 'empresaId' )}`} className="sidebar-item">
+                            <Link to={`/no-admin-update-empresa/${getEmpresaId()}`} className="sidebar-item">
                                 📝 Alterar dados                                
+                            </Link>
+                            <Link to={`/alter-senha/${getUsuarioId()}`} className="sidebar-item">
+                                📝 Alterar senha
                             </Link>
                         </span>
                     }

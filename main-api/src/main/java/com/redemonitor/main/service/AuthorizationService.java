@@ -25,6 +25,14 @@ public class AuthorizationService {
     @Autowired
     private EventoRepository eventoRepository;
     
+    public void authorizeByUsuario( Long usuarioId, String authorizationHeader ) {
+    	JWTInfos infos = jwtTokenUtil.extractInfos( authorizationHeader );
+    	if ( !infos.getPerfil().equals( UsuarioPerfil.ADMIN.name() ) )
+    		if ( usuarioId != infos.getUsuarioId() )
+    			throw new BusinessException( Errors.NOT_AUTHORIZED );
+    		
+    }
+    
     public void authorizeByEmpresa( Long empresaId, String authorizationHeader ) {    
     	JWTInfos infos = jwtTokenUtil.extractInfos( authorizationHeader );
     	if ( !infos.getPerfil().equals( UsuarioPerfil.ADMIN.name() ) )

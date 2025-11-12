@@ -38,6 +38,7 @@ create table empresa (
     diaPagto int default 1,
     temporario boolean default false,
     uso_temporario_por int default 7,
+    bloqueado boolean default false,
     ultima_notif_em timestamp default current_timestamp,
     criado_em timestamp default current_timestamp
 );
@@ -132,7 +133,8 @@ insert into role ( nome ) values
     ( 'usuario-get' ),
     ( 'empresa-get' ),
     ( 'dispositivo-get' ),
-    ( 'start-all-monitoramentos' ),
+    ( 'usuario-alter-senha' ),
+    ( 'start-or-stop-all-monitoramentos' ),
     ( 'no-admin-update-empresa');
 
 insert into usuario_grupo_map( usuario_id, usuario_grupo_id ) values
@@ -147,9 +149,11 @@ insert into role_grupo_map( role_id, usuario_grupo_id ) values
     ( (select id from role where nome='dispositivo-monitoramento-all'), (select id from usuario_grupo where nome='admin') ),
     ( (select id from role where nome='config-all'), (select id from usuario_grupo where nome='admin') ),
     ( (select id from role where nome='start-all-monitoramentos'), (select id from usuario_grupo where nome='admin') ),
+    ( (select id from role where nome='usuario-alter-senha'), (select id from usuario_grupo where nome='admin') ),    
 
     ( (select id from role where nome='usuario-get'), (select id from usuario_grupo where nome='suporte') ),
     ( (select id from role where nome='empresa-get'), (select id from usuario_grupo where nome='suporte') ),
     ( (select id from role where nome='dispositivo-all'), (select id from usuario_grupo where nome='suporte') ),
     ( (select id from role where nome='dispositivo-monitoramento-all'), (select id from usuario_grupo where nome='suporte') ),
-    ( (select id from role where nome='no-admin-update-empresa'), (select id from usuario_grupo where nome='suporte') );
+    ( (select id from role where nome='no-admin-update-empresa'), (select id from usuario_grupo where nome='suporte') ),
+    ( (select id from role where nome='usuario-alter-senha'), (select id from usuario_grupo where nome='suporte') );

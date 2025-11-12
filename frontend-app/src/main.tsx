@@ -39,6 +39,7 @@ import UpdateMonitorServer from './pages/monitorServers/UpdateMonitorServer.tsx'
 import DetalhesMonitorServer from './pages/monitorServers/DetalhesMonitorServer.tsx';
 import NoAdminUpdateEmpresa from './pages/empresas/NoAdminUpdateEmpresa.tsx';
 import NoAdminDetalhesEmpresa from './pages/empresas/NoAdminDetalhesEmpresa.tsx';
+import AlterSenha from './pages/usuarios/AlterSenha.tsx';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
@@ -52,6 +53,7 @@ createRoot(document.getElementById('root')!).render(
             <Route path='/create-usuario' element={<CreateUsuario />} />
             <Route path='/update-usuario/:usuarioId' element={<UpdateUsuario />} />
             <Route path='/detalhes-usuario/:usuarioId' element={<DetalhesUsuario />} />
+            <Route path='/alter-senha/:usuarioId' element={<AlterSenha /> } />
             
             <Route path='/usuario-grupos' element={<ManterUsuarioGrupos /> } />
             <Route path='/create-usuario-grupo' element={<CreateUsuarioGrupo />} />

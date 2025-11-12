@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.redemonitor.main.components.util.HashUtil;
+import com.redemonitor.main.dto.request.AlterSenhaRequest;
 import com.redemonitor.main.dto.request.CreateUsuarioRequest;
 import com.redemonitor.main.dto.request.UpdateUsuarioRequest;
 import com.redemonitor.main.dto.response.UsuarioGrupoResponse;
@@ -77,6 +78,21 @@ public class UsuarioService {
             }
         }
 
+        usuarioRepository.save( usuario );
+    }
+    
+    public void alterSenha( Long usuarioId, AlterSenhaRequest request ) {
+    	request.validate();
+    	
+    	String novaSenha = request.getNovaSenha();
+    	
+    	Optional<Usuario> usuarioOp = usuarioRepository.findById( usuarioId );
+        if ( usuarioOp.isEmpty() )
+            throw new BusinessException( Errors.USER_NOT_FOUND );        
+        
+        Usuario usuario = usuarioOp.get();
+        usuario.setSenha( hashUtil.geraHash( novaSenha ) );
+        
         usuarioRepository.save( usuario );
     }
 

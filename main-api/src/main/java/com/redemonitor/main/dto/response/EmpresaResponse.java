@@ -35,6 +35,8 @@ public class EmpresaResponse {
     
     private int usoTemporarioPor;
     
+    private boolean bloqueada;
+    
     private Date criadoEm;
 
 }

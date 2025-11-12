@@ -20,6 +20,7 @@ function CreateEmpresa() {
     const [diaPagto, setDiaPagto] = useState<string>( '' );
     const [temporario, setTemporario] = useState<boolean>( false );
     const [usoTemporarioPor, setUsoTemporarioPor] = useState<string>( '' );
+    const [bloqueada, setBloqueada] = useState<boolean>( false );
 
     const {
         createEmpresa,
@@ -40,13 +41,14 @@ function CreateEmpresa() {
             const empresa : SaveEmpresaRequest = {
                 nome : nome,
                 emailNotif : emailNotif,
-                telegramChatId: telegramChatId,
-                porcentagemMaxFalhasPorLote: ( parseFloat( porcentagemMaxFalhasPorLote ) / 100.0 ),
-                maxDispositivosQuant: parseInt( maxDispositivosQuant ),
-                minTempoParaProxNotif: parseInt( minTempoParaProxNotif ),
-                diaPagto: parseInt( diaPagto ),
-                temporario: temporario,
-                usoTemporarioPor: ( temporario === true ? parseInt( usoTemporarioPor ) : 0 )
+                telegramChatId : telegramChatId,
+                porcentagemMaxFalhasPorLote : ( parseFloat( porcentagemMaxFalhasPorLote ) / 100.0 ),
+                maxDispositivosQuant : parseInt( maxDispositivosQuant ),
+                minTempoParaProxNotif : parseInt( minTempoParaProxNotif ),
+                diaPagto : parseInt( diaPagto ),
+                temporario : temporario,
+                usoTemporarioPor : ( temporario === true ? parseInt( usoTemporarioPor ) : 0 ),
+                bloqueada : bloqueada
             }
 
             await createEmpresa( empresa );
@@ -59,6 +61,7 @@ function CreateEmpresa() {
             setDiaPagto( '' );
             setTemporario( false );
             setUsoTemporarioPor( '' );
+            setBloqueada( false );
         } catch ( error ) {
             console.error( error );
         }
@@ -176,6 +179,14 @@ function CreateEmpresa() {
                                             onChange={( e ) => setUsoTemporarioPor( e.target.value ) } />
                                 </Form.Group>
                             }
+
+                            <Form.Group className="mb-3" controlId="bloqueada">
+                                <Form.Check type="checkbox" 
+                                        label="Bloqueada"
+                                        checked={bloqueada}
+                                        onChange={ () => setBloqueada( !bloqueada )}
+                                        inline />
+                            </Form.Group>
 
                             <AppMessage message={errorMessage} type="error" />
                             <AppMessage message={infoMessage} type="info" />

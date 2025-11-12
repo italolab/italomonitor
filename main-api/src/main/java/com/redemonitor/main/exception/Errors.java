@@ -33,6 +33,7 @@ public interface Errors {
     public final static String LINK_ROLE_USERGROUP_NOT_FOUND = "Vínculo entre grupo de usuário e role não encontrado.";
     
     public final static String TIME_OF_TEST_EXPIRED = "O tempo de teste para uso do sistema expirou. Para continuar utilizando, adquira a licença de uso e solicite o desbloqueio!";
+    public final static String EMPRESA_BLOCKED = "Empresa bloqueada! Solicite o desbloqueio para ter acesso novamente.";
 
     public final static String REQUIRED_FIELD = "O campo '$1' é de preenchimento obrigatório.";
     public final static String NOT_JOKER_AND_NOT_INT = "O campo '$1' não é numérico nem asterisco.";

@@ -13,6 +13,7 @@ export function useLogoutViewModel() {
         setAccessToken( '' );
         localStorage.removeItem( 'username' );
         localStorage.removeItem( 'nome' );
+        localStorage.removeItem( 'usuarioId' );
         localStorage.removeItem( 'empresaId' );
         localStorage.removeItem( 'perfil' );
     };

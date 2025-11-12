@@ -7,14 +7,17 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.redemonitor.main.apidoc.usuario.AlterSenhaDoc;
 import com.redemonitor.main.apidoc.usuario.CreateUsuarioDoc;
 import com.redemonitor.main.apidoc.usuario.DeleteUsuarioDoc;
 import com.redemonitor.main.apidoc.usuario.DeleteVinculoUsuarioGrupoDoc;
@@ -23,10 +26,12 @@ import com.redemonitor.main.apidoc.usuario.GetUsuarioDoc;
 import com.redemonitor.main.apidoc.usuario.GetUsuarioGruposByUsuarioIDDoc;
 import com.redemonitor.main.apidoc.usuario.UpdateUsuarioDoc;
 import com.redemonitor.main.apidoc.usuario.VinculaUsuarioGrupoDoc;
+import com.redemonitor.main.dto.request.AlterSenhaRequest;
 import com.redemonitor.main.dto.request.CreateUsuarioRequest;
 import com.redemonitor.main.dto.request.UpdateUsuarioRequest;
 import com.redemonitor.main.dto.response.UsuarioGrupoResponse;
 import com.redemonitor.main.dto.response.UsuarioResponse;
+import com.redemonitor.main.service.AuthorizationService;
 import com.redemonitor.main.service.UsuarioService;
 
 @RestController
@@ -35,6 +40,9 @@ public class UsuarioController {
 
     @Autowired
     private UsuarioService usuarioService;
+    
+    @Autowired
+    private AuthorizationService authorizationService;
 
     @CreateUsuarioDoc
     @PreAuthorize("hasAuthority('usuario-all')")
@@ -50,6 +58,21 @@ public class UsuarioController {
     public ResponseEntity<String> updateUsuario(@PathVariable Long usuarioId, @RequestBody UpdateUsuarioRequest request ) {
         usuarioService.updateUsuario( usuarioId, request );
         return ResponseEntity.ok( "Usuario alterado com sucesso." );
+    }
+    
+    @AlterSenhaDoc    
+    @PreAuthorize("hasAnyAuthority('usuario-all', 'usuario-alter-senha')") 
+    @PatchMapping("/{usuarioId}/alter-senha") 
+    public ResponseEntity<String> alterSenha( 
+    		@PathVariable Long usuarioId,
+    		@RequestBody AlterSenhaRequest request, 
+    		@RequestHeader( "Authorization" ) String authorizationHeader ) {
+    	
+    	authorizationService.authorizeByUsuario( usuarioId, authorizationHeader );
+    	
+    	usuarioService.alterSenha( usuarioId, request );
+    	return ResponseEntity.ok( "Senha alterada com sucesso." );
+    	
     }
 
     @FilterUsuariosDoc

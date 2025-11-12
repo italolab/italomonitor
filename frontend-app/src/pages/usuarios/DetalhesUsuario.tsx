@@ -43,7 +43,7 @@ function DetalhesUsuario() {
                 </Button>
                 <Button type="button" onClick={() => navigate( `/update-usuario/${usuarioId}`)} className="func">
                     <MdOutlineEdit size={25} /> Editar usuário
-                </Button>
+                </Button>                
                 <Button type="button" onClick={() => navigate( `/vincular-usuario-grupo/${usuarioId}`)} className="func">
                     <MdLink size={25} /> Editar grupos
                 </Button>

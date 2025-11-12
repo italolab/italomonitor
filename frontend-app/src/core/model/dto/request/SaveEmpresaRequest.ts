@@ -8,5 +8,6 @@ export interface SaveEmpresaRequest {
     minTempoParaProxNotif : number;
     diaPagto : number;
     temporario : boolean;
-    usoTemporarioPor : number;    
+    usoTemporarioPor : number;   
+    bloqueada : boolean; 
 }

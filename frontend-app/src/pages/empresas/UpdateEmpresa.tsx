@@ -21,6 +21,7 @@ function UpdateEmpresa() {
     const [diaPagto, setDiaPagto] = useState<string>( '' );
     const [temporario, setTemporario] = useState<boolean>( false );
     const [usoTemporarioPor, setUsoTemporarioPor] = useState<string>( '' );
+    const [bloqueada, setBloqueada] = useState<boolean>( false );
 
     const {
         updateEmpresa,
@@ -52,6 +53,7 @@ function UpdateEmpresa() {
             setDiaPagto( ''+empresa.diaPagto );
             setTemporario( empresa.temporario );
             setUsoTemporarioPor( ''+empresa.usoTemporarioPor );
+            setBloqueada( empresa.bloqueada );
         } catch ( error ) {
             console.error( error );
         }
@@ -72,7 +74,8 @@ function UpdateEmpresa() {
                 minTempoParaProxNotif: parseInt( minTempoParaProxNotif ),
                 diaPagto: parseInt( diaPagto ),
                 temporario: temporario,
-                usoTemporarioPor: ( Number.isNaN( usoTemporarioPor ) === true ? 0 : parseInt( usoTemporarioPor ) )
+                usoTemporarioPor: ( Number.isNaN( usoTemporarioPor ) === true ? 0 : parseInt( usoTemporarioPor ) ),
+                bloqueada : bloqueada
             };
            
             const eid : number = parseInt( empresaId! );
@@ -199,6 +202,14 @@ function UpdateEmpresa() {
                                             onChange={( e ) => setUsoTemporarioPor( e.target.value ) } />
                                 </Form.Group>
                             }
+
+                            <Form.Group className="mb-3" controlId="bloqueada">
+                                <Form.Check type="checkbox" 
+                                        label="Bloqueada"
+                                        checked={bloqueada}
+                                        onChange={ () => setBloqueada( !bloqueada )}
+                                        inline />
+                            </Form.Group>
 
                             <AppMessage message={errorMessage} type="error" />
                             <AppMessage message={infoMessage} type="info" />

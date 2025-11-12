@@ -85,8 +85,8 @@ function useWebsocket() {
             if ( deactivateFlag === false ) {
                 deactivateFlag = true;
             } else {
-                ( async () => await client.deactivate( { force: true } ) )();
-                
+                ( async () => await client.deactivate() )();
+
                 if ( interval! !== null ) {
                     clearInterval( interval! );
                     interval = null;

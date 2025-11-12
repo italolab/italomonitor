@@ -1,6 +1,7 @@
 import { api, configuraInterceptor, type SetAccessTokenFunction } from "./Api";
 import type { CreateUsuarioRequest } from "../model/dto/request/CreateUsuarioRequest";
 import type { UpdateUsuarioRequest } from "../model/dto/request/UpdateUsuarioRequest";
+import type { AlterSenhaRequest } from "./dto/request/AlterSenhaRequest";
 
 export class UsuarioModel {
 
@@ -15,6 +16,10 @@ export class UsuarioModel {
     async updateUsuario( usuarioId : number, usuarioSave : UpdateUsuarioRequest ) {
         return await api.put( "/usuarios/"+usuarioId, usuarioSave );
     } 
+
+    async alterSenha( usuarioId : number, alterSenhaSave : AlterSenhaRequest ) {
+        return await api.patch( "/usuarios/"+usuarioId+"/alter-senha", alterSenhaSave );
+    }
 
     async filterUsuarios( nomepart : string ) {
         return await api.get( "/usuarios?nomepart="+nomepart );

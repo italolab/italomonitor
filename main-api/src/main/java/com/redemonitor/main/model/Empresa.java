@@ -50,6 +50,8 @@ public class Empresa {
     
     private int usoTemporarioPor;
     
+    private boolean bloqueada;
+    
     @Temporal(TemporalType.TIMESTAMP)
     private Date ultimaNotifEm;
     

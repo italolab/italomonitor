@@ -28,6 +28,7 @@ export function useLoginViewModel() {
 
             localStorage.setItem( 'username', response.data.username );
             localStorage.setItem( 'nome', response.data.nome );
+            localStorage.setItem( 'usuarioId', ''+response.data.usuarioId );
             localStorage.setItem( 'empresaId', ''+response.data.empresaId );
             localStorage.setItem( 'perfil', response.data.perfil );
 

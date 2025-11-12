@@ -82,6 +82,10 @@ public class LoginService {
         if ( empresa != null )
         	empresaId = empresa.getId();
         
+        if ( empresa != null )
+        	if ( empresa.isBloqueada() )
+        		throw new BusinessException( Errors.EMPRESA_BLOCKED );
+        
         if ( usuario.getPerfil() != UsuarioPerfil.ADMIN && empresa != null ) {
         	if ( empresa.isTemporario() ) {
         		LocalDateTime criadoEm = dateUtil.dateToLocalDateTime( empresa.getCriadoEm() );
@@ -102,7 +106,8 @@ public class LoginService {
         return LoginResponse.builder()
                 .nome( nome )
                 .username( username )
-                .accessToken( accessToken )
+                .accessToken( accessToken ) 
+                .usuarioId( jwtInfos.getUsuarioId() )
                 .empresaId( jwtInfos.getEmpresaId() )
                 .perfil( jwtInfos.getPerfil() ) 
                 .build();
@@ -137,6 +142,7 @@ public class LoginService {
                     .nome( nome )
                     .username( username )
                     .accessToken( accessToken )
+                    .usuarioId( jwtInfos.getUsuarioId() )
                     .empresaId( jwtInfos.getEmpresaId() )
                     .perfil( jwtInfos.getPerfil() ) 
                     .build();
@@ -151,6 +157,7 @@ public class LoginService {
     }
 
     private String generateNewAccessToken( Usuario usuario, Long empresaId, int expireAt ) {
+    	Long usuarioId = usuario.getId();
         String username = usuario.getUsername();
         String perfil = usuario.getPerfil().name();
        
@@ -169,7 +176,7 @@ public class LoginService {
         String[] rolesArray = new String[ roles.size() ];
         rolesArray = roles.toArray( rolesArray );
                 
-        return jwtTokenUtil.createAccessToken( username, rolesArray, empresaId, perfil, expireAt );
+        return jwtTokenUtil.createAccessToken( username, rolesArray, usuarioId, empresaId, perfil, expireAt );
     }
 
     private String generateNewRefreshToken( Usuario usuario, int expireAt ) {
