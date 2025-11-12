@@ -22,7 +22,7 @@ function useWebsocket() {
         const response = await authModel.refreshAccessToken();
 
         const accessToken = response.data.accessToken;
-
+        
         const client = new Client( {
             brokerURL: brokerURL,
             connectHeaders: {
@@ -40,7 +40,7 @@ function useWebsocket() {
 
             client.subscribe( topic, (message) => {
                 receivesMessageFunc( message );   
-            } );
+            } );            
         } 
         client.onWebSocketError = () => {
             ( async () => {
@@ -85,7 +85,7 @@ function useWebsocket() {
             if ( deactivateFlag === false ) {
                 deactivateFlag = true;
             } else {
-                client.deactivate();
+                ( async () => await client.deactivate( { force: true } ) )();
                 
                 if ( interval! !== null ) {
                     clearInterval( interval! );

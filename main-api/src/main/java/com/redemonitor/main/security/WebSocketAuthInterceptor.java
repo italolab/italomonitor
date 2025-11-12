@@ -6,7 +6,6 @@ import org.jspecify.annotations.Nullable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.MessageChannel;
-import org.springframework.messaging.MessageDeliveryException;
 import org.springframework.messaging.simp.stomp.StompCommand;
 import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
 import org.springframework.messaging.support.ChannelInterceptor;
@@ -39,7 +38,6 @@ public class WebSocketAuthInterceptor implements ChannelInterceptor {
                         accessor.setUser( decodedJWT::getSubject );
                         return message;
                     }
-                    throw new MessageDeliveryException("Token inválido.");
                 }
             }
         }

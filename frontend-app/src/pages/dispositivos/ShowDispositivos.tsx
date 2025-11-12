@@ -49,7 +49,7 @@ function ShowDispositivos() {
         }
 
         return () => {
-            deactivateFunc.current();                
+            deactivateFunc.current();   
         };
     }, [] );
 
