@@ -21,6 +21,8 @@ public class MonitorServerInfoResponse {
 	
 	private long maxMemory;
 	
+	private double usoCpu;
+	
 	private int availableProcessors;
 	
 }

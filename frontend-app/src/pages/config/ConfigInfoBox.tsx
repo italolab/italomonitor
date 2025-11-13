@@ -45,10 +45,16 @@ function ConfigInfoBox( { config } : ConfigInfosBoxProps ) {
             &nbsp; de memoria disponível para a JVM
             <br />
             <span className="text-dark fw-bold">
+                {(config.info.usoCpu * 100).toFixed( 4 )}%
+            </span>
+            &nbsp; de cpu
+            <br />
+            <span className="text-dark fw-bold">
                 {config.info.availableProcessors}
             </span>
-            &nbsp; núcleos de processador <br />
-
+            &nbsp; núcleos de processador 
+            <br />
+            
             <br />
 
             <AppField name="servidores de monitoramento">
@@ -89,6 +95,11 @@ function ConfigInfoBox( { config } : ConfigInfosBoxProps ) {
                                         {Math.floor( monitor.info.maxMemory / (1024*1024) )} MB
                                     </span>
                                     &nbsp; de memoria disponível para a JVM
+                                    <br />
+                                    <span className="text-dark fw-bold">
+                                        {(monitor.info.usoCpu * 100).toFixed( 4 )}%
+                                    </span>
+                                    &nbsp; de cpu
                                     <br />
                                     <span className="text-dark fw-bold">
                                         {monitor.info.availableProcessors}

@@ -11,3 +11,20 @@ export interface ConfigResponse {
     info : MainAPIInfoResponse;
     monitorServers : MonitorServerResponse[];
 }
+
+export const DEFAULT_CONFIG_OBJ : ConfigResponse = {
+    id: 0,
+    numPacotesPorLote: 0,
+    monitoramentoDelay: 0,
+    registroEventoPeriodo: 0,
+    numThreadsLimite: 0,
+    telegramBotToken: '',
+    info: {
+        totalMemory: 0,
+        freeMemory: 0,
+        maxMemory: 0,
+        usoCpu: 0,
+        availableProcessors: 0
+    },
+    monitorServers: []
+};

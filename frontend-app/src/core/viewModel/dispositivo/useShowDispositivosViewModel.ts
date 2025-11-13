@@ -4,7 +4,7 @@ import { extractErrorMessage } from "../../util/sistema-util";
 import { type DispositivoResponse } from "../../model/dto/response/DispositivoResponse";
 import { AuthContext } from "../../../context/AuthProvider";
 import { DispositivoMonitorModel } from "../../model/DispositivoMonitorModel";
-import type { EmpresaResponse } from "../../model/dto/response/EmpresaResponse";
+import { DEFAULT_EMPRESA_OBJ, type EmpresaResponse } from "../../model/dto/response/EmpresaResponse";
 import { EmpresaModel } from "../../model/EmpresaModel";
 import useWebsocket from "../useWebsocket";
 import type { DispositivosInfosResponse } from "../../model/dto/response/DispositivosInfosResponse";
@@ -20,20 +20,7 @@ function useShowDispositivosViewModel() {
     const [dispositivos, setDispositivos] = useState<DispositivoResponse[]>( [] );
     const [dispositivosFiltrados, setDispositivosFiltrados] = useState<DispositivoResponse[]>( [] );
 
-    const [empresa, setEmpresa] = useState<EmpresaResponse>( {
-        id: 0,
-        nome: '',
-        emailNotif: '',
-        telegramChatId: '',
-        porcentagemMaxFalhasPorLote: 0,
-        maxDispositivosQuant: 0,
-        minTempoParaProxNotif: 0,
-        diaPagto: 0,
-        temporario: false,
-        usoTemporarioPor: 0,
-        bloqueada: false,
-        criadoEm: new Date()
-    } );
+    const [empresa, setEmpresa] = useState<EmpresaResponse>( DEFAULT_EMPRESA_OBJ );
 
     const [dispositivosInfos, setDispositivosInfos] = useState<DispositivosInfosResponse>( {
         sendoMonitoradosQuant: 0,

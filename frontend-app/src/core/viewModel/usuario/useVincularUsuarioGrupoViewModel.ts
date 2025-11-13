@@ -2,7 +2,7 @@ import { useContext, useState } from "react";
 import { UsuarioModel } from "../../model/UsuarioModel";
 import { extractErrorMessage } from "../../util/sistema-util";
 import type { UsuarioGrupoResponse } from "../../model/dto/response/UsuarioGrupoResponse";
-import type { UsuarioResponse } from "../../model/dto/response/UsuarioResponse";
+import { DEFAULT_USUARIO_OBJ, type UsuarioResponse } from "../../model/dto/response/UsuarioResponse";
 import { UsuarioGrupoModel } from "../../model/UsuarioGrupoModel";
 import { AuthContext } from "../../../context/AuthProvider";
 
@@ -12,28 +12,7 @@ function useVincularUsuarioGrupoViewModel() {
     const [infoMessage, setInfoMessage] = useState<string|null>( null );
     const [loading, setLoading] = useState<boolean>( false );
 
-    const [usuario, setUsuario] = useState<UsuarioResponse>( {
-        id: 0,
-        nome: '',
-        email: '',
-        username: '',
-        perfil: 'ADMIN',
-        empresa: {
-            id: 0,
-            nome: '',
-            emailNotif: '',
-            telegramChatId: '',
-            porcentagemMaxFalhasPorLote: 0,
-            maxDispositivosQuant: 0,
-            minTempoParaProxNotif: 0,
-            diaPagto: 0,
-            temporario: false,
-            usoTemporarioPor: 0,
-            bloqueada: false,
-            criadoEm: new Date()
-        },
-        grupos: []
-    } );
+    const [usuario, setUsuario] = useState<UsuarioResponse>( DEFAULT_USUARIO_OBJ );
 
     const [otherGrupos, setOtherGrupos] = useState<UsuarioGrupoResponse[]>( [] );
     const [grupos, setGrupos] = useState<UsuarioGrupoResponse[]>( [] );

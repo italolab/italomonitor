@@ -2,7 +2,7 @@ import { useContext, useState } from "react";
 import { AuthContext } from "../../../context/AuthProvider";
 import { ConfigModel } from "../../model/ConfigModel";
 import { extractErrorMessage } from "../../util/sistema-util";
-import type { ConfigResponse } from "../../model/dto/response/ConfigResponse";
+import { DEFAULT_CONFIG_OBJ, type ConfigResponse } from "../../model/dto/response/ConfigResponse";
 import { DispositivoMonitorModel } from "../../model/DispositivoMonitorModel";
 
 function useDetalhesConfigViewModel() {
@@ -11,21 +11,7 @@ function useDetalhesConfigViewModel() {
     const [infoMessage, setInfoMessage] = useState<string|null>( null );
     const [loading, setLoading] = useState<boolean>( false );
 
-    const [config, setConfig] = useState<ConfigResponse>( {
-        id: 0,
-        numPacotesPorLote: 0,
-        monitoramentoDelay: 0,
-        registroEventoPeriodo: 0,
-        numThreadsLimite: 0,
-        telegramBotToken: '',
-        info: {
-            totalMemory: 0,
-            freeMemory: 0,
-            maxMemory: 0,
-            availableProcessors: 0
-        },
-        monitorServers: []
-    } );
+    const [config, setConfig] = useState<ConfigResponse>( DEFAULT_CONFIG_OBJ );
 
     const { setAccessToken } = useContext(AuthContext);
 

@@ -1,5 +1,5 @@
 import { useContext, useState } from "react";
-import { type EmpresaResponse } from "../../model/dto/response/EmpresaResponse";
+import { DEFAULT_EMPRESA_OBJ, type EmpresaResponse } from "../../model/dto/response/EmpresaResponse";
 import { extractErrorMessage } from "../../util/sistema-util";
 import { EmpresaModel } from "../../model/EmpresaModel";
 import { AuthContext } from "../../../context/AuthProvider";
@@ -11,20 +11,7 @@ function useDetalhesEmpresaViewModel() {
     const [infoMessage, setInfoMessage] = useState<string|null>( null );
     const [loading, setLoading] = useState<boolean>( false );
 
-    const [empresa, setEmpresa] = useState<EmpresaResponse>( {
-        id: 0,
-        nome: '',
-        emailNotif: '',
-        telegramChatId: '',
-        porcentagemMaxFalhasPorLote: 0,
-        maxDispositivosQuant: 0,
-        minTempoParaProxNotif: 0,
-        diaPagto: 0,
-        temporario: false,
-        usoTemporarioPor: 0,
-        bloqueada: false,
-        criadoEm: new Date()
-    } );
+    const [empresa, setEmpresa] = useState<EmpresaResponse>( DEFAULT_EMPRESA_OBJ );
     
     const {setAccessToken} = useContext(AuthContext);
 

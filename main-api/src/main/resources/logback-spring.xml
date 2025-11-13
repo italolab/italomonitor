@@ -18,7 +18,7 @@
         </encoder>
     </appender-->
     
-    <appender name="LOGSTASH" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
+    <!--appender name="LOGSTASH" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
     	<destination>${LOGSTASH_HOST:-localhost:5044}</destination>
     	<reconnectionDelay>5000</reconnectionDelay>
     	
@@ -29,7 +29,7 @@
     	</filter>
     	
     	<encoder class="net.logstash.logback.encoder.LogstashEncoder"/>
-    </appender>
+    </appender-->
             
     <root level="INFO">
     	<appender-ref ref="CONSOLE" />

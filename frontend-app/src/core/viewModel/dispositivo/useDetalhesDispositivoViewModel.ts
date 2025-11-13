@@ -1,5 +1,5 @@
 import { useContext, useRef, useState } from "react";
-import { type DispositivoResponse } from "../../model/dto/response/DispositivoResponse";
+import { DEFAULT_DISPOSITIVO_OBJ, type DispositivoResponse } from "../../model/dto/response/DispositivoResponse";
 import { extractErrorMessage } from "../../util/sistema-util";
 import { DispositivoModel } from "../../model/DispositivoModel";
 import { DispositivoMonitorModel } from "../../model/DispositivoMonitorModel";
@@ -15,31 +15,7 @@ function useDetalhesDispositivoViewModel() {
     const [infoMessage, setInfoMessage] = useState<string|null>( null );
     const [loading, setLoading] = useState<boolean>( false );
 
-    const [dispositivo, setDispositivo] = useState<DispositivoResponse>( {
-        id: 0,
-        host: '',
-        nome: '',
-        descricao: '',
-        localizacao: '',
-        sendoMonitorado: false,
-        status : 'INATIVO',
-        latenciaMedia: 0,
-        stateAtualizadoEm: new Date(),
-        empresa: {
-            id: 0,
-            nome: '',
-            emailNotif: '',
-            telegramChatId: '',
-            porcentagemMaxFalhasPorLote: 0,
-            maxDispositivosQuant: 0,
-            minTempoParaProxNotif: 0,
-            diaPagto: 0,
-            temporario: false,
-            usoTemporarioPor: 0,
-            bloqueada: false,
-            criadoEm: new Date()
-        }
-    } );
+    const [dispositivo, setDispositivo] = useState<DispositivoResponse>( DEFAULT_DISPOSITIVO_OBJ );
 
     const dispositivoIDRef = useRef( 0 );
 

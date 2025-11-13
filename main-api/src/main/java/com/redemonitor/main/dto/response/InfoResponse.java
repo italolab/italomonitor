@@ -19,6 +19,8 @@ public class InfoResponse {
 	
 	private long maxMemory;
 	
+	private double usoCpu;
+	
 	private int availableProcessors;
 	
 }
