@@ -1,7 +1,8 @@
+import type { MonitorServerInfoResponse } from "./MonitorServerInfoResponse";
 
 export interface MonitorServerResponse {
     id : number;
     host : string;
-    numThreadsAtivas: number;
+    info : MonitorServerInfoResponse;
     ativo: boolean;
 }

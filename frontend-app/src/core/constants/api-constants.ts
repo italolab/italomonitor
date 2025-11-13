@@ -1,7 +1,3 @@
-
+import { MAIN_API_URL } from "./constants";
     
-export const BASE_API_URL = 
-    ( import.meta.env.VITE_REACT_APP_BASE_API_URL ?
-        import.meta.env.VITE_REACT_APP_BASE_API_URL :
-        "http://localhost:8080/api/v1" );
-    
+export const BASE_API_URL = MAIN_API_URL + "/api/v1";

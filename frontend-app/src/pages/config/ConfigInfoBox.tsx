@@ -25,6 +25,18 @@ function ConfigInfoBox( { config } : ConfigInfosBoxProps ) {
             <AppField name="token do bot telegram">
                 {config.telegramBotToken}
             </AppField>
+            <AppField name="memória usada">
+                {Math.floor( ( config.info.totalMemory - config.info.freeMemory ) / (1024*1024) )} MB
+            </AppField>
+            <AppField name="memória alocada">
+                {Math.floor( config.info.totalMemory / (1024*1024) )} MB
+            </AppField>
+            <AppField name="memória máxima para JVM">
+                {Math.floor( config.info.maxMemory / (1024*1024) )} MB
+            </AppField>
+            <AppField name="número de núcleos de processador">
+                {config.info.availableProcessors}
+            </AppField>
             <AppField name="servidores de monitoramento">
                 { config.monitorServers.map( (monitor, index) => 
                     <div key={index}>
@@ -42,7 +54,35 @@ function ConfigInfoBox( { config } : ConfigInfosBoxProps ) {
                         &nbsp;
                         -
                         &nbsp;
-                        {monitor.numThreadsAtivas} threads ativas
+
+                        { monitor.info && 
+                            <>
+                                <span>{ monitor.info.numThreadsAtivas } threads ativas</span>
+                            
+                                <br />
+                                <div className="mx-5">
+                                    <span className="text-dark fw-bold">
+                                        {Math.floor( ( monitor.info.totalMemory - monitor.info.freeMemory ) / (1024*1024) )} MB
+                                    </span>
+                                    &nbsp; de memória utilizada
+                                    <br />
+                                    <span className="text-dark fw-bold">
+                                        {Math.floor( monitor.info.totalMemory / (1024*1024) )} MB
+                                    </span>
+                                    &nbsp; de memória alocada
+                                    <br />
+                                    <span className="text-dark fw-bold">
+                                        {Math.floor( monitor.info.maxMemory / (1024*1024) )} MB
+                                    </span>
+                                    &nbsp; de memoria disponível para a JVM
+                                    <br />
+                                    <span className="text-dark fw-bold">
+                                        {monitor.info.availableProcessors}
+                                    </span>
+                                    &nbsp; núcleos de processador
+                                </div>                  
+                            </>
+                        }
                     </div>
                 )}
             </AppField> 

@@ -8,9 +8,9 @@ import com.redemonitor.main.components.HttpClientManager;
 import com.redemonitor.main.dto.integration.DispMonitorConfig;
 import com.redemonitor.main.dto.integration.DispMonitorDispositivo;
 import com.redemonitor.main.dto.integration.request.DispMonitorStartMonitoramentoRequest;
-import com.redemonitor.main.dto.response.integration.ExisteNoMonitorResponse;
-import com.redemonitor.main.dto.response.integration.InfoResponse;
-import com.redemonitor.main.dto.response.integration.MonitoramentoOperResponse;
+import com.redemonitor.main.dto.integration.response.ExisteNoMonitorResponse;
+import com.redemonitor.main.dto.integration.response.MonitorServerInfoResponse;
+import com.redemonitor.main.dto.integration.response.MonitoramentoOperResponse;
 import com.redemonitor.main.mapper.ConfigMapper;
 import com.redemonitor.main.mapper.DispositivoMapper;
 import com.redemonitor.main.model.Config;
@@ -69,10 +69,10 @@ public class DispositivoMonitorIntegration {
 		httpClientManager.post( uri ); 
 	}
 		
-	public InfoResponse getInfo( String serverHost ) {
+	public MonitorServerInfoResponse getInfo( String serverHost ) {
 		String uri = serverHost + infoEndpointPath;
 		
-		return httpClientManager.get( uri, InfoResponse.class );
+		return httpClientManager.get( uri, MonitorServerInfoResponse.class );
 	}
 	
 	public ExisteNoMonitorResponse getExisteNoMonitor( String serverHost, Long dispositivoId ) {

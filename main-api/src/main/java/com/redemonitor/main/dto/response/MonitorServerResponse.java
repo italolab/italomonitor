@@ -1,5 +1,7 @@
 package com.redemonitor.main.dto.response;
 
+import com.redemonitor.main.dto.integration.response.MonitorServerInfoResponse;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -17,8 +19,8 @@ public class MonitorServerResponse {
 	
 	private String host;
 	
-	private int numThreadsAtivas;
-	
 	private boolean ativo;
-	
+
+	private MonitorServerInfoResponse info;
+		
 }

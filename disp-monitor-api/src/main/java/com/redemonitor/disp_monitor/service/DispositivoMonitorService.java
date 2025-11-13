@@ -15,7 +15,6 @@ import com.redemonitor.disp_monitor.dto.Config;
 import com.redemonitor.disp_monitor.dto.Dispositivo;
 import com.redemonitor.disp_monitor.dto.request.StartMonitoramentoRequest;
 import com.redemonitor.disp_monitor.dto.response.ExisteNoMonitorResponse;
-import com.redemonitor.disp_monitor.dto.response.InfoResponse;
 import com.redemonitor.disp_monitor.dto.response.MonitoramentoOperResponse;
 import com.redemonitor.disp_monitor.enums.MonitoramentoOperResult;
 import com.redemonitor.disp_monitor.messaging.sender.DispositivoStateMessageSender;
@@ -126,13 +125,7 @@ public class DispositivoMonitorService {
         if ( dispositivoMonitor != null )
             dispositivoMonitor.getDeviceMonitorThread().setDispositivo( dispositivo );                                               
     }
-    
-    public InfoResponse getInfo() {
-    	return InfoResponse.builder()
-    			.numThreadsAtivas( dispositivoMonitorMap.size() ) 
-    			.build();
-    }
-    
+        
     public ExisteNoMonitorResponse existeNoMonitor( Long dispositivoId ) {
     	boolean existe = dispositivoMonitorMap.containsKey( dispositivoId );
     	
@@ -141,4 +134,8 @@ public class DispositivoMonitorService {
      			.build();
     }
 
+    public int getNumThreadsAtivas() {
+    	return dispositivoMonitorMap.size();
+    }
+    
 }

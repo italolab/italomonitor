@@ -20,6 +20,7 @@ import com.redemonitor.disp_monitor.dto.response.ExisteNoMonitorResponse;
 import com.redemonitor.disp_monitor.dto.response.InfoResponse;
 import com.redemonitor.disp_monitor.dto.response.MonitoramentoOperResponse;
 import com.redemonitor.disp_monitor.service.DispositivoMonitorService;
+import com.redemonitor.disp_monitor.service.SistemaService;
 
 @RestController
 @RequestMapping("/api/v1/monitoramento/dispositivos")
@@ -28,6 +29,9 @@ public class DispositivoMonitorController {
     @Autowired
     private DispositivoMonitorService dispositivoMonitorService;
 
+    @Autowired
+    private SistemaService sistemaService;
+    
     @StartMonitoramentoDoc
     @PreAuthorize("hasAuthority('microservice')")
     @PostMapping("/start")
@@ -58,7 +62,7 @@ public class DispositivoMonitorController {
     @PreAuthorize("hasAuthority('microservice')")
     @GetMapping("/info")
     public ResponseEntity<InfoResponse> getInfo() {
-    	InfoResponse resp = dispositivoMonitorService.getInfo();
+    	InfoResponse resp = sistemaService.getInfo();
     	return ResponseEntity.ok( resp );
     }
     

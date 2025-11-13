@@ -27,6 +27,9 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
     @Value("${jwt.refresh_token.expire.at}")
     private String refreshTokenExpireAt;
     
+    @Value("${cors.allowed.origin}")
+    private String allowedOrigin;
+    
     @Bean
     ServletServerContainerFactoryBean createWebSocketContainer() {
     	ServletServerContainerFactoryBean container = new ServletServerContainerFactoryBean();
@@ -44,7 +47,7 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
         registry.addEndpoint( "/ws" )
-                .setAllowedOrigins( "http://localhost:5173" )
+                .setAllowedOrigins( allowedOrigin )
                 .withSockJS();
     }
 

@@ -72,8 +72,28 @@ function DetalhesMonitorServer() {
                             }
                         </AppField>                      
                         <AppField name="threads ativas">
-                            {monitorServer.numThreadsAtivas}
+                            {monitorServer.info.numThreadsAtivas}
                         </AppField>
+
+                        <span className="text-dark fw-bold">
+                            {Math.floor( ( monitorServer.info.totalMemory - monitorServer.info.freeMemory ) / (1024*1024) )} MB
+                        </span>
+                        &nbsp; de memória utilizada
+                        <br />
+                        <span className="text-dark fw-bold">
+                            {Math.floor( monitorServer.info.totalMemory / (1024*1024) )} MB
+                        </span>
+                        &nbsp; de memória alocada
+                        <br />
+                        <span className="text-dark fw-bold">
+                            {Math.floor( monitorServer.info.maxMemory / (1024*1024) )} MB
+                        </span>
+                        &nbsp; de memoria disponível para a JVM
+                        <br />
+                        <span className="text-dark fw-bold">
+                            {monitorServer.info.availableProcessors}
+                        </span>
+                        &nbsp; núcleos de processador
                     </Card.Body>
                 </Card>
             </div>

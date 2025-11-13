@@ -1,4 +1,4 @@
-package com.redemonitor.main.dto.response.integration;
+package com.redemonitor.main.dto.integration.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,8 +11,8 @@ import lombok.Setter;
 @Getter
 @Setter
 @Builder
-public class InfoResponse {
+public class ExisteNoMonitorResponse {
 
-	private int numThreadsAtivas;
+	private boolean existe;
 	
 }

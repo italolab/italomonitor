@@ -28,7 +28,7 @@ public class MonitorServerMapper {
 	}
 	
 	public void load( MonitorServerResponse resp, MonitorInfo info ) {
-		resp.setNumThreadsAtivas( info.getNumThreadsAtivas() );
+		resp.setInfo( info.getInfo() ); 
 		resp.setAtivo( info.isAtivo() );
 	}
 	

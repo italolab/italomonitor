@@ -17,6 +17,12 @@ function useAdminDashboardViewModel() {
         registroEventoPeriodo: 0,
         numThreadsLimite: 0,
         telegramBotToken: '',
+        info: {
+            totalMemory: 0,
+            freeMemory: 0,
+            maxMemory: 0,
+            availableProcessors: 0,
+        },
         monitorServers: []
     } );
 

@@ -1,4 +1,4 @@
-package com.redemonitor.disp_monitor.dto.response;
+package com.redemonitor.main.dto.integration.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,16 +11,16 @@ import lombok.Setter;
 @Getter
 @Setter
 @Builder
-public class InfoResponse {
+public class MonitorServerInfoResponse {
 
+	private int numThreadsAtivas;
+	
 	private long totalMemory;
 	
 	private long freeMemory;
 	
 	private long maxMemory;
 	
-	private long availableProcessors;
+	private int availableProcessors;
 	
-	private int numThreadsAtivas;
-		
 }

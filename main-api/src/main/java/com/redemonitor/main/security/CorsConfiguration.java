@@ -1,5 +1,6 @@
 package com.redemonitor.main.security;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
@@ -10,6 +11,9 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @EnableWebMvc
 public class CorsConfiguration {
 
+	@Value("${cors.allowed.origin}")
+	private String allowedOrigin;
+	
     @Bean
     WebMvcConfigurer corsConfigurer() {
         return new WebMvcConfigurer() {
@@ -19,7 +23,7 @@ public class CorsConfiguration {
                         .addMapping("/**")
                         .allowedMethods("*")
                         .allowedHeaders("*")
-                        .allowedOrigins("http://localhost:5173")
+                        .allowedOrigins( allowedOrigin ) 
                         .allowCredentials( true );
             }
         };

@@ -8,9 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClientException;
 
-import com.redemonitor.main.dto.response.integration.ExisteNoMonitorResponse;
-import com.redemonitor.main.dto.response.integration.InfoResponse;
-import com.redemonitor.main.dto.response.integration.MonitoramentoOperResponse;
+import com.redemonitor.main.dto.integration.response.ExisteNoMonitorResponse;
+import com.redemonitor.main.dto.integration.response.MonitorServerInfoResponse;
+import com.redemonitor.main.dto.integration.response.MonitoramentoOperResponse;
 import com.redemonitor.main.enums.MonitoramentoOperResult;
 import com.redemonitor.main.exception.BusinessException;
 import com.redemonitor.main.exception.ErrorException;
@@ -272,10 +272,10 @@ public class DispositivoMonitorEscalonador {
 		
 	public MonitorInfo getInfo( String serverHost ) {
 		try {
-			InfoResponse resp = dispositivoMonitorIntegration.getInfo( serverHost );
-			return new MonitorInfo( resp.getNumThreadsAtivas(), true );
+			MonitorServerInfoResponse resp = dispositivoMonitorIntegration.getInfo( serverHost );
+			return new MonitorInfo( resp, true );
 		} catch ( RestClientException e ) {
-			return new MonitorInfo( 0, false );
+			return new MonitorInfo( null, false );
 		}
 	}
 	
@@ -306,16 +306,16 @@ public class DispositivoMonitorEscalonador {
 	
 	public static class MonitorInfo {
 		
-		private final int numThreadsAtivas;
 		private final boolean ativo;
+		private final MonitorServerInfoResponse info;
 		
-		public MonitorInfo( int numThreadsAtivas, boolean ativo ) {
-			this.numThreadsAtivas = numThreadsAtivas;
+		public MonitorInfo( MonitorServerInfoResponse info, boolean ativo ) {
+			this.info = info;
 			this.ativo = ativo;
 		}
 		
-		public int getNumThreadsAtivas() {
-			return numThreadsAtivas;
+		public MonitorServerInfoResponse getInfo() {
+			return info;
 		}
 		
 		public boolean isAtivo() {

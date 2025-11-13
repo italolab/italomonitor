@@ -3,93 +3,107 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './index.css'
 import './colors.scss'
 
+import { StrictMode, Suspense, lazy } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import Login from './pages/Login';
-import Dashboard from './pages/Dashboard.tsx';
-import ManterUsuarios from './pages/usuarios/ManterUsuarios.tsx';
+
 import { AuthProvider } from './context/AuthProvider.tsx';
-import UpdateUsuario from './pages/usuarios/UpdateUsuario.tsx';
-import CreateUsuario from './pages/usuarios/CreateUsuario.tsx';
-import DetalhesUsuario from './pages/usuarios/DetalhesUsuario.tsx';
-import ManterUsuarioGrupos from './pages/usuarioGrupos/ManterUsuarioGrupos.tsx';
-import CreateUsuarioGrupo from './pages/usuarioGrupos/CreateUsuarioGrupo.tsx';
-import UpdateUsuarioGrupo from './pages/usuarioGrupos/UpdateUsuarioGrupo.tsx';
-import DetalhesUsuarioGrupo from './pages/usuarioGrupos/DetalhesUsuarioGrupo.tsx';
-import ManterRoles from './pages/roles/ManterRoles.tsx';
-import UpdateRole from './pages/roles/UpdateRole.tsx';
-import CreateRole from './pages/roles/CreateRole.tsx';
-import DetalhesRole from './pages/roles/DetalhesRole.tsx';
-import VincularUsuarioGrupo from './pages/usuarios/VincularUsuarioGrupo.tsx';
-import VincularRole from './pages/usuarioGrupos/VincularRole.tsx';
-import ManterEmpresas from './pages/empresas/ManterEmpresas.tsx';
-import CreateEmpresa from './pages/empresas/CreateEmpresa.tsx';
-import UpdateEmpresa from './pages/empresas/UpdateEmpresa.tsx';
-import DetalhesEmpresa from './pages/empresas/DetalhesEmpresa.tsx';
-import ShowDispositivos from './pages/dispositivos/ShowDispositivos.tsx';
-import CreateDispositivo from './pages/dispositivos/CreateDispositivo.tsx';
-import UpdateDispositivo from './pages/dispositivos/UpdateDispositivo.tsx';
-import DetalhesDispositivo from './pages/dispositivos/DetalhesDispositivo.tsx';
-import { StrictMode } from 'react';
-import InfosEventos from './pages/eventos/InfosEventos.tsx';
-import DetalhesConfig from './pages/config/DetalhesConfig.tsx';
-import UpdateConfig from './pages/config/UpdateConfig.tsx';
-import ManterMonitorServers from './pages/monitorServers/ManterMonitorServers.tsx';
-import CreateMonitorServer from './pages/monitorServers/CreateMonitorServer.tsx';
-import UpdateMonitorServer from './pages/monitorServers/UpdateMonitorServer.tsx';
-import DetalhesMonitorServer from './pages/monitorServers/DetalhesMonitorServer.tsx';
-import NoAdminUpdateEmpresa from './pages/empresas/NoAdminUpdateEmpresa.tsx';
-import NoAdminDetalhesEmpresa from './pages/empresas/NoAdminDetalhesEmpresa.tsx';
-import AlterSenha from './pages/usuarios/AlterSenha.tsx';
+
+const Login = lazy( () => import( './pages/Login.tsx' ) );
+const Dashboard = lazy( () => import( './pages/Dashboard.tsx' ) );
+
+const ManterUsuarios = lazy( () => import( './pages/usuarios/ManterUsuarios.tsx' ) );
+const UpdateUsuario = lazy( () => import( './pages/usuarios/UpdateUsuario.tsx' ) );
+const CreateUsuario = lazy( () => import( './pages/usuarios/CreateUsuario.tsx' ) );
+const DetalhesUsuario = lazy( () => import( './pages/usuarios/DetalhesUsuario.tsx' ) );
+
+const ManterUsuarioGrupos = lazy( () => import( './pages/usuarioGrupos/ManterUsuarioGrupos.tsx' ) );
+const CreateUsuarioGrupo = lazy( () => import( './pages/usuarioGrupos/CreateUsuarioGrupo.tsx' ) );
+const UpdateUsuarioGrupo = lazy( () => import( './pages/usuarioGrupos/UpdateUsuarioGrupo.tsx' ) );
+const DetalhesUsuarioGrupo = lazy( () => import( './pages/usuarioGrupos/DetalhesUsuarioGrupo.tsx' ) );
+
+const ManterRoles = lazy( () => import( './pages/roles/ManterRoles.tsx' ) );
+const UpdateRole = lazy( () => import( './pages/roles/UpdateRole.tsx' ) );
+const CreateRole = lazy( () => import( './pages/roles/CreateRole.tsx' ) );
+const DetalhesRole = lazy( () => import( './pages/roles/DetalhesRole.tsx' ) );
+
+const VincularUsuarioGrupo = lazy( () => import( './pages/usuarios/VincularUsuarioGrupo.tsx' ) );
+const VincularRole = lazy( () => import( './pages/usuarioGrupos/VincularRole.tsx' ) );
+
+const ManterEmpresas = lazy( () => import( './pages/empresas/ManterEmpresas.tsx' ) );
+const CreateEmpresa = lazy( () => import( './pages/empresas/CreateEmpresa.tsx' ) );
+const UpdateEmpresa = lazy( () => import( './pages/empresas/UpdateEmpresa.tsx' ) );
+const DetalhesEmpresa = lazy( () => import( './pages/empresas/DetalhesEmpresa.tsx' ) );
+
+const ShowDispositivos = lazy( () => import( './pages/dispositivos/ShowDispositivos.tsx' ) );
+const CreateDispositivo = lazy( () => import( './pages/dispositivos/CreateDispositivo.tsx' ) );
+const UpdateDispositivo = lazy( () => import( './pages/dispositivos/UpdateDispositivo.tsx' ) );
+const DetalhesDispositivo = lazy( () => import( './pages/dispositivos/DetalhesDispositivo.tsx' ) );
+
+const InfosEventos = lazy( () => import( './pages/eventos/InfosEventos.tsx' ) );
+const DetalhesConfig = lazy( () => import( './pages/config/DetalhesConfig.tsx' ) );
+const UpdateConfig = lazy( () => import( './pages/config/UpdateConfig.tsx' ) );
+
+const ManterMonitorServers = lazy( () => import( './pages/monitorServers/ManterMonitorServers.tsx' ) );
+const CreateMonitorServer = lazy( () => import( './pages/monitorServers/CreateMonitorServer.tsx' ) );
+const UpdateMonitorServer = lazy( () => import( './pages/monitorServers/UpdateMonitorServer.tsx' ) );
+const DetalhesMonitorServer = lazy( () => import( './pages/monitorServers/DetalhesMonitorServer.tsx' ) );
+
+const NoAdminUpdateEmpresa = lazy( () => import( './pages/empresas/NoAdminUpdateEmpresa.tsx' ) );
+const NoAdminDetalhesEmpresa = lazy( () => import( './pages/empresas/NoAdminDetalhesEmpresa.tsx' ) );
+
+const AlterSenha = lazy( () => import( './pages/usuarios/AlterSenha.tsx' ) );
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <AuthProvider>
       <Router>
-        <Routes>
-            <Route path='/' element={<Login />} index />
-            <Route path='/dashboard' element={<Dashboard />} />
-            
-            <Route path='/usuarios' element={<ManterUsuarios />} />
-            <Route path='/create-usuario' element={<CreateUsuario />} />
-            <Route path='/update-usuario/:usuarioId' element={<UpdateUsuario />} />
-            <Route path='/detalhes-usuario/:usuarioId' element={<DetalhesUsuario />} />
-            <Route path='/alter-senha/:usuarioId' element={<AlterSenha /> } />
-            
-            <Route path='/usuario-grupos' element={<ManterUsuarioGrupos /> } />
-            <Route path='/create-usuario-grupo' element={<CreateUsuarioGrupo />} />
-            <Route path='/update-usuario-grupo/:usuarioGrupoId' element={<UpdateUsuarioGrupo />} />
-            <Route path='/detalhes-usuario-grupo/:usuarioGrupoId' element={<DetalhesUsuarioGrupo />} />
-            
-            <Route path='/roles' element={<ManterRoles /> } />
-            <Route path='/create-role' element={<CreateRole />} />
-            <Route path='/update-role/:roleId' element={<UpdateRole />} />
-            <Route path='/detalhes-role/:roleId' element={<DetalhesRole />} />
+        <Suspense fallback={<div>Loading...</div>}>
+          <Routes>
+              <Route path='/' element={<Login />} index />
+              <Route path='/dashboard' element={<Dashboard />} />
+              
+              <Route path='/usuarios' element={<ManterUsuarios />} />
+              <Route path='/create-usuario' element={<CreateUsuario />} />
+              <Route path='/update-usuario/:usuarioId' element={<UpdateUsuario />} />
+              <Route path='/detalhes-usuario/:usuarioId' element={<DetalhesUsuario />} />
+              <Route path='/alter-senha/:usuarioId' element={<AlterSenha /> } />
+              
+              <Route path='/usuario-grupos' element={<ManterUsuarioGrupos /> } />
+              <Route path='/create-usuario-grupo' element={<CreateUsuarioGrupo />} />
+              <Route path='/update-usuario-grupo/:usuarioGrupoId' element={<UpdateUsuarioGrupo />} />
+              <Route path='/detalhes-usuario-grupo/:usuarioGrupoId' element={<DetalhesUsuarioGrupo />} />
+              
+              <Route path='/roles' element={<ManterRoles /> } />
+              <Route path='/create-role' element={<CreateRole />} />
+              <Route path='/update-role/:roleId' element={<UpdateRole />} />
+              <Route path='/detalhes-role/:roleId' element={<DetalhesRole />} />
 
-            <Route path='/vincular-usuario-grupo/:usuarioId' element={<VincularUsuarioGrupo />} />
-            <Route path='/vincular-role/:usuarioGrupoId' element={<VincularRole />} />
+              <Route path='/vincular-usuario-grupo/:usuarioId' element={<VincularUsuarioGrupo />} />
+              <Route path='/vincular-role/:usuarioGrupoId' element={<VincularRole />} />
 
-            <Route path='/empresas' element={<ManterEmpresas />} />
-            <Route path='/create-empresa' element={<CreateEmpresa />} />
-            <Route path='/update-empresa/:empresaId' element={<UpdateEmpresa />} />
-            <Route path='/detalhes-empresa/:empresaId' element={<DetalhesEmpresa />} />
-            <Route path='/no-admin-update-empresa/:empresaId' element={<NoAdminUpdateEmpresa />} />
-            <Route path='/no-admin-detalhes-empresa/:empresaId' element={<NoAdminDetalhesEmpresa />} />
+              <Route path='/empresas' element={<ManterEmpresas />} />
+              <Route path='/create-empresa' element={<CreateEmpresa />} />
+              <Route path='/update-empresa/:empresaId' element={<UpdateEmpresa />} />
+              <Route path='/detalhes-empresa/:empresaId' element={<DetalhesEmpresa />} />
+              <Route path='/no-admin-update-empresa/:empresaId' element={<NoAdminUpdateEmpresa />} />
+              <Route path='/no-admin-detalhes-empresa/:empresaId' element={<NoAdminDetalhesEmpresa />} />
 
-            <Route path='/dispositivos/:empresaId' element={<ShowDispositivos />} />
-            <Route path='/create-dispositivo/:empresaId' element={<CreateDispositivo />} />
-            <Route path='/update-dispositivo/:dispositivoId' element={<UpdateDispositivo />} />
-            <Route path='/detalhes-dispositivo/:dispositivoId' element={<DetalhesDispositivo />} />
+              <Route path='/dispositivos/:empresaId' element={<ShowDispositivos />} />
+              <Route path='/create-dispositivo/:empresaId' element={<CreateDispositivo />} />
+              <Route path='/update-dispositivo/:dispositivoId' element={<UpdateDispositivo />} />
+              <Route path='/detalhes-dispositivo/:dispositivoId' element={<DetalhesDispositivo />} />
 
-            <Route path='/infos-eventos/:dispositivoId' element={<InfosEventos />} />
+              <Route path='/infos-eventos/:dispositivoId' element={<InfosEventos />} />
 
-            <Route path='/detalhes-config' element={<DetalhesConfig />} />
-            <Route path='/update-config' element={<UpdateConfig />} />
+              <Route path='/detalhes-config' element={<DetalhesConfig />} />
+              <Route path='/update-config' element={<UpdateConfig />} />
 
-            <Route path='/monitor-servers' element={<ManterMonitorServers />} />
-            <Route path='/create-monitor-server' element={<CreateMonitorServer />} />
-            <Route path='/update-monitor-server/:monitorServerId' element={<UpdateMonitorServer />} />
-            <Route path='/detalhes-monitor-server/:monitorServerId' element={<DetalhesMonitorServer />} />
-        </Routes>
+              <Route path='/monitor-servers' element={<ManterMonitorServers />} />
+              <Route path='/create-monitor-server' element={<CreateMonitorServer />} />
+              <Route path='/update-monitor-server/:monitorServerId' element={<UpdateMonitorServer />} />
+              <Route path='/detalhes-monitor-server/:monitorServerId' element={<DetalhesMonitorServer />} />
+          </Routes>
+        </Suspense>
       </Router>
     </AuthProvider>
   </StrictMode>

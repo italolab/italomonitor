@@ -1,3 +1,4 @@
+import type { MainAPIInfoResponse } from "./MainApiInfoResponse";
 import type { MonitorServerResponse } from "./MonitorServerResponse";
 
 export interface ConfigResponse {
@@ -7,5 +8,6 @@ export interface ConfigResponse {
     registroEventoPeriodo : number;
     numThreadsLimite : number;
     telegramBotToken : string;
+    info : MainAPIInfoResponse;
     monitorServers : MonitorServerResponse[];
 }

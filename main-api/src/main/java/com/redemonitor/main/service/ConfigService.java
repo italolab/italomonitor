@@ -37,6 +37,9 @@ public class ConfigService {
     @Autowired
     private DispositivoMonitorEscalonador dispositivoMonitorEscalonador;
     
+    @Autowired
+    private SistemaService sistemaService;
+    
     @Transactional
     public void updateConfig( SaveConfigRequest request ) {
         request.validate();
@@ -67,6 +70,7 @@ public class ConfigService {
 	        resp.setMonitorServers( monitorServerResps );
         }
         
+        resp.setInfo( sistemaService.getInfo() );
         return resp;
     }
 

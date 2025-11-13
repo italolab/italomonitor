@@ -1,4 +1,4 @@
-package com.redemonitor.main.dto.response.integration;
+package com.redemonitor.main.dto.integration.response;
 
 import com.redemonitor.main.enums.MonitoramentoOperResult;
 
