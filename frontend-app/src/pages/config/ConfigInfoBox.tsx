@@ -25,18 +25,32 @@ function ConfigInfoBox( { config } : ConfigInfosBoxProps ) {
             <AppField name="token do bot telegram">
                 {config.telegramBotToken}
             </AppField>
-            <AppField name="memória usada">
+
+            <small className="text-primary">Recursos do microserviço principal</small>
+            <br />
+
+            <span className="text-dark fw-bold">
                 {Math.floor( ( config.info.totalMemory - config.info.freeMemory ) / (1024*1024) )} MB
-            </AppField>
-            <AppField name="memória alocada">
+            </span>
+            &nbsp; de memória utilizada
+            <br />
+            <span className="text-dark fw-bold">
                 {Math.floor( config.info.totalMemory / (1024*1024) )} MB
-            </AppField>
-            <AppField name="memória máxima para JVM">
+            </span>
+            &nbsp; de memória alocada
+            <br />
+            <span className="text-dark fw-bold">
                 {Math.floor( config.info.maxMemory / (1024*1024) )} MB
-            </AppField>
-            <AppField name="número de núcleos de processador">
+            </span>
+            &nbsp; de memoria disponível para a JVM
+            <br />
+            <span className="text-dark fw-bold">
                 {config.info.availableProcessors}
-            </AppField>
+            </span>
+            &nbsp; núcleos de processador <br />
+
+            <br />
+
             <AppField name="servidores de monitoramento">
                 { config.monitorServers.map( (monitor, index) => 
                     <div key={index}>
