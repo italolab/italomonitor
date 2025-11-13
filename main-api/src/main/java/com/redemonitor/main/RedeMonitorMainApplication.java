@@ -8,6 +8,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.security.servlet.UserDetailsServiceAutoConfiguration;
 
+import com.redemonitor.main.components.util.JwtTokenUtil;
 import com.redemonitor.main.enums.DispositivoStatus;
 import com.redemonitor.main.model.Dispositivo;
 import com.redemonitor.main.model.Empresa;
@@ -16,36 +17,29 @@ import com.redemonitor.main.repository.EmpresaRepository;
 
 @SpringBootApplication(exclude = UserDetailsServiceAutoConfiguration.class)
 public class RedeMonitorMainApplication implements CommandLineRunner {
-	
-	//@Autowired
-	//private DispositivoMonitorEscalonador dispositivoMonitorEscalonador;
-			
+				
 	@Autowired
 	private DispositivoRepository dispositivoRepository;
 	
 	@Autowired
 	private EmpresaRepository empresaRepository;
 	
+	@Autowired
+	private JwtTokenUtil jwtTokenUtil;
+	
 	public static void main(String[] args) {
 		SpringApplication.run(RedeMonitorMainApplication.class, args);
 	}
 
 	@Override
-	public void run(String... args) throws Exception {		
-//		/this.geraESalvaDispositivos();
-		/*
-		try {
-			String resp = dispositivoMonitorEscalonador.startAllMonitoramentos();
-			Logger.getLogger( RedeMonitorMainApplication.class ).info( resp ); 
-		} catch ( ErrorException e ) {
-			Logger.getLogger( RedeMonitorMainApplication.class ).error( e.response().getMessage(), e );
-		}*/				
+	public void run(String... args) throws Exception {
+		//this.geraESalvaDispositivos();				
 	}
 	
 	public void geraMicroserviceAccessToken() {
-		//String[] roles = { "microservice" };
-		//int expiration = Integer.MAX_VALUE;
-		//System.out.println( jwtTokenUtil.createAccessToken( "microservice", roles, expiration ) );
+		String[] roles = { "microservice" };
+		int expiration = Integer.MAX_VALUE;
+		System.out.println( jwtTokenUtil.createAccessToken( "microservice", roles, expiration ) );
 	}
 	
 	public void geraESalvaDispositivos() {

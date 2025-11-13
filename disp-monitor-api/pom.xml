@@ -64,6 +64,12 @@
 			<scope>test</scope>
 		</dependency>
 		
+		<dependency>
+		  	<groupId>net.logstash.logback</groupId>
+		  	<artifactId>logstash-logback-encoder</artifactId>
+		  	<version>7.4</version>
+		</dependency>
+		
 		<!-- https://mvnrepository.com/artifact/com.auth0/java-jwt -->
 		<dependency>
 			<groupId>com.auth0</groupId>

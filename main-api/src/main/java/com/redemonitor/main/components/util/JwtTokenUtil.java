@@ -37,6 +37,17 @@ public class JwtTokenUtil {
                 .sign( algorithm );
     }
 
+    public String createAccessToken( String username, String[] roles, int expireAt ) {
+    	Algorithm algorithm = Algorithm.HMAC256( secretKey );
+
+        return JWT.create()
+                .withIssuer( issuer )
+                .withSubject( username )
+                .withArrayClaim( "roles", roles )
+                .withExpiresAt( Instant.now().plus( Duration.ofSeconds( expireAt ) ) )
+                .sign( algorithm );
+    }
+
     public String createRefreshToken( String username, int expireAt ) {
         Algorithm algorithm = Algorithm.HMAC256( secretKey );
 

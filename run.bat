@@ -14,6 +14,8 @@ if %1 == upall (
     call :upmain
 ) else if %1 == upbase (
     call :upbase
+) else if %1 == upelk (
+    call :upelk
 ) else if %1 == upmain (
     call :upmain
 ) else if %1 == updispmnt (
@@ -34,6 +36,8 @@ if %1 == upall (
     call :downdispmnt
 ) else if %1 == downbase (
     call :downbase
+) else if %1 == downelk (
+    call :downelk
 ) else if %1 == downmain (
     call :downmain
 ) else if %1 == downdispmnt (
@@ -71,7 +75,11 @@ exit /b 0
 exit /b 0
 
 :upbase
-    docker compose up --build rabbitmq-server main-db-server mail-server -d
+    docker compose up rabbitmq-server main-db-server mail-server -d
+exit /b 0
+
+:upelk
+    docker compose up elasticsearch-server kibana-server logstash-server -d
 exit /b 0
 
 :downmain
@@ -88,6 +96,10 @@ exit /b 0
 
 :downbase
     docker compose down rabbitmq-server main-db-server mail-server
+exit /b 0
+
+:downelk
+    docker compose down elasticsearch-server kibana-server logstash-server
 exit /b 0
 
 :fim
