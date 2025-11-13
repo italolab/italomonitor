@@ -66,28 +66,32 @@ public class DispositivosStateMessageReceiver {
 		
 	@RabbitListener( queues = {"${config.rabbitmq.dispositivos-state.queue}"} ) 
 	public void receivesMessage( @Payload DispMonitorDispositivoState message ) {
-		Long dispositivoId = message.getId();
-						
-		Optional<Dispositivo> dispositivoOp = dispositivoRepository.findById( dispositivoId );
-		if ( dispositivoOp.isEmpty() )
-			throw new BusinessException( Errors.DISPOSITIVO_NOT_FOUND );
-		
-		Dispositivo dispositivo = dispositivoOp.get();
-		dispositivoMapper.load( dispositivo, message ); 
-		
-		dispositivoRepository.save( dispositivo );
-		
-		DispositivoResponse resp = dispositivoMapper.map( dispositivo );
-        String wsMessage = dispositivoMapper.mapToString( resp );
-        
-        Empresa empresa = dispositivo.getEmpresa();
-        Long empresaId = empresa.getId();
-        
-        List<String> usernames = usuarioRepository.getUsernamesByEmpresa( empresaId );
-        for( String username : usernames )
-        	simpMessagingTemplate.convertAndSendToUser( username, dispositivosTopic, wsMessage );
-        
-        this.sendNotifSeNecessario( dispositivo, empresa );                
+		try {
+			Long dispositivoId = message.getId();
+							
+			Optional<Dispositivo> dispositivoOp = dispositivoRepository.findById( dispositivoId );
+			if ( dispositivoOp.isEmpty() )
+				throw new BusinessException( Errors.DISPOSITIVO_NOT_FOUND );
+			
+			Dispositivo dispositivo = dispositivoOp.get();
+			dispositivoMapper.load( dispositivo, message ); 
+			
+			dispositivoRepository.save( dispositivo );
+			
+			DispositivoResponse resp = dispositivoMapper.map( dispositivo );
+	        String wsMessage = dispositivoMapper.mapToString( resp );
+	        
+	        Empresa empresa = dispositivo.getEmpresa();
+	        Long empresaId = empresa.getId();
+	        
+	        List<String> usernames = usuarioRepository.getUsernamesByEmpresa( empresaId );
+	        for( String username : usernames )
+	        	simpMessagingTemplate.convertAndSendToUser( username, dispositivosTopic, wsMessage );
+	        
+	        this.sendNotifSeNecessario( dispositivo, empresa );
+		} catch ( RuntimeException e ) {
+			Logger.getLogger( DispositivosStateMessageReceiver.class ).error( e.getMessage() ); 
+		} 
 	}
 	
 	private void sendNotifSeNecessario( Dispositivo dispositivo, Empresa empresa ) {
@@ -96,7 +100,7 @@ public class DispositivosStateMessageReceiver {
 		int minTempoParaProxNotif = empresa.getMinTempoParaProxNotif();
 		
 		Date ultNotifEm = empresa.getUltimaNotifEm();
-		
+				
 		LocalDateTime ultimaNotifEm = dateUtil.dateToLocalDateTime( ultNotifEm );
 		LocalDateTime ultimaNotifEmAdded = ultimaNotifEm.plusSeconds( minTempoParaProxNotif );
 		

@@ -29,21 +29,25 @@ public class EventosMessageReceiver {
 	private EventoMapper eventoMapper;
 		
 	@RabbitListener( queues = {"${config.rabbitmq.eventos.queue}"} ) 
-	public void receivesMessage( @Payload DispMonitorEvento message ) {				
-		Long dispositivoId = message.getDispositivoId();
-		
-		Optional<Dispositivo> dispositivoOp = dispositivoRepository.findById( dispositivoId );
-		if ( dispositivoOp.isEmpty() ) {
-			Logger.getLogger( EventosMessageReceiver.class ).error( Errors.DISPOSITIVO_NOT_FOUND );
-			return;
+	public void receivesMessage( @Payload DispMonitorEvento message ) {
+		try {
+			Long dispositivoId = message.getDispositivoId();
+			
+			Optional<Dispositivo> dispositivoOp = dispositivoRepository.findById( dispositivoId );
+			if ( dispositivoOp.isEmpty() ) {
+				Logger.getLogger( EventosMessageReceiver.class ).error( Errors.DISPOSITIVO_NOT_FOUND );
+				return;
+			}
+			
+			Dispositivo dispositivo = dispositivoOp.get();
+			
+			Evento evento = eventoMapper.map( message );
+			evento.setDispositivo( dispositivo ); 
+					
+			eventoRepository.save( evento );
+		} catch ( RuntimeException e ) {
+			Logger.getLogger( DispositivosStateMessageReceiver.class ).error( e.getMessage() ); 
 		}
-		
-		Dispositivo dispositivo = dispositivoOp.get();
-		
-		Evento evento = eventoMapper.map( message );
-		evento.setDispositivo( dispositivo ); 
-				
-		eventoRepository.save( evento );		
 	}
 	
 }
