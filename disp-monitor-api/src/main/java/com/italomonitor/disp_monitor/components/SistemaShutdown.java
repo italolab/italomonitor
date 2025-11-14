@@ -1,4 +1,4 @@
-package com.italomonitor.main.components;
+package com.italomonitor.disp_monitor.components;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
