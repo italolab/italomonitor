@@ -80,7 +80,7 @@ function UpdateDispositivo() {
             <div className="d-flex justify-content-center mt-3">
                 <Card className="mx-auto">
                     <Card.Header>
-                        <h3 className="text-center m-0">Alteração de dispositivos</h3>
+                        <h3 className="m-0 text-center">Alteração de dispositivos</h3>
                     </Card.Header>
                     <Card.Body>
                         <div className="d-flex">

@@ -126,7 +126,7 @@ function ShowDispositivos() {
                 sendo monitorados.                
             </h6>
 
-            <div className="d-block w-100 mt-3 d-flex justify-content-center">
+            <div className="d-block w-100 d-flex justify-content-center">
                 <div className="bg-white p-2" style={{width: '30em'}}>
                     <Form>
                         <Form.Group controlId="searchTermo">
@@ -140,7 +140,7 @@ function ShowDispositivos() {
                 </div>                   
             </div>
                                             
-            <div className="mt-3">                
+            <div className="mt-2">                
                 { dispositivosFiltrados.map( (dispositivo, index) =>                 
                     <div key={index} className="disp-card">
                         <div className="d-flex align-items-center justify-content-between">
