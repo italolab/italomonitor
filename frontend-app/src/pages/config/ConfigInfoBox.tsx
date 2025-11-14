@@ -26,9 +26,19 @@ function ConfigInfoBox( { config } : ConfigInfosBoxProps ) {
                 {config.telegramBotToken}
             </AppField>
 
-            <small className="text-primary">Recursos do microserviço principal</small>
+            <small className="text-primary">Infos. de monitoramento</small>
             <br />
 
+            <span className="text-dark fw-bold">
+                {config.numDispositivosSendoMonitorados}
+            </span>
+            &nbsp; dispositivos sendo monitorados
+            <br />
+            <br />
+
+            <small className="text-primary">Recursos do microserviço principal</small>
+            <br />
+            
             <span className="text-dark fw-bold">
                 {Math.floor( ( config.info.totalMemory - config.info.freeMemory ) / (1024*1024) )} MB
             </span>

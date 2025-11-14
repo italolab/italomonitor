@@ -27,6 +27,8 @@ public class ConfigResponse {
     
     private String telegramBotToken;
     
+	private int numDispositivosSendoMonitorados;
+    
     private InfoResponse info;
     
     private List<MonitorServerResponse> monitorServers;

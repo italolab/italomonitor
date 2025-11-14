@@ -1,4 +1,4 @@
-import type { MainAPIInfoResponse } from "./MainApiInfoResponse";
+import type { MainAPIInfoResponse } from "./MainAPIInfoResponse";
 import type { MonitorServerResponse } from "./MonitorServerResponse";
 
 export interface ConfigResponse {
@@ -8,6 +8,7 @@ export interface ConfigResponse {
     registroEventoPeriodo : number;
     numThreadsLimite : number;
     telegramBotToken : string;
+    numDispositivosSendoMonitorados : number;
     info : MainAPIInfoResponse;
     monitorServers : MonitorServerResponse[];
 }
@@ -19,6 +20,7 @@ export const DEFAULT_CONFIG_OBJ : ConfigResponse = {
     registroEventoPeriodo: 0,
     numThreadsLimite: 0,
     telegramBotToken: '',
+    numDispositivosSendoMonitorados: 0,
     info: {
         totalMemory: 0,
         freeMemory: 0,

@@ -55,7 +55,9 @@ public class ConfigService {
         Config config = configRepository.findFirstByOrderByIdAsc();
         
         ConfigResponse resp = configMapper.map( config );
-
+        
+        int numDispsSendoMonitorados = 0;
+        
         if ( isLoadMonitorServer ) {
 	        List<MonitorServer> monitorServers = monitorServerRepository.findAll();
 	        List<MonitorServerResponse> monitorServerResps = monitorServers.stream().map( monitorServerMapper::map ).toList();
@@ -63,6 +65,8 @@ public class ConfigService {
 	        for( MonitorServerResponse server : monitorServerResps ) {
 	        	String host = server.getHost();
 	        	MonitorInfo info = dispositivoMonitorEscalonador.getInfo( host );
+	        	if ( info.getInfo() != null )
+	        		numDispsSendoMonitorados += info.getInfo().getNumThreadsAtivas();
 	        	
 	        	monitorServerMapper.load( server, info ); 
 	        }
@@ -70,6 +74,7 @@ public class ConfigService {
 	        resp.setMonitorServers( monitorServerResps );
         }
         
+        resp.setNumDispositivosSendoMonitorados( numDispsSendoMonitorados ); 
         resp.setInfo( sistemaService.getInfo() );
         return resp;
     }

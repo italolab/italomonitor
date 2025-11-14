@@ -22,5 +22,5 @@ public class InfoResponse {
 	private double usoCpu;
 	
 	private int availableProcessors;
-	
+		
 }
