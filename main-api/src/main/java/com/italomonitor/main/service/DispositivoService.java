@@ -75,6 +75,8 @@ public class DispositivoService {
         dispositivo.setEmpresa( empresa );
 
         dispositivoRepository.save( dispositivo );
+        
+        dispositivoMonitorEscalonador.startMonitoramento( dispositivo.getId() ); 
     }
 
     public void updateDispositivo( Long dispositivoId, SaveDispositivoRequest request ) {
