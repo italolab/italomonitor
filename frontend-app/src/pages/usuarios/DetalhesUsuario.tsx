@@ -5,7 +5,7 @@ import { Badge, Button, Card } from "react-bootstrap";
 import AppField from "../../components/AppField";
 import AppMessage from "../../components/AppMessage";
 import AppSpinner from "../../components/AppSpinner";
-import { MdArrowBack, MdLink, MdOutlineEdit } from "react-icons/md";
+import { MdArrowBack, MdEdit, MdLink, MdOutlineEdit } from "react-icons/md";
 import useEffectOnce from "../../core/util/useEffectOnce";
 
 function DetalhesUsuario() {
@@ -45,7 +45,10 @@ function DetalhesUsuario() {
                     <MdOutlineEdit size={25} /> Editar usuário
                 </Button>                
                 <Button type="button" onClick={() => navigate( `/vincular-usuario-grupo/${usuarioId}`)} className="func">
-                    <MdLink size={25} /> Editar grupos
+                    <MdLink size={25} /> Vincular grupos
+                </Button>
+                <Button type="button" onClick={() => navigate( `/alter-senha/${usuarioId}`)} className="func">
+                    <MdEdit size={25} /> Alterar senha
                 </Button>
             </div>
 

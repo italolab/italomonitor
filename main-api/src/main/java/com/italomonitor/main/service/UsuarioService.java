@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import com.italomonitor.main.components.util.HashUtil;
@@ -13,6 +14,7 @@ import com.italomonitor.main.dto.request.CreateUsuarioRequest;
 import com.italomonitor.main.dto.request.UpdateUsuarioRequest;
 import com.italomonitor.main.dto.response.UsuarioGrupoResponse;
 import com.italomonitor.main.dto.response.UsuarioResponse;
+import com.italomonitor.main.enums.UsuarioPerfil;
 import com.italomonitor.main.exception.BusinessException;
 import com.italomonitor.main.exception.Errors;
 import com.italomonitor.main.mapper.EmpresaMapper;
@@ -30,6 +32,12 @@ import com.italomonitor.main.repository.UsuarioRepository;
 @Service
 public class UsuarioService {
 
+	@Value("${grupo.admin}")
+	private String grupoAdmin;
+	
+	@Value("${grupo.usuario}")
+	private String grupoUsuario;
+	
     @Autowired
     private UsuarioRepository usuarioRepository;
 
@@ -77,6 +85,20 @@ public class UsuarioService {
                 usuario.setEmpresa( empresaOp.get() );
             }
         }
+        
+        String grupoNome= ( request.getPerfil() == UsuarioPerfil.ADMIN ? grupoAdmin : grupoUsuario );
+               
+    	Optional<UsuarioGrupo> usuarioGrupoOp = usuarioGrupoRepository.findByNome( grupoNome );
+        if ( usuarioGrupoOp.isEmpty() )
+            throw new BusinessException( Errors.USER_GROUP_NOT_FOUND );
+
+        UsuarioGrupoMap map = UsuarioGrupoMap.builder()
+            .usuario( usuario )
+            .usuarioGrupo( usuarioGrupoOp.get() )
+            .build();
+        
+        usuario.setGrupos( new ArrayList<>() ); 
+        usuario.getGrupos().add( map );
 
         usuarioRepository.save( usuario );
     }

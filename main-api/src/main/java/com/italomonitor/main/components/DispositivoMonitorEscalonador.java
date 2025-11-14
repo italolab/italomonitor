@@ -52,7 +52,7 @@ public class DispositivoMonitorEscalonador {
 	private DispositivoRepository dispositivoRepository;
 	
 	@Autowired
-	private DispositivoWebSocket dispositivoWebSocket;
+	private DispositivoWebSocket dispositivosWebSocket;
 	
 	public String startAllMonitoramentos() {
 		Config config = configRepository.findFirstByOrderByIdAsc();
@@ -98,7 +98,7 @@ public class DispositivoMonitorEscalonador {
 		
 		List<Long> ids = dispositivoRepository.findAllIDs();
 		for( long dispId : ids )
-			dispositivosInfosWebSocket.sendDispositivosInfosMessage( dispId ); 
+			dispositivosInfosWebSocket.sendDispositivosInfosMessage( dispId );		
     	
     	return "Todos os monitoramentos de dispositivo foram parados com sucesso.";
 	}
@@ -305,7 +305,7 @@ public class DispositivoMonitorEscalonador {
 		dispositivo.setSendoMonitorado( sendoMonitorado );
         dispositivoRepository.save( dispositivo );
 
-        dispositivoWebSocket.sendMessage( dispositivo );
+        dispositivosWebSocket.sendMessage( dispositivo );
         
         this.updateDispositivoInMonitor( dispositivo ); 
 	}
