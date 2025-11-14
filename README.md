@@ -8,6 +8,7 @@ O Rede Monitor é um sistema web de monitoramento de dispositivos de rede. Esse 
 - Spring Boot 4.0.0-M3
 - React 19.1.1
 - Postgresql 16.3
+- Docker
 - Spring Scheduler com Thread Pool Task Scheduler
 - Comando PING para envio de pacotes ICMP
 - WebSockets
