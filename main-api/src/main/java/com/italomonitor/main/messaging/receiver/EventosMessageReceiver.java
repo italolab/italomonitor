@@ -35,10 +35,8 @@ public class EventosMessageReceiver {
 			Long dispositivoId = message.getDispositivoId();
 			
 			Optional<Dispositivo> dispositivoOp = dispositivoRepository.findById( dispositivoId );
-			if ( dispositivoOp.isEmpty() ) {
-				Logger.getLogger( EventosMessageReceiver.class ).error( Errors.DISPOSITIVO_NOT_FOUND );
-				return;
-			}
+			if ( dispositivoOp.isEmpty() )
+				throw new BusinessException( Errors.DISPOSITIVO_NOT_FOUND+" ID="+dispositivoId );			
 			
 			Dispositivo dispositivo = dispositivoOp.get();
 			
@@ -47,7 +45,7 @@ public class EventosMessageReceiver {
 					
 			eventoRepository.save( evento );
 		} catch ( BusinessException e ) {
-			Logger.getLogger( DispositivosStateMessageReceiver.class ).error( e.response().getMessage() ); 			
+			Logger.getLogger( DispositivosStateMessageReceiver.class ).debug( e.response().getMessage() ); 			
 		} catch ( RuntimeException e ) {
 			Logger.getLogger( DispositivosStateMessageReceiver.class ).error( e.getMessage() ); 
 		}

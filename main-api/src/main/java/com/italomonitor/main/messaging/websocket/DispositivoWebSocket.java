@@ -29,7 +29,7 @@ public class DispositivoWebSocket {
 	private DispositivoMapper dispositivoMapper;
 	
 	@Autowired
-	private WebSocketConnectionTracker webSocketConnectionTracker;
+	private WebSocketHandlerDecoratorFactory2 webSocketConnectionTracker;
 	
 	public void sendMessage( Dispositivo dispositivo ) {						
 		DispositivoResponse resp = dispositivoMapper.map( dispositivo );

@@ -71,7 +71,7 @@ public class DispositivosStateMessageReceiver {
 							
 			Optional<Dispositivo> dispositivoOp = dispositivoRepository.findById( dispositivoId );
 			if ( dispositivoOp.isEmpty() )
-				throw new BusinessException( Errors.DISPOSITIVO_NOT_FOUND );
+				throw new BusinessException( Errors.DISPOSITIVO_NOT_FOUND+" ID="+dispositivoId );
 			
 			Dispositivo dispositivo = dispositivoOp.get();
 			dispositivoMapper.load( dispositivo, message ); 
@@ -90,7 +90,7 @@ public class DispositivosStateMessageReceiver {
 	        
 	        this.sendNotifSeNecessario( dispositivo, empresa );
 		} catch ( BusinessException e ) {
-			Logger.getLogger( DispositivosStateMessageReceiver.class ).error( e.response().getMessage() ); 			
+			Logger.getLogger( DispositivosStateMessageReceiver.class ).debug( e.response().getMessage() ); 			
 		} catch ( RuntimeException e ) {
 			Logger.getLogger( DispositivosStateMessageReceiver.class ).error( e.getMessage() ); 
 		} 

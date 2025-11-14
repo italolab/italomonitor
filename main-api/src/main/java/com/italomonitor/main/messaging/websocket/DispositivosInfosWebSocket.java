@@ -33,7 +33,7 @@ public class DispositivosInfosWebSocket {
 	private SimpMessagingTemplate simpMessagingTemplate;
 	
 	@Autowired
-	private WebSocketConnectionTracker webSocketConnectionTracker;
+	private WebSocketHandlerDecoratorFactory2 webSocketConnectionTracker;
 					
 	public void sendDispositivosInfosMessage( Long dispositivoId ) {						
 		Optional<Long> empresaIDOp = dispositivoRepository.getEmpresaId( dispositivoId );
