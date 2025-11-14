@@ -8,11 +8,11 @@
 		<version>3.5.7</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.redemonitor.disp_monitor</groupId>
-	<artifactId>rede-monitor-disp-monitor-api</artifactId>
+	<groupId>com.italomonitor.disp_monitor</groupId>
+	<artifactId>italo-monitor-disp-monitor-api</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>disp-monitor-api</name>
-	<description>REDE Monitor - microserviço monitor de dispositivos</description>
+	<description>Italo Monitor - microserviço monitor de dispositivos</description>
 	<url/>
 	<licenses>
 		<license/>

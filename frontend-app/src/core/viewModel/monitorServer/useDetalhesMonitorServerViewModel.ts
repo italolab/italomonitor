@@ -1,5 +1,5 @@
 import { useContext, useState } from "react";
-import { type MonitorServerResponse } from "../../model/dto/response/MonitorServerResponse";
+import { DEFAULT_MONITOR_SERVER_OBJ, type MonitorServerResponse } from "../../model/dto/response/MonitorServerResponse";
 import { extractErrorMessage } from "../../util/sistema-util";
 import { MonitorServerModel } from "../../model/MonitorServerModel";
 import { AuthContext } from "../../../context/AuthProvider";
@@ -11,12 +11,7 @@ function useDetalhesMonitorServerViewModel() {
     const [infoMessage, setInfoMessage] = useState<string|null>( null );
     const [loading, setLoading] = useState<boolean>( false );
 
-    const [monitorServer, setMonitorServer] = useState<MonitorServerResponse>( {
-        id: 0,
-        host: '',
-        ativo: false,
-        numThreadsAtivas: 0
-    } );
+    const [monitorServer, setMonitorServer] = useState<MonitorServerResponse>( DEFAULT_MONITOR_SERVER_OBJ );
     
     const {setAccessToken} = useContext(AuthContext);
 

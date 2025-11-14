@@ -6,7 +6,7 @@ services:
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
-      - POSTGRES_DB=redemonitor
+      - POSTGRES_DB=italomonitor
     ports:
       - "5433:5432"
     volumes:
@@ -91,7 +91,7 @@ services:
     environment:
       - APP_PORT=8080
       - MICROSERVICE_ACCESS_TOKEN=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJjb20ucmVkZW1vbml0b3IiLCJzdWIiOiJtaWNyb3NlcnZpY2UiLCJyb2xlcyI6WyJtaWNyb3NlcnZpY2UiXSwiZXhwIjozOTA5NjgyNzc5fQ.EwZ7nVTGbwUlO8vYpuRifMiZDl4qHm0wUA-bETeZSpY
-      - DB_URL=jdbc:postgresql://main-db-server:5432/redemonitor
+      - DB_URL=jdbc:postgresql://main-db-server:5432/italomonitor
       - DB_USER=postgres
       - DB_PASS=postgres 
       - RABBITMQ_HOST=rabbitmq-server

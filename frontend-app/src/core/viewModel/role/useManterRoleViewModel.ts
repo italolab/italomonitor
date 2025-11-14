@@ -26,6 +26,9 @@ function useManterRoleViewModel() {
         try {
             const response = await roleModel.filterRoles( nomePart );
 
+            if ( response.data.length === 0 )
+                setInfoMessage( 'Nenhum role encontrado pelos critérios de busca informados.' );
+
             setRoles( response.data );
             setLoading( false );
         } catch ( error ) {            

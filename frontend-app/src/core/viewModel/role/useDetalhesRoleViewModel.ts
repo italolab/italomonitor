@@ -1,5 +1,5 @@
 import { useContext, useState } from "react";
-import { type RoleResponse } from "../../model/dto/response/RoleResponse";
+import { DEFAULT_ROLE_OBJ, type RoleResponse } from "../../model/dto/response/RoleResponse";
 import { extractErrorMessage } from "../../util/sistema-util";
 import { RoleModel } from "../../model/RoleModel";
 import { AuthContext } from "../../../context/AuthProvider";
@@ -11,10 +11,7 @@ function useDetalhesRoleViewModel() {
     const [infoMessage, setInfoMessage] = useState<string|null>( null );
     const [loading, setLoading] = useState<boolean>( false );
 
-    const [role, setRole] = useState<RoleResponse>( {
-        id: 0,
-        nome: '',
-    } );
+    const [role, setRole] = useState<RoleResponse>( DEFAULT_ROLE_OBJ );
     
     const {setAccessToken} = useContext(AuthContext);
 

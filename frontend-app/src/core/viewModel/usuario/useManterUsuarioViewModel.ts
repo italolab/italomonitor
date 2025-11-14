@@ -26,6 +26,9 @@ function useManterUsuarioViewModel() {
         try {
             const response = await usuarioModel.filterUsuarios( nomePart );
 
+            if ( response.data.length === 0 )
+                setInfoMessage( 'Nenhum usuário encontrado pelos critérios de busca informados.' );
+
             setUsuarios( response.data );
             setLoading( false );
         } catch ( error ) {            

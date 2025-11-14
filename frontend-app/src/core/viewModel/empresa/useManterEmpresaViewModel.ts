@@ -26,6 +26,9 @@ function useManterEmpresaViewModel() {
         try {
             const response = await empresaModel.filterEmpresas( nomePart );
 
+            if ( response.data.length === 0 )
+                setInfoMessage( 'Nenhuma empresa encontrada pelos critérios de busca informados.' );
+
             setEmpresas( response.data );
             setLoading( false );
         } catch ( error ) {            

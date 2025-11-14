@@ -1,5 +1,5 @@
 import { useContext, useState } from "react";
-import { type UsuarioGrupoResponse } from "../../model/dto/response/UsuarioGrupoResponse";
+import { DEFAULT_USUARIO_GRUPO_OBJ, type UsuarioGrupoResponse } from "../../model/dto/response/UsuarioGrupoResponse";
 import { extractErrorMessage } from "../../util/sistema-util";
 import { UsuarioGrupoModel } from "../../model/UsuarioGrupoModel";
 import { AuthContext } from "../../../context/AuthProvider";
@@ -10,10 +10,7 @@ function useDetalhesUsuarioGrupoViewModel() {
     const [infoMessage, setInfoMessage] = useState<string|null>( null );
     const [loading, setLoading] = useState<boolean>( false );
 
-    const [usuarioGrupo, setUsuarioGrupo] = useState<UsuarioGrupoResponse>( {
-        id: 0,
-        nome: '',
-    } );
+    const [usuarioGrupo, setUsuarioGrupo] = useState<UsuarioGrupoResponse>( DEFAULT_USUARIO_GRUPO_OBJ );
     
     const {setAccessToken} = useContext(AuthContext);
 

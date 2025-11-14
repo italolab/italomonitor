@@ -150,7 +150,7 @@ function CreateEmpresa() {
                             </Form.Group>
 
                             <Form.Group className="mb-3" controlId="minTempoParaProxNotif">
-                                <Form.Label>Tempo min. para próx notificação</Form.Label>
+                                <Form.Label>Intervalo de notificação (segundos)</Form.Label>
                                 <Form.Control type="number"
                                         value={minTempoParaProxNotif}
                                         onChange={( e ) => setMinTempoParaProxNotif( e.target.value ) } />

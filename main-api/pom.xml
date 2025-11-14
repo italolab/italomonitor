@@ -8,11 +8,11 @@
 		<version>3.5.7</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.redemonitor</groupId>
-	<artifactId>rede-monitor-main-api</artifactId>
+	<groupId>com.italomonitor</groupId>
+	<artifactId>italo-monitor-main-api</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>main-api</name>
-	<description>REDE Monitor - microserviço principal</description>
+	<description>Italo Monitor - microserviço principal</description>
 	<url/>
 	<licenses>
 		<license/>

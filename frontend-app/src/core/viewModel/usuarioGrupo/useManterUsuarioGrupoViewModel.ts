@@ -26,6 +26,9 @@ function useManterUsuarioGrupoViewModel() {
         try {
             const response = await usuarioGrupoModel.filterUsuarioGrupos( nomePart );
 
+            if ( response.data.length === 0 )
+                setInfoMessage( 'Nenhum grupo encontrado pelos critérios de busca informados.' );
+
             setUsuarioGrupos( response.data );
             setLoading( false );
         } catch ( error ) {            
