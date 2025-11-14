@@ -43,7 +43,7 @@ function Login() {
             <div className="d-flex justify-content-center vw-100 p-5">
                 <Card style={{width: '30em'}}>
                     <Card.Header>                        
-                        <h3 className="m-0">Login</h3>
+                        <h5 className="m-0">Login</h5>
                     </Card.Header>
                     <Card.Body>
                         <Form>
