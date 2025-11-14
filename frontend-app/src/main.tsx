@@ -7,6 +7,7 @@ import { StrictMode, Suspense, lazy } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
 import { AuthProvider } from './context/AuthProvider.tsx';
+import Loading from './pages/Loading.tsx';
 
 const Login = lazy( () => import( './pages/Login.tsx' ) );
 const Dashboard = lazy( () => import( './pages/Dashboard.tsx' ) );
@@ -57,7 +58,7 @@ createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <AuthProvider>
       <Router>
-        <Suspense fallback={<div>Loading...</div>}>
+        <Suspense fallback={<Loading />}>
           <Routes>
               <Route path='/' element={<Login />} index />
               <Route path='/dashboard' element={<Dashboard />} />

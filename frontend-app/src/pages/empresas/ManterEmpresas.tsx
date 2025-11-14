@@ -86,7 +86,7 @@ function ManterEmpresas() {
             <div className="d-flex flex-wrap justify-content-center mt-3">
                 <Card>
                     <Card.Header>
-                        <h5 className="my-2">Campos do filtro</h5>
+                        <h5 className="m-0">CAMPOS DE FILTRO</h5>
                     </Card.Header>
                     <Card.Body className="p-3">
                         <Form>
@@ -110,7 +110,7 @@ function ManterEmpresas() {
                 </Card>
                    
                 <div className="w-100 overflow-auto mt-3">
-                    <Table striped bordered hover>
+                    <Table striped hover>
                         <thead>
                             <tr className="blue">
                                 <th>ID</th>

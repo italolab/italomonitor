@@ -76,7 +76,7 @@ function ListEventosByIntervalo() {
                 </Card>
                    
                 <div className="w-100 overflow-auto mt-3">
-                    <Table striped bordered hover>
+                    <Table striped hover>
                         <thead>
                             <tr className="blue">
                                 <th>Sucessos</th>

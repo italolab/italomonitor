@@ -32,7 +32,8 @@ p, li, span {
 
 tr.blue th {
   /*background-color: #B1B1F3;*/
-  background-color: rgba(50, 50, 50, 0.2);
+  background-color: #2451F9;
+  color: #FFF;
 }
 
 button.func {
@@ -43,7 +44,7 @@ button.func {
 }
 
 .title {
-  background-color: #388edf;
+  background-color: #2451F9;
   padding: 0.2em;
   margin-top: 0.5em;
   font-weight: bold;
@@ -68,8 +69,34 @@ button.func {
 }
 
 .card {
-  width: 40em;
+  width: 50em;
   border-radius: 0 !important;
   border: none !important;
   box-shadow: 3px 3px 5px #333 !important;
+}
+
+.card .card-header {
+  padding: 1em !important;
+  text-transform: uppercase !important;
+}
+
+.page-item .page-link {
+  background-color: #FFF;
+}
+
+.active .page-link {
+  background-color: #2451F9 !important;
+}
+
+.form-control {
+  border-radius: 0 !important;
+  padding-top: 0.5em !important;
+  padding-bottom: 0.5em !important;
+  border: 1px solid #C7CdCa !important;
+  background-color: #F5F5F5 !important;
+}
+
+.form-control:focus-visible {
+  box-shadow: none !important;
+  border-bottom: 2px solid #000 !important;
 }
