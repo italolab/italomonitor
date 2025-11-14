@@ -93,6 +93,12 @@ public class DispositivoMonitorEscalonador {
 			String host = server.getHost();
 			dispositivoMonitorIntegration.stopAllMonitoramentos( host ); 
 		}				
+		
+		dispositivoRepository.updateAllToNaoSendoMonitorado();
+		
+		List<Long> ids = dispositivoRepository.findAllIDs();
+		for( long dispId : ids )
+			dispositivosInfosWebSocket.sendDispositivosInfosMessage( dispId ); 
     	
     	return "Todos os monitoramentos de dispositivo foram parados com sucesso.";
 	}

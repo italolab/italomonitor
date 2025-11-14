@@ -20,7 +20,7 @@ public class DispositivoMonitorThread implements Runnable {
 	
     private Dispositivo dispositivo;
     private Config config;
-    private final DispositivoStateMessageSender dispositivoMessageService;
+    private final DispositivoStateMessageSender dispositivoStateMessageService;
     private final EventoMessageSender eventoMessageService;
 
     private int sucessosQuantTotal = 0;
@@ -32,11 +32,11 @@ public class DispositivoMonitorThread implements Runnable {
 
     public DispositivoMonitorThread( Dispositivo dispositivo,
                                      Config config,
-                                     DispositivoStateMessageSender dispositivoMessageService,
+                                     DispositivoStateMessageSender dispositivoStateMessageService,
                                      EventoMessageSender eventoMessageService ) {
         this.dispositivo = dispositivo;
         this.config = config;       
-        this.dispositivoMessageService = dispositivoMessageService;
+        this.dispositivoStateMessageService = dispositivoStateMessageService;
         this.eventoMessageService = eventoMessageService;
     }
 
@@ -163,7 +163,7 @@ public class DispositivoMonitorThread implements Runnable {
             
             dispositivo.setLatenciaMedia( latenciaMedia );
             
-            dispositivoMessageService.sendMessage( dispositivo ); 
+            dispositivoStateMessageService.sendMessage( dispositivo ); 
 
             sucessosQuantTotal += quantSucessos;
             falhasQuantTotal += quantFalhas;
@@ -233,6 +233,10 @@ public class DispositivoMonitorThread implements Runnable {
     
     public Config getConfig() {
     	return config;
+    }
+    
+    public Dispositivo getDispositivo() {
+    	return dispositivo;
     }
 
 }

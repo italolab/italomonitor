@@ -25,6 +25,7 @@ public class EmpresaMapper {
                 .temporario( request.isTemporario() )
                 .usoTemporarioPor( request.getUsoTemporarioPor() )
                 .bloqueada( request.isBloqueada() )
+                .ultimaNotifEm( new Date() ) 
                 .criadoEm( new Date() ) 
                 .build();
     }

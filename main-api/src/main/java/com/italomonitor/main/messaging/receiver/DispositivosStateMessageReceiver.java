@@ -75,7 +75,7 @@ public class DispositivosStateMessageReceiver {
 			
 			Dispositivo dispositivo = dispositivoOp.get();
 			dispositivoMapper.load( dispositivo, message ); 
-			
+									
 			dispositivoRepository.save( dispositivo );
 			
 			DispositivoResponse resp = dispositivoMapper.map( dispositivo );
@@ -89,6 +89,8 @@ public class DispositivosStateMessageReceiver {
 	        	simpMessagingTemplate.convertAndSendToUser( username, dispositivosTopic, wsMessage );
 	        
 	        this.sendNotifSeNecessario( dispositivo, empresa );
+		} catch ( BusinessException e ) {
+			Logger.getLogger( DispositivosStateMessageReceiver.class ).error( e.response().getMessage() ); 			
 		} catch ( RuntimeException e ) {
 			Logger.getLogger( DispositivosStateMessageReceiver.class ).error( e.getMessage() ); 
 		} 
@@ -100,6 +102,12 @@ public class DispositivosStateMessageReceiver {
 		int minTempoParaProxNotif = empresa.getMinTempoParaProxNotif();
 		
 		Date ultNotifEm = empresa.getUltimaNotifEm();
+		if ( ultNotifEm == null ) {
+			empresa.setUltimaNotifEm( new Date() );
+			empresaRepository.save( empresa );
+			
+			ultNotifEm = empresa.getUltimaNotifEm();
+		}
 				
 		LocalDateTime ultimaNotifEm = dateUtil.dateToLocalDateTime( ultNotifEm );
 		LocalDateTime ultimaNotifEmAdded = ultimaNotifEm.plusSeconds( minTempoParaProxNotif );

@@ -106,8 +106,8 @@ create table role_grupo_map (
     constraint usuario_grupo_fk foreign key( usuario_grupo_id ) references usuario_grupo( id )
 );
 
-insert into config ( num_pacotes_por_lote, monitoramento_delay, registro_evento_periodo ) values (
-    15, 1, 3600
+insert into config ( num_pacotes_por_lote, monitoramento_delay, registro_evento_periodo, monitor_server_corrente ) values (
+    15, 1, 3600, 0
 );
 
 insert into usuario( nome, email, username, senha, perfil ) values (

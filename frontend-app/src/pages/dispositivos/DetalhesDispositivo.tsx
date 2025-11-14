@@ -6,8 +6,8 @@ import { Button, Card, Modal } from "react-bootstrap";
 import AppField from "../../components/AppField";
 import AppMessage from "../../components/AppMessage";
 import AppSpinner from "../../components/AppSpinner";
-import { MdArrowBack, MdDeleteForever, MdEvent, MdOutlineEdit, MdPlayCircle, MdStopCircle } from "react-icons/md";
-import AppBoxInfo from "../../components/AppBoxInfo";
+import { MdArrowBack, MdDeleteForever, MdEvent, MdNotifications, MdNotificationsOff, MdOutlineEdit, MdPlayCircle, MdStopCircle } from "react-icons/md";
+import { TbRouter, TbRouterOff } from "react-icons/tb";
 
 function DetalhesDispositivo() {
 
@@ -146,24 +146,27 @@ function DetalhesDispositivo() {
                         </div>
 
                         <div className="d-flex align-items-center justify-content-center">
-                            <AppBoxInfo name="status">
-                                { dispositivo.status == 'ATIVO' ? 
-                                    <span className="text-blue">Ativo</span> : 
-                                    <span className="text-danger">Inativo</span>
-                                }
-                            </AppBoxInfo>
-                            <AppBoxInfo name="sendo monitorado">
-                                { dispositivo.sendoMonitorado == true ? 
-                                    <span className="text-blue">Sim</span> : 
-                                    <span className="text-dark">Não</span>                                
-                                }
-                            </AppBoxInfo>
+                            { dispositivo.status === 'ATIVO' 
+                                ? <TbRouter size={64} color="blue" /> 
+                                : <TbRouterOff size={64} color="red" />
+                            }
+                            <span className="mx-2"></span>
+                            { dispositivo.sendoMonitorado === true 
+                                ? <MdNotifications size={64} color="blue" />
+                                : <MdNotificationsOff size={64} color="red" />
+                            }
                         </div>
 
                         <br />                       
 
                         <AppField name="ID">
                             {dispositivo.id}
+                        </AppField>
+                        <AppField name="ativo">
+                            {dispositivo.status === 'ATIVO' ? 'Ativo' : 'Inativo'}
+                        </AppField>
+                        <AppField name="sendo monitorado">
+                            {dispositivo.sendoMonitorado === true ? 'Sim' : 'Não'}
                         </AppField>
                         <AppField name="host">
                             {dispositivo.host}

@@ -29,7 +29,7 @@ public class DispositivoMonitorService {
     private ThreadPoolTaskScheduler scheduler;
 
     @Autowired
-    private DispositivoStateMessageSender dispositivoMessageService;
+    private DispositivoStateMessageSender dispositivoStateMessageService;
     
     @Autowired
     private EventoMessageSender eventoMessageService;
@@ -57,7 +57,7 @@ public class DispositivoMonitorService {
         Duration monitorDelay = Duration.ofMillis( config.getMonitoramentoDelay() );
 
         DispositivoMonitorThread thread = new DispositivoMonitorThread(
-                dispositivo, config, dispositivoMessageService, eventoMessageService );
+                dispositivo, config, dispositivoStateMessageService, eventoMessageService );
 
         ScheduledFuture<?> scheduledFuture = scheduler.scheduleAtFixedRate( thread, Instant.now(), monitorDelay  );
 
@@ -75,11 +75,9 @@ public class DispositivoMonitorService {
             		.result( MonitoramentoOperResult.NAO_ENCONTRADO )
             		.build();
         }
-
-        DispositivoMonitor dispositivoMonitor = dispositivoMonitorMap.get( dispositivoId );
+        
+		DispositivoMonitor dispositivoMonitor = dispositivoMonitorMap.remove( dispositivoId );        
         dispositivoMonitor.getScheduledFuture().cancel( true );
-
-        dispositivoMonitorMap.remove( dispositivoId );
         
         return MonitoramentoOperResponse.builder()
         		.result( MonitoramentoOperResult.FINALIZADO )
@@ -89,9 +87,8 @@ public class DispositivoMonitorService {
     public void stopAllMonitoramentos() {
     	Set<Long> dispIDs = dispositivoMonitorMap.keySet();
     	for( Long dispositivoId : dispIDs ) {
-    		DispositivoMonitor dispositivoMonitor = dispositivoMonitorMap.get( dispositivoId );
-            dispositivoMonitor.getScheduledFuture().cancel( true );
-            dispositivoMonitorMap.remove( dispositivoId );
+    		DispositivoMonitor dispositivoMonitor = dispositivoMonitorMap.remove( dispositivoId );            
+            dispositivoMonitor.getScheduledFuture().cancel( true );            
     	}
     }
 

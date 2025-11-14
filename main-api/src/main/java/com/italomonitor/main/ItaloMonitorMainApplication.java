@@ -33,7 +33,7 @@ public class ItaloMonitorMainApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
-		//this.geraESalvaDispositivos();				
+		//this.geraESalvaDispositivos( 1L );				
 	}
 	
 	public void geraMicroserviceAccessToken() {
@@ -42,12 +42,12 @@ public class ItaloMonitorMainApplication implements CommandLineRunner {
 		System.out.println( jwtTokenUtil.createAccessToken( "microservice", roles, expiration ) );
 	}
 	
-	public void geraESalvaDispositivos() {
+	public void geraESalvaDispositivos( Long empresaId ) {
 		String[] hosts = { "github.com", "192.168.1.1", "yahoo.com.br", "stackoverflow.com" };
 		
-		Empresa empresa = empresaRepository.findById( 4L ).get();
+		Empresa empresa = empresaRepository.findById( empresaId ).get();
 		
-		for( int i = 0; i < 200; i++ ) {
+		for( int i = 1; i <= 50; i++ ) {
 			String host = hosts[ Math.abs( new Random().nextInt() ) %  hosts.length ];
 						
 			Dispositivo disp = Dispositivo.builder()
@@ -61,7 +61,7 @@ public class ItaloMonitorMainApplication implements CommandLineRunner {
 			
 			dispositivoRepository.save( disp );
 			
-			System.out.println( "Salvo disp("+i+")" );
+			System.out.println( "Salvo "+disp.getNome()+" - "+empresa.getNome() );
 		}
 	}
 

@@ -6,7 +6,7 @@ import AppMessage from "../../components/AppMessage";
 import AppSpinner from "../../components/AppSpinner";
 import { MdArrowBack, MdOutlineEdit, MdPlayCircle, MdStopCircle } from "react-icons/md";
 import useEffectOnce from "../../core/util/useEffectOnce";
-import { FaServer } from "react-icons/fa";
+import { FaEdit } from "react-icons/fa";
 import ConfigInfoBox from "./ConfigInfoBox";
 
 function DetalhesConfig() {
@@ -84,7 +84,7 @@ function DetalhesConfig() {
                         <ConfigInfoBox config={config} />
 
                         <Button type="button" onClick={() => navigate( '/monitor-servers' )} className="func mt-3">
-                            <FaServer size={25}/> &nbsp; Servidores de monitoramento
+                            <FaEdit size={25}/> &nbsp; Editar servidores de monitoramento
                         </Button>
                     </Card.Body>
                 </Card>

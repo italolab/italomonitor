@@ -9,6 +9,7 @@ import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Component;
 
 import com.italomonitor.main.dto.integration.DispMonitorEvento;
+import com.italomonitor.main.exception.BusinessException;
 import com.italomonitor.main.exception.Errors;
 import com.italomonitor.main.mapper.EventoMapper;
 import com.italomonitor.main.model.Dispositivo;
@@ -45,6 +46,8 @@ public class EventosMessageReceiver {
 			evento.setDispositivo( dispositivo ); 
 					
 			eventoRepository.save( evento );
+		} catch ( BusinessException e ) {
+			Logger.getLogger( DispositivosStateMessageReceiver.class ).error( e.response().getMessage() ); 			
 		} catch ( RuntimeException e ) {
 			Logger.getLogger( DispositivosStateMessageReceiver.class ).error( e.getMessage() ); 
 		}
