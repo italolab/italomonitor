@@ -121,7 +121,7 @@ function UpdateConfig() {
                             </Form.Group>
 
                             <Form.Group className="mb-3" controlId="registroEventoPeriodo">
-                                <Form.Label>Período de registro de eventos</Form.Label>
+                                <Form.Label>Período de registro de eventos (segundos)</Form.Label>
                                 <Form.Control type="number"
                                     placeholder="Informe o período"
                                     value={registroEventoPeriodo}
