@@ -2,6 +2,7 @@ package com.italomonitor.main;
 
 import java.util.Random;
 
+import org.jboss.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;

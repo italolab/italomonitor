@@ -35,7 +35,11 @@ function DetalhesDispositivo() {
     useEffect( () => {
         if ( effectCalled.current === false ) {
             ( async () => {
-                deactivateFunc.current = await websocketConnect();
+                try {
+                    deactivateFunc.current = await websocketConnect();
+                } catch ( error ) {
+                    console.error( error );
+                }           
             } )();
 
             onLoad();

@@ -85,7 +85,7 @@ function useWebsocket() {
         
         return () => {
             if ( clientRef && clientRef.current?.active ) {             
-                clientRef.current.deactivate();
+                //clientRef.current.deactivate();
 
                 if ( interval! !== null ) {
                     clearInterval( interval! );

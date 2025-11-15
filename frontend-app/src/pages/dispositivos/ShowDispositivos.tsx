@@ -40,7 +40,11 @@ function ShowDispositivos() {
     useEffect( () => {
         if ( effectCalled.current === false ) {
             ( async () => {
-                deactivateFunc.current = await webSocketsConnect();
+                try {
+                    deactivateFunc.current = await webSocketsConnect();
+                } catch ( error ) {
+                    console.error( error );
+                }
             } )();
 
             onLoad();
