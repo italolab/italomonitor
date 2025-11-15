@@ -77,11 +77,10 @@ function UpdateDispositivo() {
                 </Button>                            
             </div>
 
+            <h3 className="title">Alteração de dispositivos</h3>
+
             <div className="d-flex justify-content-center mt-3">
-                <Card className="mx-auto">
-                    <Card.Header>
-                        <h3 className="m-0 text-center">Alteração de dispositivos</h3>
-                    </Card.Header>
+                <Card className="mx-auto">                    
                     <Card.Body>
                         <div className="d-flex">
                             <AppSpinner className="mx-auto" visible={loading} />

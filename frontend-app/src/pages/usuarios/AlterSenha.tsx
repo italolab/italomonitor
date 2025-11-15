@@ -75,12 +75,11 @@ function AlterSenha() {
                     <MdArrowBack size={25} /> Voltar
                 </Button>
             </div>
-
+            
+            <h3 className="title">Alteração de senha</h3>
+       
             <div className="d-flex justify-content-center mt-2">
                 <Card>
-                    <Card.Header>
-                        <h3 className="m-0 text-center">Alteração de senha</h3>
-                    </Card.Header>
                     <Card.Body>                        
                         <div className="d-flex">
                             <AppSpinner className="mx-auto" visible={loading} />

@@ -93,12 +93,11 @@ function CreateUsuario() {
                     <MdArrowBack size={25}/> Voltar
                 </Button>                            
             </div>
-
+            
+            <h3 className="title">Registro de usuário</h3>
+       
             <div className="d-flex justify-content-center mt-3">
                 <Card className="mx-auto">
-                    <Card.Header>
-                        <h3 className="text-center m-0">Registro de usuários</h3>
-                    </Card.Header>
                     <Card.Body>
                         <Form>
                             <Form.Group className="mb-3" controlId="nome">

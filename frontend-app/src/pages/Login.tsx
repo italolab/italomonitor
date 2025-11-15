@@ -40,10 +40,10 @@ function Login() {
 
     return (
         <div className="h-100 bg-tertiary">
-            <div className="d-flex justify-content-center vw-100 p-5">
-                <Card style={{width: '30em'}}>
-                    <Card.Header>                        
-                        <h5 className="m-0">Login</h5>
+            <div className="d-flex justify-content-center vw-100 pt-5">
+                <Card style={{width: '25em'}}>
+                    <Card.Header className="cd-title">                        
+                        Login
                     </Card.Header>
                     <Card.Body>
                         <Form>
@@ -69,7 +69,8 @@ function Login() {
 
                             <AppMessage message={errorMessage} type="error" />
                             <AppMessage message={infoMessage} type="info" />
-                            <Button type="button" variant="primary" onClick={login}>
+
+                            <Button type="button" variant="primary" className="w-100" onClick={login}>
                                 Entrar
                                 <AppSpinner visible={loading} />
                             </Button>

@@ -115,12 +115,12 @@ function ShowDispositivos() {
                 <AppSpinner className="mx-auto" visible={loading} showEsp={false}/>
             </div>
 
-            <h6 className="disp-info bg-light border text-center p-2">
+            <h6 className="disp-info">
                 {dispositivosInfos.quantTotal} dispositivos no total, &nbsp;
                 
                 { dispositivosInfos.sendoMonitoradosQuant < dispositivosInfos.quantTotal 
-                    ? <span className="text-dark">{dispositivosInfos.sendoMonitoradosQuant} </span>
-                    : <span className="text-primary">{dispositivosInfos.sendoMonitoradosQuant} </span>
+                    ? <span className="text-warning">{dispositivosInfos.sendoMonitoradosQuant} </span>
+                    : <span className="text-dark">{dispositivosInfos.sendoMonitoradosQuant} </span>
                 }
                  
                 sendo monitorados.                

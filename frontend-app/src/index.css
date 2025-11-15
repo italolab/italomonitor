@@ -51,7 +51,9 @@ button.func {
 
   color: #FFF;
   text-align: center;
-  /*text-shadow: 1px 1px 2px #333;*/
+  
+  border-top: 2px solid #000;
+  border-bottom: 2px solid #000;
 }
 
 .icon-btn:hover {
@@ -76,8 +78,11 @@ button.func {
 }
 
 .card .card-header {
-  padding: 1em !important;
+  padding: 0.5em !important;
   text-transform: uppercase !important;
+  font-size: 1.2em !important;
+  font-family: "Georgia", "Garamond", serif;
+  text-align: start;
 }
 
 .page-item .page-link {

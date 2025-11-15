@@ -99,14 +99,11 @@ function VincularRole() {
                     <MdArrowBack size={25}/> Voltar
                 </Button>                            
             </div>
-
+            
+            <h3 className="title">Vinculo de role</h3>
+       
             <div className="d-flex justify-content-center mt-3">
                 <Card>
-                    <Card.Header>
-                        <Card.Title className="m-0 text-center">
-                            <h3 className="m-0">Vínculo de role</h3>
-                        </Card.Title>
-                    </Card.Header>
                     <Card.Body>
                         <AppMessage message={errorMessage} type="error" />
                         <AppMessage message={infoMessage} type="info" />

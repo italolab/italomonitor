@@ -82,8 +82,8 @@ function ShowEventosGraficos() {
         <>
             <div className="d-flex flex-wrap justify-content-center mt-3">
                 <Card>
-                    <Card.Header>
-                        <h5 className="my-2">Campos do filtro</h5>
+                    <Card.Header className="text-start">
+                        Campos do filtro
                     </Card.Header>
                     <Card.Body className="p-3">
                         <Form>

@@ -45,12 +45,11 @@ function DetalhesMonitorServer() {
                     <MdOutlineEdit size={25}/> Editar servidor
                 </Button>
             </div>
-
+            
+            <h3 className="title">Detalhes de servidor de monitoramento</h3>
+           
             <div className="d-flex justify-content-center mt-3">
-                <Card>
-                    <Card.Header>
-                        <h3 className="m-0 text-center">Detalhes do servidor de monitoramento</h3>
-                    </Card.Header>
+                <Card>                   
                     <Card.Body>
                         <AppMessage message={errorMessage} type="error" />
                         <AppMessage message={infoMessage} type="info" />

@@ -62,12 +62,11 @@ function UpdateUsuarioGrupo() {
                     <MdArrowBack size={25}/> Voltar
                 </Button>                            
             </div>
-
+            
+            <h3 className="title">Alteração de grupo</h3>
+           
             <div className="d-flex justify-content-center mt-3">
-                <Card className="mx-auto">
-                    <Card.Header>
-                        <h3 className="text-center m-0">Alteração de grupo</h3>
-                    </Card.Header>
+                <Card className="mx-auto">                    
                     <Card.Body>
                         <div className="d-flex">
                             <AppSpinner className="mx-auto" visible={loading} />

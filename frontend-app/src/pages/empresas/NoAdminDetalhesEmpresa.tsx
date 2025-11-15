@@ -45,12 +45,11 @@ function NoAdminDetalhesEmpresa() {
                     <MdOutlineEdit size={25}/> Editar seus dados
                 </Button>                
             </div>
-
+            
+            <h3 className="title">Dados de {empresa.nome}</h3>
+            
             <div className="d-flex justify-content-center mt-3">
-                <Card>
-                    <Card.Header>
-                        <h3 className="m-0 text-center">Dados de {empresa.nome}</h3>
-                    </Card.Header>
+                <Card>                    
                     <Card.Body>
                         <AppMessage message={errorMessage} type="error" />
                         <AppMessage message={infoMessage} type="info" />

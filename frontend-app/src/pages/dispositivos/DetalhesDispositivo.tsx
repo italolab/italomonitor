@@ -132,11 +132,10 @@ function DetalhesDispositivo() {
                 </Button>                
             </div>
 
+            <h3 className="title">Detalhes do dispositivo</h3>
+
             <div className="d-flex justify-content-center mt-2">
-                <Card>
-                    <Card.Header>
-                        <h3 className="m-0 text-center">Detalhes do dispositivo</h3>
-                    </Card.Header>
+                <Card>                    
                     <Card.Body>
                         <AppMessage message={errorMessage} type="error" />
                         <AppMessage message={infoMessage} type="info" />

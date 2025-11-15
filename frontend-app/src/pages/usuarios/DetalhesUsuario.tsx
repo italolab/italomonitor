@@ -51,12 +51,11 @@ function DetalhesUsuario() {
                     <MdEdit size={25} /> Alterar senha
                 </Button>
             </div>
-
+            
+            <h3 className="title">Detalhes do usuário</h3>
+       
             <div className="d-flex justify-content-center mt-2">
                 <Card>
-                    <Card.Header>
-                        <h3 className="m-0 text-center">Detalhes do usuário</h3>
-                    </Card.Header>
                     <Card.Body>
                         <AppMessage message={errorMessage} type="error" />
                         <AppMessage message={infoMessage} type="info" />

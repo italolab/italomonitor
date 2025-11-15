@@ -43,12 +43,11 @@ function CreateMonitorServer() {
                     <MdArrowBack size={25}/> Voltar
                 </Button>                            
             </div>
-
+            
+            <h3 className="title">Registro de servidores de monitoramento</h3>
+           
             <div className="d-flex justify-content-center mt-3">
                 <Card className="mx-auto">
-                    <Card.Header>
-                        <h3 className="m-0 text-center">Registro de servidores de monitoramento</h3>
-                    </Card.Header>
                     <Card.Body>
                         <Form>
                             <Form.Group className="mb-3" controlId="host">
