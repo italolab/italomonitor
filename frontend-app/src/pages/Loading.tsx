@@ -1,9 +1,9 @@
-import AppSpinner from "../components/AppSpinner";
+import { Image } from "react-bootstrap";
 
 function Loading() {
     return (
-        <div className="d-flex justify-content-center align-items-center vw-100 hw-100">
-            <AppSpinner visible={true} showEsp={false} className="mx-auto" />
+        <div className="d-flex justify-content-center align-items-center vw-100 vh-100 bg-tertiary">
+            <Image src="/redes.png" rounded />
         </div>
     );
 }
