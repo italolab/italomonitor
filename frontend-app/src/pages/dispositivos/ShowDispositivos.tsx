@@ -127,7 +127,7 @@ function ShowDispositivos() {
             </h6>
 
             <div className="d-block w-100 d-flex justify-content-center">
-                <div className="w-100">
+                <div style={{width: '30em'}}>
                     <Form>
                         <Form.Group controlId="searchTermo">
                             <Form.Control type="text" 
@@ -135,8 +135,7 @@ function ShowDispositivos() {
                                 value={searchTermo}
                                 onChange={ (e) => setSearchTermo( e.target.value ) }
                                 onKeyUp={ onFilter } 
-                                className="mx-auto"
-                                style={{width: '30em'}} />
+                                className="mx-auto" />
                         </Form.Group>                            
                     </Form>
                 </div>                   
