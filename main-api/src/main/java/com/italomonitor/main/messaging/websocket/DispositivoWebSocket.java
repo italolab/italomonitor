@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 
 import com.italomonitor.main.dto.response.DispositivoResponse;
 import com.italomonitor.main.mapper.DispositivoMapper;
+import com.italomonitor.main.messaging.websocket.handlers.WebSocketHandlerDecoratorFactory2;
 import com.italomonitor.main.model.Dispositivo;
 import com.italomonitor.main.model.Empresa;
 import com.italomonitor.main.repository.UsuarioRepository;

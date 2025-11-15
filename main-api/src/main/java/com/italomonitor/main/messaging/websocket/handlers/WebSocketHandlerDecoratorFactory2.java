@@ -1,4 +1,4 @@
-package com.italomonitor.main.messaging.websocket;
+package com.italomonitor.main.messaging.websocket.handlers;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;

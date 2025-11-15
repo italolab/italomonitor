@@ -11,8 +11,8 @@ import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerCo
 import org.springframework.web.socket.config.annotation.WebSocketTransportRegistration;
 import org.springframework.web.socket.server.standard.ServletServerContainerFactoryBean;
 
-import com.italomonitor.main.messaging.websocket.WSHandshakeHandler;
-import com.italomonitor.main.messaging.websocket.WebSocketHandlerDecoratorFactory2;
+import com.italomonitor.main.messaging.websocket.handlers.WSHandshakeHandler;
+import com.italomonitor.main.messaging.websocket.handlers.WebSocketHandlerDecoratorFactory2;
 
 /*
  * O tempo de expiração do refresh token define o tempo de vida da sessão do websocket

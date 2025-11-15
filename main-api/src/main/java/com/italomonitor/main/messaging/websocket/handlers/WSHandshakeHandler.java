@@ -1,4 +1,4 @@
-package com.italomonitor.main.messaging.websocket;
+package com.italomonitor.main.messaging.websocket.handlers;
 
 import java.security.Principal;
 import java.util.Date;
@@ -9,10 +9,13 @@ import org.springframework.http.server.ServerHttpRequest;
 import org.springframework.http.server.ServletServerHttpRequest;
 import org.springframework.stereotype.Component;
 import org.springframework.web.socket.WebSocketHandler;
+import org.springframework.web.socket.server.HandshakeFailureException;
 import org.springframework.web.socket.server.support.DefaultHandshakeHandler;
 
+import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.italomonitor.main.components.util.JwtTokenUtil;
+import com.italomonitor.main.exception.Errors;
 
 import jakarta.servlet.http.HttpServletRequest;
 
@@ -30,14 +33,17 @@ public class WSHandshakeHandler extends DefaultHandshakeHandler {
 		String authorizationHeader = servletRequest.getHeader( "Authorization" );
 
         if ( authorizationHeader != null ) {
-            String token = authorizationHeader.substring(7);
-
-            DecodedJWT decodedJWT = jwtTokenUtil.verifyToken( token );
-            if ( decodedJWT.getExpiresAt().after( new Date() ) )
-                return decodedJWT::getSubject;            
+            String token = jwtTokenUtil.extractAccessToken( authorizationHeader );
+            try {
+	            DecodedJWT decodedJWT = jwtTokenUtil.verifyToken( token );
+	            if ( decodedJWT.getExpiresAt().after( new Date() ) )
+	                return decodedJWT::getSubject;	            
+            } catch ( JWTVerificationException e ) {
+            	
+            }
         }
 		
-		return () -> "anonymous";
+		throw new HandshakeFailureException( Errors.NOT_AUTHORIZED );
 	}
 
 }

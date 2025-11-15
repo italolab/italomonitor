@@ -22,15 +22,13 @@ function useWebsocket() {
             onConnectFunc : OnConnectFunc, 
             setErrorMessageFunc : SetErrorMessageFunc ) : Promise<() => void> => {
 
-        const response = await authModel.refreshAccessToken();
-
-        const accessToken = response.data.accessToken;
+        await authModel.refreshAccessToken();
         
         const client = new Client( {
             brokerURL: brokerURL,
-            connectHeaders: {
+            /*connectHeaders: {
                 Authorization: `Bearer ${accessToken}`
-            },
+            },*/
             heartbeatOutgoing: 10000,
             heartbeatIncoming: 10000,
         } );
@@ -47,8 +45,8 @@ function useWebsocket() {
             ( async () => {
                 if ( websocketErrorFlag === false ) {                    
                     try {
-                        const response = await authModel.refreshAccessToken();
-                        client.connectHeaders.Authorization = `Bearer ${ response.data.accessToken }`;      
+                        await authModel.refreshAccessToken();
+                        //client.connectHeaders.Authorization = `Bearer ${ response.data.accessToken }`;      
 
                     // eslint-disable-next-line @typescript-eslint/no-unused-vars
                     } catch ( error ) {              
@@ -57,8 +55,8 @@ function useWebsocket() {
                                 
                         interval = setInterval( async () => {
                             try {
-                                const response2 = await authModel.refreshAccessToken();
-                                client.connectHeaders.Authorization = `Bearer ${ response2.data.accessToken }`;                    
+                                await authModel.refreshAccessToken();
+                                //client.connectHeaders.Authorization = `Bearer ${ response2.data.accessToken }`;                    
                             
                                 clearInterval( interval! );
                                 interval = null;
@@ -85,7 +83,7 @@ function useWebsocket() {
         
         return () => {
             if ( clientRef && clientRef.current?.active ) {             
-                //clientRef.current.deactivate();
+                clientRef.current.deactivate();
 
                 if ( interval! !== null ) {
                     clearInterval( interval! );
