@@ -156,7 +156,7 @@ function ShowEventosGraficos() {
                                 <Tooltip />
                                 <Legend />
                                 <Line type="monotone" dataKey="sucessos" stroke="#36F" activeDot={{ r: 8 }} />
-                                <Line type="monotone" dataKey="falhas" stroke="#F8B" />
+                                <Line type="monotone" dataKey="falhas" stroke="#F00" />
                             </LineChart>                
                         </>
                     }
@@ -189,7 +189,7 @@ function ShowEventosGraficos() {
                                 <YAxis width="auto" type="number" />
                                 <Tooltip />
                                 <Legend />
-                                <Line type="monotone" dataKey="inatividade" stroke="#4C6" />
+                                <Line type="monotone" dataKey="inatividade" stroke="#F00" />
                             </LineChart>
                         </>
                    }                    
