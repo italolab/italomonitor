@@ -50,6 +50,9 @@ function AppLayout( {children, className} : AppLayoutProps ) {
 
                     { isAdmin() === false &&
                         <span>
+                            <Link to={`/pagamentos/${getEmpresaId()}`} className="sidebar-item">
+                                💵 Pagamentos                                
+                            </Link>
                             <Link to={`/no-admin-detalhes-empresa/${getEmpresaId()}`} className="sidebar-item">
                                 📋 Dados da empresa                                
                             </Link>

@@ -38,5 +38,7 @@ public class EmpresaResponse {
     private boolean bloqueada;
     
     private Date criadoEm;
+    
+    private Date usoRegularIniciadoEm;
 
 }

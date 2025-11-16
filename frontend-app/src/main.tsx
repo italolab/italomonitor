@@ -54,6 +54,8 @@ const NoAdminDetalhesEmpresa = lazy( () => import( './pages/empresas/NoAdminDeta
 
 const AlterSenha = lazy( () => import( './pages/usuarios/AlterSenha.tsx' ) );
 
+const ShowPagamentos = lazy( () => import( './pages/pagamentos/ShowPagamentos.tsx' ) );
+
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <AuthProvider>
@@ -103,6 +105,8 @@ createRoot(document.getElementById('root')!).render(
               <Route path='/create-monitor-server' element={<CreateMonitorServer />} />
               <Route path='/update-monitor-server/:monitorServerId' element={<UpdateMonitorServer />} />
               <Route path='/detalhes-monitor-server/:monitorServerId' element={<DetalhesMonitorServer />} />
+
+              <Route path='/pagamentos/:empresaId' element={<ShowPagamentos />} />
           </Routes>
         </Suspense>
       </Router>

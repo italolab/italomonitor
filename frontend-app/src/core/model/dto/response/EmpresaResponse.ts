@@ -11,7 +11,8 @@ export interface EmpresaResponse {
     temporario : boolean;
     usoTemporarioPor : number;
     bloqueada : boolean;
-    criadoEm : Date
+    criadoEm : Date;
+    usoRegularIniciadoEm : Date;
 }
 
 export const DEFAULT_EMPRESA_OBJ : EmpresaResponse = {
@@ -26,5 +27,6 @@ export const DEFAULT_EMPRESA_OBJ : EmpresaResponse = {
     temporario: false,
     usoTemporarioPor: 0,
     bloqueada: false,
-    criadoEm: new Date()
+    criadoEm: new Date(),
+    usoRegularIniciadoEm: new Date()
 };

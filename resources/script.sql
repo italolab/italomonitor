@@ -40,7 +40,8 @@ create table empresa (
     uso_temporario_por int default 7,
     bloqueada boolean default false,
     ultima_notif_em timestamp default current_timestamp,
-    criado_em timestamp default current_timestamp
+    criado_em timestamp default current_timestamp,
+    uso_regular_iniciado_em timestamp
 );
 
 create table dispositivo (

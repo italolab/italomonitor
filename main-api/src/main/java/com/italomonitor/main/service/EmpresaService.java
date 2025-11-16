@@ -1,5 +1,6 @@
 package com.italomonitor.main.service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -55,6 +56,9 @@ public class EmpresaService {
             if ( empresaRepository.findByNome( nome ).isPresent() )
                 throw new BusinessException( Errors.EMPRESA_ALREADY_EXISTS );
 
+        if ( empresa.isTemporario() && !request.isTemporario() )
+        	empresa.setUsoRegularIniciadoEm( new Date() ); 
+        
         empresaMapper.load( empresa, request );
 
         empresaRepository.save( empresa );
