@@ -28,7 +28,7 @@ public class EmpresaService {
     
     @Autowired
     private DispositivoMonitorEscalonador dispositivoMonitorEscalonador;
-
+    
     public void createEmpresa( SaveEmpresaRequest request ) {
         request.validate();
 
@@ -56,8 +56,10 @@ public class EmpresaService {
             if ( empresaRepository.findByNome( nome ).isPresent() )
                 throw new BusinessException( Errors.EMPRESA_ALREADY_EXISTS );
 
-        if ( empresa.isTemporario() && !request.isTemporario() )
-        	empresa.setUsoRegularIniciadoEm( new Date() ); 
+        if ( empresa.isTemporario() && !request.isTemporario() ) {
+        	empresa.setUsoRegularIniciadoEm( new Date() );
+        	empresa.setPagoAte( new Date() ); 
+        }
         
         empresaMapper.load( empresa, request );
 
@@ -92,7 +94,7 @@ public class EmpresaService {
         Optional<Empresa> empresaOp = empresaRepository.findById( id );
         if ( empresaOp.isEmpty() )
             throw new BusinessException( Errors.EMPRESA_NOT_FOUND );
-
+        
         return empresaOp.map( empresaMapper::map ).orElseThrow();
     }
 

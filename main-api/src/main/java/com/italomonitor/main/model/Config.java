@@ -28,5 +28,7 @@ public class Config {
     private int monitorServerCorrente;
     
     private String telegramBotToken;
+    
+    private double valorPagto;
 
 }

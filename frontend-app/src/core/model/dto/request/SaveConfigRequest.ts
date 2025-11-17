@@ -5,4 +5,5 @@ export interface SaveConfigRequest {
     registroEventoPeriodo : number;
     numThreadsLimite : number;
     telegramBotToken : string;
+    valorPagto : number;
 }

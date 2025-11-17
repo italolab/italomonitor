@@ -24,6 +24,7 @@ public class SaveConfigRequest {
     private int registroEventoPeriodo;
     private int numThreadsLimite;
     private String telegramBotToken;
+    private double valorPagto;
     
     public void validate() {
         List<Validator> validators = new ArrayList<>();
@@ -59,6 +60,12 @@ public class SaveConfigRequest {
         validators.addAll(
                 ValidationBuilder.of( "token do bot telegram", telegramBotToken )                                                
                         .build()
+        );
+        
+        validators.addAll(
+        		ValidationBuilder.of( "valor de pagamento", String.valueOf( valorPagto ) )
+        			.deveSerMaiorQueZero()
+        			.build()
         );
 
         validators.forEach( Validator::validate );

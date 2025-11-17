@@ -10,6 +10,7 @@ import com.italomonitor.main.components.DispositivoMonitorEscalonador.MonitorInf
 import com.italomonitor.main.dto.request.SaveConfigRequest;
 import com.italomonitor.main.dto.response.ConfigResponse;
 import com.italomonitor.main.dto.response.MonitorServerResponse;
+import com.italomonitor.main.dto.response.NoAdminConfigResponse;
 import com.italomonitor.main.mapper.ConfigMapper;
 import com.italomonitor.main.mapper.MonitorServerMapper;
 import com.italomonitor.main.model.Config;
@@ -79,4 +80,10 @@ public class ConfigService {
         return resp;
     }
 
+    public NoAdminConfigResponse getNoAdminConfig() {
+    	Config config = configRepository.findFirstByOrderByIdAsc();
+    	
+    	return configMapper.mapToNoAdmin( config );
+    }
+    
 }

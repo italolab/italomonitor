@@ -18,6 +18,7 @@ function UpdateConfig() {
     const [registroEventoPeriodo, setRegistroEventoPeriodo] = useState<string>( '' );
     const [numThreadsLimite, setNumThreadsLimite] = useState<string>( '' );
     const [telegramBotToken, setTelegramBotToken] = useState<string>( '' );
+    const [valorPagto, setValorPagto] = useState<string>( '' );
 
     const {
         updateConfig,
@@ -42,6 +43,7 @@ function UpdateConfig() {
             setRegistroEventoPeriodo( ""+config.registroEventoPeriodo );                      
             setNumThreadsLimite( ""+config.numThreadsLimite );
             setTelegramBotToken( config.telegramBotToken );
+            setValorPagto( ''+config.valorPagto );
         } catch ( error ) {
             console.error( error );
         }
@@ -58,7 +60,8 @@ function UpdateConfig() {
                 monitoramentoDelay: parseInt( monitoramentoDelay ),
                 registroEventoPeriodo: parseInt( registroEventoPeriodo ),
                 numThreadsLimite: parseInt( numThreadsLimite ),
-                telegramBotToken: telegramBotToken
+                telegramBotToken: telegramBotToken,
+                valorPagto: parseFloat( valorPagto )
             };
            
             await updateConfig( config );            
@@ -82,6 +85,11 @@ function UpdateConfig() {
         }
         if ( Number.isNaN( numThreadsLimite ) === true ) {
             setErrorMessage( 'O limite de threads está em formato não numérico.' );
+            return false;
+        }
+
+        if ( Number.isNaN( valorPagto ) === true ) {
+            setErrorMessage( 'O valor de pagamento está em formato não numérico.' );
             return false;
         }
 
@@ -141,6 +149,14 @@ function UpdateConfig() {
                                     placeholder="Informe o token"
                                     value={telegramBotToken}
                                     onChange={ ( e ) => setTelegramBotToken( e.target.value ) } />
+                            </Form.Group>
+
+                            <Form.Group className="mb-3" controlId="valorPagto">
+                                <Form.Label>Valor de pagamento</Form.Label>
+                                <Form.Control type="number"
+                                    placeholder="Informe o valor"
+                                    value={valorPagto}
+                                    onChange={ ( e ) => setValorPagto( e.target.value ) } />
                             </Form.Group>
 
                             <AppMessage message={errorMessage} type="error" />

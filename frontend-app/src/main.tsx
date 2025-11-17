@@ -8,6 +8,7 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
 import { AuthProvider } from './context/AuthProvider.tsx';
 import Loading from './pages/Loading.tsx';
+import EfetuarPagamento from './pages/pagamentos/EfetuarPagamento.tsx';
 
 const Login = lazy( () => import( './pages/Login.tsx' ) );
 const Dashboard = lazy( () => import( './pages/Dashboard.tsx' ) );
@@ -107,6 +108,7 @@ createRoot(document.getElementById('root')!).render(
               <Route path='/detalhes-monitor-server/:monitorServerId' element={<DetalhesMonitorServer />} />
 
               <Route path='/pagamentos/:empresaId' element={<ShowPagamentos />} />
+              <Route path='/efetuar-pagamento/:empresaId' element={<EfetuarPagamento />} />
           </Routes>
         </Suspense>
       </Router>

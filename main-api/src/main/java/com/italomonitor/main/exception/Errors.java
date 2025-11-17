@@ -35,6 +35,8 @@ public interface Errors {
     public final static String TIME_OF_TEST_EXPIRED = "O tempo de teste para uso do sistema expirou. Para continuar utilizando, adquira a licença de uso e solicite o desbloqueio!";
     public final static String EMPRESA_BLOCKED = "Empresa bloqueada! Solicite o desbloqueio para ter acesso novamente.";
 
+    public final static String QRCODE_GEN_ERROR = "Houve falha na geração do qrcode.";
+    
     public final static String REQUIRED_FIELD = "O campo '$1' é de preenchimento obrigatório.";
     public final static String NOT_JOKER_AND_NOT_INT = "O campo '$1' não é numérico nem asterisco.";
     public final static String VALUE_LESS_OR_EQUALS_THAN_ZERO = "O valor do campo '$1' é menor ou igual a zero ou não numérico.";

@@ -11,9 +11,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.italomonitor.main.apidoc.config.GetConfigDoc;
+import com.italomonitor.main.apidoc.config.GetNoAdminConfigDoc;
 import com.italomonitor.main.apidoc.config.UpdateConfigDoc;
 import com.italomonitor.main.dto.request.SaveConfigRequest;
 import com.italomonitor.main.dto.response.ConfigResponse;
+import com.italomonitor.main.dto.response.NoAdminConfigResponse;
 import com.italomonitor.main.service.ConfigService;
 
 @RestController
@@ -32,11 +34,19 @@ public class ConfigController {
     }
 
     @GetConfigDoc
-    @PreAuthorize("hasAnyAuthority('config-all')")
+    @PreAuthorize("hasAuthority('config-all')")
     @GetMapping("/load-monitor-server/{isLoadMonitorServer}/get")
     public ResponseEntity<ConfigResponse> getConfig( @PathVariable Boolean isLoadMonitorServer ) {    	
         ConfigResponse resp = configService.getConfig( isLoadMonitorServer );
         return ResponseEntity.ok( resp );
     }
-
+    
+    @GetNoAdminConfigDoc
+    @PreAuthorize("hasAnyAuthority('config-all', 'no-admin-config-get')")
+    @GetMapping("/get/no-admin")
+    public ResponseEntity<NoAdminConfigResponse> getNoAdminConfig() {
+    	NoAdminConfigResponse resp = configService.getNoAdminConfig();
+    	return ResponseEntity.ok( resp );
+    }
+    
 }

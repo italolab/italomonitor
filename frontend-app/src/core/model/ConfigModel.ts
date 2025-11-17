@@ -15,4 +15,8 @@ export class ConfigModel {
         return await api.get( "/config/load-monitor-server/true/get" );
     }
 
+    async getNoAdminConfig() {
+        return await api.get( "/config/get/no-admin" );
+    }
+
 }

@@ -13,6 +13,7 @@ export interface EmpresaResponse {
     bloqueada : boolean;
     criadoEm : Date;
     usoRegularIniciadoEm : Date;
+    pagoAte : Date
 }
 
 export const DEFAULT_EMPRESA_OBJ : EmpresaResponse = {
@@ -28,5 +29,6 @@ export const DEFAULT_EMPRESA_OBJ : EmpresaResponse = {
     usoTemporarioPor: 0,
     bloqueada: false,
     criadoEm: new Date(),
-    usoRegularIniciadoEm: new Date()
+    usoRegularIniciadoEm: new Date(),
+    pagoAte: new Date()
 };

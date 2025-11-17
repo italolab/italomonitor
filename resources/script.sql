@@ -19,7 +19,8 @@ create table config (
     registro_evento_periodo int default 3600,
     num_threads_limite int default 32,
     monitor_server_corrente int default 0,
-    telegram_bot_token varchar( 100 ) default ''
+    telegram_bot_token varchar( 100 ) default '',
+    valor_pagto double precision default 250
 );
 
 create table monitor_server (
@@ -41,7 +42,8 @@ create table empresa (
     bloqueada boolean default false,
     ultima_notif_em timestamp default current_timestamp,
     criado_em timestamp default current_timestamp,
-    uso_regular_iniciado_em timestamp
+    uso_regular_iniciado_em date,
+    pago_ate date
 );
 
 create table dispositivo (
@@ -130,13 +132,15 @@ insert into role ( nome ) values
     ( 'dispositivo-all' ),
     ( 'dispositivo-monitoramento-all'),
     ( 'config-all' ),
+    ( 'pagamento-all' ),
 
     ( 'usuario-get' ),
     ( 'empresa-get' ),
     ( 'dispositivo-get' ),
     ( 'usuario-alter-senha' ),
     ( 'start-or-stop-all-monitoramentos' ),
-    ( 'no-admin-update-empresa');
+    ( 'no-admin-update-empresa'),
+    ( 'no-admin-config-get' );
 
 insert into usuario_grupo_map( usuario_id, usuario_grupo_id ) values
     ( (select id from usuario where username='italo'), (select id from usuario_grupo where nome='admin') );
@@ -149,6 +153,7 @@ insert into role_grupo_map( role_id, usuario_grupo_id ) values
     ( (select id from role where nome='dispositivo-all'), (select id from usuario_grupo where nome='admin') ),
     ( (select id from role where nome='dispositivo-monitoramento-all'), (select id from usuario_grupo where nome='admin') ),
     ( (select id from role where nome='config-all'), (select id from usuario_grupo where nome='admin') ),
+    ( (select id from role where nome='pagamento-all'), (select id from usuario_grupo where nome='admin') ),    
     ( (select id from role where nome='start-or-stop-all-monitoramentos'), (select id from usuario_grupo where nome='admin') ),
     ( (select id from role where nome='usuario-alter-senha'), (select id from usuario_grupo where nome='admin') ),    
 
@@ -157,4 +162,6 @@ insert into role_grupo_map( role_id, usuario_grupo_id ) values
     ( (select id from role where nome='dispositivo-all'), (select id from usuario_grupo where nome='suporte') ),
     ( (select id from role where nome='dispositivo-monitoramento-all'), (select id from usuario_grupo where nome='suporte') ),
     ( (select id from role where nome='no-admin-update-empresa'), (select id from usuario_grupo where nome='suporte') ),
-    ( (select id from role where nome='usuario-alter-senha'), (select id from usuario_grupo where nome='suporte') );
+    ( (select id from role where nome='usuario-alter-senha'), (select id from usuario_grupo where nome='suporte') ),
+    ( (select id from role where nome='no-admin-config-get'), (select id from usuario_grupo where nome='suporte') ),
+    ( (select id from role where nome='pagamento-all'), (select id from usuario_grupo where nome='suporte') );

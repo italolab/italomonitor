@@ -28,6 +28,7 @@ public class EmpresaMapper {
                 .ultimaNotifEm( new Date() ) 
                 .criadoEm( new Date() ) 
                 .usoRegularIniciadoEm( null ) 
+                .pagoAte( null )
                 .build();
     }
     
@@ -46,6 +47,7 @@ public class EmpresaMapper {
                 .bloqueada( empresa.isBloqueada() )
                 .criadoEm( empresa.getCriadoEm() )
                 .usoRegularIniciadoEm( empresa.getUsoRegularIniciadoEm() )
+                .pagoAte( empresa.getPagoAte() ) 
                 .build();
     }
     

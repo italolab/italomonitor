@@ -115,6 +115,12 @@
 			<artifactId>lombok</artifactId>
 			<optional>true</optional>
 		</dependency>		
+		
+		<dependency>
+		    <groupId>io.nayuki</groupId>
+		    <artifactId>qrcodegen</artifactId>
+		    <version>1.8.0</version>
+		</dependency>
 	</dependencies>
 
 	<build>

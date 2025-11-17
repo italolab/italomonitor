@@ -9,6 +9,7 @@ export interface ConfigResponse {
     numThreadsLimite : number;
     telegramBotToken : string;
     numDispositivosSendoMonitorados : number;
+    valorPagto : number;
     info : MainAPIInfoResponse;
     monitorServers : MonitorServerResponse[];
 }
@@ -21,6 +22,7 @@ export const DEFAULT_CONFIG_OBJ : ConfigResponse = {
     numThreadsLimite: 0,
     telegramBotToken: '',
     numDispositivosSendoMonitorados: 0,
+    valorPagto: 0,
     info: {
         totalMemory: 0,
         freeMemory: 0,

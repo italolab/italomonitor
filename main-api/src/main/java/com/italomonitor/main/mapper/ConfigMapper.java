@@ -5,6 +5,7 @@ import org.springframework.stereotype.Component;
 import com.italomonitor.main.dto.integration.DispMonitorConfig;
 import com.italomonitor.main.dto.request.SaveConfigRequest;
 import com.italomonitor.main.dto.response.ConfigResponse;
+import com.italomonitor.main.dto.response.NoAdminConfigResponse;
 import com.italomonitor.main.model.Config;
 
 @Component
@@ -17,6 +18,7 @@ public class ConfigMapper {
                 .registroEventoPeriodo( request.getRegistroEventoPeriodo() )
                 .numThreadsLimite( request.getNumThreadsLimite() )
                 .telegramBotToken( request.getTelegramBotToken() )
+                .valorPagto( request.getValorPagto() )
                 .build();
     }
 
@@ -28,7 +30,14 @@ public class ConfigMapper {
                 .registroEventoPeriodo( config.getRegistroEventoPeriodo() )
                 .numThreadsLimite( config.getNumThreadsLimite() )
                 .telegramBotToken( config.getTelegramBotToken() )
+                .valorPagto( config.getValorPagto() )
                 .build();
+    }
+    
+    public NoAdminConfigResponse mapToNoAdmin( Config config ) {
+    	return NoAdminConfigResponse.builder()
+    			.valorPagto( config.getValorPagto() )
+    			.build();
     }
 
     public DispMonitorConfig mapToDispMonitorConfig( Config config ) {
@@ -45,7 +54,8 @@ public class ConfigMapper {
         config.setMonitoramentoDelay( request.getMonitoramentoDelay() );
         config.setRegistroEventoPeriodo( request.getRegistroEventoPeriodo() );
         config.setNumThreadsLimite( request.getNumThreadsLimite() ); 
-        config.setTelegramBotToken( request.getTelegramBotToken() ); 
+        config.setTelegramBotToken( request.getTelegramBotToken() );
+        config.setValorPagto( request.getValorPagto() ); 
     }
 
 }

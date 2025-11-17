@@ -2,6 +2,7 @@ import { Badge } from "react-bootstrap";
 import type { ConfigResponse } from "../../core/model/dto/response/ConfigResponse";
 import { FaServer } from "react-icons/fa6";
 import AppField from "../../components/AppField";
+import { formataMoeda } from "../../core/util/sistema-util";
 
 interface ConfigInfosBoxProps {
     config: ConfigResponse;
@@ -24,6 +25,9 @@ function ConfigInfoBox( { config } : ConfigInfosBoxProps ) {
             </AppField>
             <AppField name="token do bot telegram">
                 {config.telegramBotToken}
+            </AppField>
+            <AppField name="Valor de pagamento">
+                { formataMoeda( config.valorPagto ) } 
             </AppField>
 
             <small className="text-primary">Infos. de monitoramento</small>

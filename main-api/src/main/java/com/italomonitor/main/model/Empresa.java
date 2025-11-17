@@ -58,8 +58,11 @@ public class Empresa {
     @Temporal(TemporalType.TIMESTAMP)
     private Date criadoEm;
     
-    @Temporal(TemporalType.TIMESTAMP)
+    @Temporal(TemporalType.DATE)
     private Date usoRegularIniciadoEm;
+    
+    @Temporal(TemporalType.DATE)
+    private Date pagoAte;
 
     @OneToMany(mappedBy = "empresa", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Usuario> usuarios;

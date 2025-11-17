@@ -40,5 +40,7 @@ public class EmpresaResponse {
     private Date criadoEm;
     
     private Date usoRegularIniciadoEm;
+    
+    private Date pagoAte;
 
 }

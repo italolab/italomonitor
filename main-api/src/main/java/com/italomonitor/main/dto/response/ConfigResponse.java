@@ -28,6 +28,8 @@ public class ConfigResponse {
     private String telegramBotToken;
     
 	private int numDispositivosSendoMonitorados;
+	
+	private double valorPagto;
     
     private InfoResponse info;
     
