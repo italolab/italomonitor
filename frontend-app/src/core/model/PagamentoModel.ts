@@ -15,4 +15,8 @@ export class PagamentoModel {
         return await api.post( '/pagamentos/empresa/'+empresaId+'/regulariza-divida' );
     }
 
+    async getPagamentos( empresaId : number ) {
+        return await api.get( '/pagamentos/empresa/'+empresaId+'/list' );
+    }
+
 }

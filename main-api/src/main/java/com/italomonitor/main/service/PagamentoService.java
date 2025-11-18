@@ -3,7 +3,9 @@ package com.italomonitor.main.service;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 import org.jboss.logging.Logger;
@@ -15,6 +17,8 @@ import com.italomonitor.main.components.QrCodeCreator;
 import com.italomonitor.main.components.util.DateUtil;
 import com.italomonitor.main.components.util.ImageUtil;
 import com.italomonitor.main.dto.response.PagamentoPixQrCodeResponse;
+import com.italomonitor.main.dto.response.PagamentoResponse;
+import com.italomonitor.main.dto.response.PagamentosResponse;
 import com.italomonitor.main.exception.BusinessException;
 import com.italomonitor.main.exception.Errors;
 import com.italomonitor.main.model.Config;
@@ -124,6 +128,74 @@ public class PagamentoService {
 		String pagoAteStr = dateUtil.dateFormat( pagoAte );		
 		
 		return "Dívida regularizada. Pago até: " + pagoAteStr; 
+	}
+	
+	public PagamentosResponse getPagamentos( Long empresaId ) {
+		Optional<Empresa> empresaOp = empresaRepository.findById( empresaId );
+		if ( empresaOp.isEmpty() )
+			throw new BusinessException( Errors.EMPRESA_NOT_FOUND );
+		
+		Empresa empresa = empresaOp.get();
+		
+		if ( empresa.getPagoAte() == null )
+			throw new BusinessException( Errors.STILL_A_TEMPORARY_EMPRESA );
+		if ( empresa.getUsoRegularIniciadoEm() == null )
+			throw new BusinessException( Errors.STILL_A_TEMPORARY_EMPRESA );
+		
+		Config config = configRepository.findFirstByOrderByIdAsc();
+		
+		double valorPagto = config.getValorPagto();
+		
+		LocalDate usoRegularIniciadoEm = dateUtil.dateToLocalDate( empresa.getUsoRegularIniciadoEm() );
+		LocalDate pagoAte = dateUtil.dateToLocalDate( empresa.getPagoAte() );
+		LocalDate dataAtual = LocalDate.now();
+				
+		int mes = usoRegularIniciadoEm.getMonthValue();
+        int ano = usoRegularIniciadoEm.getYear();
+
+        int mesPagoAte = pagoAte.getMonthValue();
+        int anoPagoAte = pagoAte.getYear();
+
+        int mesAtual = dataAtual.getMonthValue();
+        int anoAtual = dataAtual.getYear();
+
+		int diaPagto = empresa.getDiaPagto();
+		int diaAtual = dataAtual.getDayOfMonth();
+
+        if ( diaAtual < diaPagto )
+            mesAtual--;
+
+        List<PagamentoResponse> pagtos = new ArrayList<>();
+
+        int valorDebito = 0;
+        while( mes <= mesAtual || ano < anoAtual ) {
+            LocalDate dataPagto = LocalDate.of( ano, mes, diaPagto );                
+            
+            boolean paga = true;
+            if ( mes > mesPagoAte && ano >= anoPagoAte ) {
+                paga = false;            
+                valorDebito += valorPagto;
+            }
+
+            pagtos.add( 
+            	PagamentoResponse.builder()
+            		.dataPagto( dateUtil.localDateToDate( dataPagto ) )
+            		.paga( paga )
+            		.build()
+            );
+
+            if ( mes == 12 ) {
+                mes = 1;
+                ano++;
+            } else {
+                mes++;
+            }
+        }
+		
+		return PagamentosResponse.builder()
+				.pagamentos( pagtos )
+				.valorDebito( valorDebito ) 
+				.build();
 	}
 	
 }

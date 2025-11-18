@@ -132,7 +132,7 @@ insert into role ( nome ) values
     ( 'dispositivo-all' ),
     ( 'dispositivo-monitoramento-all'),
     ( 'config-all' ),
-    ( 'pagamento-all' ),
+    ( 'pagamentos-all' ),
 
     ( 'usuario-get' ),
     ( 'empresa-get' ),
@@ -141,7 +141,8 @@ insert into role ( nome ) values
     ( 'start-or-stop-all-monitoramentos' ),
     ( 'no-admin-update-empresa'),
     ( 'no-admin-config-get' ),
-    ( 'pix-qrcode-get' );
+    ( 'pix-qrcode-get' ),
+    ( 'pagamentos-get');
 
 insert into usuario_grupo_map( usuario_id, usuario_grupo_id ) values
     ( (select id from usuario where username='italo'), (select id from usuario_grupo where nome='admin') );
@@ -154,7 +155,7 @@ insert into role_grupo_map( role_id, usuario_grupo_id ) values
     ( (select id from role where nome='dispositivo-all'), (select id from usuario_grupo where nome='admin') ),
     ( (select id from role where nome='dispositivo-monitoramento-all'), (select id from usuario_grupo where nome='admin') ),
     ( (select id from role where nome='config-all'), (select id from usuario_grupo where nome='admin') ),
-    ( (select id from role where nome='pagamento-all'), (select id from usuario_grupo where nome='admin') ),    
+    ( (select id from role where nome='pagamentos-all'), (select id from usuario_grupo where nome='admin') ),    
     ( (select id from role where nome='start-or-stop-all-monitoramentos'), (select id from usuario_grupo where nome='admin') ),
     ( (select id from role where nome='usuario-alter-senha'), (select id from usuario_grupo where nome='admin') ),    
 
@@ -165,4 +166,5 @@ insert into role_grupo_map( role_id, usuario_grupo_id ) values
     ( (select id from role where nome='no-admin-update-empresa'), (select id from usuario_grupo where nome='suporte') ),
     ( (select id from role where nome='usuario-alter-senha'), (select id from usuario_grupo where nome='suporte') ),
     ( (select id from role where nome='no-admin-config-get'), (select id from usuario_grupo where nome='suporte') ),
+    ( (select id from role where nome='pagamentos-get'), (select id from usuario_grupo where nome='suporte') ),
     ( (select id from role where nome='pix-qrcode-get'), (select id from usuario_grupo where nome='suporte') );

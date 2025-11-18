@@ -35,5 +35,5 @@ public class DateUtil {
     public String dateFormat( LocalDate date ) {
     	return date.format( DateTimeFormatter.ofPattern( "dd/MM/yyyy" ) );    	
     }
-            
+                
 }

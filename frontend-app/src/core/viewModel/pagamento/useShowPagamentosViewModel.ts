@@ -1,9 +1,8 @@
 import { useContext, useState } from "react";
 import { AuthContext } from "../../../context/AuthProvider";
-import { EmpresaModel } from "../../model/EmpresaModel";
 import { extractErrorMessage } from "../../util/sistema-util";
-import { ConfigModel } from "../../model/ConfigModel";
 import { PagamentoModel } from "../../model/PagamentoModel";
+import { DEFAULT_PAGS_OBJ, type PagamentosResponse } from "../../model/dto/response/PagamentosResponse";
 
 function useShowPagamentosViewModel() {
 
@@ -11,41 +10,22 @@ function useShowPagamentosViewModel() {
     const [infoMessage, setInfoMessage] = useState<string|null>( null );
     const [loading, setLoading] = useState<boolean>( false );
 
+    const [pagamentosDados, setPagamentosDados] = useState<PagamentosResponse>( DEFAULT_PAGS_OBJ );
+
     const {setAccessToken} = useContext( AuthContext );
 
     const pagamentoModel = new PagamentoModel( setAccessToken );
-    const empresaModel = new EmpresaModel( setAccessToken );
-    const configModel = new ConfigModel( setAccessToken );
 
-    const getEmpresa = async ( empresaId : number ) => {
+    const load = async ( empresaId : number ) => {
         setErrorMessage( null );
         setInfoMessage( null );
         setLoading( true );
 
         try {
-            const response = await empresaModel.getEmpresa( empresaId );
+            const response = await pagamentoModel.getPagamentos( empresaId );
 
+            setPagamentosDados( response.data );
             setLoading( false );
-
-            return response.data;
-        } catch ( error ) {
-            setErrorMessage( extractErrorMessage( error ) );
-            setLoading( false );
-            throw error;
-        }
-    };
-
-    const getNoAdminConfig = async () => {
-        setErrorMessage( null );
-        setInfoMessage( null );
-        setLoading( true );
-
-        try {
-            const response = await configModel.getNoAdminConfig();
-
-            setLoading( false );
-
-            return response.data;
         } catch ( error ) {
             setErrorMessage( extractErrorMessage( error ) );
             setLoading( false );
@@ -71,9 +51,9 @@ function useShowPagamentosViewModel() {
     };
 
     return {
-        getEmpresa,
-        getNoAdminConfig,
+        load,
         regularizaDivida,
+        pagamentosDados,
         errorMessage,
         infoMessage,
         loading
