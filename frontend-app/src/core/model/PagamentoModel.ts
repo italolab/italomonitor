@@ -11,4 +11,8 @@ export class PagamentoModel {
         return await api.get( '/pagamentos/empresa/'+empresaId+"/get/pix-qrcode" );
     }
 
+    async regularizaDivida( empresaId : number ) {
+        return await api.post( '/pagamentos/empresa/'+empresaId+'/regulariza-divida' );
+    }
+
 }

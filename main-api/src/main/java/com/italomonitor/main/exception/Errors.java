@@ -16,6 +16,7 @@ public interface Errors {
 
     public final static String EMPRESA_NOT_FOUND = "Empresa não encontrada.";
     public final static String EMPRESA_ALREADY_EXISTS = "Empresa já existe registrada com o nome informado.";
+    public final static String STILL_A_TEMPORARY_EMPRESA = "A empresa ainda está como temporária. Logo, não precisa efetuar pagamento.";
 
     public final static String MONITOR_SERVER_NOT_FOUND = "Servidor de monitoramento não encontrado.";
     public final static String MONITOR_SERVER_ALREADY_EXISTS = "Servidor de monitoramento já existe registrado com o host informado.";

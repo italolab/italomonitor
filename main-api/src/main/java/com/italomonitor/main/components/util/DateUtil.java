@@ -1,5 +1,6 @@
 package com.italomonitor.main.components.util;
 
+import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
@@ -17,6 +18,10 @@ public class DateUtil {
     public Date localDateToDate( LocalDate localDate ) {
         return Date.from( localDate.atStartOfDay( ZoneId.systemDefault() ).toInstant() );
     }
+    
+    public LocalDate dateToLocalDate( Date date ) {
+    	return Instant.ofEpochMilli( date.getTime() ).atZone( ZoneId.systemDefault() ).toLocalDate();
+    }
 
     public LocalDateTime dateToLocalDateTime( Date date ) {
         return date.toInstant().atZone( ZoneId.systemDefault() ).toLocalDateTime();
@@ -25,6 +30,10 @@ public class DateUtil {
     public String dateTimeFormat( LocalDateTime date ) {
     	OffsetDateTime offset = date.atZone( ZoneId.systemDefault() ).toOffsetDateTime();
     	return offset.atZoneSameInstant( zone ).format( DateTimeFormatter.ofPattern( "dd/MM/yyyy HH:mm:ss" ) );
+    }
+    
+    public String dateFormat( LocalDate date ) {
+    	return date.format( DateTimeFormatter.ofPattern( "dd/MM/yyyy" ) );    	
     }
             
 }

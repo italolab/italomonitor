@@ -3,6 +3,7 @@ import { AuthContext } from "../../../context/AuthProvider";
 import { EmpresaModel } from "../../model/EmpresaModel";
 import { extractErrorMessage } from "../../util/sistema-util";
 import { ConfigModel } from "../../model/ConfigModel";
+import { PagamentoModel } from "../../model/PagamentoModel";
 
 function useShowPagamentosViewModel() {
 
@@ -12,6 +13,7 @@ function useShowPagamentosViewModel() {
 
     const {setAccessToken} = useContext( AuthContext );
 
+    const pagamentoModel = new PagamentoModel( setAccessToken );
     const empresaModel = new EmpresaModel( setAccessToken );
     const configModel = new ConfigModel( setAccessToken );
 
@@ -51,9 +53,27 @@ function useShowPagamentosViewModel() {
         }
     };
 
+    const regularizaDivida = async ( empresaId : number ) => {
+        setErrorMessage( null );
+        setInfoMessage( null );
+        setLoading( true );
+
+        try {
+            const response = await pagamentoModel.regularizaDivida( empresaId );
+
+            setInfoMessage( response.data );
+            setLoading( false );
+        } catch ( error ) {
+            setErrorMessage( extractErrorMessage( error ) );
+            setLoading( false );
+            throw error;
+        }
+    };
+
     return {
         getEmpresa,
         getNoAdminConfig,
+        regularizaDivida,
         errorMessage,
         infoMessage,
         loading

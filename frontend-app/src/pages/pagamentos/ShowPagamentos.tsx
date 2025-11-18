@@ -6,9 +6,10 @@ import useShowPagamentosViewModel from "../../core/viewModel/pagamento/useShowPa
 import AppLayout from "../../layout/AppLayout";
 import { useState } from "react";
 import type { EmpresaResponse } from "../../core/model/dto/response/EmpresaResponse";
-import { formataData, formataMoeda, stringToData, zonedData } from "../../core/util/sistema-util";
+import { formataDataMes, formataMoeda, stringToData, zonedData } from "../../core/util/sistema-util";
 import { Button, Card, Form, Table } from "react-bootstrap";
 import type { ConfigResponse } from "../../core/model/dto/response/ConfigResponse";
+import useInfos from "../../core/viewModel/useInfos";
 
 type Pagamento = {
     dataPagto : string;
@@ -23,10 +24,13 @@ function ShowPagamentos() {
     const {
         getEmpresa,
         getNoAdminConfig,
+        regularizaDivida,
         errorMessage,
         infoMessage,
         loading
     } = useShowPagamentosViewModel();
+
+    const { isAdmin } = useInfos();
 
     const { empresaId } = useParams();
 
@@ -47,14 +51,22 @@ function ShowPagamentos() {
             const pagoAte = zonedData( empresa.pagoAte );
             
             if ( empresa.usoRegularIniciadoEm !== null && empresa.pagoAte !== null ) {
+                const dataAtual = new Date();
+
                 let mes = usoRegularIniciadoEm.getMonth() + 1;
                 let ano = usoRegularIniciadoEm.getFullYear();
 
                 const mesPagoAte = pagoAte.getMonth() + 1;
                 const anoPagoAte = pagoAte.getFullYear();
 
-                const mesAtual = new Date().getMonth() + 1;
-                const anoAtual = new Date().getFullYear();
+                let mesAtual = dataAtual.getMonth() + 1;
+                const anoAtual = dataAtual.getFullYear();
+
+                const diaPagto = empresa.diaPagto;
+                const diaAtual = dataAtual.getDay();
+
+                if ( diaAtual < diaPagto )
+                    mesAtual--;
 
                 const pagtos : Pagamento[] = [];
                 let deb : number = 0;
@@ -68,7 +80,7 @@ function ShowPagamentos() {
                     }
 
                     pagtos.push( {
-                        dataPagto: formataData( dataPagto ),
+                        dataPagto: formataDataMes( dataPagto ),
                         pago: pago
                     } );
 
@@ -88,16 +100,19 @@ function ShowPagamentos() {
         }
     };
 
+    const onRegularizarDivida = async () => {
+        try {
+            const eid : number = parseInt( empresaId! );
+            await regularizaDivida( eid );
+            await onLoad();
+        } catch ( error ) {
+            console.error( error );
+        }
+    };
+
     return (
         <AppLayout>
-            <h3 className="title">Pagamentos</h3>
-
-            <AppMessage message={errorMessage} type="error" />
-            <AppMessage message={infoMessage} type="info" />
-
-            <div className="d-flex">
-                <AppSpinner className="mx-auto" visible={loading} />
-            </div>
+            <h3 className="title">Pagamentos</h3>            
 
             <div className="d-flex flex-wrap justify-content-center mt-3">
                 <Card>
@@ -116,10 +131,17 @@ function ShowPagamentos() {
                             <AppMessage message={errorMessage} type="error" />
                             <AppMessage message={infoMessage} type="info" />
 
-                            <Button type="button" onClick={() => navigate( `/efetuar-pagamento/${empresaId}` )}>
-                                Efetuar pagamento                        
-                                <AppSpinner visible={loading} />
-                            </Button>
+                            { isAdmin() === true ?
+                                <Button type="button" onClick={onRegularizarDivida}>
+                                    Efetuar pagamento                        
+                                    <AppSpinner visible={loading} />
+                                </Button>
+                            :
+                                <Button type="button" onClick={() => navigate( `/efetuar-pagamento/${empresaId}` )}>
+                                    Efetuar pagamento                        
+                                    <AppSpinner visible={loading} />
+                                </Button>
+                            }
                         </Form>
                     </Card.Body>
                 </Card>
@@ -139,8 +161,8 @@ function ShowPagamentos() {
                                 <td>{pagto.dataPagto}</td>
                                 <td>
                                     { pagto.pago === true 
-                                        ? 'Pago' 
-                                        : 'Em aberto'
+                                        ? <span className="text-primary fw-bold">Pago</span>
+                                        : <span className="text-danger fw-bold">Em aberto</span>
                                     }
                                 </td>                                
                             </tr> 

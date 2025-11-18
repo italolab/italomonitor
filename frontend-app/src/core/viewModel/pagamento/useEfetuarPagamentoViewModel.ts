@@ -23,8 +23,6 @@ function useEfetuarPagamentoViewModel() {
         try {
             const response = await pagamentoModel.getPagamentoPixQrCode( empresaId );
 
-            console.log( response.data.text );
-
             setPixQrCode( response.data );
             setLoading( false );
         } catch ( error ) {
@@ -34,8 +32,18 @@ function useEfetuarPagamentoViewModel() {
         }
     };
 
+    const copyToClipboard = async () => {
+        navigator.clipboard.writeText( pixQrCode.text ).then( () => {
+            setInfoMessage( "Copiado com sucesso." );
+        } ).catch( e => {
+            setErrorMessage( "Não foi possível copiar os dados do pix." );
+            throw e;
+        } );
+    };
+
     return {
         loadPixQrCode,
+        copyToClipboard,
         pixQrCode,
         errorMessage,
         infoMessage,

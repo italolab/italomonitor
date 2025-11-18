@@ -4,12 +4,13 @@ import AppSpinner from "../../components/AppSpinner";
 import useEfetuarPagamentoViewModel from "../../core/viewModel/pagamento/useEfetuarPagamentoViewModel";
 import AppLayout from "../../layout/AppLayout";
 import useEffectOnce from "../../core/util/useEffectOnce";
-import { Card, Image } from "react-bootstrap";
+import { Button, Card, Image } from "react-bootstrap";
 
 function EfetuarPagamento() {
 
     const {
         loadPixQrCode,
+        copyToClipboard,
         pixQrCode,
         errorMessage,
         infoMessage,
@@ -31,27 +32,46 @@ function EfetuarPagamento() {
         }
     };
 
+    
+    const onCopiar = async () => {
+        try {   
+            await copyToClipboard();
+        } catch ( error ) {
+            console.error( error );
+        }
+    };
+
     return (
         <AppLayout>
             <h3 className="title">Efetuar pagamento</h3>
-
-            <AppMessage message={errorMessage} type="error" />
-            <AppMessage message={infoMessage} type="info" />
-
-            <div className="d-flex">
-                <AppSpinner className="mx-auto" visible={loading} />
-            </div>
-
+            
             <div className="d-flex flex-wrap justify-content-center">
                 <Card>
-                    <Card.Body>
-                        <p>Por favor escaneie o qrcode abaixo no aplicativo do seu banco para 
-                        efetuar o pagamento.</p>
+                    <Card.Body>                        
+                        <p><b>Por favor escaneie o qrcode abaixo no aplicativo do seu banco para 
+                        efetuar o pagamento.</b></p>
 
-                        <div className="d-flex justify-content-center">
-                            { pixQrCode.image.length > 0 &&
-                                <Image className="bg-light-gray" src={pixQrCode.image} />
-                            }
+                        { pixQrCode.image.length > 0 &&
+                            <div className="d-flex">
+                                <Image className="mx-auto bg-light-gray" src={pixQrCode.image} />
+                            </div>
+                        }                            
+
+                        { pixQrCode.text.length > 0 &&
+                            <div className="d-flex my-3">
+                                    <>
+                                        <Button type="button" className="mx-auto" onClick={onCopiar}>
+                                            Copiar PIX
+                                        </Button>
+                                    </>
+                            </div>
+                        }
+
+                        <AppMessage message={errorMessage} type="error" />
+                        <AppMessage message={infoMessage} type="info" />
+
+                        <div className="d-flex">
+                            <AppSpinner className="mx-auto" visible={loading} />
                         </div>
                     </Card.Body>
                 </Card> 

@@ -112,6 +112,9 @@ services:
       - MAIL_SERVER_PORT=465
       - MAIL_ADDRESS_BOT=bot@italomonitor.com.br
       - MAIL_ADDRESS_BOT_PASSWORD=22101988
+      - PIX_QRCODE_CHAVE=italoherbert@outlook.com
+      - PIX_QRCODE_RECEBEDOR=ITALO_HERBERT_SIQUEIRA_GA
+      - PIX_QRCODE_CIDADE=BRASILIA
       - LOGSTASH_HOST=logstash-server:5044
       - CORS_ALLOWED_ORIGIN=http://localhost:5173
       - APP_SERVER_URL=http://main-api:8080

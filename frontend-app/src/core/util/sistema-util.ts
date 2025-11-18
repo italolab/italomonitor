@@ -42,6 +42,10 @@ export const formataData = ( date : Date ) => {
     return format( zonedData( date ), 'dd/MM/yyyy' );
 }
 
+export const formataDataMes = ( date : Date ) => {
+    return format( zonedData( date ), 'MM/yyyy' );
+}
+
 export const formataDataHora = ( date : Date ) => {
     return format( zonedData( date ), 'dd/MM/yyyy HH:mm:ss' );
 }

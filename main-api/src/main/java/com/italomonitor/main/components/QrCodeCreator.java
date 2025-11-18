@@ -10,18 +10,18 @@ import io.nayuki.qrcodegen.QrCode;
 @Component
 public class QrCodeCreator {
 	
-	public String genQrCodeText( String credor, String chave, String cidade, double valor ) throws UnsupportedEncodingException {    	
+	public String genQrCodeText( String recebedor, String chave, String cidade, double valor ) throws UnsupportedEncodingException {    	
     	String valorStr = String.valueOf( valor );    	
     	String gui = "br.gov.bcb.pix";
     	
     	int valorLen = valorStr.length();    	
-    	int credorLen = credor.length();    	
+    	int recebedorLen = recebedor.length();    	
     	int guiLen = gui.length();    	    	
     	int chaveLen = chave.length();
     	int cidadeLen = cidade.length();
 
     	String valorPagtoLenStr = ( valorLen < 10 ? "0" : "" ) + valorLen;
-    	String credorLenStr = ( credorLen < 10 ? "0" : "" ) + credorLen;
+    	String recebedorLenStr = ( recebedorLen < 10 ? "0" : "" ) + recebedorLen;
     	String guiLenStr = ( guiLen < 10 ? "0" : "" ) + guiLen;
     	String chaveLenStr = ( chaveLen < 10 ? "0" : "" ) + chaveLen;
     	String cidadeLenStr = ( cidadeLen < 10 ? "0" : "" ) + cidadeLen;
@@ -48,7 +48,7 @@ public class QrCodeCreator {
     	qrcodePayload.append( "5303986" );
     	qrcodePayload.append( "54"+valorPagtoLenStr+valorStr );
     	qrcodePayload.append( "5802BR" );
-    	qrcodePayload.append( "59"+credorLenStr+credor );
+    	qrcodePayload.append( "59"+recebedorLenStr+recebedor );
     	qrcodePayload.append( "60"+cidadeLenStr+cidade );    	
     	qrcodePayload.append( "62"+sub2LenStr+qrcodePayloadSub2Str );
     	qrcodePayload.append( "6304" );
