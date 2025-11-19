@@ -41,6 +41,11 @@ const CreateDispositivo = lazy( () => import( './pages/dispositivos/CreateDispos
 const UpdateDispositivo = lazy( () => import( './pages/dispositivos/UpdateDispositivo.tsx' ) );
 const DetalhesDispositivo = lazy( () => import( './pages/dispositivos/DetalhesDispositivo.tsx' ) );
 
+const ManterAgentes = lazy( () => import( './pages/agentes/ManterAgentes.tsx' ) );
+const CreateAgente = lazy( () => import( './pages/agentes/CreateAgente.tsx' ) );
+const UpdateAgente = lazy( () => import( './pages/agentes/UpdateAgente.tsx' ) );
+const DetalhesAgente = lazy( () => import( './pages/agentes/DetalhesAgente.tsx' ) );
+
 const InfosEventos = lazy( () => import( './pages/eventos/InfosEventos.tsx' ) );
 const DetalhesConfig = lazy( () => import( './pages/config/DetalhesConfig.tsx' ) );
 const UpdateConfig = lazy( () => import( './pages/config/UpdateConfig.tsx' ) );
@@ -96,6 +101,11 @@ createRoot(document.getElementById('root')!).render(
               <Route path='/create-dispositivo/:empresaId' element={<CreateDispositivo />} />
               <Route path='/update-dispositivo/:dispositivoId' element={<UpdateDispositivo />} />
               <Route path='/detalhes-dispositivo/:dispositivoId' element={<DetalhesDispositivo />} />
+
+              <Route path='/agentes/:empresaId' element={<ManterAgentes />} />
+              <Route path='/create-agente/:empresaId' element={<CreateAgente />} />
+              <Route path='/update-agente/:agenteId/:empresaId' element={<UpdateAgente />} />
+              <Route path='/detalhes-agente/:agenteId/:empresaId' element={<DetalhesAgente />} />
 
               <Route path='/infos-eventos/:dispositivoId' element={<InfosEventos />} />
 

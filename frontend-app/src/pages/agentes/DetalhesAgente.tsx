@@ -1,24 +1,24 @@
 import { useNavigate, useParams } from "react-router-dom";
-import useDetalhesEmpresaViewModel from "../../core/viewModel/empresa/useDetalhesEmpresaViewModel";
+import useDetalhesAgenteViewModel from "../../core/viewModel/agente/useDetalhesAgenteViewModel";
 import AppLayout from "../../layout/AppLayout";
 import { Button, Card } from "react-bootstrap";
+import AppField from "../../components/AppField";
 import AppMessage from "../../components/AppMessage";
 import AppSpinner from "../../components/AppSpinner";
-import { MdArrowBack, MdDeviceHub, MdMoney, MdOutlineEdit } from "react-icons/md";
+import { MdArrowBack, MdOutlineEdit } from "react-icons/md";
 import useEffectOnce from "../../core/util/useEffectOnce";
-import EmpresaInfoBox from "./EmpresaInfoBox";
 
-function DetalhesEmpresa() {
+function DetalhesAgente() {
 
     const {
-        loadEmpresa,
-        empresa,
+        loadAgente,
+        agente,
         loading,
         errorMessage,
         infoMessage
-    } = useDetalhesEmpresaViewModel();
+    } = useDetalhesAgenteViewModel();
 
-    const { empresaId } = useParams();
+    const { agenteId, empresaId } = useParams();
 
     const navigate = useNavigate();
 
@@ -28,8 +28,8 @@ function DetalhesEmpresa() {
 
     const onLoad = async () => {
         try {
-            const eid : number = parseInt( empresaId! );
-            await loadEmpresa( eid );
+            const rid : number = parseInt( agenteId! );
+            await loadAgente( rid );
         } catch ( error ) {
             console.error( error );
         }
@@ -41,22 +41,13 @@ function DetalhesEmpresa() {
                 <Button type="button" onClick={() => navigate( -1 )} className="func">
                     <MdArrowBack size={25}/> Voltar
                 </Button>
-                <Button type="button" onClick={() => navigate( `/update-empresa/${empresaId}` )} className="func">
-                    <MdOutlineEdit size={25}/> Editar empresa
-                </Button>
-                <Button type="button" onClick={() => navigate( `/pagamentos/${empresaId}` )} className="func">
-                    <MdMoney size={25}/> Ver pagamentos
-                </Button>
-                <Button type="button" onClick={() => navigate( `/dispositivos/${empresaId}`)} className="func">
-                    <MdDeviceHub size={25}/> Ver dispositivos
-                </Button>
-                <Button type="button" onClick={() => navigate( `/agentes/${empresaId}`)} className="func">
-                    <MdDeviceHub size={25}/> Ver agente
+                <Button type="button" onClick={() => navigate( `/update-agente/${agenteId}/${empresaId}`)} className="func">
+                    <MdOutlineEdit size={25}/> Editar agente
                 </Button>
             </div>
             
-            <h3 className="title">Detalhes da empresa</h3>
-            
+            <h3 className="title">Detalhes do agente</h3>
+           
             <div className="d-flex justify-content-center mt-3">
                 <Card>
                     <Card.Body>
@@ -67,7 +58,15 @@ function DetalhesEmpresa() {
                             <AppSpinner className="mx-auto" visible={loading} />
                         </div>
                         
-                        <EmpresaInfoBox empresa={empresa} />
+                        <AppField name="ID">
+                            {agente.id}
+                        </AppField>
+                        <AppField name="chave">
+                            {agente.chave}
+                        </AppField>  
+                        <AppField name="nome">
+                            {agente.nome}
+                        </AppField>                        
                     </Card.Body>
                 </Card>
             </div>
@@ -75,4 +74,4 @@ function DetalhesEmpresa() {
     );
 }
 
-export default DetalhesEmpresa;
+export default DetalhesAgente;

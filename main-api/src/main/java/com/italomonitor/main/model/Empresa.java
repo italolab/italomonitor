@@ -70,4 +70,7 @@ public class Empresa {
     @OneToMany(mappedBy = "empresa", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Dispositivo> dispositivos;
     
+    @OneToMany(mappedBy = "empresa", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<Agente> agentes;
+    
 }
