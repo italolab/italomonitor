@@ -50,6 +50,8 @@ public class Dispositivo {
     
     private int latenciaMedia;
     
+    private boolean monitoradoPorAgente;
+    
     @Temporal(TemporalType.TIMESTAMP)
     private Date stateAtualizadoEm;
     
@@ -60,6 +62,10 @@ public class Dispositivo {
     @JoinColumn(name="empresa_id")
     private Empresa empresa;
 
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name="agente_id")
+    private Agente agente;
+    
     @OneToMany(mappedBy = "dispositivo", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Evento> eventos;
 

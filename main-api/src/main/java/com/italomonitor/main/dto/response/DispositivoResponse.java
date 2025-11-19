@@ -35,6 +35,10 @@ public class DispositivoResponse {
     
     private Date stateAtualizadoEm;
     
+    private boolean monitoradoPorAgente;
+    
     private EmpresaResponse empresa;
+    
+    private AgenteResponse agente;
 
 }

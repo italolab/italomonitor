@@ -14,10 +14,12 @@ import com.italomonitor.main.dto.integration.DispMonitorDispositivoState;
 import com.italomonitor.main.dto.integration.DispMonitorEmpresa;
 import com.italomonitor.main.dto.request.SaveDispositivoRequest;
 import com.italomonitor.main.dto.request.SaveDispositivoStateRequest;
+import com.italomonitor.main.dto.response.AgenteResponse;
 import com.italomonitor.main.dto.response.DispositivoResponse;
 import com.italomonitor.main.dto.response.DispositivosInfosResponse;
 import com.italomonitor.main.dto.response.EmpresaResponse;
 import com.italomonitor.main.enums.DispositivoStatus;
+import com.italomonitor.main.model.Agente;
 import com.italomonitor.main.model.Dispositivo;
 import com.italomonitor.main.model.Empresa;
 
@@ -26,6 +28,9 @@ public class DispositivoMapper {
 
 	@Autowired
 	private EmpresaMapper empresaMapper;
+	
+	@Autowired
+	private AgenteMapper agenteMapper;
 	
     public Dispositivo map( SaveDispositivoRequest request ) {
         return Dispositivo.builder()
@@ -39,10 +44,15 @@ public class DispositivoMapper {
 
     public DispositivoResponse map( Dispositivo dispositivo ) {
     	EmpresaResponse empresaResp = null;
+    	AgenteResponse agenteResp = null;
     	
     	Empresa empresa = dispositivo.getEmpresa();
     	if ( empresa != null )
     		empresaResp = empresaMapper.map( empresa );    	
+    	
+    	Agente agente = dispositivo.getAgente();
+    	if ( agente != null )
+    		agenteResp = agenteMapper.map( agente );
     	
         return DispositivoResponse.builder()
                 .id( dispositivo.getId() )
@@ -54,7 +64,9 @@ public class DispositivoMapper {
                 .status( dispositivo.getStatus() )
                 .latenciaMedia( dispositivo.getLatenciaMedia() )
                 .stateAtualizadoEm( dispositivo.getStateAtualizadoEm() ) 
+                .monitoradoPorAgente( dispositivo.isMonitoradoPorAgente() ) 
                 .empresa( empresaResp )
+                .agente( agenteResp )
                 .build();
     }
     
