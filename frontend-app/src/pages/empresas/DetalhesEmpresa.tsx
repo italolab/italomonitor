@@ -4,9 +4,11 @@ import AppLayout from "../../layout/AppLayout";
 import { Button, Card } from "react-bootstrap";
 import AppMessage from "../../components/AppMessage";
 import AppSpinner from "../../components/AppSpinner";
-import { MdArrowBack, MdDeviceHub, MdMoney, MdOutlineEdit } from "react-icons/md";
+import { MdArrowBack, MdDeviceHub, MdOutlineEdit } from "react-icons/md";
 import useEffectOnce from "../../core/util/useEffectOnce";
 import EmpresaInfoBox from "./EmpresaInfoBox";
+import { FaMoneyBill1 } from "react-icons/fa6";
+import { LuRouter } from "react-icons/lu";
 
 function DetalhesEmpresa() {
 
@@ -45,10 +47,10 @@ function DetalhesEmpresa() {
                     <MdOutlineEdit size={25}/> Editar empresa
                 </Button>
                 <Button type="button" onClick={() => navigate( `/pagamentos/${empresaId}` )} className="func">
-                    <MdMoney size={25}/> Ver pagamentos
+                    <FaMoneyBill1 size={25}/> &nbsp; Ver pagamentos
                 </Button>
                 <Button type="button" onClick={() => navigate( `/dispositivos/${empresaId}`)} className="func">
-                    <MdDeviceHub size={25}/> Ver dispositivos
+                    <LuRouter size={25}/> &nbsp; Ver dispositivos
                 </Button>
                 <Button type="button" onClick={() => navigate( `/agentes/${empresaId}`)} className="func">
                     <MdDeviceHub size={25}/> Ver agente

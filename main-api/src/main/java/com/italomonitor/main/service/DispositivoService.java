@@ -97,7 +97,8 @@ public class DispositivoService {
 
         dispositivoRepository.save( dispositivo );
         
-        dispositivoMonitorEscalonador.startMonitoramento( dispositivo.getId() ); 
+        if ( !dispositivo.isMonitoradoPorAgente() )
+        	dispositivoMonitorEscalonador.startMonitoramento( dispositivo.getId() ); 
     }
 
     public void updateDispositivo( Long dispositivoId, SaveDispositivoRequest request ) {
@@ -123,8 +124,10 @@ public class DispositivoService {
         	
         	dispositivo.setAgente( agente );
         	
-        	if ( dispositivo.isSendoMonitorado() )
+        	if ( dispositivo.isSendoMonitorado() ) {
         		dispositivoMonitorEscalonador.stopMonitoramento( dispositivo.getId() );
+        		dispositivo.setSendoMonitorado( false ); 
+        	}
         } else {
         	Long empresaId = request.getEmpresaId();
         	Optional<Empresa> empresaOp = empresaRepository.findById( empresaId );
