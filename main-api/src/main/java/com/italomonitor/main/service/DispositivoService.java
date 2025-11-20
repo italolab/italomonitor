@@ -84,16 +84,16 @@ public class DispositivoService {
         }
         
         Long empresaId = empresa.getId();
-        
-        dispositivo.setEmpresa( empresa );        
-        
+               
         int dispositivosQuantByEmpresa = dispositivoRepository.countByEmpresa( empresaId );
         if ( dispositivosQuantByEmpresa >= empresa.getMaxDispositivosQuant() )
         	throw new BusinessException( Errors.DISPOSITIVO_CREATE_EXCEDE_LIMITE, ""+dispositivosQuantByEmpresa );         
 
         Optional<Dispositivo> dispositivoOp = dispositivoRepository.findByNomeAndEmpresa( nome, empresaId );
         if ( dispositivoOp.isPresent() )
-            throw new BusinessException( Errors.DISPOSITIVO_ALREADY_EXISTS );        
+            throw new BusinessException( Errors.DISPOSITIVO_ALREADY_EXISTS );
+        
+        dispositivo.setEmpresa( empresa );        
 
         dispositivoRepository.save( dispositivo );
         

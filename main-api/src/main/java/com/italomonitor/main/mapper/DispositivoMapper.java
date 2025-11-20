@@ -38,7 +38,8 @@ public class DispositivoMapper {
                 .descricao( request.getDescricao() )
                 .localizacao( request.getLocalizacao() )
                 .status( DispositivoStatus.INATIVO )
-                .monitoradoPorAgente( request.isMonitoradoPorAgente() )                
+                .monitoradoPorAgente( request.isMonitoradoPorAgente() )     
+                .stateAtualizadoEm( new Date() ) 
                 .build();
     }
 
@@ -114,7 +115,8 @@ public class DispositivoMapper {
         disp.setNome( request.getNome() );
         disp.setDescricao( request.getDescricao() );
         disp.setLocalizacao( request.getLocalizacao() );
-        disp.setStatus( DispositivoStatus.INATIVO ); 
+        disp.setStatus( DispositivoStatus.INATIVO );
+        disp.setStateAtualizadoEm( new Date() ); 
         disp.setMonitoradoPorAgente( request.isMonitoradoPorAgente() ); 
     }
      

@@ -35,7 +35,7 @@ public class Agente {
 	 
 	 private String nome;
 	 
-	 @ManyToOne(fetch=FetchType.LAZY)
+	 @ManyToOne(fetch=FetchType.EAGER)
 	 @JoinColumn(name="empresa_id")
 	 private Empresa empresa;
 	 
