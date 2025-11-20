@@ -28,27 +28,10 @@ public class WebSocketHandlerDecoratorFactory2 implements WebSocketHandlerDecora
 			public void afterConnectionClosed(WebSocketSession session, CloseStatus closeStatus) throws Exception {
 				connectedUsers.remove( session.getId() );
 				super.afterConnectionClosed( session, closeStatus ); 
-			}
+			}								
 		} ;
 	}
-	
 		
-	/*
-	@EventListener
-	public void handleConnectedListener( SessionConnectedEvent event ) {
-		StompHeaderAccessor acessor = StompHeaderAccessor.wrap( event.getMessage() );
-		
-		connectedUsers.put( acessor.getSessionId(), acessor.getUser().getName() );		
-	}
-	
-	@EventListener
-	public void handleDisconnectedListener( SessionDisconnectEvent event ) {
-		StompHeaderAccessor acessor = StompHeaderAccessor.wrap( event.getMessage() );
-
-		connectedUsers.remove( acessor.getSessionId() );
-	}
-	*/
-	
 	public boolean verifySeConnected( String username ) {
 		return connectedUsers.containsValue( username );
 	}
