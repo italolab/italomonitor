@@ -37,7 +37,7 @@ public class DispositivoMapper {
                 .nome( request.getNome() )
                 .descricao( request.getDescricao() )
                 .localizacao( request.getLocalizacao() )
-                .status( DispositivoStatus.INATIVO )
+                .status( DispositivoStatus.ATIVO )
                 .monitoradoPorAgente( request.isMonitoradoPorAgente() )     
                 .stateAtualizadoEm( new Date() ) 
                 .build();
@@ -88,6 +88,7 @@ public class DispositivoMapper {
                 .status( dispositivo.getStatus() )
                 .latenciaMedia( dispositivo.getLatenciaMedia() )
                 .stateAtualizadoEm( dispositivo.getStateAtualizadoEm() ) 
+                .monitoradoPorAgente( dispositivo.isMonitoradoPorAgente() )
                 .empresa( dmEmpresa )
                 .build();
     }
@@ -115,7 +116,6 @@ public class DispositivoMapper {
         disp.setNome( request.getNome() );
         disp.setDescricao( request.getDescricao() );
         disp.setLocalizacao( request.getLocalizacao() );
-        disp.setStatus( DispositivoStatus.INATIVO );
         disp.setStateAtualizadoEm( new Date() ); 
         disp.setMonitoradoPorAgente( request.isMonitoradoPorAgente() ); 
     }

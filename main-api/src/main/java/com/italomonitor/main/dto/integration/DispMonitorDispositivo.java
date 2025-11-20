@@ -35,6 +35,8 @@ public class DispMonitorDispositivo {
     
     private Date stateAtualizadoEm;
     
+    private boolean monitoradoPorAgente;
+    
     private DispMonitorEmpresa empresa;
 	
 }

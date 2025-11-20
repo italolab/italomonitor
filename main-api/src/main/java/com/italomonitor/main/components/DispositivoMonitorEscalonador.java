@@ -58,7 +58,7 @@ public class DispositivoMonitorEscalonador {
 		Config config = configRepository.findFirstByOrderByIdAsc();
 		List<MonitorServer> monitorServers = monitorServerRepository.findAll();
 		
-    	List<Long> dispsIDs = dispositivoRepository.findAllIDs();
+    	List<Long> dispsIDs = dispositivoRepository.findAllIDsNoMonitByAgente();
     	
     	int dispsQuant = dispsIDs.size();
     	
@@ -96,7 +96,7 @@ public class DispositivoMonitorEscalonador {
 		
 		dispositivoRepository.updateAllToNaoSendoMonitorado();
 		
-		List<Long> ids = dispositivoRepository.findAllIDs();
+		List<Long> ids = dispositivoRepository.findAllIDsNoMonitByAgente();
 		for( long dispId : ids )
 			dispositivosInfosWebSocket.sendDispositivosInfosMessage( dispId );		
     	
@@ -107,7 +107,7 @@ public class DispositivoMonitorEscalonador {
 		Config config = configRepository.findFirstByOrderByIdAsc();
 		List<MonitorServer> monitorServers = monitorServerRepository.findAll();
 		
-		List<Long> dispsIDs = dispositivoRepository.findIDsByEmpresaId( empresaId );
+		List<Long> dispsIDs = dispositivoRepository.findIDsByEmpresaIdNoMonitByAgente( empresaId );
 		int dispsQuant = dispsIDs.size();
 		int dispsMonitQuant = 0;
 		for( Long dispositivoId : dispsIDs ) {
@@ -131,7 +131,7 @@ public class DispositivoMonitorEscalonador {
 	public void stopEmpresaMonitoramentos( Long empresaId ) {
 		List<MonitorServer> monitorServers = monitorServerRepository.findAll();
 		
-		List<Long> dispIDs = dispositivoRepository.findIDsByEmpresaId( empresaId );
+		List<Long> dispIDs = dispositivoRepository.findIDsByEmpresaIdNoMonitByAgente( empresaId );
 		for( Long dispositivoId : dispIDs )
 			this.stopMonitoramento( dispositivoId, monitorServers );		
 	}
@@ -142,6 +142,8 @@ public class DispositivoMonitorEscalonador {
 		
 		MonitoramentoOperResult result = this.startMonitoramento( dispositivoId, config, monitorServers );
 		switch( result ) {
+			case MONITORADO_POR_AGENTE:
+				throw new BusinessException( Errors.DISPOSITIVO_MONITORADO_POR_AGENTE );
 			case JA_INICIADO:
 	            throw new BusinessException( Errors.DISPOSITIVO_ALREADY_MONITORED );
 			case EXCEDE_LIMITE: // excede o limite em todos os monitor_servers
@@ -176,7 +178,7 @@ public class DispositivoMonitorEscalonador {
 			throw new BusinessException( Errors.DISPOSITIVO_NOT_FOUND );
 		
 		Dispositivo dispositivo = dispositivoOp.get();
-				
+						
 		if ( this.verificaSeSendoMonitorado( dispositivoId, monitorServers ) ) {
 			this.updateDispositivo( dispositivo, true );  
 		
@@ -228,6 +230,8 @@ public class DispositivoMonitorEscalonador {
 						return MonitoramentoOperResult.JA_INICIADO;	
 					case EXCEDE_LIMITE: // excede o limite apenas no monitor_server atual
 						break;
+					case MONITORADO_POR_AGENTE:
+						return MonitoramentoOperResult.MONITORADO_POR_AGENTE;
 					default:
 						throw new ErrorException( "Status de start monitoramento inválido. Status="+resp.getResult() );
 				}

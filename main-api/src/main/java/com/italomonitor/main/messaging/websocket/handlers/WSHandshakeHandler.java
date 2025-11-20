@@ -3,6 +3,7 @@ package com.italomonitor.main.messaging.websocket.handlers;
 import java.security.Principal;
 import java.util.Date;
 import java.util.Map;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.server.ServerHttpRequest;
@@ -41,7 +42,7 @@ public class WSHandshakeHandler extends DefaultHandshakeHandler {
             }
         }
 		
-		return super.determineUser( request, wsHandler, attributes );
+		return () -> UUID.randomUUID().toString(); 
 	}
 
 }

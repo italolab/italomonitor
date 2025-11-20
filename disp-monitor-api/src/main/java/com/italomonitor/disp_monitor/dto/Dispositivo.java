@@ -35,6 +35,8 @@ public class Dispositivo {
     
     private Date stateAtualizadoEm;
     
+    private boolean monitoradoPorAgente;
+    
     private Empresa empresa;
 	
 }

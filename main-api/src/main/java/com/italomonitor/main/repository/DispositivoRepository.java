@@ -15,11 +15,11 @@ public interface DispositivoRepository extends JpaRepository<Dispositivo, Long> 
     @Query( "select d from Dispositivo d where d.empresa.id=?1" )
     List<Dispositivo> list( Long empresaId );
     
-    @Query( "select d.id from Dispositivo d") 
-    List<Long> findAllIDs();
+    @Query( "select d.id from Dispositivo d where d.monitoradoPorAgente=false") 
+    List<Long> findAllIDsNoMonitByAgente();
     
-    @Query( "select d.id from Dispositivo d where d.empresa.id=?1")
-    List<Long> findIDsByEmpresaId( Long empresaId );
+    @Query( "select d.id from Dispositivo d where d.empresa.id=?1 and d.monitoradoPorAgente=false")
+    List<Long> findIDsByEmpresaIdNoMonitByAgente( Long empresaId );
     
     @Query( "select count(*) from Dispositivo d where d.empresa.id=?1")
     int countByEmpresa( Long empresaId );

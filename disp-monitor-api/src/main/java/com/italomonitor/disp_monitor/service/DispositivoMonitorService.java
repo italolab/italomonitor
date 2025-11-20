@@ -40,6 +40,11 @@ public class DispositivoMonitorService {
     	Config config = request.getConfig();
         Dispositivo dispositivo = request.getDispositivo();
                 
+        if ( dispositivo.isMonitoradoPorAgente() )
+        	return MonitoramentoOperResponse.builder()
+            		.result( MonitoramentoOperResult.MONITORADO_POR_AGENTE )
+            		.build();
+        
     	Long dispositivoId = dispositivo.getId();
 
     	if ( dispositivoMonitorMap.containsKey( dispositivoId ) ) {
