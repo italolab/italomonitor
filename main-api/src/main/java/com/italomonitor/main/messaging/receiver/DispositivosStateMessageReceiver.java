@@ -81,7 +81,7 @@ public class DispositivosStateMessageReceiver {
 			DispositivoResponse resp = dispositivoMapper.map( dispositivo );
 	        String wsMessage = dispositivoMapper.mapToString( resp );
 	        
-	        Empresa empresa = dispositivo.getEmpresa(); // EMPRESA PODE SER NULA	        
+	        Empresa empresa = dispositivo.getEmpresa();	        	        
 	        Long empresaId = empresa.getId();
 	        
 	        List<String> usernames = usuarioRepository.getUsernamesByEmpresa( empresaId );

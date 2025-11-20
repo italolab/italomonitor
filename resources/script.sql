@@ -66,7 +66,7 @@ create table dispositivo (
     latencia_media int default 0,
     state_atualizado_em timestamp default current_timestamp,
     monitorado_por_agente boolean default false,
-    empresa_id bigint,
+    empresa_id bigint not null,
     agente_id bigint,
     constraint empresa_fk foreign key( empresa_id ) references empresa( id ),
     constraint agente_fk foreign key( agente_id ) references agente( id )

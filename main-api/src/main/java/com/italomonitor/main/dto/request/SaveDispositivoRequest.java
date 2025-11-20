@@ -19,7 +19,9 @@ public class SaveDispositivoRequest {
     private String nome;
     private String descricao;
     private String localizacao;
+    private boolean monitoradoPorAgente;
     private Long empresaId;
+    private Long agenteId;
 
     public void validate() {
         List<Validator> validators = new ArrayList<>();

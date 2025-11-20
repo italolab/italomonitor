@@ -183,9 +183,17 @@ function DetalhesDispositivo() {
                         <AppField name="localização">
                             {dispositivo.localizacao}
                         </AppField>
+                        <AppField name="monitorado por agente">
+                            {dispositivo.monitoradoPorAgente === true ? 'Sim' : 'Não' }
+                        </AppField>
                         <AppField name="empresa">
                             { dispositivo.empresa != null ? dispositivo.empresa.nome : 'Nenhuma empresa!' }
                         </AppField>
+                        { dispositivo.monitoradoPorAgente === true && 
+                            <AppField name="agente">
+                                {dispositivo.agente.nome}
+                            </AppField>
+                        }
                     </Card.Body>
                 </Card>
             </div>

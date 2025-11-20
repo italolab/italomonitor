@@ -306,7 +306,7 @@ public class DispositivoMonitorEscalonador {
         dispositivoRepository.save( dispositivo );
 
         dispositivosWebSocket.sendMessage( dispositivo );
-        
+                
         this.updateDispositivoInMonitor( dispositivo ); 
 	}
 	

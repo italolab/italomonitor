@@ -9,13 +9,11 @@ import org.springframework.http.server.ServerHttpRequest;
 import org.springframework.http.server.ServletServerHttpRequest;
 import org.springframework.stereotype.Component;
 import org.springframework.web.socket.WebSocketHandler;
-import org.springframework.web.socket.server.HandshakeFailureException;
 import org.springframework.web.socket.server.support.DefaultHandshakeHandler;
 
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.italomonitor.main.components.util.JwtTokenUtil;
-import com.italomonitor.main.exception.Errors;
 
 import jakarta.servlet.http.HttpServletRequest;
 
@@ -43,7 +41,7 @@ public class WSHandshakeHandler extends DefaultHandshakeHandler {
             }
         }
 		
-		throw new HandshakeFailureException( Errors.NOT_AUTHORIZED );
+		return super.determineUser( request, wsHandler, attributes );
 	}
 
 }

@@ -9,6 +9,7 @@ import type { SaveDispositivoRequest } from "../../core/model/dto/request/SaveDi
 import AppLayout from "../../layout/AppLayout";
 import { MdArrowBack } from "react-icons/md";
 import useEffectOnce from "../../core/util/useEffectOnce";
+import type { AgenteResponse } from "../../core/model/dto/response/AgenteResponse";
 
 function UpdateDispositivo() {
 
@@ -16,12 +17,17 @@ function UpdateDispositivo() {
     const [nome, setNome] = useState<string>( '' );
     const [descricao, setDescricao] = useState<string>( '' );
     const [localizacao, setLocalizacao] = useState<string>( '' );
+    const [monitoradoPorAgente, setMonitoradoPorAgente] = useState<boolean>( false );
+
+    const [agentes, setAgentes] = useState<AgenteResponse[]>( [] );
+    const [agenteId, setAgenteId] = useState<number>( -1 );
 
     const empresaId = useRef<number>( -1 );
 
     const {
         updateDispositivo,
         getDispositivo,
+        getAgentesDaEmpresa,
         loading,
         errorMessage,
         infoMessage
@@ -43,8 +49,16 @@ function UpdateDispositivo() {
             setNome( dispositivo.nome );
             setDescricao( dispositivo.descricao );
             setLocalizacao( dispositivo.localizacao );
+            setMonitoradoPorAgente( dispositivo.monitoradoPorAgente );
+            
+            setAgenteId( dispositivo.monitoradoPorAgente === true ? dispositivo.agente.id : -1 );
 
             empresaId.current = dispositivo.empresa.id;
+
+            const agentesList : AgenteResponse[] = await getAgentesDaEmpresa( empresaId.current );
+            if ( agentesList.length > 0 && dispositivo.monitoradoPorAgente === false )
+                setAgenteId( agentesList[ 0 ].id );
+            setAgentes( agentesList );
         } catch ( error ) {
             console.error( error );
         }
@@ -57,7 +71,9 @@ function UpdateDispositivo() {
                 nome : nome,
                 descricao : descricao,
                 localizacao : localizacao,
-                empresaId : empresaId.current
+                monitoradoPorAgente: monitoradoPorAgente,
+                empresaId : empresaId.current,
+                agenteId: agenteId
             };
            
             const uid : number = parseInt( dispositivoId! );
@@ -114,6 +130,29 @@ function UpdateDispositivo() {
                                     value={localizacao}
                                     onChange={ ( e ) => setLocalizacao( e.target.value ) } />
                             </Form.Group>
+
+                            <Form.Group className="mb-3" controlId="monitoradoPorAgente">
+                                <Form.Check type="checkbox" 
+                                        label="Monitorado por agente"
+                                        checked={monitoradoPorAgente}
+                                        onChange={ () => setMonitoradoPorAgente( !monitoradoPorAgente )}
+                                        inline />
+                            </Form.Group>
+
+                            { monitoradoPorAgente === true && 
+                                <Form.Group controlId="agente">
+                                    <Form.Label>Agente</Form.Label>
+                                    <Form.Select className="mb-3"
+                                            value={agenteId} 
+                                            onChange={(e) => setAgenteId( parseInt( e.target.value ) )}>
+                                        { agentes.map( (agente, index) => 
+                                            <option key={index} value={agente.id}>
+                                                {agente.nome}
+                                            </option>
+                                        ) }
+                                    </Form.Select>
+                                </Form.Group>
+                            }
                             
                             <AppMessage message={errorMessage} type="error" />
                             <AppMessage message={infoMessage} type="info" />

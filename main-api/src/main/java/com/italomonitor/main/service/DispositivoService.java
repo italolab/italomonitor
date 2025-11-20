@@ -15,8 +15,10 @@ import com.italomonitor.main.exception.BusinessException;
 import com.italomonitor.main.exception.Errors;
 import com.italomonitor.main.mapper.DispositivoMapper;
 import com.italomonitor.main.mapper.EmpresaMapper;
+import com.italomonitor.main.model.Agente;
 import com.italomonitor.main.model.Dispositivo;
 import com.italomonitor.main.model.Empresa;
+import com.italomonitor.main.repository.AgenteRepository;
 import com.italomonitor.main.repository.DispositivoRepository;
 import com.italomonitor.main.repository.EmpresaRepository;
 
@@ -31,6 +33,9 @@ public class DispositivoService {
 
     @Autowired
     private EmpresaRepository empresaRepository;
+    
+    @Autowired
+    private AgenteRepository agenteRepository;
 
     @Autowired
     private DispositivoMapper dispositivoMapper;
@@ -56,23 +61,39 @@ public class DispositivoService {
         Dispositivo dispositivo = dispositivoMapper.map( request );
         String nome = dispositivo.getNome();
         
-        Long empresaId = request.getEmpresaId();
+        Empresa empresa;        
+        if ( request.isMonitoradoPorAgente() ) {
+        	Long agenteId = request.getAgenteId();        
+        	Optional<Agente> agenteOp = agenteRepository.findById( agenteId );
+        	if ( agenteOp.isEmpty() )
+        		throw new BusinessException( Errors.AGENTE_NOT_FOUND );
+        	
+        	Agente agente = agenteOp.get();
+        	empresa = agente.getEmpresa();
+        	
+        	dispositivo.setAgente( agente );
+        } else {
+        	Long empresaId = request.getEmpresaId();
+        	Optional<Empresa> empresaOp = empresaRepository.findById( empresaId );
+        	if ( empresaOp.isEmpty() )
+        		throw new BusinessException( Errors.EMPRESA_NOT_FOUND );
 
-        Optional<Dispositivo> dispositivoOp = dispositivoRepository.findByNomeAndEmpresa( nome, empresaId );
-        if ( dispositivoOp.isPresent() )
-            throw new BusinessException( Errors.DISPOSITIVO_ALREADY_EXISTS );
-
-        Optional<Empresa> empresaOp = empresaRepository.findById( empresaId );
-        if ( empresaOp.isEmpty() )
-            throw new BusinessException( Errors.EMPRESA_NOT_FOUND );
-
-        Empresa empresa = empresaOp.get();
+        	empresa = empresaOp.get();
+        	
+        	dispositivo.setAgente( null ); 
+        }
+        
+        Long empresaId = empresa.getId();
+        
+        dispositivo.setEmpresa( empresa );        
         
         int dispositivosQuantByEmpresa = dispositivoRepository.countByEmpresa( empresaId );
         if ( dispositivosQuantByEmpresa >= empresa.getMaxDispositivosQuant() )
-        	throw new BusinessException( Errors.DISPOSITIVO_CREATE_EXCEDE_LIMITE, ""+dispositivosQuantByEmpresa ); 
-        
-        dispositivo.setEmpresa( empresa );
+        	throw new BusinessException( Errors.DISPOSITIVO_CREATE_EXCEDE_LIMITE, ""+dispositivosQuantByEmpresa );         
+
+        Optional<Dispositivo> dispositivoOp = dispositivoRepository.findByNomeAndEmpresa( nome, empresaId );
+        if ( dispositivoOp.isPresent() )
+            throw new BusinessException( Errors.DISPOSITIVO_ALREADY_EXISTS );        
 
         dispositivoRepository.save( dispositivo );
         
@@ -83,26 +104,47 @@ public class DispositivoService {
         request.validate();
 
         String nome = request.getNome();
-        Long empresaId = request.getEmpresaId();
-
+        
         Optional<Dispositivo> dispositivoOp = dispositivoRepository.findById( dispositivoId );
         if ( dispositivoOp.isEmpty() )
             throw new BusinessException( Errors.DISPOSITIVO_NOT_FOUND );
 
         Dispositivo dispositivo = dispositivoOp.get();
+        
+        Empresa empresa;        
+        if ( request.isMonitoradoPorAgente() ) {
+        	Long agenteId = request.getAgenteId();        
+        	Optional<Agente> agenteOp = agenteRepository.findById( agenteId );
+        	if ( agenteOp.isEmpty() )
+        		throw new BusinessException( Errors.AGENTE_NOT_FOUND );
+        	
+        	Agente agente = agenteOp.get();
+        	empresa = agente.getEmpresa();
+        	
+        	dispositivo.setAgente( agente );
+        } else {
+        	Long empresaId = request.getEmpresaId();
+        	Optional<Empresa> empresaOp = empresaRepository.findById( empresaId );
+        	if ( empresaOp.isEmpty() )
+        		throw new BusinessException( Errors.EMPRESA_NOT_FOUND );
+
+        	empresa = empresaOp.get();
+        	
+        	dispositivo.setAgente( null ); 
+        }
+        
+        Long empresaId = empresa.getId();
+        dispositivo.setEmpresa( empresa ); 
+
         if ( !dispositivo.getNome().equalsIgnoreCase( nome ) )
             if ( dispositivoRepository.findByNomeAndEmpresa( nome, empresaId ).isPresent() )
                 throw new BusinessException( Errors.DISPOSITIVO_ALREADY_EXISTS );
 
-        Optional<Empresa> empresaOp = empresaRepository.findById( empresaId );
-        if ( empresaOp.isEmpty() )
-            throw new BusinessException( Errors.EMPRESA_NOT_FOUND );
-
-        dispositivo.setEmpresa( empresaOp.get() );
-
         dispositivoMapper.load( dispositivo, request );
 
         dispositivoRepository.save( dispositivo );
+        
+        dispositivo = dispositivoRepository.findById( dispositivo.getId() ).get();
         dispositivoMonitorEscalonador.updateDispositivoInMonitor( dispositivo );
     }
     

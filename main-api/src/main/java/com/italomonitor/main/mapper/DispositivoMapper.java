@@ -13,7 +13,6 @@ import com.italomonitor.main.dto.integration.DispMonitorDispositivo;
 import com.italomonitor.main.dto.integration.DispMonitorDispositivoState;
 import com.italomonitor.main.dto.integration.DispMonitorEmpresa;
 import com.italomonitor.main.dto.request.SaveDispositivoRequest;
-import com.italomonitor.main.dto.request.SaveDispositivoStateRequest;
 import com.italomonitor.main.dto.response.AgenteResponse;
 import com.italomonitor.main.dto.response.DispositivoResponse;
 import com.italomonitor.main.dto.response.DispositivosInfosResponse;
@@ -38,7 +37,8 @@ public class DispositivoMapper {
                 .nome( request.getNome() )
                 .descricao( request.getDescricao() )
                 .localizacao( request.getLocalizacao() )
-                .status( DispositivoStatus.INATIVO )                
+                .status( DispositivoStatus.INATIVO )
+                .monitoradoPorAgente( request.isMonitoradoPorAgente() )                
                 .build();
     }
 
@@ -115,15 +115,9 @@ public class DispositivoMapper {
         disp.setDescricao( request.getDescricao() );
         disp.setLocalizacao( request.getLocalizacao() );
         disp.setStatus( DispositivoStatus.INATIVO ); 
+        disp.setMonitoradoPorAgente( request.isMonitoradoPorAgente() ); 
     }
-    
-    public void load( Dispositivo disp, SaveDispositivoStateRequest request ) {
-    	disp.setSendoMonitorado( request.isSendoMonitorado() );
-    	disp.setStatus( request.getStatus() );
-    	disp.setLatenciaMedia( request.getLatenciaMedia() );
-    	disp.setStateAtualizadoEm( new Date() ); 
-    }
-    
+     
     public void load( Dispositivo disp, DispMonitorDispositivoState message ) {
     	disp.setStatus( message.getStatus() ); 
     	disp.setLatenciaMedia( message.getLatenciaMedia() ); 

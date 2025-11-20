@@ -4,6 +4,7 @@ import type { SaveDispositivoRequest } from "../../model/dto/request/SaveDisposi
 import { extractErrorMessage } from "../../util/sistema-util";
 import type { DispositivoResponse } from "../../model/dto/response/DispositivoResponse";
 import { AuthContext } from "../../../context/AuthProvider";
+import { AgenteModel } from "../../model/AgenteModel";
 
 
 function useSaveDispositivoViewModel() {
@@ -15,6 +16,7 @@ function useSaveDispositivoViewModel() {
     const {setAccessToken} = useContext(AuthContext);
     
     const dispositivoModel = new DispositivoModel( setAccessToken );
+    const agenteModel = new AgenteModel( setAccessToken );
 
     const createDispositivo = async ( dispositivo : SaveDispositivoRequest ) => {
         setErrorMessage( null );
@@ -66,10 +68,28 @@ function useSaveDispositivoViewModel() {
         }
     };
 
+    const getAgentesDaEmpresa = async ( empresaId : number ) => {
+        setErrorMessage( null );
+        setInfoMessage( null );
+        setLoading( true );
+        
+        try {
+            const response = await agenteModel.filterAgentes( '', empresaId );
+
+            setLoading( false );
+            return response.data;
+        } catch ( error ) {
+            setErrorMessage( extractErrorMessage( error ) );
+            setLoading( false );
+            throw error;
+        }
+    };
+
     return { 
         createDispositivo, 
         updateDispositivo, 
         getDispositivo, 
+        getAgentesDaEmpresa,
         loading, 
         errorMessage, 
         infoMessage, 

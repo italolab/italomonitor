@@ -1,4 +1,5 @@
 import type { DispositivoStatus } from "../types";
+import type { AgenteResponse } from "./AgenteResponse";
 import type { EmpresaResponse } from "./EmpresaResponse";
 
 export interface DispositivoResponse {
@@ -11,7 +12,9 @@ export interface DispositivoResponse {
     status : DispositivoStatus;
     latenciaMedia : number;
     stateAtualizadoEm : Date;
+    monitoradoPorAgente : boolean;
     empresa : EmpresaResponse;
+    agente : AgenteResponse;
 }
 
 export const DEFAULT_DISPOSITIVO_OBJ : DispositivoResponse = {
@@ -24,6 +27,7 @@ export const DEFAULT_DISPOSITIVO_OBJ : DispositivoResponse = {
     status : 'INATIVO',
     latenciaMedia: 0,
     stateAtualizadoEm: new Date(),
+    monitoradoPorAgente: false,
     empresa: {
         id: 0,
         nome: '',
@@ -36,6 +40,13 @@ export const DEFAULT_DISPOSITIVO_OBJ : DispositivoResponse = {
         temporario: false,
         usoTemporarioPor: 0,
         bloqueada: false,
-        criadoEm: new Date()
+        criadoEm: new Date(),
+        pagoAte: new Date(),
+        usoRegularIniciadoEm: new Date()
+    },
+    agente: {
+        id: 0,
+        chave: '',
+        nome: ''
     }
 };

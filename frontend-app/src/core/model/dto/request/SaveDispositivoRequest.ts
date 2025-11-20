@@ -4,5 +4,7 @@ export interface SaveDispositivoRequest {
     nome : string;
     descricao : string;
     localizacao : string;
+    monitoradoPorAgente : boolean;
     empresaId : number;
+    agenteId : number;
 }
