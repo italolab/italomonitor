@@ -71,7 +71,7 @@ public class DispositivoService {
         	Agente agente = agenteOp.get();
         	empresa = agente.getEmpresa();
         	
-        	dispositivo.setAgente( agente );
+        	dispositivo.setAgente( agente );        	        	
         } else {
         	Long empresaId = request.getEmpresaId();
         	Optional<Empresa> empresaOp = empresaRepository.findById( empresaId );
@@ -122,6 +122,9 @@ public class DispositivoService {
         	empresa = agente.getEmpresa();
         	
         	dispositivo.setAgente( agente );
+        	
+        	if ( dispositivo.isSendoMonitorado() )
+        		dispositivoMonitorEscalonador.stopMonitoramento( dispositivo.getId() );
         } else {
         	Long empresaId = request.getEmpresaId();
         	Optional<Empresa> empresaOp = empresaRepository.findById( empresaId );
