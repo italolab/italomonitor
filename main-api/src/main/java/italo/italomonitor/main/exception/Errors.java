@@ -31,6 +31,7 @@ public interface Errors {
     public final static String DISPOSITIVO_START_EXCEDE_LIMITE = "Dispositivo não monitorado. \nNão há mais vaga para monitorar mais um dispositivo. \n$1 de $2 dispositivos monitorados";
     public final static String DISPOSITIVO_CREATE_EXCEDE_LIMITE = "Dispositivo não registrado porque o seu limite de criação de dispositivos foi atingido.\nVocê já tem $1 dispositivos registrados!";
     public final static String DISPOSITIVO_MONITORADO_POR_AGENTE = "Dispositivo monitorado por agente.";
+    public final static String DISPOSITIVO_NAO_ADICIONADO_AO_AGENTE = "Dispositivo não adicionado ao agente.";
     
     public final static String EVENT_NOT_FOUND = "Evento não encontrado.";
 

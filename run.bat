@@ -63,6 +63,10 @@ goto :fim
 exit /b 0
 
 :updispmnt
+    cd disp-monitor-lib/
+    call .\mvnw.cmd clean package -DskipTests
+    cd ..
+
     cd disp-monitor-api/
     call .\mvnw.cmd clean package -DskipTests
     cd ..

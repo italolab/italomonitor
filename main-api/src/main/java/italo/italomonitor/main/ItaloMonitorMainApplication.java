@@ -33,13 +33,19 @@ public class ItaloMonitorMainApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
-		//this.geraESalvaDispositivos( 1L );				
+		//this.geraESalvaDispositivos( 1L );			
 	}
 	
 	public void geraMicroserviceAccessToken() {
 		String[] roles = { "microservice" };
 		int expiration = Integer.MAX_VALUE;
 		System.out.println( jwtTokenUtil.createAccessToken( "microservice", roles, expiration ) );
+	}
+	
+	public void geraAgenteAccessToken() {
+		String[] roles = { "agente-monitor-all" };
+		int expiration = Integer.MAX_VALUE;
+		System.out.println( jwtTokenUtil.createAccessToken( "agente", roles, expiration ) );
 	}
 	
 	public void geraESalvaDispositivos( Long empresaId ) {
