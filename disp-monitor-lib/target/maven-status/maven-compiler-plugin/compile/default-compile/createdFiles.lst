@@ -1,0 +1,8 @@
+italo\italomonitor\disp_monitor\lib\to\Dispositivo.class
+italo\italomonitor\disp_monitor\lib\to\Evento.class
+italo\italomonitor\disp_monitor\lib\enums\DispositivoStatus.class
+italo\italomonitor\disp_monitor\lib\DispositivoMonitorListener.class
+italo\italomonitor\disp_monitor\lib\to\Config.class
+italo\italomonitor\disp_monitor\lib\to\Empresa.class
+italo\italomonitor\disp_monitor\lib\DispositivoMonitorRunnable.class
+italo\italomonitor\disp_monitor\lib\to\DispositivoState.class

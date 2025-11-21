@@ -8,7 +8,7 @@
 		<version>3.5.7</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.italomonitor</groupId>
+	<groupId>italo.italomonitor</groupId>
 	<artifactId>italo-monitor-main-api</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>main-api</name>

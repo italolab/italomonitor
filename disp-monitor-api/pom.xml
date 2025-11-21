@@ -29,6 +29,15 @@
 	<properties>
 		<java.version>17</java.version>
 	</properties>
+	
+	<!--repositories>
+		<repository>
+			<id>repositorio-local</id>
+			<name>Repositório Local</name>
+			<url>file:///C:/Users/italo/.m22</url>
+		</repository>
+	</repositories-->
+	
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -84,6 +93,11 @@
 			<version>2.8.13</version>
 		</dependency>
 		
+		<dependency>
+			<groupId>italo.italomonitor</groupId>
+			<artifactId>disp-monitor-lib</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
 	</dependencies>
 
 	<build>
