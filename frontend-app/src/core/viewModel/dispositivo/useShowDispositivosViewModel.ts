@@ -75,7 +75,8 @@ function useShowDispositivosViewModel() {
             const dispsResponse = await dispositivoModel.listDispositivos( empresaId );
             const empResponse = await empresaModel.getEmpresa( empresaId );            
 
-            filterDispositivos2( dispsResponse.data, '' );
+            const somenteInativos = false;
+            filterDispositivos2( dispsResponse.data, '', somenteInativos );
 
             dispositivosFiltradosRef.current = dispsResponse.data;
 
@@ -94,12 +95,12 @@ function useShowDispositivosViewModel() {
         }
     };
 
-    const filterDispositivos = async ( searchTermo : string ) => {
-        await filterDispositivos2( dispositivos, searchTermo );
+    const filterDispositivos = async ( searchTermo : string, somenteInativos : boolean ) => {
+        await filterDispositivos2( dispositivos, searchTermo, somenteInativos );
     };
 
 
-    const filterDispositivos2 = async ( disps : DispositivoResponse[], searchTermo : string ) => {
+    const filterDispositivos2 = async ( disps : DispositivoResponse[], searchTermo : string, somenteInativos : boolean ) => {
         const lowerSearchTermo = searchTermo.toLowerCase();
 
         const dispsFiltrados : DispositivoResponse[] = [];
@@ -110,7 +111,9 @@ function useShowDispositivosViewModel() {
                     disps[ i ].nome.toLowerCase().includes( lowerSearchTermo ) || 
                     disps[ i ].localizacao.toLowerCase().includes( lowerSearchTermo ) || 
                     dispAgenteNome.toLowerCase().includes( lowerSearchTermo ) ) {
-                dispsFiltrados.push( disps[ i ] );
+
+                if ( ( somenteInativos === true && disps[ i ].status === 'INATIVO' ) || somenteInativos === false )
+                    dispsFiltrados.push( disps[ i ] );
             }
         }        
         dispositivosFiltradosRef.current = dispsFiltrados;
@@ -127,7 +130,9 @@ function useShowDispositivosViewModel() {
             await dispositivoMonitorModel.startEmpresaMonitoramentos( empresaId );
 
             const response = await dispositivoModel.listDispositivos( empresaId );
-            filterDispositivos2( response.data, '' );
+
+            const somenteInativos = false;
+            filterDispositivos2( response.data, '', somenteInativos );
 
             setDispositivos( response.data );
 
@@ -149,7 +154,9 @@ function useShowDispositivosViewModel() {
             await dispositivoMonitorModel.stopEmpresaMonitoramentos( empresaId );
 
             const response = await dispositivoModel.listDispositivos( empresaId );
-            filterDispositivos2( response.data, '' );
+
+            const somenteInativos = false;
+            filterDispositivos2( response.data, '', somenteInativos );
 
             setDispositivos( response.data );
 

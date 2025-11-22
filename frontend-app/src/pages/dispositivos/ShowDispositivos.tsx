@@ -15,6 +15,7 @@ import { formataDataHora } from "../../core/util/sistema-util";
 function ShowDispositivos() {
 
     const [searchTermo, setSearchTermo] = useState<string>( '' );
+    const [somenteInativos, setSomenteInativos] = useState<boolean>( false );
 
     const effectCalled = useRef( false );
     const deactivateFunc = useRef( () => {} );
@@ -69,7 +70,7 @@ function ShowDispositivos() {
 
     const onFilter = async () => {
         try {
-            await filterDispositivos( searchTermo );
+            await filterDispositivos( searchTermo, somenteInativos );
         } catch ( error ) {
             console.log( error );
         }
@@ -90,6 +91,17 @@ function ShowDispositivos() {
             await stopEmpresaMonitoramentos( eid );
         } catch ( error ) {
             console.error( error );
+        }
+    };
+
+    const onChangeSomenteInativos = async () => {
+        try {
+            const somenteInativos2 = !somenteInativos;
+            setSomenteInativos( somenteInativos2 );
+
+            await filterDispositivos( searchTermo, somenteInativos2 );
+        } catch ( error ) {
+            console.log( error );
         }
     };
 
@@ -131,18 +143,23 @@ function ShowDispositivos() {
             </h6>
 
             <div className="d-block w-100 d-flex justify-content-center">
-                <div style={{width: '30em'}}>
-                    <Form>
-                        <Form.Group controlId="searchTermo">
-                            <Form.Control type="text" 
-                                placeholder="Informe o termo para busca"
-                                value={searchTermo}
-                                onChange={ (e) => setSearchTermo( e.target.value ) }
-                                onKeyUp={ onFilter } 
-                                className="mx-auto" />
-                        </Form.Group>                            
-                    </Form>
-                </div>                   
+                <Form>
+                    <Form.Group controlId="searchTermo" className="d-inline-block" style={{width: '30em'}}>
+                        <Form.Control type="text" 
+                            placeholder="Informe o termo para busca"
+                            value={searchTermo}
+                            onChange={ (e) => setSearchTermo( e.target.value ) }
+                            onKeyUp={ onFilter } 
+                            className="mx-auto" />
+                    </Form.Group>                            
+                    <Form.Group controlId="somenteInativos" className="d-inline-block mx-3 text-white">
+                        <Form.Check type="checkbox" 
+                                label="Somente inativos"
+                                checked={somenteInativos}
+                                onChange={onChangeSomenteInativos}
+                                inline />
+                    </Form.Group>             
+                </Form>                                                   
             </div>
                                             
             <div className="mt-2">                
