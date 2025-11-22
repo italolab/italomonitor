@@ -1,7 +1,15 @@
 package italo.italomonitor.agente.integration;
 
+import java.net.http.HttpRequest;
+
 import italo.italomonitor.agente.Sistema;
+import italo.italomonitor.agente.dto.integration.response.Agente;
+import italo.italomonitor.agente.exception.ErrorException;
+import italo.italomonitor.agente.nucleo.util.HttpClientManager;
 import italo.italomonitor.disp_monitor.lib.to.Config;
+import italo.italomonitor.disp_monitor.lib.to.Dispositivo;
+import italo.italomonitor.disp_monitor.lib.to.DispositivoState;
+import italo.italomonitor.disp_monitor.lib.to.Evento;
 
 public class MainAPIIntegration {
 
@@ -11,9 +19,64 @@ public class MainAPIIntegration {
 		this.sistema = sistema;
 	}
 	
-	public Config getConfig() {
+	public void postDispositivoState( DispositivoState dispState ) throws ErrorException {
 		String chave = sistema.getConfigProperties().getChave();
-		return null;
+		
+		String uri = sistema.getConfigProperties().getMainAPIEndpoints().getDispositivoStatePostEndpoint();		
+		uri = uri.replace( "{chave}", chave );
+				
+		HttpClientManager httpClientManager = sistema.getHttpClientManager();
+		
+		HttpRequest req = httpClientManager.post( uri, dispState );		
+		sistema.getHttpClientManager().asyncSend( req );
+	}
+	
+	public void postEvento( Evento evento ) throws ErrorException {
+		String chave = sistema.getConfigProperties().getChave();
+		
+		String uri = sistema.getConfigProperties().getMainAPIEndpoints().getEventoPostEndpoint();		
+		uri = uri.replace( "{chave}", chave );
+				
+		HttpClientManager httpClientManager = sistema.getHttpClientManager();
+		
+		HttpRequest req = httpClientManager.post( uri, evento );		
+		sistema.getHttpClientManager().asyncSend( req );
+	}
+	
+	public Agente getAgente() throws ErrorException {
+		String chave = sistema.getConfigProperties().getChave();
+		
+		String uri = sistema.getConfigProperties().getMainAPIEndpoints().getAgenteGetEndpoint();		
+		uri = uri.replace( "{chave}", chave );
+				
+		HttpClientManager httpClientManager = sistema.getHttpClientManager();
+		
+		HttpRequest req = httpClientManager.get( uri );		
+		return sistema.getHttpClientManager().send( req, Agente.class );
+	}
+	
+	public Config getConfig() throws ErrorException {
+		String chave = sistema.getConfigProperties().getChave();
+		
+		String uri = sistema.getConfigProperties().getMainAPIEndpoints().getConfigGetEndpoint();		
+		uri = uri.replace( "{chave}", chave );
+				
+		HttpClientManager httpClientManager = sistema.getHttpClientManager();
+		
+		HttpRequest req = httpClientManager.get( uri );		
+		return sistema.getHttpClientManager().send( req, Config.class );
+	}
+	
+	public Dispositivo getDispositivo( Long dispositivoId ) throws ErrorException {
+		String chave = sistema.getConfigProperties().getChave();
+		
+		String uri = sistema.getConfigProperties().getMainAPIEndpoints().getDispositivoGetEndpoint();		
+		uri = uri.replace( "{chave}", chave ).replace( "{dispositivoId}", ""+dispositivoId );
+				
+		HttpClientManager httpClientManager = sistema.getHttpClientManager();
+
+		HttpRequest req = httpClientManager.get( uri );		
+		return httpClientManager.send( req, Dispositivo.class );
 	}
 	
 }

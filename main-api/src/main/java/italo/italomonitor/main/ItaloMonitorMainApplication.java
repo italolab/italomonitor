@@ -33,7 +33,8 @@ public class ItaloMonitorMainApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
-		//this.geraESalvaDispositivos( 1L );			
+		//this.geraESalvaDispositivos( 1L );		
+		//this.geraAgenteAccessToken();
 	}
 	
 	public void geraMicroserviceAccessToken() {

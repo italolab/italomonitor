@@ -18,6 +18,9 @@ public interface DispositivoRepository extends JpaRepository<Dispositivo, Long> 
     @Query( "select d.id from Dispositivo d where d.monitoradoPorAgente=false") 
     List<Long> findAllIDsNoMonitByAgente();
     
+    @Query( "select d.id from Dispositivo d where d.agente is not null and d.id=?1" )
+    List<Long> findIDsByAgenteID( Long agenteId );
+    
     @Query( "select d.id from Dispositivo d where d.empresa.id=?1 and d.monitoradoPorAgente=false")
     List<Long> findIDsByEmpresaIdNoMonitByAgente( Long empresaId );
     

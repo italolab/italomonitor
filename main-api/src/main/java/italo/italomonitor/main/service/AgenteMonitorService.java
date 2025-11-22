@@ -1,16 +1,19 @@
 package italo.italomonitor.main.service;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import italo.italomonitor.main.dto.integration.DispMonitorAgente;
 import italo.italomonitor.main.dto.integration.DispMonitorConfig;
 import italo.italomonitor.main.dto.integration.DispMonitorDispositivo;
 import italo.italomonitor.main.dto.integration.DispMonitorDispositivoState;
 import italo.italomonitor.main.dto.integration.DispMonitorEvento;
 import italo.italomonitor.main.exception.BusinessException;
 import italo.italomonitor.main.exception.Errors;
+import italo.italomonitor.main.mapper.AgenteMapper;
 import italo.italomonitor.main.mapper.ConfigMapper;
 import italo.italomonitor.main.mapper.DispositivoMapper;
 import italo.italomonitor.main.messaging.receiver.processor.DispositivoStateMessageProcessor;
@@ -45,6 +48,21 @@ public class AgenteMonitorService {
 	
 	@Autowired
 	private ConfigMapper configMapper;
+	
+	@Autowired
+	private AgenteMapper agenteMapper;
+	
+	public DispMonitorAgente getAgente( String agenteChave ) {
+		Optional<Agente> agenteOp = agenteRepository.findByChave( agenteChave );
+		if ( agenteOp.isEmpty() )
+			throw new BusinessException( Errors.AGENTE_NOT_FOUND );
+		
+		Agente agente = agenteOp.get();
+		
+		List<Long> dispositivosIDs = dispositivoRepository.findIDsByAgenteID( agente.getId() );
+		
+		return agenteMapper.mapToDispMonitorAgente( agente, dispositivosIDs );		
+	}
 	
 	public DispMonitorConfig getConfig( String agenteChave ) {
 		Optional<Agente> agenteOp = agenteRepository.findByChave( agenteChave );

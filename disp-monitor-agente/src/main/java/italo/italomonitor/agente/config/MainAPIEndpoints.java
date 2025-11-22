@@ -6,6 +6,8 @@ public class MainAPIEndpoints {
 	
 	private String dispositivoGetEndpoint;
 	
+	private String agenteGetEndpoint;
+	
 	private String dispositivoStatePostEndpoint;
 	
 	private String eventoPostEndpoint;
@@ -40,6 +42,14 @@ public class MainAPIEndpoints {
 
 	public void setEventoPostEndpoint(String eventoPostEndpoint) {
 		this.eventoPostEndpoint = eventoPostEndpoint;
+	}
+
+	public String getAgenteGetEndpoint() {
+		return agenteGetEndpoint;
+	}
+
+	public void setAgenteGetEndpoint(String agenteGetEndpoint) {
+		this.agenteGetEndpoint = agenteGetEndpoint;
 	}
 	
 }

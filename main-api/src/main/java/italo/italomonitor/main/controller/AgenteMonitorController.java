@@ -10,10 +10,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import italo.italomonitor.main.apidoc.agente.monitor.GetAgenteAgMonitDoc;
 import italo.italomonitor.main.apidoc.agente.monitor.GetConfigAgMonitDoc;
 import italo.italomonitor.main.apidoc.agente.monitor.GetDispositivoAgMonitDoc;
 import italo.italomonitor.main.apidoc.agente.monitor.PostDispositivoStateAgMonitDoc;
 import italo.italomonitor.main.apidoc.agente.monitor.PostEventoAgMonitDoc;
+import italo.italomonitor.main.dto.integration.DispMonitorAgente;
 import italo.italomonitor.main.dto.integration.DispMonitorConfig;
 import italo.italomonitor.main.dto.integration.DispMonitorDispositivo;
 import italo.italomonitor.main.dto.integration.DispMonitorDispositivoState;
@@ -65,5 +67,12 @@ public class AgenteMonitorController {
 		return ResponseEntity.ok( resp );
 	}
 	
+	@GetAgenteAgMonitDoc
+	@PreAuthorize("hasAuthority('agente-monitor-all')")
+	@GetMapping("/{chave}/get")
+	public ResponseEntity<DispMonitorAgente> getAgente( @PathVariable String chave ) {
+		DispMonitorAgente resp = agenteMonitorService.getAgente( chave );
+		return ResponseEntity.ok( resp );
+	}
 	
 }
