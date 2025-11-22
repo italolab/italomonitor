@@ -28,7 +28,7 @@ export const DEFAULT_EMPRESA_OBJ : EmpresaResponse = {
     temporario: false,
     usoTemporarioPor: 0,
     bloqueada: false,
-    criadoEm: new Date(),
-    usoRegularIniciadoEm: new Date(),
-    pagoAte: new Date()
+    criadoEm: new Date( 0 ),
+    usoRegularIniciadoEm: new Date( 0 ),
+    pagoAte: new Date( 0 )
 };

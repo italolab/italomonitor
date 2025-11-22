@@ -1,5 +1,6 @@
 package italo.italomonitor.main.service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -58,7 +59,7 @@ public class AgenteMonitorService {
 			throw new BusinessException( Errors.AGENTE_NOT_FOUND );
 		
 		Agente agente = agenteOp.get();
-		
+				
 		List<Long> dispositivosIDs = dispositivoRepository.findIDsByAgenteID( agente.getId() );
 		
 		return agenteMapper.mapToDispMonitorAgente( agente, dispositivosIDs );		
@@ -94,6 +95,16 @@ public class AgenteMonitorService {
 	}
 	
 	public void processaDispositivoState( String agenteChave, DispMonitorDispositivoState dispState ) {
+		Optional<Agente> agenteOp = agenteRepository.findByChave( agenteChave );
+		if ( agenteOp.isEmpty() )
+			throw new BusinessException( Errors.AGENTE_NOT_FOUND );
+		
+		Agente agente = agenteOp.get();
+		agente.setUltimoEnvioDeEstadoEm( new Date() );
+		
+		agenteRepository.save( agente );
+		agente = agenteRepository.findById( agente.getId() ).get();
+		
 		dispositivoStateMessageProcessor.processMessage( dispState ); 
 	}
 	

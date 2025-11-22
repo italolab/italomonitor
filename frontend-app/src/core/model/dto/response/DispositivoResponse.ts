@@ -1,6 +1,6 @@
 import type { DispositivoStatus } from "../types";
-import type { AgenteResponse } from "./AgenteResponse";
-import type { EmpresaResponse } from "./EmpresaResponse";
+import { DEFAULT_AGENTE_OBJ, type AgenteResponse } from "./AgenteResponse";
+import { DEFAULT_EMPRESA_OBJ, type EmpresaResponse } from "./EmpresaResponse";
 
 export interface DispositivoResponse {
     id : number;
@@ -26,27 +26,8 @@ export const DEFAULT_DISPOSITIVO_OBJ : DispositivoResponse = {
     sendoMonitorado: false,
     status : 'INATIVO',
     latenciaMedia: 0,
-    stateAtualizadoEm: new Date(),
+    stateAtualizadoEm: new Date( 0 ),
     monitoradoPorAgente: false,
-    empresa: {
-        id: 0,
-        nome: '',
-        emailNotif: '',
-        telegramChatId: '',
-        porcentagemMaxFalhasPorLote: 0,
-        maxDispositivosQuant: 0,
-        minTempoParaProxNotif: 0,
-        diaPagto: 0,
-        temporario: false,
-        usoTemporarioPor: 0,
-        bloqueada: false,
-        criadoEm: new Date(),
-        pagoAte: new Date(),
-        usoRegularIniciadoEm: new Date()
-    },
-    agente: {
-        id: 0,
-        chave: '',
-        nome: ''
-    }
+    empresa: DEFAULT_EMPRESA_OBJ,
+    agente: DEFAULT_AGENTE_OBJ
 };

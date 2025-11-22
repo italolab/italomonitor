@@ -1,6 +1,5 @@
 package italo.italomonitor.agente.nucleo.thread;
 
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import italo.italomonitor.agente.Sistema;
@@ -41,7 +40,6 @@ public class DispMonitorThread extends Thread implements DispositivoMonitorListe
 	@Override
 	public void mensagemDispositivoStatusGerada( DispositivoState dispState ) {
 		try {
-			Logger.getLogger( DispMonitorThread.class.getName() ).log( Level.ALL, "("+dispState.getId()+") - "+dispState.getStatus() ); 
 			sistema.getMainAPIIntegration().postDispositivoState( dispState );
 		} catch (ErrorException e) {
 			Logger.getLogger( DispMonitorThread.class.getName() ).severe( e.getMessage() ); 
@@ -51,7 +49,6 @@ public class DispMonitorThread extends Thread implements DispositivoMonitorListe
 	@Override
 	public void mensagemEventoGerada( Evento evento ) {
 		try {
-			Logger.getLogger( DispMonitorThread.class.getName() ).log( Level.ALL, "Evento gerado!" ); 
 			sistema.getMainAPIIntegration().postEvento( evento );
 		} catch ( ErrorException e ) {
 			Logger.getLogger( DispMonitorThread.class.getName() ).severe( e.getMessage() ); 

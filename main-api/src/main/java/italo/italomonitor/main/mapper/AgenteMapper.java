@@ -1,5 +1,6 @@
 package italo.italomonitor.main.mapper;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.stereotype.Component;
@@ -15,6 +16,7 @@ public class AgenteMapper {
 	public Agente map( SaveAgenteRequest request ) {
 		return Agente.builder()
 				.nome( request.getNome() ) 
+				.ultimoEnvioDeEstadoEm( new Date() ) 
 				.build();
 	}
 	
@@ -23,6 +25,7 @@ public class AgenteMapper {
 				.id( agente.getId() )
 				.chave( agente.getChave() )
 				.nome( agente.getNome() ) 
+				.ultimoEnvioDeEstadoEm( agente.getUltimoEnvioDeEstadoEm() )
 				.build();
 	}
 	

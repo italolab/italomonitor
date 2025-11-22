@@ -1,5 +1,6 @@
 package italo.italomonitor.main.model;
 
+import java.util.Date;
 import java.util.List;
 
 import jakarta.persistence.CascadeType;
@@ -12,6 +13,8 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.persistence.Temporal;
+import jakarta.persistence.TemporalType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -34,6 +37,9 @@ public class Agente {
 	 private String chave;
 	 
 	 private String nome;
+	 
+	 @Temporal(TemporalType.TIMESTAMP)
+	 private Date ultimoEnvioDeEstadoEm;
 	 
 	 @ManyToOne(fetch=FetchType.EAGER)
 	 @JoinColumn(name="empresa_id")

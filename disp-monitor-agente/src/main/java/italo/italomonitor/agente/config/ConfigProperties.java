@@ -7,6 +7,8 @@ public class ConfigProperties {
 	private String accessToken;
 	
 	private long updateDelay;
+	
+	private String mainAPIHost;
 
 	private final MainAPIEndpoints mainAPIEndpoints = new MainAPIEndpoints();
 	
@@ -36,6 +38,14 @@ public class ConfigProperties {
 
 	public void setUpdateDelay(long updateDelay) {
 		this.updateDelay = updateDelay;
+	}
+
+	public String getMainAPIHost() {
+		return mainAPIHost;
+	}
+
+	public void setMainAPIHost(String mainAPIHost) {
+		this.mainAPIHost = mainAPIHost;
 	}
 	
 }

@@ -74,11 +74,7 @@ function CreateAgente() {
                             </Form.Group>
 
                             <AppMessage message={errorMessage} type="error" />
-                            <AppMessage message={infoMessage} type="info" />
-
-                            <div className="d-flex">
-                                <AppSpinner className="mx-auto" visible={loading} />
-                            </div> 
+                            <AppMessage message={infoMessage} type="info" />                           
 
                             <Button type="button" onClick={onSave}>
                                 Salvar 

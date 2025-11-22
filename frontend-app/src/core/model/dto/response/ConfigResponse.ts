@@ -1,4 +1,4 @@
-import type { MainAPIInfoResponse } from "./MainAPIInfoResponse";
+import { DEFAULT_MAIN_API_INFO_OBJ, type MainAPIInfoResponse } from "./MainAPIInfoResponse";
 import type { MonitorServerResponse } from "./MonitorServerResponse";
 
 export interface ConfigResponse {
@@ -23,12 +23,6 @@ export const DEFAULT_CONFIG_OBJ : ConfigResponse = {
     telegramBotToken: '',
     numDispositivosSendoMonitorados: 0,
     valorPagto: 0,
-    info: {
-        totalMemory: 0,
-        freeMemory: 0,
-        maxMemory: 0,
-        usoCpu: 0,
-        availableProcessors: 0
-    },
+    info: DEFAULT_MAIN_API_INFO_OBJ,
     monitorServers: []
 };

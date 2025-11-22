@@ -162,6 +162,7 @@ public class DispositivoMonitorRunnable implements Runnable {
             dispState.setId( dispositivo.getId() );
             dispState.setStatus( dispositivo.getStatus() );
             dispState.setLatenciaMedia( latenciaMedia ); 
+            dispState.setUltimoStateEm( new Date() ); 
             
             listener.mensagemDispositivoStatusGerada( dispState ); 
 

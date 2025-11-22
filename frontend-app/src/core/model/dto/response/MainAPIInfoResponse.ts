@@ -6,3 +6,11 @@ export interface MainAPIInfoResponse {
 	usoCpu : number;
 	availableProcessors : number;
 }
+
+export const DEFAULT_MAIN_API_INFO_OBJ : MainAPIInfoResponse = {
+	totalMemory: 0,
+	freeMemory: 0,
+	maxMemory: 0,
+	usoCpu: 0,
+	availableProcessors: 0
+};

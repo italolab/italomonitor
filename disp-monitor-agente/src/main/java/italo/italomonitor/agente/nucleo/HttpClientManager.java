@@ -29,9 +29,10 @@ public class HttpClientManager {
 		
 	public HttpRequest get( String uri ) {
 		String accessToken = sistema.getConfigProperties().getAccessToken();
+		String mainAPIHost = sistema.getConfigProperties().getMainAPIHost();
 		
 		return HttpRequest.newBuilder()
-				.uri( URI.create( uri ) )
+				.uri( URI.create( mainAPIHost + uri ) )
 				.header( "Authorization", "Bearer "+accessToken )
 				.GET()
 				.build();
@@ -39,11 +40,12 @@ public class HttpClientManager {
 	
 	public HttpRequest post( String uri, Object obj ) throws ErrorException {
 		String accessToken = sistema.getConfigProperties().getAccessToken();
+		String mainAPIHost = sistema.getConfigProperties().getMainAPIHost();
 		
 		String body = this.objToString( obj );
 		
 		return HttpRequest.newBuilder()
-				.uri( URI.create( uri ) )
+				.uri( URI.create( mainAPIHost + uri ) )
 				.header( "Authorization", "Bearer "+accessToken )
 				.header( "Content-Type", "application/json" ) 
 				.POST( HttpRequest.BodyPublishers.ofString( body ) )
@@ -54,7 +56,7 @@ public class HttpClientManager {
 		try {
 			HttpClient client = HttpClient.newHttpClient();
 			client.send( req, HttpResponse.BodyHandlers.discarding() );
-		} catch ( ConnectException e ) {					
+		} catch ( ConnectException e ) {	
 			throw new ErrorException( Errors.MAINAPI_INDISPONIVEL );
 		} catch ( IOException | InterruptedException e ) {
 			Logger.getLogger( HttpClientManager.class.getName() ).log( Level.SEVERE, e.getMessage(), e ); 

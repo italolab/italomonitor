@@ -7,6 +7,7 @@ import AppMessage from "../../components/AppMessage";
 import AppSpinner from "../../components/AppSpinner";
 import { MdArrowBack, MdOutlineEdit } from "react-icons/md";
 import useEffectOnce from "../../core/util/useEffectOnce";
+import { formataDataHora } from "../../core/util/sistema-util";
 
 function DetalhesAgente() {
 
@@ -57,6 +58,12 @@ function DetalhesAgente() {
                         <div className="d-flex">
                             <AppSpinner className="mx-auto" visible={loading} />
                         </div>
+
+                        <span className="fs-3">
+                            <AppField name="estado atualizado em">
+                                {formataDataHora( agente.ultimoEnvioDeEstadoEm )}
+                            </AppField>
+                        </span>
                         
                         <AppField name="ID">
                             {agente.id}
@@ -66,7 +73,7 @@ function DetalhesAgente() {
                         </AppField>  
                         <AppField name="nome">
                             {agente.nome}
-                        </AppField>   
+                        </AppField>                           
                         <AppField name="quantidade de dispositivos">
                             {agente.dispositivosQuant}
                         </AppField>                     

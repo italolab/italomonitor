@@ -68,11 +68,7 @@ function UpdateAgente() {
            
             <div className="d-flex justify-content-center mt-3">
                 <Card className="mx-auto">                    
-                    <Card.Body>
-                        <div className="d-flex">
-                            <AppSpinner className="mx-auto" visible={loading} />
-                        </div>
-                                                
+                    <Card.Body>                                                                        
                         <Form>                            
                             <Form.Group className="mb-3" controlId="nome">
                                 <Form.Label>Nome</Form.Label>

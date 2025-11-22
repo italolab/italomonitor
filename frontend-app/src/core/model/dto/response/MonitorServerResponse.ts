@@ -1,4 +1,4 @@
-import type { MonitorServerInfoResponse } from "./MonitorServerInfoResponse";
+import { DEFAULT_MONITOR_SERVER_INFO_OBJ, type MonitorServerInfoResponse } from "./MonitorServerInfoResponse";
 
 export interface MonitorServerResponse {
     id : number;
@@ -10,13 +10,6 @@ export interface MonitorServerResponse {
 export const DEFAULT_MONITOR_SERVER_OBJ : MonitorServerResponse = {
     id: 0,
     host: '',
-    info: {
-        totalMemory: 0,
-        freeMemory: 0,
-        maxMemory: 0,
-        availableProcessors: 0,
-        usoCpu: 0,
-        numThreadsAtivas: 0
-    },
+    info: DEFAULT_MONITOR_SERVER_INFO_OBJ,
     ativo: false
 };

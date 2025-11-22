@@ -1,5 +1,7 @@
 package italo.italomonitor.disp_monitor.lib.to;
 
+import java.util.Date;
+
 import italo.italomonitor.disp_monitor.lib.enums.DispositivoStatus;
 
 public class DispositivoState {
@@ -9,6 +11,8 @@ public class DispositivoState {
 	private DispositivoStatus status;
 	
 	private int latenciaMedia;
+	
+	private Date ultimoStateEm;
 
 	public Long getId() {
 		return id;
@@ -32,6 +36,14 @@ public class DispositivoState {
 
 	public void setLatenciaMedia(int latenciaMedia) {
 		this.latenciaMedia = latenciaMedia;
+	}
+
+	public Date getUltimoStateEm() {
+		return ultimoStateEm;
+	}
+
+	public void setUltimoStateEm(Date ultimoStateEm) {
+		this.ultimoStateEm = ultimoStateEm;
 	}
 	
 }

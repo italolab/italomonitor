@@ -104,9 +104,12 @@ function useShowDispositivosViewModel() {
 
         const dispsFiltrados : DispositivoResponse[] = [];
         for( let i = 0; i < disps.length; i++ ) {
+            const dispAgenteNome = ( disps[ i ].agente !== null ? disps[ i ].agente.nome : '' );
+
             if ( disps[ i ].host.includes( searchTermo ) || 
                     disps[ i ].nome.toLowerCase().includes( lowerSearchTermo ) || 
-                    disps[ i ].localizacao.toLowerCase().includes( lowerSearchTermo ) ) {
+                    disps[ i ].localizacao.toLowerCase().includes( lowerSearchTermo ) || 
+                    dispAgenteNome.toLowerCase().includes( lowerSearchTermo ) ) {
                 dispsFiltrados.push( disps[ i ] );
             }
         }        

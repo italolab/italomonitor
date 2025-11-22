@@ -1,5 +1,5 @@
 import type { UsuarioPerfil } from "../types";
-import type { EmpresaResponse } from "./EmpresaResponse";
+import { DEFAULT_EMPRESA_OBJ, type EmpresaResponse } from "./EmpresaResponse";
 import type { UsuarioGrupoResponse } from "./UsuarioGrupoResponse";
 
 export interface UsuarioResponse {
@@ -18,19 +18,6 @@ export const DEFAULT_USUARIO_OBJ : UsuarioResponse = {
     email: '',
     username: '',
     perfil: 'ADMIN',
-    empresa: {
-        id: 0,
-        nome: '',
-        emailNotif: '',
-        telegramChatId: '',
-        porcentagemMaxFalhasPorLote: 0,
-        maxDispositivosQuant: 0,
-        minTempoParaProxNotif: 0,
-        diaPagto: 0,
-        temporario: false,
-        usoTemporarioPor: 0,
-        bloqueada: false,
-        criadoEm: new Date()
-    },
+    empresa: DEFAULT_EMPRESA_OBJ,
     grupos: []
 };

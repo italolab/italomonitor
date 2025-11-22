@@ -42,6 +42,8 @@ public class ConfigPropertiesReader {
 			
 		String chave = configProperties.getProperty( "chave" );
 		String updateDelay = configProperties.getProperty( "update.delay" );
+		String mainAPIHost = configProperties.getProperty( "main-api.host" );
+		
 		String accessToken = applicationProperties.getProperty( "access-token" ); 
 		String dispositivoStatePostEndpoint = applicationProperties.getProperty( "main-api.monitoramento.agente.dispositivo-state.post" );
 		String eventoPostEndpoint = applicationProperties.getProperty( "main-api.monitoramento.agente.evento.post" );
@@ -53,6 +55,9 @@ public class ConfigPropertiesReader {
 			throw new ErrorException( Errors.REQUIRED_PROPERTY, "chave" );
 		if ( updateDelay == null )
 			throw new ErrorException( Errors.REQUIRED_PROPERTY, "update.delay" );
+		if ( mainAPIHost == null )
+			throw new ErrorException( Errors.REQUIRED_PROPERTY, "main-api.host" );
+		
 		if ( accessToken == null )
 			throw new ErrorException( Errors.PROPERTY_NOT_FOUND, "access-token", applicationFileName );
 		if ( dispositivoStatePostEndpoint == null )
@@ -66,20 +71,23 @@ public class ConfigPropertiesReader {
 		if ( agenteGetEndpoint == null )
 			throw new ErrorException( Errors.PROPERTY_NOT_FOUND, "main-api.monitoramento.agente.get", applicationFileName );				
 		
-		ConfigProperties configProps = new ConfigProperties();						
+		ConfigProperties configProps = new ConfigProperties();
+		
 		configProps.setChave( chave );
 		configProps.setAccessToken( accessToken );
-		configProps.getMainAPIEndpoints().setDispositivoStatePostEndpoint( dispositivoStatePostEndpoint );
-		configProps.getMainAPIEndpoints().setEventoPostEndpoint( eventoPostEndpoint );
-		configProps.getMainAPIEndpoints().setConfigGetEndpoint( configGetEndpoint );
-		configProps.getMainAPIEndpoints().setDispositivoGetEndpoint( dispositivoGetEndpoint );
-		configProps.getMainAPIEndpoints().setAgenteGetEndpoint( agenteGetEndpoint ); 
-		
+		configProps.setMainAPIHost( mainAPIHost ); 
+				
 		try {
 			configProps.setUpdateDelay( Long.parseLong( updateDelay ) ); 
 		} catch ( NumberFormatException e ) {
 			throw new ErrorException( Errors.PROPERTY_INVALID_FORMAT, "update.delay" );
 		}
+		
+		configProps.getMainAPIEndpoints().setDispositivoStatePostEndpoint( dispositivoStatePostEndpoint );
+		configProps.getMainAPIEndpoints().setEventoPostEndpoint( eventoPostEndpoint );
+		configProps.getMainAPIEndpoints().setConfigGetEndpoint( configGetEndpoint );
+		configProps.getMainAPIEndpoints().setDispositivoGetEndpoint( dispositivoGetEndpoint );
+		configProps.getMainAPIEndpoints().setAgenteGetEndpoint( agenteGetEndpoint ); 
 		
 		return configProps;		
 	}

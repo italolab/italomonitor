@@ -1,5 +1,7 @@
 package italo.italomonitor.main.dto.response;
 
+import java.util.Date;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -18,6 +20,8 @@ public class AgenteResponse {
 	private String chave;
 	
 	private String nome;
+	
+	private Date ultimoEnvioDeEstadoEm;
 	
 	private int dispositivosQuant;
 	

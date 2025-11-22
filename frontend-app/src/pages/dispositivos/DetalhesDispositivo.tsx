@@ -8,6 +8,7 @@ import AppMessage from "../../components/AppMessage";
 import AppSpinner from "../../components/AppSpinner";
 import { MdArrowBack, MdDeleteForever, MdEvent, MdNotifications, MdNotificationsOff, MdOutlineEdit, MdPlayCircle, MdStopCircle } from "react-icons/md";
 import { TbRouter, TbRouterOff } from "react-icons/tb";
+import { formataDataHora } from "../../core/util/sistema-util";
 
 function DetalhesDispositivo() {
 
@@ -161,16 +162,19 @@ function DetalhesDispositivo() {
                         </div>
 
                         <br />                       
+                        <span className="fs-3">
+                            <AppField name="estado atualizado em">
+                                { dispositivo.monitoradoPorAgente === true ? 
+                                    formataDataHora( dispositivo.agente.ultimoEnvioDeEstadoEm )
+                                :
+                                    formataDataHora( dispositivo.stateAtualizadoEm )
+                                }
+                            </AppField>
+                        </span>
 
                         <AppField name="ID">
                             {dispositivo.id}
-                        </AppField>
-                        <AppField name="ativo">
-                            {dispositivo.status === 'ATIVO' ? 'Ativo' : 'Inativo'}
-                        </AppField>
-                        <AppField name="sendo monitorado">
-                            {dispositivo.sendoMonitorado === true ? 'Sim' : 'Não'}
-                        </AppField>
+                        </AppField>                                                
                         <AppField name="host">
                             {dispositivo.host}
                         </AppField>
@@ -183,6 +187,12 @@ function DetalhesDispositivo() {
                         <AppField name="localização">
                             {dispositivo.localizacao}
                         </AppField>
+                        <AppField name="status">
+                            {dispositivo.status === 'ATIVO' ? 'Ativo' : 'Inativo'}
+                        </AppField>
+                        <AppField name="sendo monitorado">
+                            {dispositivo.sendoMonitorado === true ? 'Sim' : 'Não'}
+                        </AppField>
                         <AppField name="monitorado por agente">
                             {dispositivo.monitoradoPorAgente === true ? 'Sim' : 'Não' }
                         </AppField>
@@ -190,10 +200,15 @@ function DetalhesDispositivo() {
                             { dispositivo.empresa != null ? dispositivo.empresa.nome : 'Nenhuma empresa!' }
                         </AppField>
                         { dispositivo.monitoradoPorAgente === true && 
-                            <AppField name="agente">
-                                {dispositivo.agente.nome}
-                            </AppField>
-                        }
+                            <>
+                                <AppField name="agente">
+                                    {dispositivo.agente.nome}
+                                </AppField>
+                                <Button type="button" onClick={() => navigate( `/detalhes-agente/${dispositivo.agente.id}/${dispositivo.empresa.id}` )}>
+                                    Ver agente
+                                </Button>
+                            </>
+                        }                       
                     </Card.Body>
                 </Card>
             </div>
