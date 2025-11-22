@@ -1,4 +1,4 @@
-package italo.italomonitor.agente.nucleo.util;
+package italo.italomonitor.agente.nucleo;
 
 import java.io.IOException;
 import java.net.ConnectException;
@@ -45,6 +45,7 @@ public class HttpClientManager {
 		return HttpRequest.newBuilder()
 				.uri( URI.create( uri ) )
 				.header( "Authorization", "Bearer "+accessToken )
+				.header( "Content-Type", "application/json" ) 
 				.POST( HttpRequest.BodyPublishers.ofString( body ) )
 				.build();
 	}

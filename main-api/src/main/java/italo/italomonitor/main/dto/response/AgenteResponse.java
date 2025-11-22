@@ -19,4 +19,6 @@ public class AgenteResponse {
 	
 	private String nome;
 	
+	private int dispositivosQuant;
+	
 }

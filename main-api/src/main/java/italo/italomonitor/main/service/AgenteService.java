@@ -1,5 +1,6 @@
 package italo.italomonitor.main.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -15,6 +16,7 @@ import italo.italomonitor.main.mapper.AgenteMapper;
 import italo.italomonitor.main.model.Agente;
 import italo.italomonitor.main.model.Empresa;
 import italo.italomonitor.main.repository.AgenteRepository;
+import italo.italomonitor.main.repository.DispositivoRepository;
 import italo.italomonitor.main.repository.EmpresaRepository;
 
 @Service
@@ -25,6 +27,9 @@ public class AgenteService {
 
     @Autowired
     private EmpresaRepository empresaRepository;
+    
+    @Autowired
+    private DispositivoRepository dispositivoRepository;
     
     @Autowired
     private AgenteMapper agenteMapper;
@@ -73,7 +78,10 @@ public class AgenteService {
 
     public List<AgenteResponse> filterAgentes( String nomePart, Long empresaId ) {
         List<Agente> agentes = agenteRepository.filter( "%"+nomePart+"%", empresaId );
-        return agentes.stream().map( agenteMapper::map ).toList();
+        List<AgenteResponse> responses = new ArrayList<>();
+        for( Agente agente : agentes )
+        	responses.add( this.buildAgenteResponse( agente ) );
+        return responses;
     }
 
     public AgenteResponse getAgente( Long id ) {
@@ -81,7 +89,9 @@ public class AgenteService {
         if ( agenteOp.isEmpty() )
             throw new BusinessException( Errors.AGENTE_NOT_FOUND );
 
-        return agenteOp.map( agenteMapper::map ).orElseThrow();
+        Agente agente = agenteOp.get();
+        
+        return this.buildAgenteResponse( agente ); 
     }
 
     public void deleteAgente( Long id ) {
@@ -91,5 +101,12 @@ public class AgenteService {
 
         agenteRepository.deleteById( id );
     }
-
+    
+    private AgenteResponse buildAgenteResponse( Agente agente ) {
+    	AgenteResponse resp = agenteMapper.map( agente );
+    	
+    	resp.setDispositivosQuant( dispositivoRepository.countByAgente( agente.getId() ) );
+    	return resp;
+    }
+    
 }

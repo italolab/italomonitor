@@ -8,6 +8,7 @@ import java.util.Set;
 import italo.italomonitor.agente.Sistema;
 import italo.italomonitor.agente.dto.integration.response.Agente;
 import italo.italomonitor.agente.exception.ErrorException;
+import italo.italomonitor.disp_monitor.lib.DispositivoMonitorRunnable;
 import italo.italomonitor.disp_monitor.lib.to.Config;
 import italo.italomonitor.disp_monitor.lib.to.Dispositivo;
 
@@ -26,7 +27,9 @@ public class DispMonitoresThread extends Thread {
 				Agente agente = sistema.getMainAPIIntegration().getAgente();
 				List<Long> dispsIDs = agente.getDispositivosIDs();
 								
-				this.updateThreadsMap( dispsIDs );		
+				this.updateThreadsMap( dispsIDs );	
+				
+				//System.out.println( dispMonitThreads.size() + " dispositivos sendo monitorados." );
 				
 				this.updateConfig();
 				this.updateDispositivos();
@@ -48,8 +51,11 @@ public class DispMonitoresThread extends Thread {
 			Config config = sistema.getMainAPIIntegration().getConfig();
 
 			Set<Long> keys = dispMonitThreads.keySet();
-			for( Long dispId : keys )
-				dispMonitThreads.get( dispId ).getRunnable().setConfig( config );						
+			for( Long dispId : keys ) {
+				DispositivoMonitorRunnable runnable = dispMonitThreads.get( dispId ).getRunnable();
+				if ( runnable != null )
+					runnable.setConfig( config );
+			}
 		} catch (ErrorException e) {
 			
 		}
@@ -60,7 +66,9 @@ public class DispMonitoresThread extends Thread {
 		for( Long dispId : keys ) {
 			try {
 				Dispositivo dispositivo = sistema.getMainAPIIntegration().getDispositivo( dispId );
-				dispMonitThreads.get( dispId ).getRunnable().setDispositivo( dispositivo );
+				DispositivoMonitorRunnable runnable = dispMonitThreads.get( dispId ).getRunnable();
+				if ( runnable != null )
+					runnable.setDispositivo( dispositivo );
 			} catch (ErrorException e) {
 				
 			}

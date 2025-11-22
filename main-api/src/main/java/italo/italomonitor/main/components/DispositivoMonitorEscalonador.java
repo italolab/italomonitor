@@ -168,6 +168,11 @@ public class DispositivoMonitorEscalonador {
 		}
 	}
 	
+	public void stopMonitoramentoIgnoreResult( Long dispositivoId ) {
+		List<MonitorServer> monitorServers = monitorServerRepository.findAll();
+		this.stopMonitoramento( dispositivoId, monitorServers );
+	}
+	
 	public MonitoramentoOperResult startMonitoramento( 
 			Long dispositivoId, 
 			Config config, 

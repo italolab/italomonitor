@@ -1,11 +1,13 @@
 package italo.italomonitor.agente;
 
+import java.util.logging.Logger;
+
 import italo.italomonitor.agente.config.ConfigProperties;
 import italo.italomonitor.agente.exception.ErrorException;
 import italo.italomonitor.agente.integration.MainAPIIntegration;
 import italo.italomonitor.agente.nucleo.ConfigPropertiesReader;
+import italo.italomonitor.agente.nucleo.HttpClientManager;
 import italo.italomonitor.agente.nucleo.thread.DispMonitoresThread;
-import italo.italomonitor.agente.nucleo.util.HttpClientManager;
 
 public class Sistema {
 
@@ -16,11 +18,17 @@ public class Sistema {
 	private ConfigProperties configProperties;
 	private boolean fim = false;
 	
-	public void run( String configFilePath, String applicationFilePath ) throws ErrorException {
-		configProperties = configPropertiesReader.read( configFilePath, applicationFilePath );
-		
-		DispMonitoresThread thread = new DispMonitoresThread( this );
-		thread.start();
+	public void run( String configFilePath, String applicationFilePath ) {
+		try {
+			configProperties = configPropertiesReader.read( configFilePath, applicationFilePath );
+			
+			DispMonitoresThread thread = new DispMonitoresThread( this );
+			thread.start();
+			
+			System.out.println( "Sistema iniciado!" ); 
+		} catch ( ErrorException e ) {
+			Logger.getLogger( Main.class.getName() ).severe( e.getMessage() ); 
+		}	
 	}
 
 	public ConfigProperties getConfigProperties() {

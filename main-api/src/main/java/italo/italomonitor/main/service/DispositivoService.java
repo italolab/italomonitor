@@ -125,7 +125,7 @@ public class DispositivoService {
         	dispositivo.setAgente( agente );
         	
         	if ( dispositivo.isSendoMonitorado() ) {
-        		dispositivoMonitorEscalonador.stopMonitoramento( dispositivo.getId() );
+        		dispositivoMonitorEscalonador.stopMonitoramentoIgnoreResult( dispositivo.getId() );
         		dispositivo.setSendoMonitorado( false ); 
         	}
         } else {

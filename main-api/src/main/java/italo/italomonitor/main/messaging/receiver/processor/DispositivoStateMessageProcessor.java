@@ -72,6 +72,8 @@ public class DispositivoStateMessageProcessor {
 			
 			Dispositivo dispositivo = dispositivoOp.get();
 			dispositivoMapper.load( dispositivo, message ); 
+			
+			dispositivo.setSendoMonitorado( true ); 
 									
 			dispositivoRepository.save( dispositivo );
 			

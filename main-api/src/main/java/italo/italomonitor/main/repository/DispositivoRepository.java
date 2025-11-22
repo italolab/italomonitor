@@ -18,7 +18,7 @@ public interface DispositivoRepository extends JpaRepository<Dispositivo, Long> 
     @Query( "select d.id from Dispositivo d where d.monitoradoPorAgente=false") 
     List<Long> findAllIDsNoMonitByAgente();
     
-    @Query( "select d.id from Dispositivo d where d.agente is not null and d.id=?1" )
+    @Query( "select d.id from Dispositivo d where d.agente is not null and d.agente.id=?1" )
     List<Long> findIDsByAgenteID( Long agenteId );
     
     @Query( "select d.id from Dispositivo d where d.empresa.id=?1 and d.monitoradoPorAgente=false")
@@ -26,6 +26,9 @@ public interface DispositivoRepository extends JpaRepository<Dispositivo, Long> 
     
     @Query( "select count(*) from Dispositivo d where d.empresa.id=?1")
     int countByEmpresa( Long empresaId );
+    
+    @Query( "select count(*) from Dispositivo d where d.agente is not null and d.agente.id=?1")
+    int countByAgente( Long agenteId );
     
     @Query( "select count(*) from Dispositivo d where d.empresa.id=?1 and d.sendoMonitorado=?2" )
     int countByEmpresaBySendoMonitorado( Long empresaId, boolean sendoMonitorado );

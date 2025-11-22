@@ -66,7 +66,10 @@ function DetalhesAgente() {
                         </AppField>  
                         <AppField name="nome">
                             {agente.nome}
-                        </AppField>                        
+                        </AppField>   
+                        <AppField name="quantidade de dispositivos">
+                            {agente.dispositivosQuant}
+                        </AppField>                     
                     </Card.Body>
                 </Card>
             </div>

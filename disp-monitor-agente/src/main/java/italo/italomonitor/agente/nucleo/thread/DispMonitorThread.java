@@ -1,36 +1,65 @@
 package italo.italomonitor.agente.nucleo.thread;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import italo.italomonitor.agente.Sistema;
 import italo.italomonitor.agente.exception.ErrorException;
-import italo.italomonitor.agente.nucleo.DispMonitorManager;
+import italo.italomonitor.disp_monitor.lib.DispositivoMonitorListener;
 import italo.italomonitor.disp_monitor.lib.DispositivoMonitorRunnable;
+import italo.italomonitor.disp_monitor.lib.to.Config;
+import italo.italomonitor.disp_monitor.lib.to.Dispositivo;
+import italo.italomonitor.disp_monitor.lib.to.DispositivoState;
+import italo.italomonitor.disp_monitor.lib.to.Evento;
 
-public class DispMonitorThread extends Thread {
+public class DispMonitorThread extends Thread implements DispositivoMonitorListener {
 
 	private final Sistema sistema;
-	private final DispMonitorManager dispMonitorManager;
+	private DispositivoMonitorRunnable dispMonitorRunnable;
 	private final Long dispositivoId;
 	private boolean stop = false;
 	
 	public DispMonitorThread( Sistema sistema, Long dispositivoId ) {
 		this.sistema = sistema;
 		this.dispositivoId = dispositivoId;
-		this.dispMonitorManager = new DispMonitorManager( sistema );	
 	}
 	
 	public void run() {		
 		try {
-			dispMonitorManager.initialize( dispositivoId );
+			Dispositivo dispositivo = sistema.getMainAPIIntegration().getDispositivo( dispositivoId );
+			Config config = sistema.getMainAPIIntegration().getConfig();
+			
+			dispMonitorRunnable = new DispositivoMonitorRunnable( dispositivo, config, this );
 			
 			while( !stop && !sistema.isFim() )
-				dispMonitorManager.getRunnable().run();
+				dispMonitorRunnable.run();
 		} catch (ErrorException e) {
 			
 		} 					
 	}
 	
+	@Override
+	public void mensagemDispositivoStatusGerada( DispositivoState dispState ) {
+		try {
+			Logger.getLogger( DispMonitorThread.class.getName() ).log( Level.ALL, "("+dispState.getId()+") - "+dispState.getStatus() ); 
+			sistema.getMainAPIIntegration().postDispositivoState( dispState );
+		} catch (ErrorException e) {
+			Logger.getLogger( DispMonitorThread.class.getName() ).severe( e.getMessage() ); 
+		} 
+	}
+
+	@Override
+	public void mensagemEventoGerada( Evento evento ) {
+		try {
+			Logger.getLogger( DispMonitorThread.class.getName() ).log( Level.ALL, "Evento gerado!" ); 
+			sistema.getMainAPIIntegration().postEvento( evento );
+		} catch ( ErrorException e ) {
+			Logger.getLogger( DispMonitorThread.class.getName() ).severe( e.getMessage() ); 
+		}
+	}
+	
 	public DispositivoMonitorRunnable getRunnable() {
-		return dispMonitorManager.getRunnable(); 
+		return dispMonitorRunnable; 
 	}
 
 	public boolean isStop() {
