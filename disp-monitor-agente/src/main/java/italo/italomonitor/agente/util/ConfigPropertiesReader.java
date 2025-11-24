@@ -1,4 +1,4 @@
-package italo.italomonitor.agente.nucleo;
+package italo.italomonitor.agente.util;
 
 import java.io.File;
 import java.io.FileInputStream;

@@ -105,10 +105,22 @@ public class AgenteMonitorService {
 		agenteRepository.save( agente );
 		agente = agenteRepository.findById( agente.getId() ).get();
 		
+		Optional<Dispositivo> dispositivoOp = dispositivoRepository.findById( dispState.getId() );
+		if ( dispositivoOp.isEmpty() )
+			throw new BusinessException( Errors.DISPOSITIVO_NOT_FOUND );
+		
+		Dispositivo dispositivo = dispositivoOp.get();
+		dispositivo.setSendoMonitorado( true );
+		dispositivoRepository.save( dispositivo );
+		
 		dispositivoStateMessageProcessor.processMessage( dispState ); 
 	}
 	
 	public void processaEvento( String agenteChave, DispMonitorEvento evento ) {
+		Optional<Agente> agenteOp = agenteRepository.findByChave( agenteChave );
+		if ( agenteOp.isEmpty() )
+			throw new BusinessException( Errors.AGENTE_NOT_FOUND );
+		
 		eventoMessageProcessor.processMessage( evento );
 	}
 

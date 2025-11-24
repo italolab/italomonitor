@@ -1,0 +1,13 @@
+C:\Users\italo\workspace-java\italomonitor\disp-monitor-agente\src\main\java\italo\italomonitor\agente\config\ConfigProperties.java
+C:\Users\italo\workspace-java\italomonitor\disp-monitor-agente\src\main\java\italo\italomonitor\agente\config\MainAPIEndpoints.java
+C:\Users\italo\workspace-java\italomonitor\disp-monitor-agente\src\main\java\italo\italomonitor\agente\dto\integration\response\Agente.java
+C:\Users\italo\workspace-java\italomonitor\disp-monitor-agente\src\main\java\italo\italomonitor\agente\dto\integration\response\ErrorResponse.java
+C:\Users\italo\workspace-java\italomonitor\disp-monitor-agente\src\main\java\italo\italomonitor\agente\exception\ErrorException.java
+C:\Users\italo\workspace-java\italomonitor\disp-monitor-agente\src\main\java\italo\italomonitor\agente\exception\Errors.java
+C:\Users\italo\workspace-java\italomonitor\disp-monitor-agente\src\main\java\italo\italomonitor\agente\integration\MainAPIIntegration.java
+C:\Users\italo\workspace-java\italomonitor\disp-monitor-agente\src\main\java\italo\italomonitor\agente\Main.java
+C:\Users\italo\workspace-java\italomonitor\disp-monitor-agente\src\main\java\italo\italomonitor\agente\nucleo\ConfigPropertiesReader.java
+C:\Users\italo\workspace-java\italomonitor\disp-monitor-agente\src\main\java\italo\italomonitor\agente\nucleo\HttpClientManager.java
+C:\Users\italo\workspace-java\italomonitor\disp-monitor-agente\src\main\java\italo\italomonitor\agente\nucleo\thread\DispMonitoresThread.java
+C:\Users\italo\workspace-java\italomonitor\disp-monitor-agente\src\main\java\italo\italomonitor\agente\nucleo\thread\DispMonitorThread.java
+C:\Users\italo\workspace-java\italomonitor\disp-monitor-agente\src\main\java\italo\italomonitor\agente\Sistema.java

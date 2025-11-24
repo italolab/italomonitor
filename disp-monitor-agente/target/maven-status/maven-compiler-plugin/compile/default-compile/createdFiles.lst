@@ -1,0 +1,13 @@
+italo\italomonitor\agente\integration\MainAPIIntegration.class
+italo\italomonitor\agente\config\ConfigProperties.class
+italo\italomonitor\agente\exception\ErrorException.class
+italo\italomonitor\agente\dto\integration\response\ErrorResponse.class
+italo\italomonitor\agente\nucleo\thread\DispMonitorThread.class
+italo\italomonitor\agente\dto\integration\response\Agente.class
+italo\italomonitor\agente\nucleo\HttpClientManager.class
+italo\italomonitor\agente\nucleo\ConfigPropertiesReader.class
+italo\italomonitor\agente\config\MainAPIEndpoints.class
+italo\italomonitor\agente\Sistema.class
+italo\italomonitor\agente\Main.class
+italo\italomonitor\agente\exception\Errors.class
+italo\italomonitor\agente\nucleo\thread\DispMonitoresThread.class

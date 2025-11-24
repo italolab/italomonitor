@@ -1,4 +1,4 @@
-package italo.italomonitor.agente.nucleo.thread;
+package italo.italomonitor.agente.run;
 
 import java.util.logging.Logger;
 

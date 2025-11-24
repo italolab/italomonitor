@@ -5,9 +5,9 @@ import java.util.logging.Logger;
 import italo.italomonitor.agente.config.ConfigProperties;
 import italo.italomonitor.agente.exception.ErrorException;
 import italo.italomonitor.agente.integration.MainAPIIntegration;
-import italo.italomonitor.agente.nucleo.ConfigPropertiesReader;
-import italo.italomonitor.agente.nucleo.HttpClientManager;
-import italo.italomonitor.agente.nucleo.thread.DispMonitoresThread;
+import italo.italomonitor.agente.run.DispMonitoresThread;
+import italo.italomonitor.agente.util.ConfigPropertiesReader;
+import italo.italomonitor.agente.util.HttpClientManager;
 
 public class Sistema {
 

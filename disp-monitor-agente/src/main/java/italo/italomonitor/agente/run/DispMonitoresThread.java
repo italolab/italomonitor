@@ -1,4 +1,4 @@
-package italo.italomonitor.agente.nucleo.thread;
+package italo.italomonitor.agente.run;
 
 import java.util.HashMap;
 import java.util.List;

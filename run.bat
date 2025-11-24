@@ -64,10 +64,9 @@ exit /b 0
 
 :updispmnt
     cd disp-monitor-lib/
-    call .\mvnw.cmd clean package -DskipTests
-    cd ..
+    call mvn clean package install -DskipTests
 
-    cd disp-monitor-api/
+    cd ../disp-monitor-api/
     call .\mvnw.cmd clean package -DskipTests
     cd ..
 

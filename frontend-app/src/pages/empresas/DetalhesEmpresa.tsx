@@ -45,15 +45,15 @@ function DetalhesEmpresa() {
                 </Button>
                 <Button type="button" onClick={() => navigate( `/update-empresa/${empresaId}` )} className="func">
                     <MdOutlineEdit size={25}/> Editar empresa
-                </Button>
-                <Button type="button" onClick={() => navigate( `/pagamentos/${empresaId}` )} className="func">
-                    <FaMoneyBill1 size={25}/> &nbsp; Ver pagamentos
-                </Button>
+                </Button>                
                 <Button type="button" onClick={() => navigate( `/dispositivos/${empresaId}`)} className="func">
                     <LuRouter size={25}/> &nbsp; Ver dispositivos
                 </Button>
                 <Button type="button" onClick={() => navigate( `/agentes/${empresaId}`)} className="func">
-                    <MdDeviceHub size={25}/> Ver agente
+                    <MdDeviceHub size={25}/> Ver agentes
+                </Button>
+                <Button type="button" onClick={() => navigate( `/pagamentos/${empresaId}` )} className="func">
+                    <FaMoneyBill1 size={25}/> &nbsp; Ver pagamentos
                 </Button>
             </div>
             

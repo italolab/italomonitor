@@ -5,7 +5,7 @@ import java.net.http.HttpRequest;
 import italo.italomonitor.agente.Sistema;
 import italo.italomonitor.agente.dto.integration.response.Agente;
 import italo.italomonitor.agente.exception.ErrorException;
-import italo.italomonitor.agente.nucleo.HttpClientManager;
+import italo.italomonitor.agente.util.HttpClientManager;
 import italo.italomonitor.disp_monitor.lib.to.Config;
 import italo.italomonitor.disp_monitor.lib.to.Dispositivo;
 import italo.italomonitor.disp_monitor.lib.to.DispositivoState;
