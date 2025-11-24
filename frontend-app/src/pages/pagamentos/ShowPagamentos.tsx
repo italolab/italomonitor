@@ -7,8 +7,13 @@ import AppLayout from "../../layout/AppLayout";
 import { formataDataMes, formataMoeda } from "../../core/util/sistema-util";
 import { Button, Card, Form, Table } from "react-bootstrap";
 import useInfos from "../../core/viewModel/useInfos";
+import { useState } from "react";
+import type { PagamentoResponse } from "../../core/model/dto/response/PagamentoResponse";
+import AppPagination from "../../components/AppPagination";
 
 function ShowPagamentos() {
+
+    const [paginationPagamentos, setPaginationPagamentos] = useState<PagamentoResponse[]>( [] );
 
     const {
         load,
@@ -94,7 +99,7 @@ function ShowPagamentos() {
                         </tr>
                     </thead>
                     <tbody>
-                        { pagamentosDados.pagamentos.map( (pagto, index) => 
+                        { paginationPagamentos.map( (pagto, index) => 
                             <tr key={index}>
                                 <td>{formataDataMes( pagto.dataPagto )}</td>
                                 <td>
@@ -107,6 +112,15 @@ function ShowPagamentos() {
                         )}
                     </tbody>
                 </Table>                               
+
+                <div className="d-flex justify-content-center">
+                    <AppPagination 
+                        dataList={pagamentosDados.pagamentos}
+                        numberOfItemsByPage={10}
+                        numberOfPagesByGroup={3}
+                        onChangePageDataList={ (pageDataList : PagamentoResponse[]) => setPaginationPagamentos( pageDataList )}
+                    />
+                </div>
             </div>
 
         </AppLayout>

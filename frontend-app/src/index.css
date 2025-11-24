@@ -92,15 +92,27 @@ button.func {
   background-color: #2451F9 !important;
 }
 
-.form-control {
+.form-control, .form-select {
   border-radius: 0 !important;
   padding-top: 0.75em !important;
   padding-bottom: 0.75em !important;
   border: 1px solid #C7CdCa !important;
   background-color: #F5F5F5 !important;
+  outline: none !important;
 }
 
-.form-control:focus-visible {
+.form-control:focus-visible, .form-select:focus-visible {
+  outline: none !important;
   box-shadow: none !important;
   border-bottom: 2px solid #000 !important;
+}
+
+.form-select option {
+  padding-top: 0.75em !important;
+  padding-bottom: 0.75em !important;
+}
+
+.form-check-input {
+    border-radius: 0 !important;
+    border: 1px solid #C7CdCa !important;
 }
