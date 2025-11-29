@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>italo.italomonitor</groupId>
 	<artifactId>italo-monitor-main-api</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>1.0</version>
 	<name>main-api</name>
 	<description>Italo Monitor - microserviço principal</description>
 	<url/>

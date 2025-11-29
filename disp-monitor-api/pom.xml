@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>com.italomonitor.disp_monitor</groupId>
 	<artifactId>italo-monitor-disp-monitor-api</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>1.0</version>
 	<name>disp-monitor-api</name>
 	<description>Italo Monitor - microserviço monitor de dispositivos</description>
 	<url/>
@@ -96,7 +96,7 @@
 		<dependency>
 			<groupId>italo.italomonitor</groupId>
 			<artifactId>disp-monitor-lib</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>1.0</version>
 		</dependency>
 	</dependencies>
 

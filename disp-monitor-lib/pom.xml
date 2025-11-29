@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>italo.italomonitor</groupId>
   <artifactId>disp-monitor-lib</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
+  <version>1.0</version>
   <name>disp-monitor-lib</name>
   <description>Biblioteca de monitor de dispositivos</description>
   <properties>

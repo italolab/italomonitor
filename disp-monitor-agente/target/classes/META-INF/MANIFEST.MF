@@ -1,9 +1,0 @@
-Manifest-Version: 1.0
-Built-By: italo
-Build-Jdk: 21.0.8
-Class-Path: lib/jackson-databind-2.20.0.jar lib/jackson-annotations-2.20
- .jar lib/jackson-core-2.20.0.jar lib/disp-monitor-lib-0.0.1-SNAPSHOT.ja
- r
-Main-Class: italo.italomonitor.agente.Main
-Created-By: Maven Integration for Eclipse
-
