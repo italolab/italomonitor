@@ -1,7 +1,5 @@
 package italo.italomonitor.agente.run;
 
-import java.util.logging.Logger;
-
 import italo.italomonitor.agente.Sistema;
 import italo.italomonitor.agente.exception.ErrorException;
 import italo.italomonitor.disp_monitor.lib.DispositivoMonitorListener;
@@ -33,7 +31,7 @@ public class DispMonitorThread extends Thread implements DispositivoMonitorListe
 			while( !stop && !sistema.isFim() )
 				dispMonitorRunnable.run();
 		} catch (ErrorException e) {
-			
+			sistema.getOutputUI().printError( e.getMessage() );
 		} 					
 	}
 	
@@ -42,7 +40,7 @@ public class DispMonitorThread extends Thread implements DispositivoMonitorListe
 		try {
 			sistema.getMainAPIIntegration().postDispositivoState( dispState );
 		} catch (ErrorException e) {
-			Logger.getLogger( DispMonitorThread.class.getName() ).severe( e.getMessage() ); 
+			sistema.getOutputUI().printError( e.getMessage() );
 		} 
 	}
 
@@ -51,7 +49,7 @@ public class DispMonitorThread extends Thread implements DispositivoMonitorListe
 		try {
 			sistema.getMainAPIIntegration().postEvento( evento );
 		} catch ( ErrorException e ) {
-			Logger.getLogger( DispMonitorThread.class.getName() ).severe( e.getMessage() ); 
+			sistema.getOutputUI().printError( e.getMessage() );
 		}
 	}
 	

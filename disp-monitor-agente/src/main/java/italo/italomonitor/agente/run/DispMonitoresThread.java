@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.logging.Logger;
 
 import italo.italomonitor.agente.Sistema;
 import italo.italomonitor.agente.dto.integration.response.Agente;
@@ -35,7 +34,7 @@ public class DispMonitoresThread extends Thread {
 				this.updateConfig();
 				this.updateDispositivos();
 			} catch ( ErrorException e ) {
-				Logger.getLogger( DispMonitoresThread.class.getName() ).severe( e.getMessage() ); 
+				sistema.getOutputUI().printError( e.getMessage() );
 			}
 			
 			try {
@@ -58,7 +57,7 @@ public class DispMonitoresThread extends Thread {
 					runnable.setConfig( config );
 			}
 		} catch (ErrorException e) {
-			
+			sistema.getOutputUI().printError( e.getMessage() );
 		}
 	}
 	
@@ -71,7 +70,7 @@ public class DispMonitoresThread extends Thread {
 				if ( runnable != null )
 					runnable.setDispositivo( dispositivo );
 			} catch (ErrorException e) {
-				
+				sistema.getOutputUI().printError( e.getMessage() );
 			}
 		}
 	}

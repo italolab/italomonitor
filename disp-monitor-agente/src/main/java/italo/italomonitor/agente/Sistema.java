@@ -1,9 +1,14 @@
 package italo.italomonitor.agente;
 
-import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
 
 import italo.italomonitor.agente.config.ConfigProperties;
+import italo.italomonitor.agente.controller.TrayIconGUIController;
 import italo.italomonitor.agente.exception.ErrorException;
+import italo.italomonitor.agente.gui.GUI;
+import italo.italomonitor.agente.gui.output.OutputUI;
+import italo.italomonitor.agente.gui.trayicon.GUIException;
 import italo.italomonitor.agente.integration.MainAPIIntegration;
 import italo.italomonitor.agente.run.DispMonitoresThread;
 import italo.italomonitor.agente.util.ConfigPropertiesReader;
@@ -15,20 +20,31 @@ public class Sistema {
 	private final MainAPIIntegration mainAPIIntegration = new MainAPIIntegration( this );
 	private final HttpClientManager httpClientManager = new HttpClientManager( this );
 	
+	private final TrayIconGUIController trayIconGUIController = new TrayIconGUIController( this );
+	private GUI gui;
+	
 	private ConfigProperties configProperties;
 	private boolean fim = false;
 	
-	public void run( String configFilePath, String applicationFilePath ) {
-		try {
-			configProperties = configPropertiesReader.read( configFilePath, applicationFilePath );
-			
-			DispMonitoresThread thread = new DispMonitoresThread( this );
-			thread.start();
-			
-			System.out.println( "Sistema iniciado!" ); 
-		} catch ( ErrorException e ) {
-			Logger.getLogger( Main.class.getName() ).severe( e.getMessage() ); 
-		}	
+	public void run( String configFilePath, String applicationFilePath ) {	
+		SwingUtilities.invokeLater( () -> {
+			gui = new GUI();
+			try {
+				gui.initialize();
+				gui.getTrayIconUI().setTrayIconGUIListener( trayIconGUIController );
+				
+				configProperties = configPropertiesReader.read( configFilePath, applicationFilePath );
+				
+				DispMonitoresThread thread = new DispMonitoresThread( this );
+				thread.start();
+				
+				gui.getOutputUI().printInfo( "Sistema iniciado!" );				
+			} catch ( GUIException e ) {
+				JOptionPane.showMessageDialog( null, e.getMessage(), "Erro!", JOptionPane.ERROR_MESSAGE );
+			} catch ( ErrorException e ) {
+				gui.getOutputUI().printError( e.getMessage() ); 				
+			}
+		} );											
 	}
 
 	public ConfigProperties getConfigProperties() {
@@ -49,6 +65,14 @@ public class Sistema {
 
 	public void setFim(boolean fim) {
 		this.fim = fim;
+	}
+
+	public GUI getGUI() {
+		return gui;
+	}
+	
+	public OutputUI getOutputUI() {
+		return gui.getOutputUI();
 	}
 	
 }
