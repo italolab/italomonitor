@@ -31,7 +31,7 @@ public class DispMonitorThread extends Thread implements DispositivoMonitorListe
 			while( !stop && !sistema.isFim() )
 				dispMonitorRunnable.run();
 		} catch (ErrorException e) {
-			sistema.getOutputUI().printError( e.getMessage() );
+			sistema.getGUI().printError( e.getMessage() );
 		} 					
 	}
 	
@@ -40,7 +40,7 @@ public class DispMonitorThread extends Thread implements DispositivoMonitorListe
 		try {
 			sistema.getMainAPIIntegration().postDispositivoState( dispState );
 		} catch (ErrorException e) {
-			sistema.getOutputUI().printError( e.getMessage() );
+			sistema.getGUI().printError( e.getMessage() );
 		} 
 	}
 
@@ -49,7 +49,7 @@ public class DispMonitorThread extends Thread implements DispositivoMonitorListe
 		try {
 			sistema.getMainAPIIntegration().postEvento( evento );
 		} catch ( ErrorException e ) {
-			sistema.getOutputUI().printError( e.getMessage() );
+			sistema.getGUI().printError( e.getMessage() );
 		}
 	}
 	

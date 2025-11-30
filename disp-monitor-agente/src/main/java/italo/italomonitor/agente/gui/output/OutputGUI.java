@@ -6,6 +6,7 @@ import java.awt.GridLayout;
 
 import javax.swing.JDialog;
 import javax.swing.JEditorPane;
+import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.SwingUtilities;
@@ -14,16 +15,16 @@ import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
 
-import italo.italomonitor.agente.gui.GUIUtil;
-import italo.italomonitor.agente.gui.trayicon.GUIException;
+import italo.italomonitor.agente.gui.GUIDriver;
+import italo.italomonitor.agente.gui.GUIException;
 
-public class OutputGUI extends JDialog implements OutputUI {
+public class OutputGUI extends JFrame implements OutputUI {
 
 	private static final long serialVersionUID = 1L;
 	
 	private JEditorPane editorPane;
 	
-	public OutputGUI( GUIUtil util ) throws GUIException {
+	public OutputGUI( GUIDriver drv ) throws GUIException {
 		editorPane = new JEditorPane();
 		editorPane.setEditable( false ); 
 		editorPane.setPreferredSize( new Dimension( 640, 480 ) );
@@ -37,12 +38,13 @@ public class OutputGUI extends JDialog implements OutputUI {
 		super.getContentPane().setLayout( new GridLayout() );
 		super.getContentPane().add( panel );
 				
-		super.setIconImage( util.readMainIcon() );
+		super.setIconImage( drv.readMainIcon() );
 		
 		super.setTitle( "Saída de Italo Monitor" );
-		super.setDefaultCloseOperation( JDialog.HIDE_ON_CLOSE ); 
+		super.setDefaultCloseOperation( drv.isSystemTraySupported() ? JDialog.HIDE_ON_CLOSE : JDialog.EXIT_ON_CLOSE ); 
 		super.pack();
 		super.setLocationRelativeTo( this );
+		super.setResizable( false );
 		super.setVisible( false ); 
 	}
 	

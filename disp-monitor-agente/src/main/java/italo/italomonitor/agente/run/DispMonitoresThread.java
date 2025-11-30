@@ -22,6 +22,7 @@ public class DispMonitoresThread extends Thread {
 	}
 
 	public void run() {
+		boolean mostrarErroEmSystemTray = true;
 		while( !sistema.isFim() ) {
 			try {
 				Agente agente = sistema.getMainAPIIntegration().getAgente();
@@ -33,8 +34,11 @@ public class DispMonitoresThread extends Thread {
 				
 				this.updateConfig();
 				this.updateDispositivos();
+				
+				mostrarErroEmSystemTray = true;
 			} catch ( ErrorException e ) {
-				sistema.getOutputUI().printError( e.getMessage() );
+				sistema.getGUI().printError( e.getMessage(), mostrarErroEmSystemTray );
+				mostrarErroEmSystemTray = false;
 			}
 			
 			try {
@@ -57,7 +61,7 @@ public class DispMonitoresThread extends Thread {
 					runnable.setConfig( config );
 			}
 		} catch (ErrorException e) {
-			sistema.getOutputUI().printError( e.getMessage() );
+			sistema.getGUI().printError( e.getMessage() );
 		}
 	}
 	
@@ -70,7 +74,7 @@ public class DispMonitoresThread extends Thread {
 				if ( runnable != null )
 					runnable.setDispositivo( dispositivo );
 			} catch (ErrorException e) {
-				sistema.getOutputUI().printError( e.getMessage() );
+				sistema.getGUI().printError( e.getMessage() );
 			}
 		}
 	}

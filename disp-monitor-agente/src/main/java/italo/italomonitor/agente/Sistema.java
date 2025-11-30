@@ -7,8 +7,8 @@ import italo.italomonitor.agente.config.ConfigProperties;
 import italo.italomonitor.agente.controller.TrayIconGUIController;
 import italo.italomonitor.agente.exception.ErrorException;
 import italo.italomonitor.agente.gui.GUI;
+import italo.italomonitor.agente.gui.GUIException;
 import italo.italomonitor.agente.gui.output.OutputUI;
-import italo.italomonitor.agente.gui.trayicon.GUIException;
 import italo.italomonitor.agente.integration.MainAPIIntegration;
 import italo.italomonitor.agente.run.DispMonitoresThread;
 import italo.italomonitor.agente.util.ConfigPropertiesReader;
@@ -31,18 +31,21 @@ public class Sistema {
 			gui = new GUI();
 			try {
 				gui.initialize();
-				gui.getTrayIconUI().setTrayIconGUIListener( trayIconGUIController );
-				
+				gui.setTrayIconGUIListener( trayIconGUIController );
+									
 				configProperties = configPropertiesReader.read( configFilePath, applicationFilePath );
 				
 				DispMonitoresThread thread = new DispMonitoresThread( this );
 				thread.start();
+
+				if ( !gui.isSystemTraySupported() )
+					gui.getOutputUI().setVisible( true );
 				
-				gui.getOutputUI().printInfo( "Sistema iniciado!" );				
+				gui.printInfo( "Sistema iniciado!" );
 			} catch ( GUIException e ) {
-				JOptionPane.showMessageDialog( null, e.getMessage(), "Erro!", JOptionPane.ERROR_MESSAGE );
+				JOptionPane.showMessageDialog( null, e.getMessage(), "Erro!", JOptionPane.ERROR_MESSAGE );			
 			} catch ( ErrorException e ) {
-				gui.getOutputUI().printError( e.getMessage() ); 				
+				gui.printError( e.getMessage() ); 				
 			}
 		} );											
 	}

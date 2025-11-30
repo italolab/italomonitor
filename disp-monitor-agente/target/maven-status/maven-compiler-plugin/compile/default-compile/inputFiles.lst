@@ -6,10 +6,10 @@ C:\Users\italo\workspace-java\italomonitor\disp-monitor-agente\src\main\java\ita
 C:\Users\italo\workspace-java\italomonitor\disp-monitor-agente\src\main\java\italo\italomonitor\agente\exception\ErrorException.java
 C:\Users\italo\workspace-java\italomonitor\disp-monitor-agente\src\main\java\italo\italomonitor\agente\exception\Errors.java
 C:\Users\italo\workspace-java\italomonitor\disp-monitor-agente\src\main\java\italo\italomonitor\agente\gui\GUI.java
-C:\Users\italo\workspace-java\italomonitor\disp-monitor-agente\src\main\java\italo\italomonitor\agente\gui\GUIUtil.java
+C:\Users\italo\workspace-java\italomonitor\disp-monitor-agente\src\main\java\italo\italomonitor\agente\gui\GUIDriver.java
+C:\Users\italo\workspace-java\italomonitor\disp-monitor-agente\src\main\java\italo\italomonitor\agente\gui\GUIException.java
 C:\Users\italo\workspace-java\italomonitor\disp-monitor-agente\src\main\java\italo\italomonitor\agente\gui\output\OutputGUI.java
 C:\Users\italo\workspace-java\italomonitor\disp-monitor-agente\src\main\java\italo\italomonitor\agente\gui\output\OutputUI.java
-C:\Users\italo\workspace-java\italomonitor\disp-monitor-agente\src\main\java\italo\italomonitor\agente\gui\trayicon\GUIException.java
 C:\Users\italo\workspace-java\italomonitor\disp-monitor-agente\src\main\java\italo\italomonitor\agente\gui\trayicon\TrayIconGUI.java
 C:\Users\italo\workspace-java\italomonitor\disp-monitor-agente\src\main\java\italo\italomonitor\agente\gui\trayicon\TrayIconGUIListener.java
 C:\Users\italo\workspace-java\italomonitor\disp-monitor-agente\src\main\java\italo\italomonitor\agente\gui\trayicon\TrayIconUI.java

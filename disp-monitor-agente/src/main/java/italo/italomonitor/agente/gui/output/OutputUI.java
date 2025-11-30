@@ -11,5 +11,5 @@ public interface OutputUI {
 	public void printInfo( String text );
 
 	public void print( String text, Color color );
-	
+		
 }

@@ -9,17 +9,20 @@ import java.awt.TrayIcon;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import italo.italomonitor.agente.gui.GUIUtil;
+import italo.italomonitor.agente.gui.GUIDriver;
+import italo.italomonitor.agente.gui.GUIException;
 
 public class TrayIconGUI implements TrayIconUI, ActionListener {
 
 	private MenuItem mostrarSaidaMI;
 	private MenuItem sairMI;
 	
+	private TrayIcon trayIcon;
+	
 	private TrayIconGUIListener listener;
 	
-	public TrayIconGUI( GUIUtil util ) throws GUIException {
-		if ( !SystemTray.isSupported() )
+	public TrayIconGUI( GUIDriver drv ) throws GUIException {
+		if ( !drv.isSystemTraySupported() )
 			throw new GUIException( "System Tray não suportado!" );
 		
 		PopupMenu popup = new PopupMenu();
@@ -34,17 +37,17 @@ public class TrayIconGUI implements TrayIconUI, ActionListener {
 		popup.addSeparator();
 		popup.add( sairMI );
 				
-		Image icon = util.readMainIcon();		
+		Image icon = drv.readMainIcon();		
 		
-		TrayIcon trayIcon = new TrayIcon( icon, "Italo Monitor", popup );
+		trayIcon = new TrayIcon( icon, "Italo Monitor", popup );
 		
 		try {
 			SystemTray.getSystemTray().add( trayIcon );
 		} catch (AWTException e) {
 			throw new GUIException( "Falha na adição de GUI ao System Tray." );
-		}
+		}		
 	}
-
+	
 	@Override
 	public void actionPerformed( ActionEvent e ) {
 		if ( listener == null )
@@ -55,6 +58,18 @@ public class TrayIconGUI implements TrayIconUI, ActionListener {
 		} else if ( e.getSource() == sairMI ) {
 			listener.sairClicadoOpClick();
 		}
+	}
+
+	@Override
+	public void displayInfoMessage( String message ) {
+		if ( trayIcon != null )
+			trayIcon.displayMessage( "Informação", message, TrayIcon.MessageType.INFO );
+	}
+	
+	@Override
+	public void displayErrorMessage( String message ) {
+		if ( trayIcon != null )
+			trayIcon.displayMessage( "Erro", message, TrayIcon.MessageType.ERROR );
 	}
 
 	public void setTrayIconGUIListener( TrayIconGUIListener listener ) {

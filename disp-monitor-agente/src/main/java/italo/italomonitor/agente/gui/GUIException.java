@@ -1,4 +1,4 @@
-package italo.italomonitor.agente.gui.trayicon;
+package italo.italomonitor.agente.gui;
 
 public class GUIException extends Exception {
 

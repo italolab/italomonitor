@@ -1,5 +1,4 @@
 italo\italomonitor\agente\util\ConfigPropertiesReader.class
-italo\italomonitor\agente\gui\GUIUtil.class
 italo\italomonitor\agente\integration\MainAPIIntegration.class
 italo\italomonitor\agente\config\ConfigProperties.class
 italo\italomonitor\agente\exception\ErrorException.class
@@ -8,8 +7,8 @@ italo\italomonitor\agente\controller\TrayIconGUIController.class
 italo\italomonitor\agente\gui\GUI.class
 italo\italomonitor\agente\run\DispMonitorThread.class
 italo\italomonitor\agente\dto\integration\response\ErrorResponse.class
+italo\italomonitor\agente\gui\GUIDriver.class
 italo\italomonitor\agente\gui\trayicon\TrayIconGUIListener.class
-italo\italomonitor\agente\gui\trayicon\GUIException.class
 italo\italomonitor\agente\dto\integration\response\Agente.class
 italo\italomonitor\agente\gui\trayicon\TrayIconGUI.class
 italo\italomonitor\agente\run\DispMonitoresThread.class
@@ -19,4 +18,5 @@ italo\italomonitor\agente\util\HttpClientManager.class
 italo\italomonitor\agente\Main.class
 italo\italomonitor\agente\gui\output\OutputGUI.class
 italo\italomonitor\agente\gui\output\OutputUI.class
+italo\italomonitor\agente\gui\GUIException.class
 italo\italomonitor\agente\exception\Errors.class
