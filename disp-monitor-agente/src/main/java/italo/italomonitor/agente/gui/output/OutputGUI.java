@@ -38,7 +38,7 @@ public class OutputGUI extends JFrame implements OutputUI {
 		super.getContentPane().setLayout( new GridLayout() );
 		super.getContentPane().add( panel );
 				
-		super.setIconImage( drv.readMainIcon() );
+		super.setIconImage( drv.getImageLoader().getIcon() );
 		
 		super.setTitle( "Saída de Italo Monitor" );
 		super.setDefaultCloseOperation( drv.isSystemTraySupported() ? JDialog.HIDE_ON_CLOSE : JDialog.EXIT_ON_CLOSE ); 

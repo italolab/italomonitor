@@ -1,10 +1,10 @@
 package italo.italomonitor.agente.gui;
 
-import java.awt.Image;
+import italo.italomonitor.agente.gui.image.ImageLoader;
 
 public interface GUIDriver {
 
-	public Image readMainIcon() throws GUIException;
+	public ImageLoader getImageLoader();
 		
 	public boolean isSystemTraySupported();
 	

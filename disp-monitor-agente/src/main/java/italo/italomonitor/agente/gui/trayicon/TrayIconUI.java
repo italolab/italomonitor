@@ -8,4 +8,8 @@ public interface TrayIconUI {
 	
 	public void displayInfoMessage( String message );
 	
+	public void conectou();
+	
+	public void desconectou();
+	
 }

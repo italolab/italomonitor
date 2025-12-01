@@ -21,7 +21,11 @@ public class TrayIconGUI implements TrayIconUI, ActionListener {
 	
 	private TrayIconGUIListener listener;
 	
+	private GUIDriver drv;
+	
 	public TrayIconGUI( GUIDriver drv ) throws GUIException {
+		this.drv = drv;
+		
 		if ( !drv.isSystemTraySupported() )
 			throw new GUIException( "System Tray não suportado!" );
 		
@@ -37,7 +41,7 @@ public class TrayIconGUI implements TrayIconUI, ActionListener {
 		popup.addSeparator();
 		popup.add( sairMI );
 				
-		Image icon = drv.readMainIcon();		
+		Image icon = drv.getImageLoader().getIcon();		
 		
 		trayIcon = new TrayIcon( icon, "Italo Monitor", popup );
 		
@@ -70,6 +74,18 @@ public class TrayIconGUI implements TrayIconUI, ActionListener {
 	public void displayErrorMessage( String message ) {
 		if ( trayIcon != null )
 			trayIcon.displayMessage( "Erro", message, TrayIcon.MessageType.ERROR );
+	}
+
+	@Override
+	public void conectou() {
+		if ( trayIcon != null )
+			trayIcon.setImage( drv.getImageLoader().getConectadoIcon() );
+	}
+
+	@Override
+	public void desconectou() {
+		if ( trayIcon != null )
+			trayIcon.setImage( drv.getImageLoader().getDesconectadoIcon() );
 	}
 
 	public void setTrayIconGUIListener( TrayIconGUIListener listener ) {

@@ -81,7 +81,6 @@ public class HttpClientManager {
 		} catch ( ConnectException e ) {					
 			throw new ErrorException( Errors.MAINAPI_INDISPONIVEL );
 		} catch ( IOException | InterruptedException e ) {
-			Logger.getLogger( HttpClientManager.class.getName() ).log( Level.SEVERE, e.getMessage(), e ); 
 			throw new ErrorException( e.getMessage() );
 		}
 	}
@@ -90,7 +89,6 @@ public class HttpClientManager {
 		try {
 			return objectMapper.writeValueAsString( obj );
 		} catch ( JsonProcessingException e ) {
-			Logger.getLogger( HttpClientManager.class.getName() ).log( Level.SEVERE, e.getMessage(), e ); 
 			throw new ErrorException( e.getMessage() );
 		}
 	}

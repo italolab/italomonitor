@@ -22,7 +22,9 @@ public class DispMonitoresThread extends Thread {
 	}
 
 	public void run() {
-		boolean mostrarErroEmSystemTray = true;
+		boolean conectado = true;
+		sistema.getGUI().conectou();
+
 		while( !sistema.isFim() ) {
 			try {
 				Agente agente = sistema.getMainAPIIntegration().getAgente();
@@ -35,10 +37,18 @@ public class DispMonitoresThread extends Thread {
 				this.updateConfig();
 				this.updateDispositivos();
 				
-				mostrarErroEmSystemTray = true;
+				if ( !conectado ) {
+					sistema.getGUI().conectou();
+					sistema.getGUI().printInfo( "Conectado." );
+				}
+					
+				conectado = true;
 			} catch ( ErrorException e ) {
-				sistema.getGUI().printError( e.getMessage(), mostrarErroEmSystemTray );
-				mostrarErroEmSystemTray = false;
+				if ( conectado == true ) {
+					sistema.getGUI().desconectou();
+					sistema.getGUI().printError( "Desconectado. "+e.getMessage(), conectado );
+					conectado = false;
+				}
 			}
 			
 			try {
