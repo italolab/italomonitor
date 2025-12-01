@@ -69,7 +69,7 @@ public class GUI implements GUIDriver {
 	}
 	
 	public boolean isSystemTraySupported() {
-		return SystemTray.isSupported() && false;
+		return SystemTray.isSupported();
 	}
 
 	@Override
