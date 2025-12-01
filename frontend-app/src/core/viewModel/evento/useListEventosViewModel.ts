@@ -47,7 +47,7 @@ function useListEventosViewModel() {
 
             setLoading( false );
             if ( response.data.length === 0 )
-                setInfoMessage( 'Nenhum evento encontrado pelo imtervalo informado.' );
+                setInfoMessage( 'Nenhum evento encontrado pelo intervalo informado.' );
             
             return response.data;
         } catch ( error ) {

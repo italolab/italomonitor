@@ -94,6 +94,17 @@ public class AgenteMonitorService {
 		return dispositivoMapper.mapToDispMonitorDispositivo( dispositivo );		
 	}
 	
+	public void disconnectAgente( String agenteChave ) {
+		Optional<Agente> agenteOp = agenteRepository.findByChave( agenteChave );
+		if ( agenteOp.isEmpty() )
+			throw new BusinessException( Errors.AGENTE_NOT_FOUND );
+		
+		Agente agente = agenteOp.get();
+		Long agenteId = agente.getId();
+		
+		dispositivoRepository.updateAgenteDispsToNaoMonitorado( agenteId ); 
+	}
+	
 	public void processaDispositivoState( String agenteChave, DispMonitorDispositivoState dispState ) {
 		Optional<Agente> agenteOp = agenteRepository.findByChave( agenteChave );
 		if ( agenteOp.isEmpty() )

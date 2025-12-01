@@ -19,6 +19,18 @@ public class MainAPIIntegration {
 		this.sistema = sistema;
 	}
 	
+	public void disconnectAgente() throws ErrorException {
+		String chave = sistema.getConfigProperties().getChave();
+		
+		String uri = sistema.getConfigProperties().getMainAPIEndpoints().getDisconnectAgenteEndpoint();
+		uri = uri.replace( "{chave}", chave );
+		
+		HttpClientManager httpClientManager = sistema.getHttpClientManager();
+		
+		HttpRequest req = httpClientManager.post( uri );
+		httpClientManager.asyncSend( req ); 
+	}
+	
 	public void postDispositivoState( DispositivoState dispState ) throws ErrorException {
 		String chave = sistema.getConfigProperties().getChave();
 		
@@ -28,7 +40,7 @@ public class MainAPIIntegration {
 		HttpClientManager httpClientManager = sistema.getHttpClientManager();
 		
 		HttpRequest req = httpClientManager.post( uri, dispState );		
-		sistema.getHttpClientManager().asyncSend( req );
+		httpClientManager.asyncSend( req );
 	}
 	
 	public void postEvento( Evento evento ) throws ErrorException {
@@ -40,7 +52,7 @@ public class MainAPIIntegration {
 		HttpClientManager httpClientManager = sistema.getHttpClientManager();
 		
 		HttpRequest req = httpClientManager.post( uri, evento );		
-		sistema.getHttpClientManager().asyncSend( req );
+		httpClientManager.asyncSend( req );
 	}
 	
 	public Agente getAgente() throws ErrorException {
@@ -52,7 +64,7 @@ public class MainAPIIntegration {
 		HttpClientManager httpClientManager = sistema.getHttpClientManager();
 		
 		HttpRequest req = httpClientManager.get( uri );		
-		return sistema.getHttpClientManager().send( req, Agente.class );
+		return httpClientManager.send( req, Agente.class );
 	}
 	
 	public Config getConfig() throws ErrorException {
@@ -64,7 +76,7 @@ public class MainAPIIntegration {
 		HttpClientManager httpClientManager = sistema.getHttpClientManager();
 		
 		HttpRequest req = httpClientManager.get( uri );		
-		return sistema.getHttpClientManager().send( req, Config.class );
+		return httpClientManager.send( req, Config.class );
 	}
 	
 	public Dispositivo getDispositivo( Long dispositivoId ) throws ErrorException {

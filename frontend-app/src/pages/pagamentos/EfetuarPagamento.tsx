@@ -1,10 +1,11 @@
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import AppMessage from "../../components/AppMessage";
 import AppSpinner from "../../components/AppSpinner";
 import useEfetuarPagamentoViewModel from "../../core/viewModel/pagamento/useEfetuarPagamentoViewModel";
 import AppLayout from "../../layout/AppLayout";
 import useEffectOnce from "../../core/util/useEffectOnce";
 import { Button, Card, Image } from "react-bootstrap";
+import { MdArrowBack } from "react-icons/md";
 
 function EfetuarPagamento() {
 
@@ -18,6 +19,8 @@ function EfetuarPagamento() {
     } = useEfetuarPagamentoViewModel();
 
     const { empresaId } = useParams();
+
+    const navigate = useNavigate();
 
     useEffectOnce( () => {
         onLoad();
@@ -43,6 +46,12 @@ function EfetuarPagamento() {
 
     return (
         <AppLayout>
+            <div>
+                <Button type="button" onClick={() => navigate( -1 )} className="d-inline-flex align-items-center">
+                    <MdArrowBack size={25}/> Voltar
+                </Button>                            
+            </div>
+
             <h3 className="title">Efetuar pagamento</h3>
             
             <div className="d-flex flex-wrap justify-content-center">

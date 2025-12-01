@@ -177,7 +177,10 @@ public class DispositivoService {
         if ( dispositivoOp.isEmpty() )
             throw new BusinessException( Errors.DISPOSITIVO_NOT_FOUND );
         
-        dispositivoMonitorEscalonador.stopMonitoramento( dispositivoId );
+        Dispositivo dispositivo = dispositivoOp.get();
+        
+        if ( dispositivo.isSendoMonitorado() && !dispositivo.isMonitoradoPorAgente() )
+        	dispositivoMonitorEscalonador.stopMonitoramentoIgnoreResult( dispositivoId );
 
         dispositivoRepository.deleteById( dispositivoId );
     }

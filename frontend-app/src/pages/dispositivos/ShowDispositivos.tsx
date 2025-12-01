@@ -115,10 +115,10 @@ function ShowDispositivos() {
                     <MdAdd size={25}/> Novo dispositivo
                 </Button>
                 <Button type="button" onClick={onStartAllMonitoramentos} className="func">
-                    <MdPlayCircle size={25} /> Iniciar todos os monitoramentos
+                    <MdPlayCircle size={25} /> Iniciar monitoramentos sem agente
                 </Button>
                 <Button type="button" onClick={onStopAllMonitoramentos} className="func">
-                    <MdStopCircle size={25} /> Encerrar todos os monitoramentos
+                    <MdStopCircle size={25} /> Encerrar monitoramentos sem agente
                 </Button>
             </div>
 
@@ -136,7 +136,7 @@ function ShowDispositivos() {
                 
                 { dispositivosInfos.sendoMonitoradosQuant < dispositivosInfos.quantTotal 
                     ? <span className="text-warning">{dispositivosInfos.sendoMonitoradosQuant} </span>
-                    : <span className="text-dark">{dispositivosInfos.sendoMonitoradosQuant} </span>
+                    : <span className="text-black">{dispositivosInfos.sendoMonitoradosQuant} </span>
                 }
                  
                 sendo monitorados.                

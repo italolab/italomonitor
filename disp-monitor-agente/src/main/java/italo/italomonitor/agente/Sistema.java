@@ -4,6 +4,7 @@ import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
 import italo.italomonitor.agente.config.ConfigProperties;
+import italo.italomonitor.agente.controller.OutputGUIController;
 import italo.italomonitor.agente.controller.TrayIconGUIController;
 import italo.italomonitor.agente.exception.ErrorException;
 import italo.italomonitor.agente.gui.GUI;
@@ -21,6 +22,7 @@ public class Sistema {
 	private final HttpClientManager httpClientManager = new HttpClientManager( this );
 	
 	private final TrayIconGUIController trayIconGUIController = new TrayIconGUIController( this );
+	private final OutputGUIController outputGUIController = new OutputGUIController( this );
 	private GUI gui;
 	
 	private ConfigProperties configProperties;
@@ -32,6 +34,7 @@ public class Sistema {
 			try {
 				gui.initialize();
 				gui.setTrayIconGUIListener( trayIconGUIController );
+				gui.setOutputGUIListener( outputGUIController );
 									
 				configProperties = configPropertiesReader.read( configFilePath, applicationFilePath );
 				

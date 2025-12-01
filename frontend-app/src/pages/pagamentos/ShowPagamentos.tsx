@@ -10,6 +10,7 @@ import useInfos from "../../core/viewModel/useInfos";
 import { useState } from "react";
 import type { PagamentoResponse } from "../../core/model/dto/response/PagamentoResponse";
 import AppPagination from "../../components/AppPagination";
+import { MdArrowBack } from "react-icons/md";
 
 function ShowPagamentos() {
 
@@ -55,6 +56,12 @@ function ShowPagamentos() {
 
     return (
         <AppLayout>
+            <div>
+                <Button type="button" onClick={() => navigate( -1 )} className="d-inline-flex align-items-center">
+                    <MdArrowBack size={25}/> Voltar
+                </Button>                            
+            </div>
+
             <h3 className="title">Pagamentos</h3>            
 
             <div className="d-flex flex-wrap justify-content-center mt-3">

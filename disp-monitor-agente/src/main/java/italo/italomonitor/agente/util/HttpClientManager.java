@@ -38,6 +38,17 @@ public class HttpClientManager {
 				.build();
 	}
 	
+	public HttpRequest post( String uri ) throws ErrorException {
+		String accessToken = sistema.getConfigProperties().getAccessToken();
+		String mainAPIHost = sistema.getConfigProperties().getMainAPIHost();
+				
+		return HttpRequest.newBuilder()
+				.uri( URI.create( mainAPIHost + uri ) )
+				.header( "Authorization", "Bearer "+accessToken )
+				.POST( HttpRequest.BodyPublishers.noBody() )
+				.build();
+	}
+	
 	public HttpRequest post( String uri, Object obj ) throws ErrorException {
 		String accessToken = sistema.getConfigProperties().getAccessToken();
 		String mainAPIHost = sistema.getConfigProperties().getMainAPIHost();

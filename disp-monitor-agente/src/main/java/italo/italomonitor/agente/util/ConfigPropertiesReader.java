@@ -50,6 +50,7 @@ public class ConfigPropertiesReader {
 		String configGetEndpoint = applicationProperties.getProperty( "main-api.monitoramento.agente.config.get" );
 		String dispositivoGetEndpoint = applicationProperties.getProperty( "main-api.monitoramento.agente.dispositivo.get" );
 		String agenteGetEndpoint = applicationProperties.getProperty( "main-api.monitoramento.agente.get" );			
+		String disconnectAgenteEndpoint = applicationProperties.getProperty( "main-api.monitoramento.agente.disconnect" );
 		
 		if ( chave == null )
 			throw new ErrorException( Errors.REQUIRED_PROPERTY, "chave" );
@@ -69,7 +70,9 @@ public class ConfigPropertiesReader {
 		if ( dispositivoGetEndpoint == null )
 			throw new ErrorException( Errors.PROPERTY_NOT_FOUND, "main-api.monitoramento.agente.dispositivo.get", applicationFileName );
 		if ( agenteGetEndpoint == null )
-			throw new ErrorException( Errors.PROPERTY_NOT_FOUND, "main-api.monitoramento.agente.get", applicationFileName );				
+			throw new ErrorException( Errors.PROPERTY_NOT_FOUND, "main-api.monitoramento.agente.get", applicationFileName );
+		if ( disconnectAgenteEndpoint == null )
+			throw new ErrorException( Errors.PROPERTY_NOT_FOUND, "main-api.monitoramento.agente.disconnect", applicationFileName );			
 		
 		ConfigProperties configProps = new ConfigProperties();
 		
@@ -87,7 +90,8 @@ public class ConfigPropertiesReader {
 		configProps.getMainAPIEndpoints().setEventoPostEndpoint( eventoPostEndpoint );
 		configProps.getMainAPIEndpoints().setConfigGetEndpoint( configGetEndpoint );
 		configProps.getMainAPIEndpoints().setDispositivoGetEndpoint( dispositivoGetEndpoint );
-		configProps.getMainAPIEndpoints().setAgenteGetEndpoint( agenteGetEndpoint ); 
+		configProps.getMainAPIEndpoints().setAgenteGetEndpoint( agenteGetEndpoint );
+		configProps.getMainAPIEndpoints().setDisconnectAgenteEndpoint( disconnectAgenteEndpoint ); 
 		
 		return configProps;		
 	}

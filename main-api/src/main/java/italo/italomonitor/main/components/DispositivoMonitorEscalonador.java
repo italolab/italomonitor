@@ -94,7 +94,7 @@ public class DispositivoMonitorEscalonador {
 			dispositivoMonitorIntegration.stopAllMonitoramentos( host ); 
 		}				
 		
-		dispositivoRepository.updateAllToNaoSendoMonitorado();
+		dispositivoRepository.updateNoMonitByAgenteToNaoSendoMonitorado();
 		
 		List<Long> ids = dispositivoRepository.findAllIDsNoMonitByAgente();
 		for( long dispId : ids )

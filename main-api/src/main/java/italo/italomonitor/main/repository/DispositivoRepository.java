@@ -44,7 +44,14 @@ public interface DispositivoRepository extends JpaRepository<Dispositivo, Long> 
     
     @Transactional
     @Modifying
-    @Query( "update Dispositivo d set d.sendoMonitorado=false" )
-    void updateAllToNaoSendoMonitorado();
+    @Query( "update Dispositivo d set d.sendoMonitorado=false where d.monitoradoPorAgente=false" )
+    void updateNoMonitByAgenteToNaoSendoMonitorado();
+    
+    @Transactional
+    @Modifying
+    @Query( "update Dispositivo d set d.sendoMonitorado=false where d.agente is not null and d.agente.id=?1" )
+    void updateAgenteDispsToNaoMonitorado( Long agenteId );
+    
+    
     
 }

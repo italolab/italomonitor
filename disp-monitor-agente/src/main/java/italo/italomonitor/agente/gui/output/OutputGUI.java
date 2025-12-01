@@ -3,6 +3,8 @@ package italo.italomonitor.agente.gui.output;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 
 import javax.swing.JDialog;
 import javax.swing.JEditorPane;
@@ -18,11 +20,13 @@ import javax.swing.text.StyledDocument;
 import italo.italomonitor.agente.gui.GUIDriver;
 import italo.italomonitor.agente.gui.GUIException;
 
-public class OutputGUI extends JFrame implements OutputUI {
+public class OutputGUI extends JFrame implements OutputUI, WindowListener {
 
 	private static final long serialVersionUID = 1L;
 	
 	private JEditorPane editorPane;
+	
+	private OutputGUIListener listener;
 	
 	public OutputGUI( GUIDriver drv ) throws GUIException {
 		editorPane = new JEditorPane();
@@ -38,6 +42,8 @@ public class OutputGUI extends JFrame implements OutputUI {
 		super.getContentPane().setLayout( new GridLayout() );
 		super.getContentPane().add( panel );
 				
+		super.addWindowListener( this );
+
 		super.setIconImage( drv.getImageLoader().getIcon() );
 		
 		super.setTitle( "Saída de Italo Monitor" );
@@ -45,7 +51,7 @@ public class OutputGUI extends JFrame implements OutputUI {
 		super.pack();
 		super.setLocationRelativeTo( this );
 		super.setResizable( false );
-		super.setVisible( false ); 
+		super.setVisible( false );		
 	}
 	
 	public void printInfo( String text ) {
@@ -72,5 +78,33 @@ public class OutputGUI extends JFrame implements OutputUI {
 			}
 		} );	
 	}
+	
+	public void setOutputGUIListener( OutputGUIListener listener ) {
+		this.listener = listener;
+	}
+
+	@Override
+	public void windowClosing(WindowEvent e) {
+		if ( listener != null )
+			listener.saindoOnClick();
+	}
+	
+	@Override
+	public void windowOpened(WindowEvent e) {}
+
+	@Override
+	public void windowClosed(WindowEvent e) {}
+
+	@Override
+	public void windowIconified(WindowEvent e) {}
+
+	@Override
+	public void windowDeiconified(WindowEvent e) {}
+
+	@Override
+	public void windowActivated(WindowEvent e) {}
+
+	@Override
+	public void windowDeactivated(WindowEvent e) {}
 	
 }

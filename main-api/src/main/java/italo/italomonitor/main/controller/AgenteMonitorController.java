@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import italo.italomonitor.main.apidoc.agente.monitor.DisconnectAgenteAgMonitDoc;
 import italo.italomonitor.main.apidoc.agente.monitor.GetAgenteAgMonitDoc;
 import italo.italomonitor.main.apidoc.agente.monitor.GetConfigAgMonitDoc;
 import italo.italomonitor.main.apidoc.agente.monitor.GetDispositivoAgMonitDoc;
@@ -73,6 +74,15 @@ public class AgenteMonitorController {
 	public ResponseEntity<DispMonitorAgente> getAgente( @PathVariable String chave ) {
 		DispMonitorAgente resp = agenteMonitorService.getAgente( chave );
 		return ResponseEntity.ok( resp );
+	}
+	
+	@DisconnectAgenteAgMonitDoc
+	@PreAuthorize("hasAuthority('agente-monitor-all')") 
+	@PostMapping("/{chave}/disconnect") 
+	public ResponseEntity<String> disconnectAgente(
+			@PathVariable String chave ) {
+		agenteMonitorService.disconnectAgente( chave );
+		return ResponseEntity.ok( "Agente desconectado com sucesso." );
 	}
 	
 }

@@ -11,6 +11,8 @@ public class MainAPIEndpoints {
 	private String dispositivoStatePostEndpoint;
 	
 	private String eventoPostEndpoint;
+	
+	private String disconnectAgenteEndpoint;
 
 	public String getConfigGetEndpoint() {
 		return configGetEndpoint;
@@ -50,6 +52,14 @@ public class MainAPIEndpoints {
 
 	public void setAgenteGetEndpoint(String agenteGetEndpoint) {
 		this.agenteGetEndpoint = agenteGetEndpoint;
+	}
+
+	public String getDisconnectAgenteEndpoint() {
+		return disconnectAgenteEndpoint;
+	}
+
+	public void setDisconnectAgenteEndpoint(String disconnectAgenteEndpoint) {
+		this.disconnectAgenteEndpoint = disconnectAgenteEndpoint;
 	}
 	
 }

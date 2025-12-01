@@ -4,6 +4,7 @@ import java.awt.SystemTray;
 
 import italo.italomonitor.agente.gui.image.ImageLoader;
 import italo.italomonitor.agente.gui.output.OutputGUI;
+import italo.italomonitor.agente.gui.output.OutputGUIListener;
 import italo.italomonitor.agente.gui.output.OutputUI;
 import italo.italomonitor.agente.gui.trayicon.TrayIconGUI;
 import italo.italomonitor.agente.gui.trayicon.TrayIconGUIListener;
@@ -29,6 +30,10 @@ public class GUI implements GUIDriver {
 			trayIconGUI.setTrayIconGUIListener( listener ); 
 	}
 		
+	public void setOutputGUIListener( OutputGUIListener listener ) {
+		outputGUI.setOutputGUIListener( listener );
+	}
+	
 	public OutputUI getOutputUI() {
 		return outputGUI;
 	}
@@ -64,7 +69,7 @@ public class GUI implements GUIDriver {
 	}
 	
 	public boolean isSystemTraySupported() {
-		return SystemTray.isSupported();
+		return SystemTray.isSupported() && false;
 	}
 
 	@Override

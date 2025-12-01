@@ -14,10 +14,12 @@ italo\italomonitor\agente\controller\TrayIconGUIController.class
 italo\italomonitor\agente\run\DispMonitorThread.class
 italo\italomonitor\agente\dto\integration\response\ErrorResponse.class
 italo\italomonitor\agente\gui\GUIDriver.class
+italo\italomonitor\agente\gui\output\OutputGUIListener.class
 italo\italomonitor\agente\dto\integration\response\Agente.class
 italo\italomonitor\agente\run\DispMonitoresThread.class
 italo\italomonitor\agente\config\MainAPIEndpoints.class
 italo\italomonitor\agente\Sistema.class
 italo\italomonitor\agente\Main.class
+italo\italomonitor\agente\controller\OutputGUIController.class
 italo\italomonitor\agente\gui\output\OutputUI.class
 italo\italomonitor\agente\gui\GUIException.class
