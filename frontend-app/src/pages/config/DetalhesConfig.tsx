@@ -61,10 +61,10 @@ function DetalhesConfig() {
                     <MdOutlineEdit size={25}/> Editar configurações
                 </Button>
                 <Button type="button" onClick={onStartAllMonitoramentos} className="func">
-                    <MdPlayCircle size={25}/> Startar monitoramentos
+                    <MdPlayCircle size={25}/> Startar monitoramentos sem agente
                 </Button>
                 <Button type="button" onClick={onStopAllMonitoramentos} className="func">
-                    <MdStopCircle size={25}/> Parar monitoramentos
+                    <MdStopCircle size={25}/> Parar monitoramentos sem agente
                 </Button>
             </div>
             
