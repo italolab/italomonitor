@@ -36,7 +36,7 @@ public class DispositivosInfosWebSocket {
 	@Autowired
 	private WebSocketHandlerDecoratorFactory2 webSocketConnectionTracker;
 					
-	public void sendDispositivosInfosMessage( Long dispositivoId ) {						
+	public void sendMessageByDispositivoId( Long dispositivoId ) {						
 		Optional<Long> empresaIDOp = dispositivoRepository.getEmpresaId( dispositivoId );
 		if ( empresaIDOp.isEmpty() ) {
 			Logger.getLogger( DispositivosInfosWebSocket.class ).error( "Dispositivo: "+dispositivoId+" sem empresa. " ); 
@@ -45,6 +45,11 @@ public class DispositivosInfosWebSocket {
 					
 		Long empresaId = empresaIDOp.get();
 		
+		this.sendMessageByEmpresaId( empresaId );
+	}
+		
+		
+	public void sendMessageByEmpresaId( Long empresaId ) {
 		boolean sendoMonitorado = true;
 		int quantTotal = dispositivoRepository.countByEmpresa( empresaId );
 		int sendoMonitoradosQuant = dispositivoRepository.countByEmpresaBySendoMonitorado( empresaId, sendoMonitorado );

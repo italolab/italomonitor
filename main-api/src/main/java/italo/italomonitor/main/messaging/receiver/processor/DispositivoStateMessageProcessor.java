@@ -75,22 +75,28 @@ public class DispositivoStateMessageProcessor {
 										
 			dispositivoRepository.save( dispositivo );
 			
-			DispositivoResponse resp = dispositivoMapper.map( dispositivo );
-	        String wsMessage = dispositivoMapper.mapToString( resp );
-	        
-	        Empresa empresa = dispositivo.getEmpresa();	        	        
-	        Long empresaId = empresa.getId();
-	        
-	        List<String> usernames = usuarioRepository.getUsernamesByEmpresa( empresaId );
-	        for( String username : usernames )
-	        	simpMessagingTemplate.convertAndSendToUser( username, dispositivosTopic, wsMessage );
-	        
-	        this.sendNotifSeNecessario( dispositivo, empresa );
+			this.sendDispositivoMessage( dispositivo ); 
 		} catch ( BusinessException e ) {
 			Logger.getLogger( DispositivoStateMessageProcessor.class ).debug( e.response().getMessage() ); 			
+		} 
+	}
+	
+	public void sendDispositivoMessage( Dispositivo dispositivo ) {
+		try {
+		DispositivoResponse resp = dispositivoMapper.map( dispositivo );
+        String wsMessage = dispositivoMapper.mapToString( resp );
+        
+        Empresa empresa = dispositivo.getEmpresa();	        	        
+        Long empresaId = empresa.getId();
+        
+        List<String> usernames = usuarioRepository.getUsernamesByEmpresa( empresaId );
+        for( String username : usernames )
+        	simpMessagingTemplate.convertAndSendToUser( username, dispositivosTopic, wsMessage );
+        
+        this.sendNotifSeNecessario( dispositivo, empresa );
 		} catch ( RuntimeException e ) {
 			Logger.getLogger( DispositivoStateMessageProcessor.class ).error( e.getMessage() ); 
-		} 
+		}
 	}
 	
 	private void sendNotifSeNecessario( Dispositivo dispositivo, Empresa empresa ) {

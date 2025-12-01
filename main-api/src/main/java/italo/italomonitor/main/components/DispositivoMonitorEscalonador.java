@@ -98,7 +98,7 @@ public class DispositivoMonitorEscalonador {
 		
 		List<Long> ids = dispositivoRepository.findAllIDsNoMonitByAgente();
 		for( long dispId : ids )
-			dispositivosInfosWebSocket.sendDispositivosInfosMessage( dispId );		
+			dispositivosInfosWebSocket.sendMessageByDispositivoId( dispId );		
     	
     	return "Todos os monitoramentos de dispositivo foram parados com sucesso.";
 	}
@@ -226,7 +226,7 @@ public class DispositivoMonitorEscalonador {
 						config.setMonitorServerCorrente( current );
 						configRepository.save( config );
 						
-						dispositivosInfosWebSocket.sendDispositivosInfosMessage( dispositivoId );
+						dispositivosInfosWebSocket.sendMessageByDispositivoId( dispositivoId );
 												
 						return MonitoramentoOperResult.INICIADO;
 					case JA_INICIADO:
@@ -263,7 +263,7 @@ public class DispositivoMonitorEscalonador {
 				if ( resp.getResult() == MonitoramentoOperResult.FINALIZADO ) {
 					this.updateDispositivo( dispositivo, false );
 					
-					dispositivosInfosWebSocket.sendDispositivosInfosMessage( dispositivoId );
+					dispositivosInfosWebSocket.sendMessageByDispositivoId( dispositivoId );
 
 					return MonitoramentoOperResult.FINALIZADO;
 				}

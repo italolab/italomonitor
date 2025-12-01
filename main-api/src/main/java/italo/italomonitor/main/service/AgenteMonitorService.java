@@ -6,6 +6,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import italo.italomonitor.main.dto.integration.DispMonitorAgente;
 import italo.italomonitor.main.dto.integration.DispMonitorConfig;
@@ -19,6 +20,7 @@ import italo.italomonitor.main.mapper.ConfigMapper;
 import italo.italomonitor.main.mapper.DispositivoMapper;
 import italo.italomonitor.main.messaging.receiver.processor.DispositivoStateMessageProcessor;
 import italo.italomonitor.main.messaging.receiver.processor.EventoMessageProcessor;
+import italo.italomonitor.main.messaging.websocket.DispositivosInfosWebSocket;
 import italo.italomonitor.main.model.Agente;
 import italo.italomonitor.main.model.Config;
 import italo.italomonitor.main.model.Dispositivo;
@@ -31,6 +33,9 @@ public class AgenteMonitorService {
 	
 	@Autowired
 	private DispositivoStateMessageProcessor dispositivoStateMessageProcessor;
+	
+	@Autowired
+	private DispositivosInfosWebSocket dispositivosInfosWebSocket;
 	
 	@Autowired
 	private EventoMessageProcessor eventoMessageProcessor;
@@ -94,6 +99,7 @@ public class AgenteMonitorService {
 		return dispositivoMapper.mapToDispMonitorDispositivo( dispositivo );		
 	}
 	
+	@Transactional
 	public void disconnectAgente( String agenteChave ) {
 		Optional<Agente> agenteOp = agenteRepository.findByChave( agenteChave );
 		if ( agenteOp.isEmpty() )
@@ -101,8 +107,15 @@ public class AgenteMonitorService {
 		
 		Agente agente = agenteOp.get();
 		Long agenteId = agente.getId();
+		Long empresaId = agente.getEmpresa().getId();
 		
 		dispositivoRepository.updateAgenteDispsToNaoMonitorado( agenteId ); 
+
+		List<Dispositivo> dispositivos = agente.getDispositivos();
+		for( Dispositivo disp : dispositivos )						
+			dispositivoStateMessageProcessor.sendDispositivoMessage( disp );
+		
+		dispositivosInfosWebSocket.sendMessageByEmpresaId( empresaId ); 
 	}
 	
 	public void processaDispositivoState( String agenteChave, DispMonitorDispositivoState dispState ) {
@@ -121,10 +134,13 @@ public class AgenteMonitorService {
 			throw new BusinessException( Errors.DISPOSITIVO_NOT_FOUND );
 		
 		Dispositivo dispositivo = dispositivoOp.get();
+		Long dispositivoId = dispositivo.getId();
+		
 		dispositivo.setSendoMonitorado( true );
 		dispositivoRepository.save( dispositivo );
 		
-		dispositivoStateMessageProcessor.processMessage( dispState ); 
+		dispositivoStateMessageProcessor.processMessage( dispState );
+		dispositivosInfosWebSocket.sendMessageByDispositivoId( dispositivoId );
 	}
 	
 	public void processaEvento( String agenteChave, DispMonitorEvento evento ) {
