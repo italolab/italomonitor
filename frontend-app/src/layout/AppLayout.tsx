@@ -43,13 +43,12 @@ function AppLayout( {children, className} : AppLayoutProps ) {
                         <FaArrowLeftLong />
                     </button>
                 </Offcanvas.Header>
-                <Offcanvas.Body className="p-0 bg-light">                                        
-                    <Link to="/dashboard" className="sidebar-item">
-                        🛜 Dispositivos
-                    </Link>
-
+                <Offcanvas.Body className="p-0 bg-light">                                                            
                     { isAdmin() === false &&
                         <span>
+                            <Link to="/dashboard" className="sidebar-item">
+                                🛜 Dispositivos
+                            </Link>
                             <Link to={`/agentes/${getEmpresaId()}`} className="sidebar-item">
                                 👨‍💻 Agentes
                             </Link>
@@ -70,6 +69,9 @@ function AppLayout( {children, className} : AppLayoutProps ) {
 
                     { isAdmin() === true &&
                         <span>
+                            <Link to="/dashboard" className="sidebar-item">
+                                📈 Dashboard
+                            </Link>
                             <Link to="/empresas" className="sidebar-item">
                                 🏢 Empresas
                             </Link>
