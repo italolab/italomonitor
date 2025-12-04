@@ -90,10 +90,14 @@ export const formataTempo = ( tempo : number ) => {
     const segundos = resto % 60;
 
     let tempoStr = "";
+    
     if ( horas > 0 )
         tempoStr += (horas < 10 ? "0" : "") + horas + ":";
+    else tempoStr += "00:";
+    
     if ( minutos > 0 )
         tempoStr += (minutos < 10 ? "0" : "") + minutos + ":";
+    else tempoStr += "00:";
 
     tempoStr += (segundos < 10 ? "0" : "") + segundos;
 
