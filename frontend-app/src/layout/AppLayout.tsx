@@ -45,11 +45,14 @@ function AppLayout( {children, className} : AppLayoutProps ) {
                 </Offcanvas.Header>
                 <Offcanvas.Body className="p-0 bg-light">                                        
                     <Link to="/dashboard" className="sidebar-item">
-                        📈 Dashboard
+                        🛜 Dispositivos
                     </Link>
 
                     { isAdmin() === false &&
                         <span>
+                            <Link to={`/agentes/${getEmpresaId()}`} className="sidebar-item">
+                                👨‍💻 Agentes
+                            </Link>
                             <Link to={`/pagamentos/${getEmpresaId()}`} className="sidebar-item">
                                 💵 Pagamentos                                
                             </Link>
