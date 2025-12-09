@@ -4,7 +4,7 @@ import AppMessage from "../components/AppMessage";
 import AppSpinner from "../components/AppSpinner";
 import { useState, type KeyboardEvent } from "react";
 
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 function Login() {
 
@@ -12,6 +12,8 @@ function Login() {
     const [senha, setSenha] = useState<string>( '' );
 
     const navigate = useNavigate();
+
+    const { redirectTo } = useParams();
 
     const {
         logon,
@@ -27,7 +29,11 @@ function Login() {
                 senha: senha
             } );
 
-            navigate( '/dashboard' );
+            if ( !redirectTo || redirectTo === '-1' ) {
+                navigate( '/dashboard' );
+            } else {
+                window.location.href = decodeURIComponent( redirectTo );
+            }
         } catch ( error ) {
             console.error( error );
         }

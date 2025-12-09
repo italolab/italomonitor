@@ -25,7 +25,7 @@ function AppLayout( {children, className} : AppLayoutProps ) {
 
     const appLogout = async () => {
         await logout();
-        navigate( '/' );
+        navigate( '/login/-1' );
     };
 
     return (

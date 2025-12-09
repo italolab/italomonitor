@@ -9,6 +9,7 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { AuthProvider } from './context/AuthProvider.tsx';
 import Loading from './pages/Loading.tsx';
 import EfetuarPagamento from './pages/pagamentos/EfetuarPagamento.tsx';
+import Home from './pages/Home.tsx';
 
 const Login = lazy( () => import( './pages/Login.tsx' ) );
 const Dashboard = lazy( () => import( './pages/Dashboard.tsx' ) );
@@ -68,7 +69,8 @@ createRoot(document.getElementById('root')!).render(
       <Router>
         <Suspense fallback={<Loading />}>
           <Routes>
-              <Route path='/' element={<Login />} index />
+              <Route path='/' element={<Home />} />
+              <Route path='/login/:redirectTo' element={<Login />} index />
               <Route path='/dashboard' element={<Dashboard />} />
               
               <Route path='/usuarios' element={<ManterUsuarios />} />

@@ -1,5 +1,6 @@
 import axios, { AxiosError, type AxiosInstance } from "axios";
 import { BASE_API_URL } from "../constants/api-constants";
+import type { ErrorResponse } from "react-router-dom";
  
 export type SetAccessTokenFunction = ( t : string ) => void;
 
@@ -25,6 +26,7 @@ export function configuraInterceptor( setAccessToken : SetAccessTokenFunction ) 
                     setAccessToken( response.data.accessToken );
                     return api( error.config! );
                 } catch ( refreshError ) {
+                    document.location.href = '/login/'+encodeURIComponent( document.location.href );
                     console.error( refreshError );
                 }
             }
