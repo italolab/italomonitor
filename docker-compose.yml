@@ -30,42 +30,42 @@ services:
       - rabbitmq_conf:/etc/rabbitmq
 
 
-  elasticsearch-server:
-    image: elasticsearch:9.2.1
-    container_name: elasticsearch-server
-    environment:      
-      - discovery.type=single-node
-      - ES_JAVA_OPTS=-Xms256m -Xmx256m
-      - xpack.security.enabled=false
-    ports:
-      - "9200:9200"
-      - "9300:9300"
-    ulimits:
-      memlock:
-        soft: -1
-        hard: -1
-    volumes:
-      - elasticsearch_data:/usr/share/elasticsearch/data
+  #elasticsearch-server:
+  #  image: elasticsearch:9.2.1
+  #  container_name: elasticsearch-server
+  #  environment:      
+  #    - discovery.type=single-node
+  #    - ES_JAVA_OPTS=-Xms256m -Xmx256m
+  #    - xpack.security.enabled=false
+  #  ports:
+  #    - "9200:9200"
+  #    - "9300:9300"
+  #  ulimits:
+  #    memlock:
+  #      soft: -1
+  #      hard: -1
+  #  volumes:
+  #    - elasticsearch_data:/usr/share/elasticsearch/data
 
-  kibana-server:
-    image: kibana:9.2.1
-    container_name: kibana-server
-    environment:
-      - ELASTICSEARCH_HOSTS=http://elasticsearch-server:9200
-    ports:
-      - "5601:5601"
-    depends_on:
-      - elasticsearch-server
+  #kibana-server:
+  #  image: kibana:9.2.1
+  #  container_name: kibana-server
+  #  environment:
+  #    - ELASTICSEARCH_HOSTS=http://elasticsearch-server:9200
+  #  ports:
+  #    - "5601:5601"
+  #  depends_on:
+  #    - elasticsearch-server
     
-  logstash-server:
-    image: logstash:9.2.1
-    container_name: logstash-server
-    ports:
-      - "5044:5044"
-    volumes:
-      - logstash_data:/usr/share/logstash/pipeline
-    depends_on:
-      - elasticsearch-server
+  #logstash-server:
+  #  image: logstash:9.2.1
+  #  container_name: logstash-server
+  #  ports:
+  #    - "5044:5044"
+  #  volumes:
+  #    - logstash_data:/usr/share/logstash/pipeline
+  #  depends_on:
+  #    - elasticsearch-server
     
   mail-server:
     image: axigen/axigen
