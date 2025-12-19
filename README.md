@@ -1,7 +1,5 @@
 # 🌐 Italo Monitor
 
-[![Vídeo de demonstração](https://raw.githubusercontent.com/italolab/italomonitor/main/doc/captura-de-tela.png)](https://raw.githubusercontent.com/italolab/italomonitor/main/doc/video-demo.mp4)
-
 O Italo Monitor é um sistema web de monitoramento de dispositivos de rede. Esse projeto é desafiador porque cada empresa registrada nele pode ter dezenas, centenas ou mais dispositivos (roteadores, servidores, etc) monitorados 24 horas por dia executando simultaneamente. O que demanda investimento em escalabilidade de microsserviços, principalmente o de monitoramento.
 
 ## 💻 Tecnologias
